@@ -2,6 +2,7 @@ import math
 from datetime import datetime
 
 from google.protobuf.internal.well_known_types import Timestamp
+from phenopackets import AgeRange, Age
 
 
 def parse_erker_date_of_birth(age) -> Timestamp:
@@ -28,7 +29,7 @@ def parse_erker_date_of_birth(age) -> Timestamp:
     return Timestamp(seconds=seconds, nanos=nanos)
 
 def parse_erker_sex(sex: str) -> str:
-    """Parses the sex of a patient entry from ERKER to a FHIR code.
+    """Parses the sex of a patient entry from ERKER to a Phenopackets sex code.
 
     :param sex: The sex of the patient.
     :type sex: str
@@ -46,3 +47,33 @@ def parse_erker_sex(sex: str) -> str:
         return sexdict[sex]
     else:
         raise ValueError(f'Unknown sex value {sex}')
+
+def parse_erker_agerange(age_range: str) -> AgeRange:
+    """Parses the age range of a patient entry from ERKER to a Phenopackets AgeRange block
+
+    :param age_range: The age range of the patient.
+    :type age_range: str
+    :return: An AgeRange Phenopackets block representing the age range of the patient
+
+    col 11: sct_410598002 / age category
+    """
+    if age_range == 'sct_133931009':
+        start = Age(iso8601duration='P0Y')
+        end = Age(iso8601duration='P1Y')
+    elif age_range == 'sct_410602000':
+        start = Age(iso8601duration='P1Y')
+        end = Age(iso8601duration='P6Y')
+    elif age_range == 'sct_410600008':
+        start = Age(iso8601duration='P6Y')
+        end = Age(iso8601duration='P12Y')
+    elif age_range == 'sct_133937008':
+        start = Age(iso8601duration='P12Y')
+        end = Age(iso8601duration='P18Y')
+    elif age_range == 'sct_13393600':
+        start = Age(iso8601duration='P18Y')
+        end = Age(iso8601duration='P99Y')
+    else:
+        print(f'lnc_67162-8_X {age_range}')
+        return None
+
+    return AgeRange(start=start, end=end)
