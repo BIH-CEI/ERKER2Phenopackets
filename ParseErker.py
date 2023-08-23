@@ -5,6 +5,8 @@ from datetime import datetime
 from google.protobuf.internal.well_known_types import Timestamp
 from phenopackets import AgeRange, Age
 
+from MappingDicts import zygosity_dict, datediagnosis_dict, onset_dict
+
 
 def parse_erker_date_of_birth(age) -> Timestamp:
     """Maps the age of a patient entry from ERKER to a Timestamp object.
@@ -68,27 +70,16 @@ def parse_erker_agerange(age_range: str) -> AgeRange:
     :param age_range: The age range of the patient.
     :type age_range: str
     :return: An AgeRange Phenopackets block representing the age range of the patient
+    :raises: Value Error: If the age range string is not a valid SNOMED code
 
     col 11: sct_410598002 / age category
     """
-    if age_range == 'sct_133931009':
-        start = Age(iso8601duration='P0Y')
-        end = Age(iso8601duration='P1Y')
-    elif age_range == 'sct_410602000':
-        start = Age(iso8601duration='P1Y')
-        end = Age(iso8601duration='P6Y')
-    elif age_range == 'sct_410600008':
-        start = Age(iso8601duration='P6Y')
-        end = Age(iso8601duration='P12Y')
-    elif age_range == 'sct_133937008':
-        start = Age(iso8601duration='P12Y')
-        end = Age(iso8601duration='P18Y')
-    elif age_range == 'sct_13393600':
-        start = Age(iso8601duration='P18Y')
-        end = Age(iso8601duration='P99Y')
-    else:
+
+    if age_range not in age_range_dict.keys():
         print(f'lnc_67162-8_X {age_range}')
-        return None
+        raise ValueError(f'Unknown age range value {age_range}')
+
+    start, end = age_range_dict[age_range]
 
     return AgeRange(start=start, end=end)
 
@@ -102,18 +93,16 @@ def parse_erker_onset(onset: str) -> str:
 
     **Congenital Onset Obesity:**
     Obesity that originates from birth due to genetic or inherited factors affecting metabolism and fat storage.
+    Code: HP:0003577
 
     **Antenatal Onset Obesity:**
     Obesity that develops during fetal development in response to maternal factors such as diet and metabolic conditions
      during pregnancy.
+     Code: HP:0030674
 
     col14: sct_424850005 / Disease onset (Symptoms)
     """
-    onset_dict = {
-        'sct_118189007': 'HP:0030674',  # Antenatal onset
-        'sct_364586004': 'HP:0003577',  # Congenital onset
-        'sct_424850005': 'HP:0003674',  # onset_date #onset
-    }
+
     return onset_dict.get(onset, f'Unknown onset value {onset}')
 
 
@@ -128,9 +117,6 @@ def parse_erker_datediagnosis(age_dg: str):
     col 18: sct_423493009 / age of diagnosis
     col 19-21: sct_423493009_y,_m,_d / Date_diagnosis
     """
-    datediagnosis_dict = {
-        'sct_424850005': 'Date_diagnois',
-    }
 
     if age_dg in datediagnosis_dict:
         return Age(iso8601duration=f'P{age_dg.y}Y{age_dg.m}M')
@@ -149,11 +135,11 @@ def parse_erker_zygosity(f, col1, col2):
     :return: A string code representing the zygosity of the patient
     :raises ValueError: If the zygosity is not known
 
+    Valid options are:
+    * sct_22061001: homozygous
+    * sct_14556007: heterozygous
+
     """
-    zygosity_dict = {
-        'sct_22061001': 'homozygous',
-        'sct_14556007': 'heterozygous'
-    }
     reader = csv.DictReader(f)
     for row in reader:
         if row[col1] in zygosity_dict or row[col2] in zygosity_dict:
