@@ -25,8 +25,9 @@ def parse_erker_date_of_birth(age) -> Timestamp:
     dob = datetime.strptime(age, '%Y')
     ts = dob.timestamp()  # ts is a float
     seconds = math.floor(ts)
-    nanos = math.floor((ts-seconds) * 1e9)
+    nanos = math.floor((ts - seconds) * 1e9)
     return Timestamp(seconds=seconds, nanos=nanos)
+
 
 def parse_erker_sex(sex: str) -> str:
     """Parses the sex of a patient entry from ERKER to a Phenopackets sex code.
@@ -47,6 +48,7 @@ def parse_erker_sex(sex: str) -> str:
         return sexdict[sex]
     else:
         raise ValueError(f'Unknown sex value {sex}')
+
 
 def parse_erker_agerange(age_range: str) -> AgeRange:
     """Parses the age range of a patient entry from ERKER to a Phenopackets AgeRange block
@@ -78,7 +80,8 @@ def parse_erker_agerange(age_range: str) -> AgeRange:
 
     return AgeRange(start=start, end=end)
 
-def parse_erker_onset(onset) -> str:
+
+def parse_erker_onset(onset: str) -> str:
     """Parse the onset of a patient entry from ERKER to a Phenopackets onset code
 
     :param onset: The onset of the patient.
@@ -95,8 +98,23 @@ def parse_erker_onset(onset) -> str:
     col14: sct_424850005 / Disease onset (Symptoms)
     """
     onset_dict = {
-        'sct_118189007': 'HP:0030674', #Antenatal onset
-        'sct_364586004': 'HP:0003577', #Congenital onset
-        'sct_424850005': 'HP:0003674', #onset_date #onset
+        'sct_118189007': 'HP:0030674',  # Antenatal onset
+        'sct_364586004': 'HP:0003577',  # Congenital onset
+        'sct_424850005': 'HP:0003674',  # onset_date #onset
     }
     return onset_dict.get(onset, f'Unknown onset value {onset}')
+
+
+def parse_erker_datediagnosis(age_dg):
+    """
+    col 18: sct_423493009 / age of diagnosis
+    col 19-21: sct_423493009_y,_m,_d / Date_diagnosis
+    """
+    datediagnosis_dict = {
+        'sct_424850005': 'Date_diagnois',
+    }
+
+    if age_dg in datediagnosis_dict:
+        return Age(iso8601duration=f'P{age_dg.y}Y{age_dg.m}M')
+    else:
+        raise ValueError(f'Unknown disease date value {age_dg}')
