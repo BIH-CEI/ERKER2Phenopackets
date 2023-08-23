@@ -5,7 +5,7 @@ from google.protobuf.internal.well_known_types import Timestamp
 
 
 def parse_erker_date_of_birth(age) -> Timestamp:
-    """Maps the age of a patient to a Timestamp object.
+    """Maps the age of a patient entry from ERKER to a Timestamp object.
 
     :param age: The age of the patient in years.
     :type age: int or str
@@ -26,3 +26,23 @@ def parse_erker_date_of_birth(age) -> Timestamp:
     seconds = math.floor(ts)
     nanos = math.floor((ts-seconds) * 1e9)
     return Timestamp(seconds=seconds, nanos=nanos)
+
+def parse_erker_sex(sex: str) -> str:
+    """Parses the sex of a patient entry from ERKER to a FHIR code.
+
+    :param sex: The sex of the patient.
+    :type sex: str
+    col 8: sct_281053000 / Sex at birth
+    """
+    sexdict = {
+        'sct_248152002': 'FEMALE',
+        'sct_248153007': 'MALE',
+
+        'sct_184115007': 'OTHER_SEX',  # Unbestimmt
+        'sct_33791000087105': 'OTHER_SEX',  # Divers
+        'sct_394743007_foetus': 'UNKNOWN_SEX'  # Fötus (unbekannt)
+    }
+    if sex in sexdict:
+        return sexdict[sex]
+    else:
+        raise ValueError(f'Unknown sex value {sex}')
