@@ -5,7 +5,7 @@ from datetime import datetime
 from google.protobuf.internal.well_known_types import Timestamp
 from phenopackets import AgeRange, Age
 
-from MappingDicts import zygosity_dict, datediagnosis_dict, onset_dict
+from MappingDicts import zygosity_dict, datediagnosis_dict, onset_dict, age_range_dict, sexdict
 
 
 def parse_erker_date_of_birth(age) -> Timestamp:
@@ -50,14 +50,7 @@ def parse_erker_sex(sex: str) -> str:
 
     col 8: sct_281053000 / Sex at birth
     """
-    sexdict = {
-        'sct_248152002': 'FEMALE',
-        'sct_248153007': 'MALE',
 
-        'sct_184115007': 'OTHER_SEX',  # Unbestimmt
-        'sct_33791000087105': 'OTHER_SEX',  # Divers
-        'sct_394743007_foetus': 'UNKNOWN_SEX'  # Fötus (unbekannt)
-    }
     if sex in sexdict:
         return sexdict[sex]
     else:
