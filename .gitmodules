@@ -1,3 +1,0 @@
-[submodule "phenopacket-schema"]
-	path = phenopacket-schema
-	url = https://github.com/phenopackets/phenopacket-schema
