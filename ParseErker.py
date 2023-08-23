@@ -77,3 +77,26 @@ def parse_erker_agerange(age_range: str) -> AgeRange:
         return None
 
     return AgeRange(start=start, end=end)
+
+def parse_erker_onset(onset) -> str:
+    """Parse the onset of a patient entry from ERKER to a Phenopackets onset code
+
+    :param onset: The onset of the patient.
+    :type onset: str
+    :return: An onset code or a string indicating an unknown onset
+
+    **Congenital Onset Obesity:**
+    Obesity that originates from birth due to genetic or inherited factors affecting metabolism and fat storage.
+
+    **Antenatal Onset Obesity:**
+    Obesity that develops during fetal development in response to maternal factors such as diet and metabolic conditions
+     during pregnancy.
+
+    col14: sct_424850005 / Disease onset (Symptoms)
+    """
+    onset_dict = {
+        'sct_118189007': 'HP:0030674', #Antenatal onset
+        'sct_364586004': 'HP:0003577', #Congenital onset
+        'sct_424850005': 'HP:0003674', #onset_date #onset
+    }
+    return onset_dict.get(onset, f'Unknown onset value {onset}')
