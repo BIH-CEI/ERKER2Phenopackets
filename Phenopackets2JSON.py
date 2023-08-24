@@ -1,5 +1,5 @@
 import os
-from typing import List, Dict
+from typing import List
 
 from phenopackets import Phenopacket
 from google.protobuf.json_format import MessageToJson

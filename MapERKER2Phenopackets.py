@@ -64,15 +64,16 @@ def map_erker_row2phenopacket(
     # TODO: this does not require any patient specific data, maybe move it out of the loop
     phenotypic_features = create_phenotypic_features()
 
-    measurements = create_measurements()  # TODO: this is not used in the phenopacket definition below
+    #measurements = create_measurements()  # TODO: this is not used in the phenopacket definition below
 
     interpretation = create_interpretation(phenopacket_id)
 
     # TODO: this does not require any patient specific data, maybe move it out of the loop
-    variant_interpretation = create_variant_interpretation()  # TODO: this is not used in the phenopacket definition below
+    #variant_interpretation = create_variant_interpretation()
+    # TODO: this is not used in the phenopacket definition below
 
     # TODO: this does not require any patient specific data, maybe move it out of the loop
-    disease = create_disease()  # TODO: this is not used in the phenopacket definition below
+    #disease = create_disease()  # TODO: this is not used in the phenopacket definition below
 
     meta_data = create_metadata(created_by, resources)
 
@@ -161,7 +162,8 @@ def create_interpretation(phenopacket_id: str) -> Interpretation:
     interpretation = Interpretation(
         id=phenopacket_id,  # TODO: is this a valid id here?
         progress_status='SOLVED',
-        # TODO: diagnosis=Diagnosis(phenopacket_id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
+        # TODO: diagnosis=Diagnosis(phenopacket_id='ORPHA:71529',
+        #  label='Obesity due to melanocortin 4 receptor deficiency'),
     )
     return interpretation
 
@@ -170,11 +172,8 @@ def create_measurements():
     """[WIP]Creates a measurement object for a phenopacket.
     Currently not implemented
     """
-    ## Measurements
     # TODO - the weight course
-    measurement = Measurement(
-
-    )
+    #measurement = Measurement()
     return None
 
 

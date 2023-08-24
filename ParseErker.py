@@ -6,7 +6,11 @@ from typing import Union
 from google.protobuf.internal.well_known_types import Timestamp
 from phenopackets import AgeRange, Age
 
-from MappingDicts import zygosity_map_erker2phenopackets, date_diagnosis_map_erker2phenopackets, onset_map_erker2phenopackets, age_range_map_erker2phenopackets, sex_map_erker2phenopackets
+from MappingDicts import zygosity_map_erker2phenopackets
+from MappingDicts import date_diagnosis_map_erker2phenopackets
+from MappingDicts import onset_map_erker2phenopackets
+from MappingDicts import age_range_map_erker2phenopackets
+from MappingDicts import sex_map_erker2phenopackets
 
 def parse_erker_date_of_birth(age: Union[int, str]) -> Timestamp:
     """Maps the age of a patient entry from ERKER to a Timestamp object.
@@ -46,7 +50,8 @@ def parse_erker_sex(sex: str) -> str:
     * sct_184115007: other sex
     * sct_394743007_foetus: unknown sex
 
-    SNOMED Ontology: https://browser.ihtsdotools.org/?perspective=full&conceptId1=270425006&edition=MAIN/2023-07-31&release=&languages=en
+    SNOMED Ontology: https://browser.ihtsdotools.org/?perspective=full&conceptId1=270425006&edition=MAIN/2023-07-31&
+    release=&languages=en
 
     col 8: sct_281053000 / Sex at birth
     """
