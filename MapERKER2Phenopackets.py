@@ -1,3 +1,5 @@
+import pandas as pd
+import phenopackets
 from phenopackets import Individual, PhenotypicFeature, OntologyClass, Phenopacket
 from phenopackets import Measurement
 from phenopackets import Disease
