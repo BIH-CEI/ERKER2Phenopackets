@@ -24,7 +24,7 @@ def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
     :return: A list of Phenopacket objects.
     :rtype: List[Phenopacket]
     """
-    
+
     erker_phenopackets = []
     # vorher quasi nur mapping, hier zusammensetzen
     resources = [
