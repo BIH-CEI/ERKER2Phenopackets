@@ -58,7 +58,6 @@ def create_metadata(
 
     return meta_data
 
-
 def map_erker_row2phenopacket(
         phenopacket_id: str, row: pd.Series,
         resources: List[Resource], created_by: str
@@ -72,14 +71,11 @@ def map_erker_row2phenopacket(
 
     interpretation = create_interpretation(phenopacket_id)
 
-    # TODO - add variants
+    # TODO: this does not require any patient specific data, maybe move it out of the loop
     variant_interpretation = create_variant_interpretation()  # TODO: this is not used in the phenopacket definition below
 
-    ## Disease
-    disease = Disease(
-        term=OntologyClass(id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
-        #    onset=parse_erker_onset(row['sct_424850005']),
-    )  # TODO: this is not used in the phenopacket definition below
+    # TODO: this does not require any patient specific data, maybe move it out of the loop
+    disease = create_disease() # TODO: this is not used in the phenopacket definition below
 
     meta_data = create_metadata(created_by, resources)
 
@@ -192,6 +188,7 @@ def create_variant_interpretation() -> VariantInterpretation:
     :return: A VariantInterpretation Phenopackets block.
     :rtype: VariantInterpretation
     """
+    # TODO - add variants
     variant_interpretation = VariantInterpretation(
         acmg_pathogenicity_classification='NOT_PROVIDED',  # TODO: acmg will be added
         therapeutic_actionability='UNKNOWN_ACTIONABILITY',
@@ -200,3 +197,17 @@ def create_variant_interpretation() -> VariantInterpretation:
     )
 
     return variant_interpretation
+
+
+def create_disease() -> Disease:
+    """Creates a Disease Phenopackets block, documenting the disease of the subject.
+
+    :param disease: The disease of the subject.
+    :type disease: Disease
+    """
+    disease = Disease(
+        term=OntologyClass(id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
+        #    onset=parse_erker_onset(row['sct_424850005']),
+    )
+
+    return disease
