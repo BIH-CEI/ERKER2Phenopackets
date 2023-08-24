@@ -36,24 +36,10 @@ def map_erker_row2phenopacket(
         phenopacket_id: str, row: pd.Series,
         resources: List[Resource], created_by: str, phenopacket_schema_version=phenopackets.__version__
 ):
-    ## Subject
-    # The elements we may consider adding:
-    #  age at last encounter, vital status, karyotypic sex, gender
+    subject = create_subject(phenopacket_id, row)
 
-    subject = Individual(
-        id=phenopacket_id,  # TODO: is this a valid id here?
-        date_of_birth=parse_erker_date_of_birth(row['sct_184099003_y']),
-        sex=parse_erker_sex(row['sct_281053000']),
-        taxonomy=OntologyClass(id='NCBITaxon:9606', label='Homo sapiens')
-    )
-
-    ## PhenotypicFeatures
-    # Unsure if it is useful to add HPO terms in this dataset,
-    #  considering we have the weight measurements.
-    phenotypicFeatures = PhenotypicFeature(
-        type=OntologyClass(id='HP:0001513', label='Obesity')
-
-    )
+    # TODO: this does not require any patient specific data, maybe move it out of the loop
+    phenotypic_features = create_phenotypic_features()
     ## Measurements
     # TODO - the weight course
     measurements = Measurement(
@@ -96,7 +82,7 @@ def map_erker_row2phenopacket(
     phenopacket = Phenopacket(
         id=phenopacket_id,  # TODO: is this a valid id here?
         subject=subject,
-        phenotypic_features=[phenotypicFeatures],
+        phenotypic_features=[phenotypic_features],
         interpretations=[interpretation],
         meta_data=meta_data,
         measurements=[],
@@ -129,3 +115,41 @@ def create_resource(phenopacket_id: str, name: str, namespace_prefix: str, url: 
         name=name, namespace_prefix=namespace_prefix,
         url=url, version=version, iri_prefix=iri_prefix
     )
+
+
+def create_subject(phenopacket_id: str, row: pd.Series) -> Individual:
+    """Creates the Individual block of a Phenopacket.
+
+    :param phenopacket_id: The id of the phenopacket.
+    :type phenopacket_id: str
+    :param row: The row of the Erker dataset.
+    :type row: pd.Series
+    :return: A Phenopacket Schema Individual object.
+    :rtype: Individual
+    """
+    # TODO: The elements we may consider adding:
+    #  age at last encounter, vital status, karyotypic sex, gender
+    subject = Individual(
+        id=phenopacket_id,  # TODO: is this a valid id here?
+        date_of_birth=parse_erker_date_of_birth(row['sct_184099003_y']),
+        sex=parse_erker_sex(row['sct_281053000']),
+        taxonomy=OntologyClass(id='NCBITaxon:9606', label='Homo sapiens')
+    )
+
+    return subject
+
+
+def create_phenotypic_features():
+    """Creates the PhenotypicFeatures block of a Phenopacket.
+
+    :return: List of phenotypic features
+    :rtype: List[PhenotypicFeatures]
+    """
+    # TODO: Unsure if it is useful to add HPO terms in this dataset,
+    #  considering we have the weight measurements.
+    # TODO: Currently hard coded
+    phenotypic_features = PhenotypicFeature(
+        type=OntologyClass(id='HP:0001513', label='Obesity')
+
+    )
+    return [phenotypic_features]
