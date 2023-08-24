@@ -15,6 +15,16 @@ from ParseErker import parse_erker_date_of_birth, parse_erker_sex
 
 
 def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
+    """Maps the ERKER data to a list of Phenopackets.
+
+    :param df: The ERKER data as a pandas DataFrame.
+    :type df: pd.DataFrame
+    :param created_by: The creator of the phenopackets.
+    :type created_by: str
+    :return: A list of Phenopacket objects.
+    :rtype: List[Phenopacket]
+    """
+    
     erker_phenopackets = []
     # vorher quasi nur mapping, hier zusammensetzen
     resources = [
@@ -32,42 +42,29 @@ def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
     return erker_phenopackets
 
 
-def create_metadata(
-        created_by: str,
-        resources: List[Resource],
-        phenopacket_schema_version: str = phenopackets.__version__) -> MetaData:
-    """Creates a metadata object for a phenopacket.
-
-    :param created_by: The name of the creator of the phenopacket.
-    :type created_by: str
-    :param resources: A Resources Phenopackets block, documenting the resources used in the phenopacket.
-    :type resources: List[Resource]
-    :param phenopacket_schema_version: The version of the phenopacket schema used.
-    :type phenopacket_schema_version: str
-    """
-    created = Timestamp()
-    created.GetCurrentTime()
-
-    meta_data = MetaData(
-        created=created,
-        created_by=created_by,
-        submitted_by=created_by,  # The same for simplicity
-        resources=resources,
-        phenopacket_schema_version=phenopacket_schema_version
-    )
-
-    return meta_data
-
 def map_erker_row2phenopacket(
         phenopacket_id: str, row: pd.Series,
-        resources: List[Resource], created_by: str
-):
+        resources: List[Resource], created_by: str) -> Phenopacket:
+    """Maps a row from the ERKER data to a Phenopacket.
+
+    :param phenopacket_id: The ID of the phenopacket.
+    :type phenopacket_id: str
+    :param row: The row from the ERKER data.
+    :type row: pd.Series
+    :param resources: The resources used in the phenopacket.
+    :type resources: List[Resource]
+    :param created_by: The creator of the phenopacket.
+    :type created_by: str
+    :return: A Phenopacket object.
+    :rtype: Phenopacket
+    """
+
     subject = create_subject(phenopacket_id, row)
 
     # TODO: this does not require any patient specific data, maybe move it out of the loop
     phenotypic_features = create_phenotypic_features()
 
-    measurements = create_measurements() # TODO: this is not used in the phenopacket definition below
+    measurements = create_measurements()  # TODO: this is not used in the phenopacket definition below
 
     interpretation = create_interpretation(phenopacket_id)
 
@@ -75,10 +72,9 @@ def map_erker_row2phenopacket(
     variant_interpretation = create_variant_interpretation()  # TODO: this is not used in the phenopacket definition below
 
     # TODO: this does not require any patient specific data, maybe move it out of the loop
-    disease = create_disease() # TODO: this is not used in the phenopacket definition below
+    disease = create_disease()  # TODO: this is not used in the phenopacket definition below
 
     meta_data = create_metadata(created_by, resources)
-
 
     phenopacket = Phenopacket(
         id=phenopacket_id,  # TODO: is this a valid id here?
@@ -211,3 +207,30 @@ def create_disease() -> Disease:
     )
 
     return disease
+
+
+def create_metadata(
+        created_by: str,
+        resources: List[Resource],
+        phenopacket_schema_version: str = phenopackets.__version__) -> MetaData:
+    """Creates a metadata object for a phenopacket.
+
+    :param created_by: The name of the creator of the phenopacket.
+    :type created_by: str
+    :param resources: A Resources Phenopackets block, documenting the resources used in the phenopacket.
+    :type resources: List[Resource]
+    :param phenopacket_schema_version: The version of the phenopacket schema used.
+    :type phenopacket_schema_version: str
+    """
+    created = Timestamp()
+    created.GetCurrentTime()
+
+    meta_data = MetaData(
+        created=created,
+        created_by=created_by,
+        submitted_by=created_by,  # The same for simplicity
+        resources=resources,
+        phenopacket_schema_version=phenopacket_schema_version
+    )
+
+    return meta_data
