@@ -1,14 +1,14 @@
 import csv
 import math
 from datetime import datetime
+from typing import Union
 
 from google.protobuf.internal.well_known_types import Timestamp
 from phenopackets import AgeRange, Age
 
-from MappingDicts import zygosity_dict, datediagnosis_dict, onset_dict, age_range_dict, sexdict
+from MappingDicts import zygosity_map_erker2phenopackets, date_diagnosis_map_erker2phenopackets, onset_map_erker2phenopackets, age_range_map_erker2phenopackets, sex_map_erker2phenopackets
 
-
-def parse_erker_date_of_birth(age) -> Timestamp:
+def parse_erker_date_of_birth(age: Union[int, str]) -> Timestamp:
     """Maps the age of a patient entry from ERKER to a Timestamp object.
 
     :param age: The age of the patient in years.
@@ -16,7 +16,7 @@ def parse_erker_date_of_birth(age) -> Timestamp:
     :return: A Timestamp object representing the date of birth.
     col 6: sct_184099003_y / Birthyear
 
-    The value should be an int or str, e.g. 2004
+    The zygosity should be an int or str, e.g. 2004
     """
     if isinstance(age, int):
         age = str(age)
@@ -51,10 +51,10 @@ def parse_erker_sex(sex: str) -> str:
     col 8: sct_281053000 / Sex at birth
     """
 
-    if sex in sexdict:
-        return sexdict[sex]
+    if sex in sex_map_erker2phenopackets:
+        return sex_map_erker2phenopackets[sex]
     else:
-        raise ValueError(f'Unknown sex value {sex}')
+        raise ValueError(f'Unknown sex zygosity {sex}')
 
 
 def parse_erker_agerange(age_range: str) -> AgeRange:
@@ -68,11 +68,11 @@ def parse_erker_agerange(age_range: str) -> AgeRange:
     col 11: sct_410598002 / age category
     """
 
-    if age_range not in age_range_dict.keys():
+    if age_range not in age_range_map_erker2phenopackets.keys():
         print(f'lnc_67162-8_X {age_range}')
-        raise ValueError(f'Unknown age range value {age_range}')
+        raise ValueError(f'Unknown age range zygosity {age_range}')
 
-    start, end = age_range_dict[age_range]
+    start, end = age_range_map_erker2phenopackets[age_range]
 
     return AgeRange(start=start, end=end)
 
@@ -96,7 +96,7 @@ def parse_erker_onset(onset: str) -> str:
     col14: sct_424850005 / Disease onset (Symptoms)
     """
 
-    return onset_dict.get(onset, f'Unknown onset value {onset}')
+    return onset_map_erker2phenopackets.get(onset, f'Unknown onset zygosity {onset}')
 
 
 def parse_erker_datediagnosis(age_dg: str):
@@ -111,10 +111,10 @@ def parse_erker_datediagnosis(age_dg: str):
     col 19-21: sct_423493009_y,_m,_d / Date_diagnosis
     """
 
-    if age_dg in datediagnosis_dict:
+    if age_dg in date_diagnosis_map_erker2phenopackets:
         return Age(iso8601duration=f'P{age_dg.y}Y{age_dg.m}M')
     else:
-        raise ValueError(f'Unknown disease date value {age_dg}')
+        raise ValueError(f'Unknown disease date zygosity {age_dg}')
 
 def parse_erker_zygosity(f, col1, col2):
     """Parses the zygosity of a patient entry from ERKER to a Phenopackets zygosity code
@@ -135,9 +135,13 @@ def parse_erker_zygosity(f, col1, col2):
     """
     reader = csv.DictReader(f)
     for row in reader:
-        if row[col1] in zygosity_dict or row[col2] in zygosity_dict:
-            if row[col1] in zygosity_dict:
-                return zygosity_dict[row[col1]]
+        if row[col1] in zygosity_map_erker2phenopackets or row[col2] in zygosity_map_erker2phenopackets:
+            if row[col1] in zygosity_map_erker2phenopackets:
+                return zygosity_map_erker2phenopackets[row[col1]]
             else:
-                return zygosity_dict[row[col2]]
-    raise ValueError(f'Unknown Zygosity value {col1} {col2}')
+                return zygosity_map_erker2phenopackets[row[col2]]
+    raise ValueError(f'Unknown Zygosity zygosity {col1} {col2}')
+
+def parse_erker_hgvs(hgvs):
+    """TODO: Implement this function"""
+    raise NotImplementedError
