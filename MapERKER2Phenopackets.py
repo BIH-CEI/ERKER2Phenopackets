@@ -9,13 +9,33 @@ from google.protobuf.internal.well_known_types import Timestamp
 
 from ParseErker import parse_erker_date_of_birth, parse_erker_sex
 
-def get_resource(id:str, name:str, namespace_prefix:str, url:str, version:str, iri_prefix:str) -> Resource:
-    """A convenience method to create a Phenopacket Schema resource."""
-    return Resource(id=id, name=name, namespace_prefix=namespace_prefix, url=url, version=version, iri_prefix=iri_prefix)
+
+def create_resource(id: str, name: str, namespace_prefix: str, url: str, version: str, iri_prefix: str) -> Resource:
+    """A convenience method to create a Phenopacket Schema resource.
+
+    :param id: The id of the resource.
+    :type id: str
+    :param name: The name of the resource.
+    :type name: str
+    :param namespace_prefix: The namespace prefix of the resource.
+    :type namespace_prefix: str
+    :param url: The url of the resource.
+    :type url: str
+    :param version: The version of the resource.
+    :type version: str
+    :param iri_prefix: The iri prefix of the resource.
+    :type iri_prefix: str
+    :return: A Phenopacket Schema Resource object.
+    :rtype: Resource
+    """
+    return Resource(
+        id=id, name=name, namespace_prefix=namespace_prefix,
+        url=url, version=version, iri_prefix=iri_prefix
+    )
+
 
 def map_erker2phenopackets(df):
-    pps = []
-    # TODO: das hier ist am wichtigsten zu verstehen
+    ERKER_phenopackets = []
     # vorher quasi nur mapping, hier zusammensetzen
     for i, (idx, row) in enumerate(df.iterrows()):
         ## Subject
@@ -38,12 +58,12 @@ def map_erker2phenopackets(df):
         )
         ## Measurements
         # TODO - the weight course
-        measurements=Measurement(
+        measurements = Measurement(
 
         )
 
         ## Interpretations
-        interpretation=Interpretation(
+        interpretation = Interpretation(
             id=str(idx),
             progress_status='SOLVED',
             # diagnosis=Diagnosis(id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
@@ -51,7 +71,7 @@ def map_erker2phenopackets(df):
 
         # TODO - add variants
         variantInterpretation = VariantInterpretation(
-            acmg_pathogenicity_classification='NOT_PROVIDED', #acmg will be added
+            acmg_pathogenicity_classification='NOT_PROVIDED',  # acmg will be added
             therapeutic_actionability='UNKNOWN_ACTIONABILITY',
             #  variant=parse_erker_hgvs()
 
@@ -59,7 +79,7 @@ def map_erker2phenopackets(df):
 
         ## Disease
         disease = Disease(
-            term=OntologyClass(id='ORPHA:71529',label='Obesity due to melanocortin 4 receptor deficiency'),
+            term=OntologyClass(id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
             #    onset=parse_erker_onset(row['sct_424850005']),
         )
 
@@ -68,10 +88,10 @@ def map_erker2phenopackets(df):
         created.GetCurrentTime()
 
         resources = [
-            get_resource('ncbitaxon', 'NCBI organismal classification', 'NCBITaxon',
-                         'http://purl.obolibrary.org/obo/ncbitaxon.owl', '2021-06-10', 'http://purl.obolibrary.org/obo/NCBITaxon_')
+            create_resource('ncbitaxon', 'NCBI organismal classification', 'NCBITaxon',
+                            'http://purl.obolibrary.org/obo/ncbitaxon.owl', '2021-06-10',
+                            'http://purl.obolibrary.org/obo/NCBITaxon_')
         ]
-
 
         meta_data = MetaData(
             created=created,
@@ -89,13 +109,7 @@ def map_erker2phenopackets(df):
             meta_data=meta_data,
             measurements=[],
 
-
-
-
-
-
-
         )
-        pps.append(pp)
+        ERKER_phenopackets.append(pp)
 
-    print(f'Mapped {len(pps)} phenopackets')
+    print(f'Mapped {len(ERKER_phenopackets)} phenopackets')
