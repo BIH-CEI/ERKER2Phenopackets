@@ -32,23 +32,19 @@ def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
     return erker_phenopackets
 
 
-def create_measurements():
-    """[WIP]Creates a measurement object for a phenopacket.
-    Currently not implemented
-    """
-    ## Measurements
-    # TODO - the weight course
-    measurement = Measurement(
-
-    )
-    return None
-
-
 def create_metadata(
         created_by: str,
         resources: List[Resource],
-        phenopacket_schema_version: str = phenopackets.__version__
-):
+        phenopacket_schema_version: str = phenopackets.__version__) -> MetaData:
+    """Creates a metadata object for a phenopacket.
+
+    :param created_by: The name of the creator of the phenopacket.
+    :type created_by: str
+    :param resources: A Resources Phenopackets block, documenting the resources used in the phenopacket.
+    :type resources: List[Resource]
+    :param phenopacket_schema_version: The version of the phenopacket schema used.
+    :type phenopacket_schema_version: str
+    """
     created = Timestamp()
     created.GetCurrentTime()
 
@@ -72,17 +68,12 @@ def map_erker_row2phenopacket(
     # TODO: this does not require any patient specific data, maybe move it out of the loop
     phenotypic_features = create_phenotypic_features()
 
-    measurements = create_measurements()
+    measurements = create_measurements() # TODO: this is not used in the phenopacket definition below
 
     interpretation = create_interpretation(phenopacket_id)
 
     # TODO - add variants
-    variantInterpretation = VariantInterpretation(
-        acmg_pathogenicity_classification='NOT_PROVIDED',  # TODO: acmg will be added
-        therapeutic_actionability='UNKNOWN_ACTIONABILITY',
-        #  variant=parse_erker_hgvs()
-
-    )  # TODO: this is not used in the phenopacket definition below
+    variant_interpretation = create_variant_interpretation()  # TODO: this is not used in the phenopacket definition below
 
     ## Disease
     disease = Disease(
@@ -153,7 +144,7 @@ def create_subject(phenopacket_id: str, row: pd.Series) -> Individual:
     return subject
 
 
-def create_phenotypic_features():
+def create_phenotypic_features() -> List[PhenotypicFeature]:
     """Creates the PhenotypicFeatures block of a Phenopacket.
 
     :return: List of phenotypic features
@@ -181,3 +172,31 @@ def create_interpretation(phenopacket_id: str) -> Interpretation:
         # TODO: diagnosis=Diagnosis(phenopacket_id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
     )
     return interpretation
+
+
+def create_measurements():
+    """[WIP]Creates a measurement object for a phenopacket.
+    Currently not implemented
+    """
+    ## Measurements
+    # TODO - the weight course
+    measurement = Measurement(
+
+    )
+    return None
+
+
+def create_variant_interpretation() -> VariantInterpretation:
+    """Creates a VariantInterpretation Phenopackets block.
+
+    :return: A VariantInterpretation Phenopackets block.
+    :rtype: VariantInterpretation
+    """
+    variant_interpretation = VariantInterpretation(
+        acmg_pathogenicity_classification='NOT_PROVIDED',  # TODO: acmg will be added
+        therapeutic_actionability='UNKNOWN_ACTIONABILITY',
+        #  variant=parse_erker_hgvs() # TODO
+
+    )
+
+    return variant_interpretation
