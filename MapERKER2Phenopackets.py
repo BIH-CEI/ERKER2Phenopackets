@@ -34,8 +34,8 @@ def create_resource(id: str, name: str, namespace_prefix: str, url: str, version
     )
 
 
-def map_erker2phenopackets(df):
-    ERKER_phenopackets = []
+def map_erker2phenopackets(df: pd.DataFrame, created_by: str, phenopacket_schema_version=phenopackets.__version__):
+    erker_phenopackets = []
     # vorher quasi nur mapping, hier zusammensetzen
     for i, (idx, row) in enumerate(df.iterrows()):
         ## Subject
@@ -110,6 +110,7 @@ def map_erker2phenopackets(df):
             measurements=[],
 
         )
-        ERKER_phenopackets.append(pp)
+        erker_phenopackets.append(pp)
 
-    print(f'Mapped {len(ERKER_phenopackets)} phenopackets')
+    print(f'Mapped {len(erker_phenopackets)} phenopackets')
+    return erker_phenopackets
