@@ -44,9 +44,28 @@ def create_measurements():
     return None
 
 
+def create_metadata(
+        created_by: str,
+        resources: List[Resource],
+        phenopacket_schema_version: str = phenopackets.__version__
+):
+    created = Timestamp()
+    created.GetCurrentTime()
+
+    meta_data = MetaData(
+        created=created,
+        created_by=created_by,
+        submitted_by=created_by,  # The same for simplicity
+        resources=resources,
+        phenopacket_schema_version=phenopacket_schema_version
+    )
+
+    return meta_data
+
+
 def map_erker_row2phenopacket(
         phenopacket_id: str, row: pd.Series,
-        resources: List[Resource], created_by: str, phenopacket_schema_version=phenopackets.__version__
+        resources: List[Resource], created_by: str
 ):
     subject = create_subject(phenopacket_id, row)
 
@@ -71,17 +90,8 @@ def map_erker_row2phenopacket(
         #    onset=parse_erker_onset(row['sct_424850005']),
     )  # TODO: this is not used in the phenopacket definition below
 
-    ## MetaData
-    created = Timestamp()
-    created.GetCurrentTime()
+    meta_data = create_metadata(created_by, resources)
 
-    meta_data = MetaData(
-        created=created,
-        created_by=created_by,
-        submitted_by=created_by,  # The same for simplicity
-        resources=resources,
-        phenopacket_schema_version=phenopacket_schema_version
-    )
 
     phenopacket = Phenopacket(
         id=phenopacket_id,  # TODO: is this a valid id here?
@@ -168,6 +178,6 @@ def create_interpretation(phenopacket_id: str) -> Interpretation:
     interpretation = Interpretation(
         id=phenopacket_id,  # TODO: is this a valid id here?
         progress_status='SOLVED',
-        # diagnosis=Diagnosis(phenopacket_id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
+        # TODO: diagnosis=Diagnosis(phenopacket_id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
     )
     return interpretation
