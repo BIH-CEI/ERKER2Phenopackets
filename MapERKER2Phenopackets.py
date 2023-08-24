@@ -32,6 +32,18 @@ def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
     return erker_phenopackets
 
 
+def create_measurements():
+    """[WIP]Creates a measurement object for a phenopacket.
+    Currently not implemented
+    """
+    ## Measurements
+    # TODO - the weight course
+    measurement = Measurement(
+
+    )
+    return None
+
+
 def map_erker_row2phenopacket(
         phenopacket_id: str, row: pd.Series,
         resources: List[Resource], created_by: str, phenopacket_schema_version=phenopackets.__version__
@@ -40,18 +52,10 @@ def map_erker_row2phenopacket(
 
     # TODO: this does not require any patient specific data, maybe move it out of the loop
     phenotypic_features = create_phenotypic_features()
-    ## Measurements
-    # TODO - the weight course
-    measurements = Measurement(
 
-    )
+    measurements = create_measurements()
 
-    ## Interpretations
-    interpretation = Interpretation(
-        id=phenopacket_id,  # TODO: is this a valid id here?
-        progress_status='SOLVED',
-        # diagnosis=Diagnosis(phenopacket_id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
-    )
+    interpretation = create_interpretation(phenopacket_id)
 
     # TODO - add variants
     variantInterpretation = VariantInterpretation(
@@ -153,3 +157,17 @@ def create_phenotypic_features():
 
     )
     return [phenotypic_features]
+
+
+def create_interpretation(phenopacket_id: str) -> Interpretation:
+    """Creates an interpretation object for a phenopacket.
+
+    :param phenopacket_id: The id of the phenopacket.
+    :type phenopacket_id: str
+    """
+    interpretation = Interpretation(
+        id=phenopacket_id,  # TODO: is this a valid id here?
+        progress_status='SOLVED',
+        # diagnosis=Diagnosis(phenopacket_id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
+    )
+    return interpretation
