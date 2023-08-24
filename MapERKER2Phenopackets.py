@@ -34,18 +34,23 @@ def create_resource(phenopacket_id: str, name: str, namespace_prefix: str, url: 
     :rtype: Resource
     """
     return Resource(
-        id=phenopacket_id, name=name, namespace_prefix=namespace_prefix,
+        id=phenopacket_id, # The id of the resource is not the same as the id of the phenopacket.
+        name=name, namespace_prefix=namespace_prefix,
         url=url, version=version, iri_prefix=iri_prefix
     )
 
 
-def map_erker_row2phenopacket(phenopacket_id: int, row: pd.Series, resources: List[Resource]):
+def map_erker_row2phenopacket(
+        phenopacket_id: str, row: pd.Series,
+        resources: List[Resource], created_by: str, phenopacket_schema_version=phenopackets.__version__
+):
+    
     ## Subject
     # The elements we may consider adding:
     #  age at last encounter, vital status, karyotypic sex, gender
 
     subject = Individual(
-        id=str(phenopacket_id),
+        id=phenopacket_id, # TODO: is this a valid id here?
         date_of_birth=parse_erker_date_of_birth(row['sct_184099003_y']),
         sex=parse_erker_sex(row['sct_281053000']),
         taxonomy=OntologyClass(id='NCBITaxon:9606', label='Homo sapiens')
@@ -66,7 +71,7 @@ def map_erker_row2phenopacket(phenopacket_id: int, row: pd.Series, resources: Li
 
     ## Interpretations
     interpretation = Interpretation(
-        id=str(phenopacket_id),
+        id=phenopacket_id, # TODO: is this a valid id here?
         progress_status='SOLVED',
         # diagnosis=Diagnosis(phenopacket_id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
     )
@@ -98,7 +103,7 @@ def map_erker_row2phenopacket(phenopacket_id: int, row: pd.Series, resources: Li
     )
 
     phenopacket = Phenopacket(
-        id=f'{i}-{phenopacket_id}',  # TODO - can we come up with a better ID?
+        id=phenopacket_id, # TODO: is this a valid id here?
         subject=subject,
         phenotypic_features=[phenotypicFeatures],
         interpretations=[interpretation],
@@ -109,7 +114,7 @@ def map_erker_row2phenopacket(phenopacket_id: int, row: pd.Series, resources: Li
     return phenopacket
 
 
-def map_erker2phenopackets(df: pd.DataFrame, created_by: str, phenopacket_schema_version=phenopackets.__version__):
+def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
     erker_phenopackets = []
     # vorher quasi nur mapping, hier zusammensetzen
     resources = [
@@ -119,7 +124,8 @@ def map_erker2phenopackets(df: pd.DataFrame, created_by: str, phenopacket_schema
     ]
 
     for i, (phenopacket_id, row) in enumerate(df.iterrows()):
-        phenopacket = map_erker_row2phenopacket(phenopacket_id, row, resources)
+        phenopacket_id = f'{i}-{phenopacket_id}' # TODO: can we come up with a better ID?
+        phenopacket = map_erker_row2phenopacket(phenopacket_id, row, resources, created_by)
         erker_phenopackets.append(phenopacket)
 
     print(f'Mapped {len(erker_phenopackets)} phenopackets')
