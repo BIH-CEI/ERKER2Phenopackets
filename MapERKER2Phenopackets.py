@@ -3,7 +3,6 @@ from typing import List
 import pandas as pd
 import phenopackets
 from phenopackets import Individual, PhenotypicFeature, OntologyClass, Phenopacket
-from phenopackets import Measurement
 from phenopackets import Disease
 from phenopackets import Interpretation
 from phenopackets import MetaData
