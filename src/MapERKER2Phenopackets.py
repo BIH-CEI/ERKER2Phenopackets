@@ -27,7 +27,7 @@ def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
     erker_phenopackets = []
     # vorher quasi nur mapping, hier zusammensetzen
     resources = [
-        create_resource('ncbitaxon', 'NCBI organismal classification', 'NCBITaxon',
+        _create_resource('ncbitaxon', 'NCBI organismal classification', 'NCBITaxon',
                         'http://purl.obolibrary.org/obo/ncbitaxon.owl', '2021-06-10',
                         'http://purl.obolibrary.org/obo/NCBITaxon_')
     ]
@@ -60,15 +60,15 @@ def map_erker_row2phenopacket(
     :rtype: Phenopacket
     """
 
-    subject = create_subject(phenopacket_id, row)
+    subject = _create_subject(phenopacket_id, row)
 
     # TODO: this does not require any patient specific data, move it out of the loop
-    phenotypic_features = create_phenotypic_features()
+    phenotypic_features = _create_phenotypic_features()
 
     # measurements = create_measurements()  # TODO: not used in the phenopacket
     #  TODO: definition below
 
-    interpretation = create_interpretation(phenopacket_id)
+    interpretation = _create_interpretation(phenopacket_id)
 
     # TODO: this does not require any patient specific data, move it out of the loop
     # variant_interpretation = create_variant_interpretation()
@@ -77,7 +77,7 @@ def map_erker_row2phenopacket(
     # TODO: this does not require any patient specific data, move it out of the loop
     # disease = create_disease()  # TODO: not used in the phenopacket definition below
 
-    meta_data = create_metadata(created_by, resources)
+    meta_data = _create_metadata(created_by, resources)
 
     phenopacket = Phenopacket(
         id=phenopacket_id,  # TODO: is this a valid id here?
@@ -91,9 +91,9 @@ def map_erker_row2phenopacket(
     return phenopacket
 
 
-def create_resource(phenopacket_id: str, name: str, namespace_prefix: str, url: str,
-                    version: str,
-                    iri_prefix: str) -> Resource:
+def _create_resource(phenopacket_id: str, name: str, namespace_prefix: str, url: str,
+                     version: str,
+                     iri_prefix: str) -> Resource:
     """A convenience method to create a Phenopacket Schema resource.
 
     :param phenopacket_id: The id of the resource.
@@ -119,7 +119,7 @@ def create_resource(phenopacket_id: str, name: str, namespace_prefix: str, url: 
     )
 
 
-def create_subject(phenopacket_id: str, row: pd.Series) -> Individual:
+def _create_subject(phenopacket_id: str, row: pd.Series) -> Individual:
     """Creates the Individual block of a Phenopacket.
 
     :param phenopacket_id: The id of the phenopacket.
@@ -141,7 +141,7 @@ def create_subject(phenopacket_id: str, row: pd.Series) -> Individual:
     return subject
 
 
-def create_phenotypic_features() -> List[PhenotypicFeature]:
+def _create_phenotypic_features() -> List[PhenotypicFeature]:
     """Creates the PhenotypicFeatures block of a Phenopacket.
 
     :return: List of phenotypic features
@@ -157,7 +157,7 @@ def create_phenotypic_features() -> List[PhenotypicFeature]:
     return [phenotypic_features]
 
 
-def create_interpretation(phenopacket_id: str) -> Interpretation:
+def _create_interpretation(phenopacket_id: str) -> Interpretation:
     """Creates an interpretation object for a phenopacket.
 
     :param phenopacket_id: The id of the phenopacket.
@@ -172,7 +172,7 @@ def create_interpretation(phenopacket_id: str) -> Interpretation:
     return interpretation
 
 
-def create_measurements():
+def _create_measurements():
     """[WIP]Creates a measurement object for a phenopacket.
     Currently not implemented
     """
@@ -181,7 +181,7 @@ def create_measurements():
     return None
 
 
-def create_variant_interpretation() -> VariantInterpretation:
+def _create_variant_interpretation() -> VariantInterpretation:
     """Creates a VariantInterpretation Phenopackets block.
 
     :return: A VariantInterpretation Phenopackets block.
@@ -198,7 +198,7 @@ def create_variant_interpretation() -> VariantInterpretation:
     return variant_interpretation
 
 
-def create_disease() -> Disease:
+def _create_disease() -> Disease:
     """Creates a Disease Phenopackets block, documenting the disease of the subject.
 
     :param disease: The disease of the subject.
@@ -213,7 +213,7 @@ def create_disease() -> Disease:
     return disease
 
 
-def create_metadata(
+def _create_metadata(
         created_by: str,
         resources: List[Resource],
         phenopacket_schema_version: str = phenopackets.__version__) -> MetaData:
