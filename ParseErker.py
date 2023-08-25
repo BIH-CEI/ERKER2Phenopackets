@@ -12,6 +12,7 @@ from MappingDicts import onset_map_erker2phenopackets
 from MappingDicts import age_range_map_erker2phenopackets
 from MappingDicts import sex_map_erker2phenopackets
 
+
 def parse_erker_date_of_birth(age: Union[int, str]) -> Timestamp:
     """Maps the age of a patient entry from ERKER to a Timestamp object.
 
@@ -37,7 +38,7 @@ def parse_erker_date_of_birth(age: Union[int, str]) -> Timestamp:
 
 
 def parse_erker_sex(sex: str) -> str:
-    """Parses the sex (SNOMED code) of a patient entry from ERKER to a Phenopackets sex code.
+    """Parses the sex (SNOMED) of a patient entry from ERKER to a Phenopackets sex code.
 
     :param sex: The sex of the patient.
     :type sex: str
@@ -50,7 +51,8 @@ def parse_erker_sex(sex: str) -> str:
     * sct_184115007: other sex
     * sct_394743007_foetus: unknown sex
 
-    SNOMED Ontology: https://browser.ihtsdotools.org/?perspective=full&conceptId1=270425006&edition=MAIN/2023-07-31&
+    SNOMED Ontology: https://browser.ihtsdotools.org/?perspective=full&conceptId1=2704250
+    06&edition=MAIN/2023-07-31&
     release=&languages=en
 
     col 8: sct_281053000 / Sex at birth
@@ -63,7 +65,7 @@ def parse_erker_sex(sex: str) -> str:
 
 
 def parse_erker_agerange(age_range: str) -> AgeRange:
-    """Parses the age range of a patient entry from ERKER to a Phenopackets AgeRange block
+    """Parses age range of a patient entry from ERKER to a Phenopackets AgeRange block
 
     :param age_range: The age range of the patient.
     :type age_range: str
@@ -90,11 +92,13 @@ def parse_erker_onset(onset: str) -> str:
     :return: An onset code or a string indicating an unknown onset
 
     **Congenital Onset Obesity:**
-    Obesity that originates from birth due to genetic or inherited factors affecting metabolism and fat storage.
+    Obesity that originates from birth due to genetic or inherited factors affecting
+    metabolism and fat storage.
     Code: HP:0003577
 
     **Antenatal Onset Obesity:**
-    Obesity that develops during fetal development in response to maternal factors such as diet and metabolic conditions
+    Obesity that develops during fetal development in response to maternal factors such
+    as diet and metabolic conditions
      during pregnancy.
      Code: HP:0030674
 
@@ -105,7 +109,7 @@ def parse_erker_onset(onset: str) -> str:
 
 
 def parse_erker_datediagnosis(age_dg: str):
-    """Parses the date of diagnosis of a patient entry from ERKER to a Phenopackets Age block
+    """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
 
     :param age_dg: The age of diagnosis of the patient.
     :type age_dg: str
@@ -120,6 +124,7 @@ def parse_erker_datediagnosis(age_dg: str):
         return Age(iso8601duration=f'P{age_dg.y}Y{age_dg.m}M')
     else:
         raise ValueError(f'Unknown disease date zygosity {age_dg}')
+
 
 def parse_erker_zygosity(f, col1, col2):
     """Parses the zygosity of a patient entry from ERKER to a Phenopackets zygosity code
@@ -140,12 +145,14 @@ def parse_erker_zygosity(f, col1, col2):
     """
     reader = csv.DictReader(f)
     for row in reader:
-        if row[col1] in zygosity_map_erker2phenopackets or row[col2] in zygosity_map_erker2phenopackets:
+        if row[col1] in zygosity_map_erker2phenopackets or \
+                row[col2] in zygosity_map_erker2phenopackets:
             if row[col1] in zygosity_map_erker2phenopackets:
                 return zygosity_map_erker2phenopackets[row[col1]]
             else:
                 return zygosity_map_erker2phenopackets[row[col2]]
     raise ValueError(f'Unknown Zygosity zygosity {col1} {col2}')
+
 
 def parse_erker_hgvs(hgvs):
     """TODO: Implement this function"""

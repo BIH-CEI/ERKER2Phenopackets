@@ -33,8 +33,10 @@ def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
     ]
 
     for i, (phenopacket_id, row) in enumerate(df.iterrows()):
-        phenopacket_id = f'{i}-{phenopacket_id}'  # TODO: can we come up with a better ID?
-        phenopacket = map_erker_row2phenopacket(phenopacket_id, row, resources, created_by)
+        phenopacket_id = f'{i}-{phenopacket_id}'  # TODO: come up with a better ID
+        phenopacket = map_erker_row2phenopacket(
+            phenopacket_id, row, resources, created_by
+        )
         erker_phenopackets.append(phenopacket)
 
     print(f'Mapped {len(erker_phenopackets)} phenopackets')
@@ -60,19 +62,20 @@ def map_erker_row2phenopacket(
 
     subject = create_subject(phenopacket_id, row)
 
-    # TODO: this does not require any patient specific data, maybe move it out of the loop
+    # TODO: this does not require any patient specific data, move it out of the loop
     phenotypic_features = create_phenotypic_features()
 
-    #measurements = create_measurements()  # TODO: this is not used in the phenopacket definition below
+    # measurements = create_measurements()  # TODO: not used in the phenopacket
+    #  TODO: definition below
 
     interpretation = create_interpretation(phenopacket_id)
 
-    # TODO: this does not require any patient specific data, maybe move it out of the loop
-    #variant_interpretation = create_variant_interpretation()
+    # TODO: this does not require any patient specific data, move it out of the loop
+    # variant_interpretation = create_variant_interpretation()
     # TODO: this is not used in the phenopacket definition below
 
-    # TODO: this does not require any patient specific data, maybe move it out of the loop
-    #disease = create_disease()  # TODO: this is not used in the phenopacket definition below
+    # TODO: this does not require any patient specific data, move it out of the loop
+    # disease = create_disease()  # TODO: not used in the phenopacket definition below
 
     meta_data = create_metadata(created_by, resources)
 
@@ -88,7 +91,8 @@ def map_erker_row2phenopacket(
     return phenopacket
 
 
-def create_resource(phenopacket_id: str, name: str, namespace_prefix: str, url: str, version: str,
+def create_resource(phenopacket_id: str, name: str, namespace_prefix: str, url: str,
+                    version: str,
                     iri_prefix: str) -> Resource:
     """A convenience method to create a Phenopacket Schema resource.
 
@@ -108,7 +112,8 @@ def create_resource(phenopacket_id: str, name: str, namespace_prefix: str, url: 
     :rtype: Resource
     """
     return Resource(
-        id=phenopacket_id,  # The id of the resource is not the same as the id of the phenopacket.
+        id=phenopacket_id,
+        # The id of the resource is not the same as the id of the phenopacket.
         name=name, namespace_prefix=namespace_prefix,
         url=url, version=version, iri_prefix=iri_prefix
     )
@@ -172,7 +177,7 @@ def create_measurements():
     Currently not implemented
     """
     # TODO - the weight course
-    #measurement = Measurement()
+    # measurement = Measurement()
     return None
 
 
@@ -200,7 +205,8 @@ def create_disease() -> Disease:
     :type disease: Disease
     """
     disease = Disease(
-        term=OntologyClass(id='ORPHA:71529', label='Obesity due to melanocortin 4 receptor deficiency'),
+        term=OntologyClass(id='ORPHA:71529',
+                           label='Obesity due to melanocortin 4 receptor deficiency'),
         #    onset=parse_erker_onset(row['sct_424850005']),
     )
 
@@ -215,7 +221,8 @@ def create_metadata(
 
     :param created_by: The name of the creator of the phenopacket.
     :type created_by: str
-    :param resources: A Resources Phenopackets block, documenting the resources used in the phenopacket.
+    :param resources: A Resources Phenopackets block, documenting the resources used in
+    the phenopacket.
     :type resources: List[Resource]
     :param phenopacket_schema_version: The version of the phenopacket schema used.
     :type phenopacket_schema_version: str
