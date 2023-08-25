@@ -18,8 +18,7 @@ def write_phenopacket2json_file(phenopacket: Phenopacket, out_dr: str) -> None:
 
 
 def write_phenopackets2json_files(
-        phenopackets_list: List[Phenopacket], out_dir: str
-) -> None:
+        phenopackets_list: List[Phenopacket], out_dir: str) -> None:
     # Make sure output out_dr exists.
     os.makedirs(out_dir, exist_ok=True)
 
