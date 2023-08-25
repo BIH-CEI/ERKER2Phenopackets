@@ -1,4 +1,4 @@
-from src.Foo import foo
+from ..src.Foo import foo
 
 
 def test_foo():
