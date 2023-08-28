@@ -1,0 +1,38 @@
+[project]
+name = "ERKER2Phenopackets"
+version = "1.5.0"
+description = "Mapping the ERKER Dataset onto the Phenopackets Schema"
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["pipeline", "rare diseases", "phenopackets"]
+authors = [
+    {name = "Adam Gräfe", email = "adam.graefe@charite.de" },
+    {name = "Filip Rehburg", email = "filip.rehburg@charite.de" }
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Topic :: Medical Computer Science :: Mapping Data Set to Phenopackets",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = [
+    "phenopackets", "matplotlib", "json5", "jupyter", "pandas~=1.5.2", "polars", "protobuf==3.20.1"
+]
+
+[project.optional-dependencies]
+test = ["pytest==7.1.2", "ruff"]
+
+[project.urls]  # Optional
+"Homepage" = "https://github.com/BIH-CEI/ERKER2Phenopackets"
+
+# TODO: The following would provide a command line executable called `sample`
+# which executes the function `main` from this package when invoked.
+# [project.scripts]  # Optional
+# sample = "sample:main"
+
+[build-system]
+# These are the assumed default build requirements from pip:
+# https://pip.pypa.io/en/stable/reference/pip/#pep-517-and-518-support
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
