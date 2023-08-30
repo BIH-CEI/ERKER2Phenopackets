@@ -10,7 +10,7 @@ from phenopackets import VariantInterpretation
 from phenopackets import Resource
 from google.protobuf.internal.well_known_types import Timestamp
 
-from ParseErker import parse_erker_date_of_birth, parse_erker_sex
+from . import parse_erker_date_of_birth, parse_erker_sex
 
 
 def map_erker2phenopackets(df: pd.DataFrame, created_by: str):

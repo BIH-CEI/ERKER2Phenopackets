@@ -6,11 +6,11 @@ from typing import Union
 from google.protobuf.internal.well_known_types import Timestamp
 from phenopackets import AgeRange, Age
 
-from MappingDicts import zygosity_map_erker2phenopackets
-from MappingDicts import date_diagnosis_map_erker2phenopackets
-from MappingDicts import onset_map_erker2phenopackets
-from MappingDicts import age_range_map_erker2phenopackets
-from MappingDicts import sex_map_erker2phenopackets
+from . import zygosity_map_erker2phenopackets
+from . import date_diagnosis_map_erker2phenopackets
+from . import onset_map_erker2phenopackets
+from . import age_range_map_erker2phenopackets
+from . import sex_map_erker2phenopackets
 
 
 def parse_erker_date_of_birth(age: Union[int, str]) -> Timestamp:
