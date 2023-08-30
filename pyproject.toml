@@ -6,8 +6,10 @@ readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["pipeline", "rare diseases", "phenopackets"]
 authors = [
+    {name = "Peter Robinson, MD, MSc", email = "peter.robinson@jax.org"},
+    {name = "Daniel Danis, PhD", email = "daniel.danis@jax.org"},
     {name = "Adam Gräfe", email = "adam.graefe@charite.de" },
-    {name = "Filip Rehburg", email = "filip.rehburg@charite.de" }
+    {name = "Filip Rehburg", email = "filip.rehburg@charite.de" },
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
