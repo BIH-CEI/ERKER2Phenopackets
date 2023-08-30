@@ -19,7 +19,7 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
 ]
 dependencies = [
-    "phenopackets", "matplotlib", "json5", "jupyter", "pandas~=1.5.2", "polars", "protobuf==3.20.1"
+    "phenopackets", "matplotlib", "jupyter", "polars", "protobuf==3.20.1"
 ]
 
 [project.optional-dependencies]
