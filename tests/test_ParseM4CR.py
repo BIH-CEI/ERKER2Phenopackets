@@ -7,8 +7,16 @@ def test_parse_year_of_birth():
     assert parse_year_of_birth(example_yob) == expected_ret
 
 
-def test_parse_sex():
-    example_sex = 'sct_248153007'
-    expected_ret = 'MALE'
+@pytest.mark.parametrize(
+    ('inp', 'expected'),
+    (
+        ('sct_248153007', 'MALE'),
+        ('sct_248152002', 'FEMALE'),
+        ('sct_33791000087105', 'OTHER_SEX'),
+        ('sct_184115007', 'OTHER_SEX'),
+        ('sct_394743007_foetus', 'UNKNOWN_SEX'),
+    )
+)
+def test_parse_sex(inp, expected):
     
-    assert parse_sex(example_sex) == expected_ret 
+    assert parse_sex(inp) == expected
