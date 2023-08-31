@@ -14,7 +14,7 @@ def test_parse_year_of_birth():
         ('sct_248153007', 'MALE'),
         ('sct_248152002', 'FEMALE'),
         ('sct_33791000087105', 'OTHER_SEX'),
-        ('sct_184115007', 'OTHER_SEX'),
+        ('sct_184115007', 'UNKNOWN_SEX'),
     )
 )
 def test_parse_sex(inp, expected):
