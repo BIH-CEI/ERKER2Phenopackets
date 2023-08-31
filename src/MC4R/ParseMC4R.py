@@ -44,6 +44,26 @@ def parse_year_of_birth(year_of_birth: int) -> str:
 
 
 def parse_sex(sex: str) -> str:
+    """Parses the sex (SNOMED) of a patient entry from ERKER to a Phenopackets sex code.
+
+    :param sex: The sex of the patient.
+    :type sex: str
+    :return: A string code representing the sex of the patient.
+    :raises: Value Error: If the sex string is not a valid SNOMED code
+
+    Could be: 
+    'sct_248152002': 'FEMALE',
+    'sct_248153007': 'MALE',
+    'sct_184115007': 'UNKNOWN_SEX',
+    'sct_33791000087105': 'OTHER_SEX',
+
+    Example:
+    parse_sex(sct_248152002):
+    >>> 'FEMALE'
+
+    Link to Phenopackets documentation, where requirement is defined:
+    https://phenopacket-schema.readthedocs.io/en/latest/sex.html 
+    """
 
     if sex in MapERKER2Phenopackets.sex_map_erker2phenopackets:
         return MapERKER2Phenopackets.sex_map_erker2phenopackets[sex]
