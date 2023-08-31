@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Any, Dict
 
-import pandas as pd
+import polars as pl
 import phenopackets
 from phenopackets import Individual, PhenotypicFeature, OntologyClass, Phenopacket
 from phenopackets import Disease
@@ -10,13 +10,13 @@ from phenopackets import VariantInterpretation
 from phenopackets import Resource
 from google.protobuf.internal.well_known_types import Timestamp
 
-from src.ParseErker import parse_erker_date_of_birth, parse_erker_sex
+from . import parse_erker_date_of_birth, parse_erker_sex
 
 
-def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
+def map_erker2phenopackets(df: pl.DataFrame, created_by: str):
     """Maps the ERKER data to a list of Phenopackets.
 
-    :param df: The ERKER data as a pandas DataFrame.
+    :param df: The ERKER data as a DataFrame.
     :type df: pd.DataFrame
     :param created_by: The creator of the phenopackets.
     :type created_by: str
@@ -28,12 +28,12 @@ def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
     # vorher quasi nur mapping, hier zusammensetzen
     resources = [
         _create_resource('ncbitaxon', 'NCBI organismal classification', 'NCBITaxon',
-                        'http://purl.obolibrary.org/obo/ncbitaxon.owl', '2021-06-10',
-                        'http://purl.obolibrary.org/obo/NCBITaxon_')
+                         'https://purl.obolibrary.org/obo/ncbitaxon.owl', '2021-06-10',
+                         'https://purl.obolibrary.org/obo/NCBITaxon_')
     ]
 
-    for i, (phenopacket_id, row) in enumerate(df.iterrows()):
-        phenopacket_id = f'{i}-{phenopacket_id}'  # TODO: come up with a better ID
+    for row in df.rows(named=True):
+        phenopacket_id = row['mc4r_id']
         phenopacket = map_erker_row2phenopacket(
             phenopacket_id, row, resources, created_by
         )
@@ -44,7 +44,7 @@ def map_erker2phenopackets(df: pd.DataFrame, created_by: str):
 
 
 def map_erker_row2phenopacket(
-        phenopacket_id: str, row: pd.Series,
+        phenopacket_id: str, row: Dict[str, Any],
         resources: List[Resource], created_by: str) -> Phenopacket:
     """Maps a row from the ERKER data to a Phenopacket.
 
@@ -120,7 +120,7 @@ def _create_resource(phenopacket_id: str, name: str, namespace_prefix: str, url:
     )
 
 
-def _create_subject(phenopacket_id: str, row: pd.Series) -> Individual:
+def _create_subject(phenopacket_id: str, row: Dict[str, Any]) -> Individual:
     """Creates the Individual block of a Phenopacket.
 
     :param phenopacket_id: The id of the phenopacket.
@@ -201,9 +201,6 @@ def _create_variant_interpretation() -> VariantInterpretation:
 
 def _create_disease() -> Disease:
     """Creates a Disease Phenopackets block, documenting the disease of the subject.
-
-    :param disease: The disease of the subject.
-    :type disease: Disease
     """
     disease = Disease(
         term=OntologyClass(id='ORPHA:71529',
