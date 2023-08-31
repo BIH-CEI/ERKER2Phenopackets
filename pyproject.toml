@@ -1,6 +1,6 @@
 [project]
 name = "ERKER2Phenopackets"
-version = "1.5.0a"
+version = "1.5.0a1"
 description = "Mapping the ERKER Dataset onto the Phenopackets Schema"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -8,7 +8,7 @@ keywords = ["pipeline", "rare diseases", "phenopackets"]
 authors = [
     {name = "Peter Robinson, MD, MSc", email = "peter.robinson@jax.org"},
     {name = "Daniel Danis, PhD", email = "daniel.danis@jax.org"},
-    {name = "Adam Gräfe", email = "adam.graefe@charite.de" },
+    {name = "Adam Graefe", email = "adam.graefe@charite.de" },
     {name = "Filip Rehburg", email = "filip.rehburg@charite.de" },
 ]
 classifiers = [
@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-test = ["pytest==7.1.2", "ruff"]
+test = ["pytest==7.1.2", "ruff", "isort", "coverage"]
 
 [project.urls]  # Optional
 "Homepage" = "https://github.com/BIH-CEI/ERKER2Phenopackets"
