@@ -3,6 +3,20 @@ from typing import List
 import polars as pl
 
 
+def null_value_analysis(df: pl.DataFrame, verbose=False) -> None:
+    """This method prints an analysis of null values in a DataFrame
+    :param df: DataFrame to analyze
+    :type df: pl.DataFrame
+    """
+    null_count = df.select(pl.all().is_null().sum()).melt().filter(pl.col('value') > 0)
+    null_count = null_count.with_columns(
+        (pl.col('value') == get_num_rows(df)).alias('all_null')
+    )
+    print(f'There are {count_all_null_cols(df)} in the data')
+    if verbose:
+        print(null_count)
+
+
 def remove_all_null_cols(df: pl.DataFrame) -> pl.DataFrame:
     """
     Remove all columns that have only null values
