@@ -9,7 +9,6 @@ def test_parse_year_of_birth():
 
 def test_parse_sex():
     example_sex = 'sct_248153007'
-    expected_ret = 'MALE
+    expected_ret = 'MALE'
     
     assert parse_sex(example_sex) == expected_ret 
-
