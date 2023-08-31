@@ -28,16 +28,26 @@ def null_value_analysis(df: pl.DataFrame, verbose=False) -> Union[None, pl.DataF
         return null_analysis
 
 
-def remove_all_null_cols(df: pl.DataFrame) -> pl.DataFrame:
+def remove_null_cols(df: pl.DataFrame, remove_all_null=True,
+                     remove_any_null=False) -> pl.DataFrame:
     """
     Remove all columns that have only null values
     :param df: DataFrame with columns with only null values
     :type df: pl.DataFrame
+    :param remove_all_null: If True, remove columns with only null values.
+    :type remove_all_null: bool
+    :param remove_any_null: If True, remove columns with any null values
+    :type remove_any_null: bool
     :return:  without only null columns
     :rtype: pl.DataFrame
     """
-    all_null_cols = get_all_null_cols(df)
-    return df.drop(all_null_cols)
+    if remove_all_null:
+        all_null_cols = get_all_null_cols(df)
+        df = df.drop(all_null_cols)
+    if remove_any_null:
+        any_null_cols = get_any_null_cols(df)
+        df = df.drop(any_null_cols)
+    return df
 
 
 def get_all_null_cols(df: pl.DataFrame) -> List[str]:
