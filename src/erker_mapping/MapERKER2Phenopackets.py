@@ -32,8 +32,8 @@ def map_erker2phenopackets(df: pl.DataFrame, created_by: str):
                          'https://purl.obolibrary.org/obo/NCBITaxon_')
     ]
 
-    for i, row in enumerate(df.rows(named=True)):
-        phenopacket_id = f'ERKER_pp_{i}'  # TODO: come up with a better ID
+    for row in df.rows(named=True):
+        phenopacket_id = row['mc4r_id']
         phenopacket = map_erker_row2phenopacket(
             phenopacket_id, row, resources, created_by
         )
