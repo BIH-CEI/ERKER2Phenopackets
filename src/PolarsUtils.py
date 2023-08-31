@@ -7,6 +7,8 @@ def null_value_analysis(df: pl.DataFrame, verbose=False) -> Union[None, pl.DataF
     """This method prints an analysis of null values in a DataFrame
     :param df: DataFrame to analyze
     :type df: pl.DataFrame
+    :param verbose: If true, method returns DataFrame with null value analysis
+    :type verbose: bool
     """
     null_analysis = df.select(
         pl.all().is_null().sum()
@@ -28,8 +30,8 @@ def null_value_analysis(df: pl.DataFrame, verbose=False) -> Union[None, pl.DataF
         return null_analysis
 
 
-def remove_null_cols(df: pl.DataFrame, remove_all_null=True,
-                     remove_any_null=False) -> pl.DataFrame:
+def drop_null_cols(df: pl.DataFrame, remove_all_null: bool, remove_any_null: bool) -> \
+        pl.DataFrame:
     """
     Remove all columns that have only null values
     :param df: DataFrame with columns with only null values
