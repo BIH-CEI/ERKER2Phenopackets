@@ -122,3 +122,47 @@ def get_num_rows(df: pl.DataFrame) -> int:
     :rtype: int
     """
     return df.width
+
+
+def add_id_col(df: pl.DataFrame,
+               id_col_name: str,
+               id_prefix: str = None, id_suffix: str = None) -> \
+        pl.DataFrame:
+    """
+    Add id column to DataFrame
+
+    Example usage:
+    id_prefix = 'row_'
+    id_suffix = '_id'
+    id_col = 'row_{i}_id' for i in range(0, df.height)
+
+    :param df: DataFrame
+    :type df: pl.DataFrame
+    :param id_col_name: Name of id column
+    :type id_col_name: str
+    :param id_prefix: Prefix for id column
+    :type id_prefix: str
+    :param id_suffix: Suffix for id column
+    :type id_suffix: str
+    :return: DataFrame with id column
+    :rtype: pl.DataFrame
+    """
+    # add id column with prefix and/or suffix
+    if not id_prefix and not id_suffix:
+        df = df.with_columns((pl.Series(range(0, df.height))).alias(id_col_name))
+    elif id_prefix and not id_suffix:
+        df = df.with_columns((pl.Series(
+            f'{id_prefix}{i}' for i in range(0, df.height)
+        )).alias(id_col_name))
+    elif not id_prefix and id_suffix:
+        df = df.with_columns((pl.Series(
+            f'{i}{id_suffix}' for i in range(0, df.height)
+        )).alias(id_col_name))
+    else:
+        df = df.with_columns((pl.Series(
+            f'{id_prefix}{i}{id_suffix}' for i in range(0, df.height)
+        )).alias(id_col_name))
+
+    # move id column to front
+    order = [id_col_name] + [col for col in df.columns if col != id_col_name]
+    return df.select(order)
