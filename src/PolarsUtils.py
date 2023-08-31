@@ -19,10 +19,10 @@ def null_value_analysis(df: pl.DataFrame, verbose=False) -> Union[None, pl.DataF
     )
 
     at_least_1_null = null_analysis.filter(0 < null_analysis['null_count']).height
-    print(f'There are {count_all_null_cols(df)} columns with only null values in the '
-          f'data')
-    print(f'There are {at_least_1_null} columns with at least one null value in the '
-          f'data')
+    print(f'There are {count_all_null_cols(df)}/{df.width} columns with only null '
+          f'values in the data')
+    print(f'There are {at_least_1_null}/{df.width} columns with at least one null '
+          f'value in the data')
 
     if verbose:
         return null_analysis
