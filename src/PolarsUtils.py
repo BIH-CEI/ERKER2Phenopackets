@@ -67,6 +67,23 @@ def get_all_null_cols(df: pl.DataFrame) -> List[str]:
     ).select('variable').to_series().to_list()
 
 
+def get_any_null_cols(df: pl.DataFrame) -> List[str]:
+    """
+    Get names of all columns that have any null values
+    :param df: DataFrame with columns with any null values
+    :type df: pl.DataFrame
+    :return: List of column names with any null values
+    :rtype: List[str]
+    """
+    return df.select(
+        pl.all()
+        .is_null()
+        .any()
+    ).melt().filter(
+        pl.col('value')  # == True
+    ).select('variable').to_series().to_list()
+
+
 def count_all_null_cols(df: pl.DataFrame) -> int:
     """
     Get number of columns that have only null values
