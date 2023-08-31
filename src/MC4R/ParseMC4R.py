@@ -6,6 +6,7 @@
 #   d. if applicable: examples
 # 3. tests
 # 4. implement
+# 5. activate tests
 
 def parse_year_of_birth(year_of_birth: int) -> str:
     """Parses a patient's year of birth to ISO8601 UTC timestamp \
