@@ -53,7 +53,8 @@ def drop_null_cols(df: pl.DataFrame, remove_all_null: bool, remove_any_null: boo
 
     num_cols_end = df.width
 
-    print(f'Dropped {num_cols_start - num_cols_end} columns.')
+    print(f'Dropped {num_cols_start - num_cols_end} columns. {num_cols_end} columns '
+          f'remaining.')
     return df
 
 
