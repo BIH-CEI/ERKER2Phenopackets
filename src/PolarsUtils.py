@@ -1,20 +1,31 @@
-from typing import List
+from typing import List, Union
 
 import polars as pl
 
 
-def null_value_analysis(df: pl.DataFrame, verbose=False) -> None:
+def null_value_analysis(df: pl.DataFrame, verbose=False) -> Union[None, pl.DataFrame]:
     """This method prints an analysis of null values in a DataFrame
     :param df: DataFrame to analyze
     :type df: pl.DataFrame
     """
-    null_count = df.select(pl.all().is_null().sum()).melt().filter(pl.col('value') > 0)
-    null_count = null_count.with_columns(
-        (pl.col('value') == get_num_rows(df)).alias('all_null')
+    null_analysis = df.select(
+        pl.all().is_null().sum()
+    ).melt().filter(
+        pl.col('value') > 0
+    ).rename({'value': 'null_count'})
+
+    null_analysis = null_analysis.with_columns(
+        (pl.col('null_count') == get_num_rows(df)).alias('all_null')
     )
-    print(f'There are {count_all_null_cols(df)} in the data')
+
+    at_least_1_null = null_analysis.filter(0 < null_analysis['null_count']).height
+    print(f'There are {count_all_null_cols(df)} columns with only null values in the '
+          f'data')
+    print(f'There are {at_least_1_null} columns with at least one null value in the '
+          f'data')
+
     if verbose:
-        print(null_count)
+        return null_analysis
 
 
 def remove_all_null_cols(df: pl.DataFrame) -> pl.DataFrame:
@@ -65,7 +76,7 @@ def get_num_cols(df: pl.DataFrame) -> int:
     :return: number of columns
     :rtype: int
     """
-    return df.shape[1]
+    return df.height
 
 
 def get_num_rows(df: pl.DataFrame) -> int:
@@ -75,4 +86,4 @@ def get_num_rows(df: pl.DataFrame) -> int:
     :return: number of rows
     :rtype: int
     """
-    return df.shape[0]
+    return df.width
