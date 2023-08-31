@@ -8,6 +8,9 @@
 # 4. implement
 # 5. activate tests
 
+from old_erker_mapping import MapERKER2Phenopackets
+
+
 def parse_year_of_birth(year_of_birth: int) -> str:
     """Parses a patient's year of birth to ISO8601 UTC timestamp \
     (Required by Phenopackets)
@@ -37,4 +40,13 @@ def parse_year_of_birth(year_of_birth: int) -> str:
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
         f'but was {year_of_birth}')
     return f'{year_of_birth}-01-01T00:00:00Z'
+    
+
+
+def parse_sex(sex: str) -> str:
+
+    if sex in MapERKER2Phenopackets.sex_map_erker2phenopackets:
+        return MapERKER2Phenopackets.sex_map_erker2phenopackets[sex]
+    else:
+        raise ValueError(f'Unknown sex zygosity {sex}')
     
