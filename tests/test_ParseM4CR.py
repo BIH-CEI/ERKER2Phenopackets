@@ -1,4 +1,5 @@
 from MC4R.ParseMC4R import parse_year_of_birth, parse_sex
+import pytest
 
 def test_parse_year_of_birth():
     example_yob = 2000
