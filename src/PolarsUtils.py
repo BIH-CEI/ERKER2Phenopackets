@@ -41,12 +41,17 @@ def remove_null_cols(df: pl.DataFrame, remove_all_null=True,
     :return:  without only null columns
     :rtype: pl.DataFrame
     """
+    num_cols_start = df.width
     if remove_all_null:
         all_null_cols = get_all_null_cols(df)
         df = df.drop(all_null_cols)
     if remove_any_null:
         any_null_cols = get_any_null_cols(df)
         df = df.drop(any_null_cols)
+
+    num_cols_end = df.width
+
+    print(f'Dropped {num_cols_start - num_cols_end} columns.')
     return df
 
 
