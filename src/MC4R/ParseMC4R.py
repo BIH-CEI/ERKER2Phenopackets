@@ -30,5 +30,10 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     :type year_of_birth: int
     :return: Year of birth formatted as ISO8601 UTC timestamp
     :rtype: str
+    :raises: ValueError: if year_of_birth is not within 1900 and 2023
     """
-    pass
+    if year_of_birth < 1900 or year_of_birth > 2023:
+        raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
+        f'but was {year_of_birth}')
+    return f'{year_of_birth}-01-01T00:00:00Z'
+    
