@@ -1,5 +1,7 @@
 from MC4R.ParseMC4R import parse_year_of_birth
 
+import pytest
+
 
 @pytest.mark.skip(reason='Not implemented yet')
 def test_parse_year_of_birth():
