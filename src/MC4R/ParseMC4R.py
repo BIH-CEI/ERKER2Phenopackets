@@ -106,3 +106,28 @@ def parse_sex(sex: str) -> str:
     else:
         raise ValueError(f'Unknown sex zygosity {sex}')
     
+
+def parse_phenotyping_date(ph_date: int) -> str: 
+    """
+    Parses dates of determination of HPO values to ISO8601 UTC timestamp \
+    (Required by Phenopackets)
+
+    By the Phenopackets documentation it is required to store the onset of a 
+    PhenotypicFeature of a subject in a ISO8601 UTC timestamp.
+
+    Could be:
+    * “2018-03-01T00:00:00Z” for 
+    * empty if unknown/ not stated.
+
+    Example:
+    parse_phenotyping_date()
+    >>> “2002-01-01T00:00:00Z”
+
+    Link to Phenopackets documentation, where requirement is defined:
+    https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html 
+
+    :param date: The date of a phenotype's determination
+    :type date: date(%y%m%d)
+    :return: Date of determination formatted as ISO8601 UTC timestamp
+    :raises: Value Error: If date of determination is not in %y%m%d format
+    """
