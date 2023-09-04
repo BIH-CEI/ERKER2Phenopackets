@@ -1,4 +1,4 @@
-from . import sex_map_erker2phenopackets
+from . import sex_map_erker2phenopackets, zygosty_map_erker2phenopackets
 # 1. method definition
 # 2. doc (with examples)
 #   a. Title
