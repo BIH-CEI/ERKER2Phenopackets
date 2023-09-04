@@ -1,4 +1,4 @@
-from MC4R.ParseMC4R import parse_year_of_birth, parse_sex
+from MC4R.ParseMC4R import parse_year_of_birth, parse_sex, parse_phenotyping_date
 import pytest
 
 def test_parse_year_of_birth():
