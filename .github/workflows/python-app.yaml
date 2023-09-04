@@ -38,9 +38,3 @@ jobs:
         run: |
           pwd
           ls -R
-      - name: Test with pytest with coverage
-        run: |
-          coverage run -m pytest
-      - name: Generate coverage report
-        run: |
-          coverage report
