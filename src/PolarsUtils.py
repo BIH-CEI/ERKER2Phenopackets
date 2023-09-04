@@ -1,4 +1,4 @@
-from typing import List, Union, Dict, Any
+from typing import List, Union, Dict, Any, Callable
 
 import polars as pl
 
@@ -171,7 +171,7 @@ def add_id_col(df: pl.DataFrame,
 def map_col(
         df: pl.DataFrame,
         col_name: str, new_col_name: str,
-        dictionary: Dict[Any, Any],
+        map: Union[Dict[Any, Any], Callable[[...], Any]],
         default: Any = None) -> pl.DataFrame:
     """
     Map values in column to new values using dictionary
@@ -181,13 +181,29 @@ def map_col(
     :type col_name: str
     :param new_col_name: the column to map to
     :type new_col_name: str
-    :param dictionary: the dictionary to map with
-    :type dictionary: Dict[Any, Any]
+    :param map: a dictionary or function to map with
+    :type map: Union[Dict[Any, Any], Callable[[...], Any]]
     :param default: the default value to use if no match is found in the dictionary
     :type default: Any
     :return: the dataframe with the new column
     :rtype: pl.DataFrame
     """
+    if type(map) == dict:
+        return map_col_dict(df, col_name, new_col_name, map, default)
+    elif callable(map):
+        if default:
+            
+        return map_col_function(df, col_name, new_col_name, map)
+
+
+def map_col_dict(df: pl.DataFrame, col_name: str, new_col_name: str, dictionary: Dict[Any, Any], default: Any = None) -> pl.DataFrame:
     return df.with_columns(
         pl.col(col_name).map_dict(dictionary, default=default).alias(new_col_name)
+    )
+
+
+def map_col_function(df: pl.DataFrame, col_name: str, new_col_name: str, function: Callable[[...], Any]) -> pl.DataFrame:
+    print(type(function))
+    return df.with_columns(
+        pl.col(col_name).apply(function).alias(new_col_name)
     )
