@@ -138,10 +138,10 @@ def parse_phenotyping_date(ph_date: str) -> str:
     :return: Date of determination formatted as ISO8601 UTC timestamp
     :raises: Value Error: If date of determination is not in "YYYY-MM-DD" format
     """
-    try:
-        parsed_date = datetime.strptime(ph_date, '%Y-%m-%d')
-        return f'{ph_date}T00:00:00.00Z'
+    try: 
+        return f'{datetime.strptime(ph_date, "%Y-%m-%d").strftime("%Y-%m-%dT00:00:00Z")}'
     except ValueError:
+        # If parsing fails, raise a ValueError
         raise ValueError("Invalid date format. Please use YYYY-MM-DD format.")
 
 
