@@ -31,3 +31,6 @@ pytest.mark.parametrize(
 
     )
 )
+
+def test_parse_zygosity(inp, expected):
+    assert parse_zygosity(inp) == expected
