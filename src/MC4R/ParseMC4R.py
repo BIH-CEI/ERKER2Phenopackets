@@ -45,15 +45,13 @@ def parse_date_of_diagnosis(year: str,month: str,day: str) -> int:
     """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
 
     By the Phenopackets documentation Version 2 the onset of a disease i.e. the time of
-    diagnosis can be saved as a TimeElement (Age, Timestamp, TimeInterval)
+    diagnosis can be saved as a TimeElement (Age, Timestamp, TimeInterval). In our data\
+    the Timestamp is used.
 
     Could be: 
     * "2021-06-02T00:00:00.00Z" for someone diagnosed on June 2nd 2021
-    * "P38Y7M" for someone diagnosed with the Age of 38 years and 7 months
     * empty if unknown / not stated 
 
-    In our data the Timestamp is used.
-    
     Example: 
     parse_date_of_diagnosis(2018-04-21): 
     >>> "2018-04-21T00:00:00.00Z"
