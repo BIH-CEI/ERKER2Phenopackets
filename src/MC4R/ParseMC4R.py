@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from . import sex_map_erker2phenopackets
+from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
+
+
 # 1. method definition
 # 2. doc (with examples)
 #   a. Title
@@ -39,12 +41,11 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     """
     if year_of_birth < 1900 or year_of_birth > 2023:
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
-        f'but was {year_of_birth}')
+                         f'but was {year_of_birth}')
     return f'{year_of_birth}-01-01T00:00:00Z'
-    
 
 
-def parse_date_of_diagnosis(year: str, month: str, day: str) -> int:
+def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
     """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
 
     By the Phenopackets documentation Version 2 the onset of a disease i.e. the time of
@@ -71,16 +72,19 @@ def parse_date_of_diagnosis(year: str, month: str, day: str) -> int:
     :return: An Age Phenopackets block representing the age of diagnosis of the patient
     :raises ValueError: If the age of diagnosis is not known
     """
+    year = int(year)
+    month = int(month)
+    day = int(day)
 
-    if year < 1900 or year > 2025 or month < 1 or month > 12 or day < 1 or day > 31: 
+    if year < 1900 or year > 2025 or month < 1 or month > 12 or day < 1 or day > 31:
         raise ValueError(f'Date of diagnosis is not valid: year={year}, month={month},\
                           day={day}')
-    
-        formatted_date = f'{year:04d}-{int(month):02d}-{day:02d}-01T00:00:00.00Z'
-    
-        return formatted_date
 
-    
+    formatted_date = f'{year:04d}-{int(month):02d}-{day:02d}T00:00:00.00Z'
+
+    return formatted_date
+
+
 def parse_sex(sex: str) -> str:
     """Parses the sex (SNOMED) of a patient entry from ERKER to a Phenopackets sex code.
 
@@ -139,3 +143,31 @@ def parse_phenotyping_date(ph_date: str) -> str:
         return f'{ph_date}T00:00:00.00Z'
     except ValueError:
         raise ValueError("Invalid date format. Please use YYYY-MM-DD format.")
+
+
+def parse_zygosity(zygosity):
+    """
+    Parses the zygosity (LOINC) of a patient entry from ERKER to a Phenopackets
+    Zygosity code.
+
+    Could be: 
+    'ln_LA6705-3' : 'GENO:0000136'
+    'ln_LA6706-1': 'GENO:0000135'
+    'ln_LA6707-9' : 'GENO:0000134'
+
+    Example:
+    parse_zygosity(ln_LA6705-3):
+    >>> 'GENO:0000136'
+
+    Link to Phenopackets documentation, where requirement is defined:
+    https://phenopacket-schema.readthedocs.io/en/latest/variant.html#rstvariant 
+
+    :param zygosity: The zygosity of the patient's genetic record.
+    :type sex: str
+    :return: A string code representing the zygosity of the patient.
+    :raises: Value Error: If the zygosity string is not a valid LOINC code
+    """
+    if zygosity in zygosity_map_erker2phenopackets:
+        return zygosity_map_erker2phenopackets[zygosity]
+    else:
+        raise ValueError(f'Unknown zygosity {zygosity}')
