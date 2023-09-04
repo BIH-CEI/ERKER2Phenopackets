@@ -1,4 +1,6 @@
 from . import sex_map_erker2phenopackets, zygosty_map_erker2phenopackets
+
+
 # 1. method definition
 # 2. doc (with examples)
 #   a. Title
@@ -37,9 +39,8 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     """
     if year_of_birth < 1900 or year_of_birth > 2023:
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
-        f'but was {year_of_birth}')
+                         f'but was {year_of_birth}')
     return f'{year_of_birth}-01-01T00:00:00Z'
-    
 
 
 def parse_sex(sex: str) -> str:
@@ -68,10 +69,9 @@ def parse_sex(sex: str) -> str:
         return sex_map_erker2phenopackets[sex]
     else:
         raise ValueError(f'Unknown sex zygosity {sex}')
-    
 
 
-def parse_zygosity(zygosity): 
+def parse_zygosity(zygosity):
     """
     Parses the zygosity (LOINC) of a patient entry from ERKER to a Phenopackets
     Zygosity code.
@@ -97,4 +97,3 @@ def parse_zygosity(zygosity):
         return zygosty_map_erker2phenopackets[zygosity]
     else:
         raise ValueError(f'Unknown zygosity {zygosity}')
-    
