@@ -38,3 +38,29 @@ def parse_year_of_birth(year_of_birth: int) -> str:
         f'but was {year_of_birth}')
     return f'{year_of_birth}-01-01T00:00:00Z'
     
+
+
+
+def parse_date_of_diagnosis(date_diagnosis):
+    """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
+
+    By the Phenopackets documentation Version 2 the onset of a disease i.e. the time of
+    diagnosis can be saved as a TimeElement (Age, Timestamp, TimeInterval)
+
+    Could be: 
+    * "2021-06-02T00:00:00.00Z" for someone diagnosed on June 2nd 2021
+    * "P38Y7M" for someone diagnosed with the Age of 38 years and 7 months
+    * empty if unknown / not stated 
+
+    Example: 
+    parse_date_of_diagnosis(2018-04-21): 
+    >>> "201804-21T00:00:00.00Z"
+
+    Link to Phenopackets documentation, where requirement is defined:
+    https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
+
+    :param age_dg: The age of diagnosis of the patient.
+    :type age_dg: str
+    :return: An Age Phenopackets block representing the age of diagnosis of the patient
+    :raises ValueError: If the age of diagnosis is not known
+    """
