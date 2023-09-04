@@ -93,3 +93,8 @@ def parse_zygosity(zygosity):
     :return: A string code representing the zygosity of the patient.
     :raises: Value Error: If the zygosity string is not a valid LOINC code
     """
+    if zygosity in sex_map_erker2phenopackets:
+        return sex_map_erker2phenopackets[zygosity]
+    else:
+        raise ValueError(f'Unknown zygosity {zygosity}')
+    
