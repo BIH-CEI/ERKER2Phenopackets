@@ -31,4 +31,7 @@ def test_parse_sex(inp, expected):
     assert parse_sex(inp) == expected
     
 def test_parse_phenotyping_date():
-    pass
+    example_date = "2019-04-16"
+    expected_ret = "2019-04-16T00:00:00.00Z"
+    
+    assert parse_phenotyping_date(example_date) == expected_ret
