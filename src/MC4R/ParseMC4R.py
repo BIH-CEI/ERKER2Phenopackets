@@ -1,4 +1,4 @@
-from . import sex_map_erker2phenopackets
+from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
 
 
 # 1. method definition
@@ -109,3 +109,31 @@ def parse_sex(sex: str) -> str:
         return sex_map_erker2phenopackets[sex]
     else:
         raise ValueError(f'Unknown sex zygosity {sex}')
+
+
+def parse_zygosity(zygosity):
+    """
+    Parses the zygosity (LOINC) of a patient entry from ERKER to a Phenopackets
+    Zygosity code.
+
+    Could be: 
+    'ln_LA6705-3' : 'GENO:0000136'
+    'ln_LA6706-1': 'GENO:0000135'
+    'ln_LA6707-9' : 'GENO:0000134'
+
+    Example:
+    parse_zygosity(ln_LA6705-3):
+    >>> 'GENO:0000136'
+
+    Link to Phenopackets documentation, where requirement is defined:
+    https://phenopacket-schema.readthedocs.io/en/latest/variant.html#rstvariant 
+
+    :param zygosity: The zygosity of the patient's genetic record.
+    :type sex: str
+    :return: A string code representing the zygosity of the patient.
+    :raises: Value Error: If the zygosity string is not a valid LOINC code
+    """
+    if zygosity in zygosity_map_erker2phenopackets:
+        return zygosity_map_erker2phenopackets[zygosity]
+    else:
+        raise ValueError(f'Unknown zygosity {zygosity}')
