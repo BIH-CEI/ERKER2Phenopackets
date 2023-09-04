@@ -59,8 +59,8 @@ def parse_date_of_diagnosis(year: str,month: str,day: str) -> int:
     Link to Phenopackets documentation, where requirement is defined:
     https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
 
-    :param age_dg: The age of diagnosis of the patient.
-    :type age_dg: str
+    :param year,month,day: The date of diagnosis of a patient.
+    :type year,month,day: str
     :return: An Age Phenopackets block representing the age of diagnosis of the patient
     :raises ValueError: If the age of diagnosis is not known
     """
