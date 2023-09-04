@@ -72,3 +72,24 @@ def parse_sex(sex: str) -> str:
 
 
 def parse_zygosity(zygosity): 
+    """
+    Parses the zygosity (LOINC) of a patient entry from ERKER to a Phenopackets
+    Zygosity code.
+
+    Could be: 
+    'ln_LA6705-3' : 'GENO:0000136'
+    'ln_LA6706-1': 'GENO:0000135'
+    'ln_LA6707-9' : 'GENO:0000134'
+
+    Example:
+    parse_zygosity(ln_LA6705-3):
+    >>> 'GENO:0000136'
+
+    Link to Phenopackets documentation, where requirement is defined:
+    https://phenopacket-schema.readthedocs.io/en/latest/variant.html#rstvariant 
+
+    :param zygosity: The zygosity of the patient's genetic record.
+    :type sex: str
+    :return: A string code representing the zygosity of the patient.
+    :raises: Value Error: If the zygosity string is not a valid LOINC code
+    """
