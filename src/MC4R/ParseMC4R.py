@@ -1,4 +1,6 @@
 from . import sex_map_erker2phenopackets
+
+
 # 1. method definition
 # 2. doc (with examples)
 #   a. Title
@@ -37,12 +39,11 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     """
     if year_of_birth < 1900 or year_of_birth > 2023:
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
-        f'but was {year_of_birth}')
+                         f'but was {year_of_birth}')
     return f'{year_of_birth}-01-01T00:00:00Z'
-    
 
 
-def parse_date_of_diagnosis(year: str, month: str, day: str) -> int:
+def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
     """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
 
     By the Phenopackets documentation Version 2 the onset of a disease i.e. the time of
@@ -69,16 +70,19 @@ def parse_date_of_diagnosis(year: str, month: str, day: str) -> int:
     :return: An Age Phenopackets block representing the age of diagnosis of the patient
     :raises ValueError: If the age of diagnosis is not known
     """
+    year = int(year)
+    month = int(month)
+    day = int(day)
 
-    if year < 1900 or year > 2025 or month < 1 or month > 12 or day < 1 or day > 31: 
+    if year < 1900 or year > 2025 or month < 1 or month > 12 or day < 1 or day > 31:
         raise ValueError(f'Date of diagnosis is not valid: year={year}, month={month},\
                           day={day}')
-    
-        formatted_date = f'{year:04d}-{int(month):02d}-{day:02d}-01T00:00:00.00Z'
-    
-        return formatted_date
 
-    
+    formatted_date = f'{year:04d}-{int(month):02d}-{day:02d}T00:00:00.00Z'
+
+    return formatted_date
+
+
 def parse_sex(sex: str) -> str:
     """Parses the sex (SNOMED) of a patient entry from ERKER to a Phenopackets sex code.
 
@@ -105,4 +109,3 @@ def parse_sex(sex: str) -> str:
         return sex_map_erker2phenopackets[sex]
     else:
         raise ValueError(f'Unknown sex zygosity {sex}')
-    
