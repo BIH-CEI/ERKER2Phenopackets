@@ -43,6 +43,46 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     return f'{year_of_birth}-01-01T00:00:00Z'
 
 
+def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
+    """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
+
+    By the Phenopackets documentation Version 2 the onset of a disease i.e. the time of
+    diagnosis can be saved as a TimeElement (Age, Timestamp, TimeInterval). In our data\
+    the Timestamp is used.
+
+    Could be: 
+    * "2021-06-02T00:00:00.00Z" for someone diagnosed on June 2nd 2021
+    * empty if unknown / not stated 
+
+    Example: 
+    parse_date_of_diagnosis(2018-04-21): 
+    >>> "2018-04-21T00:00:00.00Z"
+
+    Link to Phenopackets documentation, where requirement is defined:
+    https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
+
+    :param year: The year of diagnosis of a patient.
+    :type year: str
+    :param month: The month of diagnosis of a patient in the given year.
+    :type month: str
+    :param day: The day of diagnosis of a patient in the given year and month.
+    :type day: str
+    :return: An Age Phenopackets block representing the age of diagnosis of the patient
+    :raises ValueError: If the age of diagnosis is not known
+    """
+    year = int(year)
+    month = int(month)
+    day = int(day)
+
+    if year < 1900 or year > 2025 or month < 1 or month > 12 or day < 1 or day > 31:
+        raise ValueError(f'Date of diagnosis is not valid: year={year}, month={month},\
+                          day={day}')
+
+    formatted_date = f'{year:04d}-{int(month):02d}-{day:02d}T00:00:00.00Z'
+
+    return formatted_date
+
+
 def parse_sex(sex: str) -> str:
     """Parses the sex (SNOMED) of a patient entry from ERKER to a Phenopackets sex code.
 
