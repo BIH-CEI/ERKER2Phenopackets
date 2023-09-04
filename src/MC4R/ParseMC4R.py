@@ -118,12 +118,12 @@ def parse_phenotyping_date(ph_date: str) -> str:
     PhenotypicFeature of a subject in a ISO8601 UTC timestamp.
 
     Could be:
-    * “2018-03-01T00:00:00Z” for 
+    * “2018-03-01T00:00:00.00Z” for 
     * empty if unknown/ not stated.
 
     Example:
     parse_phenotyping_date(2018-04-15)
-    >>> “2002-01-01T00:00:00Z”
+    >>> “2002-01-01T00:00:00.00Z”
 
     Link to Phenopackets documentation, where requirement is defined:
     https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html 
