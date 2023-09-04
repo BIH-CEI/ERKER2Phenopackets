@@ -208,9 +208,10 @@ def map_col(
     :type default: Any
     :return: the dataframe with the new column
     :rtype: pl.DataFrame
+    :raises: ValueError: if map_from is a list and mapping is a dictionary
     """
     if type(mapping) == dict:
-        if type(map_from) != str:
+        if type(map_from) == list:
             raise ValueError('When mapping with a dictionary, map_from must be a '
                              'single column and not a list of columns.')
         return _map_col_dict(df=df,
