@@ -1,4 +1,5 @@
 from typing import List, Union, Dict, Any, Callable
+import warnings
 
 import polars as pl
 
@@ -171,38 +172,58 @@ def add_id_col(df: pl.DataFrame,
 def map_col(
         df: pl.DataFrame,
         col_name: str, new_col_name: str,
-        map: Union[Dict[Any, Any], Callable[[...], Any]],
+        mapping: Union[Dict[Any, Any], Callable[[...], Any]],
         default: Any = None) -> pl.DataFrame:
     """
-    Map values in column to new values using dictionary
+    Map values in column to new values using dictionary or mapping function
+
+    When mapping with a function, the function should only take a single positional
+    argument and return a single value. The function should not have any side effects.
+
+    Avoid mapping with a function if possible, as it is much slower than mapping with a
+    dictionary. Therefore, avoid using functions as shown below.
+
+    ```def map_func(x):
+        return dictionary[x]```
+
     :param df: The dataframe
     :type df: pl.DataFrame
-    :param col_name: the column to map from
+    :param col_name: the column to mapping from
     :type col_name: str
-    :param new_col_name: the column to map to
+    :param new_col_name: the column to mapping to
     :type new_col_name: str
-    :param map: a dictionary or function to map with
-    :type map: Union[Dict[Any, Any], Callable[[...], Any]]
+    :param mapping: a dictionary or function to mapping with
+    :type mapping: Union[Dict[Any, Any], Callable[[...], Any]]
     :param default: the default value to use if no match is found in the dictionary
     :type default: Any
     :return: the dataframe with the new column
     :rtype: pl.DataFrame
     """
-    if type(map) == dict:
-        return map_col_dict(df, col_name, new_col_name, map, default)
-    elif callable(map):
+    if type(mapping) == dict:
+        return _map_col_dict(df=df,
+                             col_name=col_name, new_col_name=new_col_name,
+                             dictionary=mapping, default=default
+                             )
+    elif callable(mapping):
         if default:
-            
-        return map_col_function(df, col_name, new_col_name, map)
+            warnings.warn('Default value is ignored when using a function to mapping')
+        return _map_col_function(df=df,
+                                 col_name=col_name, new_col_name=new_col_name,
+                                 function=mapping
+                                 )
 
 
-def map_col_dict(df: pl.DataFrame, col_name: str, new_col_name: str, dictionary: Dict[Any, Any], default: Any = None) -> pl.DataFrame:
+def _map_col_dict(df: pl.DataFrame,
+                  col_name: str, new_col_name: str,
+                  dictionary: Dict[Any, Any], default: Any = None) -> pl.DataFrame:
     return df.with_columns(
         pl.col(col_name).map_dict(dictionary, default=default).alias(new_col_name)
     )
 
 
-def map_col_function(df: pl.DataFrame, col_name: str, new_col_name: str, function: Callable[[...], Any]) -> pl.DataFrame:
+def _map_col_function(df: pl.DataFrame,
+                      col_name: str, new_col_name: str,
+                      function: Callable[[...], Any]) -> pl.DataFrame:
     print(type(function))
     return df.with_columns(
         pl.col(col_name).apply(function).alias(new_col_name)
