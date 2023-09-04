@@ -14,7 +14,7 @@ def test_parse_date_of_diagnosis():
     example_y = 2004
     example_m = "04"
     example_d = 21
-    expected_ret = "2004-04-21T00:00:00Z"
+    expected_ret = "2004-04-21T00:00:00.00Z"
 
     assert parse_date_of_diagnosis(example_y, example_m, example_d) == expected_ret
 
