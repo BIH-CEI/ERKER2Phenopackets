@@ -210,8 +210,8 @@ def map_col(
     :rtype: pl.DataFrame
     :raises: ValueError: if map_from is a list and mapping is a dictionary
     """
-    if type(mapping) == dict:
-        if type(map_from) == list:
+    if isinstance(mapping, dict):
+        if isinstance(map_from, list):  # multiple columns
             raise ValueError('When mapping with a dictionary, map_from must be a '
                              'single column and not a list of columns.')
         return _map_col_dict(df=df,
@@ -221,12 +221,12 @@ def map_col(
     elif callable(mapping):
         if default:
             warnings.warn('Default value is ignored when using a function to mapping')
-        if type(map_from) == str:
+        if isinstance(map_from, str):  # one column
             return _map_col_function(df=df,
                                      col_name=map_from, new_col_name=map_to,
                                      function=mapping
                                      )
-        elif type(map_from) == list:
+        elif isinstance(map_from, list):  # multiple columns
             return _map_cols_function(df=df,
                                       col_names=map_from, new_col_name=map_to,
                                       function=mapping
