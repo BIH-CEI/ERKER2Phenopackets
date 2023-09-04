@@ -1,6 +1,8 @@
 import pytest
 
-from src.MC4R.ParseMC4R import parse_date_of_diagnosis, parse_sex, parse_year_of_birth
+from src.MC4R.ParseMC4R import parse_date_of_diagnosis, parse_sex, parse_year_of_birth,\
+    parse_zygosity
+
 
 def test_parse_year_of_birth():
     example_yob = 2000
