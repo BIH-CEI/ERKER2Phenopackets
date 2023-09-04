@@ -69,7 +69,7 @@ def parse_date_of_diagnosis(year,month,day):
         raise ValueError(f'Date of diagnosis is not valid: year={year}, month={month},\
                           day={day}')
     
-        formatted_date = f'{year:04d}-{month:02d}-{day:02d}-01T00:00:00.00Z'
+        formatted_date = f'{year:04d}-{int(month):02d}-{day:02d}-01T00:00:00.00Z'
     
         return formatted_date
     
