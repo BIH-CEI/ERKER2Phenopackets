@@ -29,3 +29,6 @@ def test_parse_date_of_diagnosis():
 def test_parse_sex(inp, expected):
     
     assert parse_sex(inp) == expected
+    
+def test_parse_phenotyping_date():
+    pass
