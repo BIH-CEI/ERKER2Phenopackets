@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Dict, Any
 
 import polars as pl
 
@@ -166,3 +166,13 @@ def add_id_col(df: pl.DataFrame,
     # move id column to front
     order = [id_col_name] + [col for col in df.columns if col != id_col_name]
     return df.select(order)
+
+
+def map_col(
+        df: pl.DataFrame,
+        col_name: str, new_col_name: str,
+        dictionary: Dict[Any, Any],
+        default: Any = None) -> pl.DataFrame:
+    return df.with_columns(
+        pl.col(col_name).map_dict(dictionary, default=default).alias(new_col_name)
+    )
