@@ -228,3 +228,12 @@ def _map_col_function(df: pl.DataFrame,
     return df.with_columns(
         pl.col(col_name).apply(function).alias(new_col_name)
     )
+
+
+def _map_cols_function(df: pl.DataFrame,
+                       col_names: List[str], new_col_name: str,
+                       function: Callable[[...], Any]) -> pl.DataFrame:
+    print(type(function))
+    return df.with_columns(
+        pl.struct(col_names).apply(function).alias(new_col_name)
+    )
