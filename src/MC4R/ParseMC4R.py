@@ -52,6 +52,8 @@ def parse_date_of_diagnosis(year: str,month: str,day: str) -> int:
     * "P38Y7M" for someone diagnosed with the Age of 38 years and 7 months
     * empty if unknown / not stated 
 
+    In our data the Timestamp is used.
+    
     Example: 
     parse_date_of_diagnosis(2018-04-21): 
     >>> "2018-04-21T00:00:00.00Z"
