@@ -23,7 +23,7 @@ def test_parse_sex(inp, expected):
     assert parse_sex(inp) == expected
 
 
-pytest.mark.parametrize(
+@pytest.mark.parametrize(
     ('inp', 'expected'),
     (
             ('ln_LA6705-3', 'GENO:0000136'),
