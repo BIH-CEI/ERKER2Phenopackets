@@ -41,7 +41,7 @@ def parse_year_of_birth(year_of_birth: int) -> str:
 
 
 
-def parse_date_of_diagnosis(year: str,month: str,day: str) -> int:
+def parse_date_of_diagnosis(year: str, month: str, day: str) -> int:
     """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
 
     By the Phenopackets documentation Version 2 the onset of a disease i.e. the time of
