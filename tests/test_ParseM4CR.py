@@ -25,9 +25,9 @@ def test_parse_sex(inp, expected):
 pytest.mark.parametrize(
     ('inp', 'exprexted')
     (
-            ('ln_LA6705-3' : 'GENO:0000136')
-            ('ln_LA6706-1': 'GENO:0000135')
-            ('ln_LA6707-9' : 'GENO:0000134')
+            ('ln_LA6705-3', 'GENO:0000136')
+            ('ln_LA6706-1', 'GENO:0000135')
+            ('ln_LA6707-9', 'GENO:0000134')
 
     )
 )
