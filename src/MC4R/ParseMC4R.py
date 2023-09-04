@@ -139,8 +139,8 @@ def parse_phenotyping_date(ph_date: str) -> str:
     :raises: Value Error: If date of determination is not in "YYYY-MM-DD" format
     """
     try: 
-        return f'{datetime.strptime(ph_date, "%Y-%m-%d").strftime("%Y-%m-%dT00:00:00.00"
-    )}'
+        return f'{datetime.strptime(ph_date, "%Y-%m-%d").strftime\
+    ("%Y-%m-%dT00:00:00.00")}'
     except ValueError:
         # If parsing fails, raise a ValueError
         raise ValueError("Invalid date format. Please use YYYY-MM-DD format.")
