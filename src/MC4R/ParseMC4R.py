@@ -1,3 +1,5 @@
+from typing import Union
+
 from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
 from ..utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp, \
     parse_year_month_day_to_iso8601_utc_timestamp
@@ -45,7 +47,11 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     return parse_year_month_day_to_iso8601_utc_timestamp(year_of_birth, 1, 1)
 
 
-def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
+def parse_date_of_diagnosis(
+        year: Union[str, int],
+        month: Union[str, int],
+        day: Union[str, int]
+) -> str:
     """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
 
     By the Phenopackets documentation Version 2 the onset of a disease i.e. the time of
@@ -64,17 +70,20 @@ def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
     https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
 
     :param year: The year of diagnosis of a patient.
-    :type year: str
+    :type year: Union[str, int]
     :param month: The month of diagnosis of a patient in the given year.
-    :type month: str
+    :type month: Union[str, int]
     :param day: The day of diagnosis of a patient in the given year and month.
-    :type day: str
+    :type day: Union[str, int]
     :return: An Age Phenopackets block representing the age of diagnosis of the patient
     :raises ValueError: If the age of diagnosis is not known
     """
-    year = int(year)
-    month = int(month)
-    day = int(day)
+    if isinstance(year, str):
+        year = int(year)
+    if isinstance(month, str):
+        month = int(month)
+    if isinstance(day, str):
+        day = int(day)
 
     if year < 1900 or year > 2025 or month < 1 or month > 12 or day < 1 or day > 31:
         raise ValueError(f'Date of diagnosis is not valid: year={year}, month={month},\
