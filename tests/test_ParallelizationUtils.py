@@ -14,5 +14,7 @@ from src.utils.ParallelizationUtils import calc_chunk_size
         (3, 0, []),
     )
 )
-def test_calc_chunk_size(num_instance, num_chunks, expected):
-    assert calc_chunk_size(num_instance, num_chunks) == expected
+def test_calc_chunk_size(num_instances, num_chunks, expected):
+    result = calc_chunk_size(num_instances, num_chunks)
+    assert result == expected
+    assert sum(result) == num_instances
