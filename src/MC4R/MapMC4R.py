@@ -24,7 +24,7 @@ def map_mc4r2phenopackets(df: pl.DataFrame, created_by: str) -> List[Phenopacket
     """
     # divide the DataFrame into chunks
     num_threads = os.cpu_count()
-    chunk_sizes = calc_chunk_size(num_chunks=num_threads, num_instance=df.height)
+    chunk_sizes = calc_chunk_size(num_chunks=num_threads, num_instances=df.height)
 
 
     return []

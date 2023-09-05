@@ -3,22 +3,22 @@ from typing import List
 import polars as pl
 
 
-def calc_chunk_size(num_instance: int, num_chunks: int) -> List[int]:
+def calc_chunk_size(num_instances: int, num_chunks: int) -> List[int]:
     """
     Calculate chunk sizes for even workload distribution.
-    :param num_instance: Number of instances or rows
-    :type num_instance: int
+    :param num_instances: Number of instances or rows
+    :type num_instances: int
     :param num_chunks: Number of chunks
     :type num_chunks: int
     :return: List of chunk sizes
     :rtype: List[int]
     :raises ValueError: If num_chunks or num_instance is 0
     """
-    if num_chunks == 0 or num_instance == 0:
-        raise ValueError("num_chunks and num_instance must be greater than 0")
+    if num_chunks == 0 or num_instances == 0:
+        raise ValueError("num_chunks and num_instances must be greater than 0")
 
-    chunk_size = num_instance // num_chunks
-    remainder = num_instance % num_chunks
+    chunk_size = num_instances // num_chunks
+    remainder = num_instances % num_chunks
 
     # remainder is necessarily smaller than num_chunks
     # therefore, we can just add 1 to the first remainder number of chunks
@@ -49,7 +49,7 @@ if __name__ == "__main__":
             "c": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         }
     )
-    # chunk_sizes = calc_chunk_size(num_instance=df.height, num_chunks=3)
+    # chunk_sizes = calc_chunk_size(num_instances=df.height, num_chunks=3)
     # for df_sub in split_dataframe(df, chunk_sizes):
     #     print(df_sub.height)
     df_sub = df.slice(0, 20)
