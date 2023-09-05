@@ -50,18 +50,3 @@ def split_dataframe(df: pl.DataFrame, chunk_sizes: List[int]) -> List[pl.DataFra
     for start, length in chunk_intervals:
         print(f'start: {start}, length: {length}')
     return [df.slice(start, length) for (start, length) in chunk_intervals]
-
-
-if __name__ == "__main__":
-    df = pl.DataFrame(
-        {
-            "a": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            "b": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            "c": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        }
-    )
-    # chunk_sizes = calc_chunk_size(num_instances=df.height, num_chunks=3)
-    # for df_sub in split_dataframe(df, chunk_sizes):
-    #     print(df_sub.height)
-    df_sub = df.slice(0, 20)
-    print(f'height: {df_sub.height}, type: {type(df_sub)}')
