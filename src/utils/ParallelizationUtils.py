@@ -28,7 +28,7 @@ def calc_chunk_size(num_instances: int, num_chunks: int) -> List[int]:
     return chunk_sizes
 
 
-def split_dataframe(df: pl.DataFrame, chunk_sizes: List[int]) -> List:
+def split_dataframe(df: pl.DataFrame, chunk_sizes: List[int]) -> List[pl.DataFrame]:
     """
     Split DataFrame into chunks.
     :param chunk_sizes: List of chunk sizes
