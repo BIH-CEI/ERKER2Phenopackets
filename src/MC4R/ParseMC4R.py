@@ -69,7 +69,7 @@ def parse_date_of_diagnosis(date_of_diagnosis: str) -> str:
     :return: An Age Phenopackets block representing the age of diagnosis of the patient
     :raises ValueError: If the date of diagnosis is not known
     """
-    return parse_year_month_day_to_iso8601_utc_timestamp(date_of_diagnosis)
+    return parse_date_string_to_iso8601_utc_timestamp(date_of_diagnosis)
 
 
 def parse_sex(sex: str) -> str:
