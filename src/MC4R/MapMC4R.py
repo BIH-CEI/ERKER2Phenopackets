@@ -19,3 +19,4 @@ def map_mc4r2phenopackets(df: pl.DataFrame, created_by: str) -> List[Phenopacket
     :return: List of Phenopackets
     :rtype: List[Phenopacket]
     """
+    return []
