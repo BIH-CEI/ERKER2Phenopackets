@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-test = ["pytest==7.1.2", "ruff", "isort", "coverage"]
+test = ["pytest==7.1.2", "ruff", "isort", "coverage", "pytest-cov"]
 
 [project.urls]  # Optional
 "Homepage" = "https://github.com/BIH-CEI/ERKER2Phenopackets"

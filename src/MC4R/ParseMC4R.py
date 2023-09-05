@@ -1,6 +1,8 @@
-from datetime import datetime
+from typing import Union
 
 from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
+from ..utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp, \
+    parse_year_month_day_to_iso8601_utc_timestamp
 
 
 # 1. method definition
@@ -42,10 +44,14 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     if year_of_birth < 1900 or year_of_birth > 2023:
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
                          f'but was {year_of_birth}')
-    return f'{year_of_birth}-01-01T00:00:00.00Z'
+    return parse_year_month_day_to_iso8601_utc_timestamp(year_of_birth, 1, 1)
 
 
-def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
+def parse_date_of_diagnosis(
+        year: Union[str, int],
+        month: Union[str, int],
+        day: Union[str, int]
+) -> str:
     """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
 
     By the Phenopackets documentation Version 2 the onset of a disease i.e. the time of
@@ -64,25 +70,26 @@ def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
     https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
 
     :param year: The year of diagnosis of a patient.
-    :type year: str
+    :type year: Union[str, int]
     :param month: The month of diagnosis of a patient in the given year.
-    :type month: str
+    :type month: Union[str, int]
     :param day: The day of diagnosis of a patient in the given year and month.
-    :type day: str
+    :type day: Union[str, int]
     :return: An Age Phenopackets block representing the age of diagnosis of the patient
     :raises ValueError: If the age of diagnosis is not known
     """
-    year = int(year)
-    month = int(month)
-    day = int(day)
+    if isinstance(year, str):
+        year = int(year)
+    if isinstance(month, str):
+        month = int(month)
+    if isinstance(day, str):
+        day = int(day)
 
     if year < 1900 or year > 2025 or month < 1 or month > 12 or day < 1 or day > 31:
         raise ValueError(f'Date of diagnosis is not valid: year={year}, month={month},\
                           day={day}')
 
-    formatted_date = f'{year:04d}-{int(month):02d}-{day:02d}T00:00:00.00Z'
-
-    return formatted_date
+    return parse_year_month_day_to_iso8601_utc_timestamp(year, month, day)
 
 
 def parse_sex(sex: str) -> str:
@@ -111,9 +118,9 @@ def parse_sex(sex: str) -> str:
         return sex_map_erker2phenopackets[sex]
     else:
         raise ValueError(f'Unknown sex {sex}')
-    
 
-def parse_phenotyping_date(ph_date: str) -> str: 
+
+def parse_phenotyping_date(phenotyping_date: str) -> str:
     """
     Parses dates of determination of HPO values to ISO8601 UTC timestamp \
     (Required by Phenopackets)
@@ -132,18 +139,12 @@ def parse_phenotyping_date(ph_date: str) -> str:
     Link to Phenopackets documentation, where requirement is defined:
     https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html 
 
-    :param date: The date of a phenotype's determination in the following format: \
-    "YYYY-MM-DD" 
-    :type date: str
+    :param phenotyping_date: Date of a phenotype's determination in "YYYY-MM-DD" format
+    :type phenotyping_date: str
     :return: Date of determination formatted as ISO8601 UTC timestamp
     :raises: Value Error: If date of determination is not in "YYYY-MM-DD" format
     """
-    try: 
-        return\
-           f'{datetime.strptime(ph_date, "%Y-%m-%d").strftime("%Y-%m-%dT00:00:00.00Z")}'
-    except ValueError:
-        # If parsing fails, raise a ValueError
-        raise ValueError("Invalid date format. Please use YYYY-MM-DD format.")
+    return parse_date_string_to_iso8601_utc_timestamp(phenotyping_date)
 
 
 def parse_zygosity(zygosity):
