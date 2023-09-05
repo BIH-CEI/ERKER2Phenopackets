@@ -4,7 +4,7 @@ from typing import List
 import polars as pl
 from phenopackets import Phenopacket
 
-from src.utils.ParallelizationUtils import calc_chunk_size
+from src.utils import calc_chunk_size, split_dataframe
 
 
 def map_mc4r2phenopackets(df: pl.DataFrame, created_by: str) -> List[Phenopacket]:
@@ -25,6 +25,7 @@ def map_mc4r2phenopackets(df: pl.DataFrame, created_by: str) -> List[Phenopacket
     # divide the DataFrame into chunks
     num_threads = os.cpu_count()
     chunk_sizes = calc_chunk_size(num_chunks=num_threads, num_instances=df.height)
+    chunks = split_dataframe(df=df, chunk_sizes=chunk_sizes)
 
 
     return []
