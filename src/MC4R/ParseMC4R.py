@@ -108,7 +108,7 @@ def parse_sex(sex: str) -> str:
     if sex in sex_map_erker2phenopackets:
         return sex_map_erker2phenopackets[sex]
     else:
-        raise ValueError(f'Unknown sex zygosity {sex}')
+        raise ValueError(f'Unknown sex {sex}')
 
 
 def parse_zygosity(zygosity):
