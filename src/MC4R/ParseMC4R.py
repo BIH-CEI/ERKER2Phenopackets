@@ -1,6 +1,5 @@
-from datetime import datetime
-
 from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
+from ..utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp
 
 
 # 1. method definition
@@ -138,12 +137,8 @@ def parse_phenotyping_date(ph_date: str) -> str:
     :return: Date of determination formatted as ISO8601 UTC timestamp
     :raises: Value Error: If date of determination is not in "YYYY-MM-DD" format
     """
-    try: 
-        return\
-           f'{datetime.strptime(ph_date, "%Y-%m-%d").strftime("%Y-%m-%dT00:00:00.00Z")}'
-    except ValueError:
-        # If parsing fails, raise a ValueError
-        raise ValueError("Invalid date format. Please use YYYY-MM-DD format.")
+    return parse_date_string_to_iso8601_utc_timestamp(ph_date)
+
 
 
 def parse_zygosity(zygosity):
