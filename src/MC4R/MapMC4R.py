@@ -23,6 +23,8 @@ def map_mc4r2phenopackets(
     :type df: pl.DataFrame
     :param created_by: Name of creator
     :type created_by: str
+    :param num_threads: Maximum number of threads to use, defaults to the number of CPUs
+    :type num_threads: int, optional
     :return: List of Phenopackets
     :rtype: List[Phenopacket]
     """
