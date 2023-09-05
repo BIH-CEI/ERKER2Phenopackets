@@ -33,6 +33,7 @@ def parse_year_month_day_to_iso8601_utc_timestamp(
     :type day: Union[str, int]
     :return: Date formatted as ISO8601 UTC timestamp
     :rtype: str
+    :raises: ValueError: If month is not between 1 and 12 or day is not between 1 and 31
     """
     if isinstance(year, str):
         year = int(year)
@@ -40,6 +41,11 @@ def parse_year_month_day_to_iso8601_utc_timestamp(
         month = int(month)
     if isinstance(day, str):
         day = int(day)
+    if 0 < month > 12:
+        raise ValueError(f'Month must be between 1 and 12. Got {month}')
+    if 0 < day > 31:
+        raise ValueError(f'Day must be between 1 and 31. Got {day}')
+
     formatted_date = f'{year:04d}-{month:02d}-{day:02d}T00:00:00.00Z'
 
     return formatted_date
