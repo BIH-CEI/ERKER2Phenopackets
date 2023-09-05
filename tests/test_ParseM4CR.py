@@ -12,16 +12,9 @@ def test_parse_year_of_birth():
 
 
 def test_parse_date_of_diagnosis():
-    example_year = 2004
-    example_month = "04"
-    example_day = 21
-    expected_ret = "2004-04-21T00:00:00.00Z"
-
-    assert parse_date_of_diagnosis(
-        example_year,
-        example_month,
-        example_day
-    ) == expected_ret
+    example_date = "2018-04-12"
+    expected_ret = "2018-04-12T00:00:00.00Z"
+    assert parse_date_of_diagnosis(example_date) == expected_ret
 
 
 @pytest.mark.parametrize(
