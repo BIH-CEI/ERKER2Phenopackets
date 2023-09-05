@@ -37,8 +37,19 @@ def split_dataframe(df: pl.DataFrame, chunk_sizes: List[int]) -> List[pl.DataFra
     :type df: pd.DataFrame
     :return: List of DataFrames
     :rtype: List[pd.DataFrame]
+    :raises ValueError: If chunk_sizes is None or empty
     """
-    return []
+    if chunk_sizes is None or len(chunk_sizes) == 0:
+        raise ValueError("chunk_sizes must not be None or empty")
+    if len(chunk_sizes) == 1:
+        return [df]
+    chunk_intervals = [
+        (sum(chunk_sizes[:i]), chunk_sizes[i])
+        for i in range(len(chunk_sizes))
+    ]
+    for start, length in chunk_intervals:
+        print(f'start: {start}, length: {length}')
+    return [df.slice(start, length) for (start, length) in chunk_intervals]
 
 
 if __name__ == "__main__":
