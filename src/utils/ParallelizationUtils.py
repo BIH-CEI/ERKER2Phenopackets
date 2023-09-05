@@ -24,7 +24,3 @@ def calc_chunk_size(num_instance: int, num_chunks: int) -> List[int]:
         chunk_size + 1 if i < remainder else chunk_size for i in range(num_chunks)
     ]
     return chunk_sizes
-
-
-if __name__ == "__main__":
-    print(calc_chunk_size(11, 2))
