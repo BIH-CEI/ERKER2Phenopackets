@@ -1,5 +1,7 @@
 from typing import List
 
+import polars as pl
+
 
 def calc_chunk_size(num_instance: int, num_chunks: int) -> List[int]:
     """
@@ -24,3 +26,31 @@ def calc_chunk_size(num_instance: int, num_chunks: int) -> List[int]:
         chunk_size + 1 if i < remainder else chunk_size for i in range(num_chunks)
     ]
     return chunk_sizes
+
+
+def split_dataframe(df: pl.DataFrame, chunk_sizes: List[int]) -> List:
+    """
+    Split DataFrame into chunks.
+    :param chunk_sizes: List of chunk sizes
+    :type chunk_sizes: List[int]
+    :param df: DataFrame
+    :type df: pd.DataFrame
+    :return: List of DataFrames
+    :rtype: List[pd.DataFrame]
+    """
+    return []
+
+
+if __name__ == "__main__":
+    df = pl.DataFrame(
+        {
+            "a": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            "b": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            "c": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        }
+    )
+    # chunk_sizes = calc_chunk_size(num_instance=df.height, num_chunks=3)
+    # for df_sub in split_dataframe(df, chunk_sizes):
+    #     print(df_sub.height)
+    df_sub = df.slice(0, 20)
+    print(f'height: {df_sub.height}, type: {type(df_sub)}')
