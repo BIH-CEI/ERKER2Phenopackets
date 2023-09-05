@@ -28,7 +28,7 @@ def parse_year_of_birth(year_of_birth: int) -> str:
 
     Example:
     parse_year_of_birth(2002)
-    >>> “2002-01-01T00:00:00Z”
+    >>> “2002-01-01T00:00:00.00Z”
     
     Link to Phenopackets documentation, where requirement is defined:
     https://phenopacket-schema.readthedocs.io/en/latest/individual.html
@@ -42,7 +42,7 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     if year_of_birth < 1900 or year_of_birth > 2023:
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
                          f'but was {year_of_birth}')
-    return f'{year_of_birth}-01-01T00:00:00Z'
+    return f'{year_of_birth}-01-01T00:00:00.00Z'
 
 
 def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
@@ -110,7 +110,7 @@ def parse_sex(sex: str) -> str:
     if sex in sex_map_erker2phenopackets:
         return sex_map_erker2phenopackets[sex]
     else:
-        raise ValueError(f'Unknown sex zygosity {sex}')
+        raise ValueError(f'Unknown sex {sex}')
     
 
 def parse_phenotyping_date(ph_date: str) -> str: 
