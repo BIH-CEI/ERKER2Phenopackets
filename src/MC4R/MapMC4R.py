@@ -1,4 +1,5 @@
 import os
+from concurrent.futures import ThreadPoolExecutor
 from typing import List
 
 import polars as pl
@@ -7,7 +8,10 @@ from phenopackets import Phenopacket
 from src.utils import calc_chunk_size, split_dataframe
 
 
-def map_mc4r2phenopackets(df: pl.DataFrame, created_by: str) -> List[Phenopacket]:
+def map_mc4r2phenopackets(
+        df: pl.DataFrame, created_by: str,
+        num_threads: int = os.cpu_count(),
+) -> List[Phenopacket]:
     """
     Map MC4R DataFrame to List of Phenopackets.
 
@@ -23,16 +27,18 @@ def map_mc4r2phenopackets(df: pl.DataFrame, created_by: str) -> List[Phenopacket
     :rtype: List[Phenopacket]
     """
     # divide the DataFrame into chunks
-    num_threads = os.cpu_count()
     chunk_sizes = calc_chunk_size(num_chunks=num_threads, num_instances=df.height)
     chunks = split_dataframe(df=df, chunk_sizes=chunk_sizes)
 
+    with ThreadPoolExecutor(max_workers=num_threads) as executor:
+        collected_results = list(executor.map(_map_chunk, chunks))
 
-    return []
+    # Collect results from all threads into a single list
+    results = [result for result_list in collected_results for result in result_list]
+
+    return results
 
 
-def _map_chunk():
-    pass
-
-
-
+def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
+    # TODO: Implement mapping
+    raise NotImplementedError
