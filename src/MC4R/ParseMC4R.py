@@ -1,5 +1,6 @@
 from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
-from ..utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp
+from ..utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp, \
+    parse_year_month_day_to_iso8601_utc_timestamp
 
 
 # 1. method definition
@@ -79,9 +80,7 @@ def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
         raise ValueError(f'Date of diagnosis is not valid: year={year}, month={month},\
                           day={day}')
 
-    formatted_date = f'{year:04d}-{int(month):02d}-{day:02d}T00:00:00.00Z'
-
-    return formatted_date
+    return parse_year_month_day_to_iso8601_utc_timestamp(year, month, day)
 
 
 def parse_sex(sex: str) -> str:
