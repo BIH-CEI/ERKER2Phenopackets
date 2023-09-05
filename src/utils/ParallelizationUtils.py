@@ -9,9 +9,18 @@ def calc_chunk_size(num_instance: int, num_chunks: int) -> List[int]:
     :param num_chunks: Number of chunks
     :type num_chunks: int
     :return: List of chunk sizes
+    :rtype: List[int]
     """
     chunk_size = num_instance // num_chunks
     remainder = num_instance % num_chunks
-    chunk_sizes = [chunk_size] * num_chunks
 
-    return []
+    # remainder is necessarily smaller than num_chunks
+    # therefore, we can just add 1 to the first remainder number of chunks
+    chunk_sizes = [
+        chunk_size + 1 if i < remainder else chunk_size for i in range(num_chunks)
+    ]
+    return chunk_sizes
+
+
+if __name__ == "__main__":
+    print(calc_chunk_size(11, 2))
