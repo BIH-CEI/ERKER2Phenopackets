@@ -10,7 +10,11 @@ def calc_chunk_size(num_instance: int, num_chunks: int) -> List[int]:
     :type num_chunks: int
     :return: List of chunk sizes
     :rtype: List[int]
+    :raises ValueError: If num_chunks or num_instance is 0
     """
+    if num_chunks == 0 or num_instance == 0:
+        raise ValueError("num_chunks and num_instance must be greater than 0")
+
     chunk_size = num_instance // num_chunks
     remainder = num_instance % num_chunks
 
