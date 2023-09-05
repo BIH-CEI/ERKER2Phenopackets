@@ -1,0 +1,18 @@
+import pytest
+
+from src.utils.ParallelizationUtils import calc_chunk_size
+
+
+@pytest.mark.parametrize(
+    ('num_instances', 'num_chunks', 'expected'),
+    (
+        (16, 3, [6, 5, 5]),
+        (16, 4, [4, 4, 4, 4]),
+        (16, 5, [4, 3, 3, 3, 3]),
+        (129, 2, [65, 64]),
+        (0, 3, []),
+        (3, 0, []),
+    )
+)
+def test_calc_chunk_size(num_instance, num_chunks, expected):
+    assert calc_chunk_size(num_instance, num_chunks) == expected
