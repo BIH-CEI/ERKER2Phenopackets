@@ -139,9 +139,8 @@ def parse_phenotyping_date(phenotyping_date: str) -> str:
     Link to Phenopackets documentation, where requirement is defined:
     https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html 
 
-    :param phenotyping_date: The date of a phenotype's determination in the following format: \
-    "YYYY-MM-DD" 
-    :type date: str
+    :param phenotyping_date: Date of a phenotype's determination in "YYYY-MM-DD" format
+    :type phenotyping_date: str
     :return: Date of determination formatted as ISO8601 UTC timestamp
     :raises: Value Error: If date of determination is not in "YYYY-MM-DD" format
     """
