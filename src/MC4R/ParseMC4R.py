@@ -42,7 +42,7 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     if year_of_birth < 1900 or year_of_birth > 2023:
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
                          f'but was {year_of_birth}')
-    return f'{year_of_birth}-01-01T00:00:00.00Z'
+    return parse_year_month_day_to_iso8601_utc_timestamp(year_of_birth, 1, 1)
 
 
 def parse_date_of_diagnosis(year: str, month: str, day: str) -> str:
