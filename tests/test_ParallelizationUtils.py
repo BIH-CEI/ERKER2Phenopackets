@@ -59,5 +59,9 @@ def test_calc_chunk_size_invalid_params(num_instances, num_chunks, expected):
 def test_split_dataframe(df, num_chunks):
     chunk_sizes = calc_chunk_size(num_instances=df.height, num_chunks=num_chunks)
 
-    for i, df_sub in enumerate(split_dataframe(df, chunk_sizes)):
+    result = split_dataframe(df, chunk_sizes)
+
+    assert len(result) == num_chunks # correct number of chunks
+
+    for i, df_sub in enumerate(result): # correct chunk sizes
         assert df_sub.height == chunk_sizes[i]
