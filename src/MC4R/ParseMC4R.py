@@ -1,5 +1,3 @@
-from typing import Union
-
 from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
 from ..utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp, \
     parse_year_month_day_to_iso8601_utc_timestamp
