@@ -239,8 +239,6 @@ def _create_metadata(
     return meta_data
 
 
-def _map_individual(
-    
-    
-    
-)
+def _map_individual(year_of_birth, sex) -> Individual: 
+    pass
+
