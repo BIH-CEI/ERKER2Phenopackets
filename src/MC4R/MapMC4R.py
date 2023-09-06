@@ -13,8 +13,7 @@ def map_mc4r2phenopackets(
         df: pl.DataFrame, created_by: str,
         num_threads: int = os.cpu_count(),
 ) -> List[Phenopacket]:
-    """
-    Map MC4R DataFrame to List of Phenopackets.
+    """Maps MC4R DataFrame to List of Phenopackets.
 
     Maps the MC4R DataFrame to a list of Phenopackets. Each row in the DataFrame
     represents a single Phenopacket. The Phenopacket.id is the index of the row.
