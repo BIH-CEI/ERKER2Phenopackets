@@ -179,8 +179,9 @@ def parse_omim(omim: str) -> str:
     pattern_with_out_suffix = r'\d{6}'
     
     if omim is None:
-        # TODO: cfg val
-        return 'test'
+        config = configparser.ConfigParser()
+        config.read('../../data/config/config.cfg')
+        return config.get('NoValue', 'omim')
     elif re.match(pattern=pattern_with_suffix, text=omim) or re.match(pattern=pattern_with_out_suffix, text=omim):
         return 'OMIM:' + omim
     else:
