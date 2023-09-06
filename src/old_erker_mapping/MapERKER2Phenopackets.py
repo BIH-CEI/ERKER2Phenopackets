@@ -237,3 +237,10 @@ def _create_metadata(
     )
 
     return meta_data
+
+
+def _map_individual(
+    
+    
+    
+)
