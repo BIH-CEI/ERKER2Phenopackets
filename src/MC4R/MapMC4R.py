@@ -80,3 +80,22 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     return individual
 
+
+def _map_gene_descriptor(hgnc: str, symbol: str) -> GeneDescriptor:
+    """Maps ERKER hgnc data to GeneDescriptor block
+
+    Phenopackets Documentation of the GeneDescriptor block:
+    https://phenopacket-schema.readthedocs.io/en/latest/gene.html?highlight
+    =GeneDescriptor
+
+    :param hgnc: the HGNC gene code of the patient
+    :type hgnc: str
+    :return: GeneDescriptor Phenopackets block
+    :rtype: GeneDescriptor
+    """
+    gene_descriptor = GeneDescriptor(
+        value_id=hgnc,
+        symbold='THIS IS MISSING',  # TODO: symbol is missing but required
+    )
+
+    return gene_descriptor
