@@ -143,7 +143,7 @@ def parse_zygosity(zygosity: str) -> str:
     https://phenopacket-schema.readthedocs.io/en/latest/variant.html#rstvariant 
 
     :param zygosity: The zygosity of the patient's genetic record.
-    :type sex: str
+    :type zygosity: str
     :return: A string code representing the zygosity of the patient.
     :raises: Value Error: If the zygosity string is not a valid LOINC code
     """
@@ -152,22 +152,23 @@ def parse_zygosity(zygosity: str) -> str:
     else:
         raise ValueError(f'Unknown zygosity {zygosity}')
     
-    def parse_omim(omim: str) -> str:
-        """
-        Parses the OMIM Code of a patient entry from ERKER to the Phenopackets \
-        OMIM structure
+def parse_omim(omim: str) -> str:
+    """
+    Parses the OMIM Code of a patient entry from ERKER to the Phenopackets \
+    OMIM structure
 
-        Example:
-        parse_omim(155541.0024)
-        >>> 'OMIM:155541.0024'
+    Example:
+    parse_omim(155541.0024)
+    >>> 'OMIM:155541.0024'
 
-        Link to Phenopackets documentation, where requirement is defined:
-        https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
-        
-        
-        :param zygosity: The OMIM of the patient's genetic record.
-        :type sex: str
-        :return: A string code representing the zygosity of the patient.
-        :raises: Value Error: If the zygosity string is not a valid LOINC code
-        """
+    Link to Phenopackets documentation, where requirement is defined:
+    https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
+    
+    
+    :param omim: OMIM code of the patient's genetic record.
+    :type omim: str
+    :return: a patient's OMIM code in Phenopacket representation
+    :raises: Value Error: If the OMIM string is not a OMIM code
+    """
+    
         
