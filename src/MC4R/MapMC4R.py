@@ -52,6 +52,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             year_of_birth='test',
             sex='test'
         )
+        print(individual)
     raise NotImplementedError
     # return []
 
