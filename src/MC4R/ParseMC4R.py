@@ -125,7 +125,7 @@ def parse_phenotyping_date(phenotyping_date: str) -> str:
     return parse_date_string_to_iso8601_utc_timestamp(phenotyping_date)
 
 
-def parse_zygosity(zygosity):
+def parse_zygosity(zygosity: str) -> str:
     """
     Parses the zygosity (LOINC) of a patient entry from ERKER to a Phenopackets
     Zygosity code.
@@ -151,3 +151,23 @@ def parse_zygosity(zygosity):
         return zygosity_map_erker2phenopackets[zygosity]
     else:
         raise ValueError(f'Unknown zygosity {zygosity}')
+    
+    def parse_omim(omim: str) -> str:
+        """
+        Parses the OMIM Code of a patient entry from ERKER to the Phenopackets \
+        OMIM structure
+
+        Example:
+        parse_omim(155541.0024)
+        >>> 'OMIM:155541.0024'
+
+        Link to Phenopackets documentation, where requirement is defined:
+        https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
+        
+        
+        :param zygosity: The OMIM of the patient's genetic record.
+        :type sex: str
+        :return: A string code representing the zygosity of the patient.
+        :raises: Value Error: If the zygosity string is not a valid LOINC code
+        """
+        
