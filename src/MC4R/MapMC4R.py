@@ -4,6 +4,7 @@ from typing import List
 
 import polars as pl
 from phenopackets import Phenopacket
+from phenopackets import Individual, OntologyClass
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -42,5 +43,41 @@ def map_mc4r2phenopackets(
 
 
 def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
-    # TODO: Implement mapping
+    for row in chunk.rows(named=True):
+        phenopacket_id = row['record_id']
+
+        # TODO: Implement mapping
+        individual = _map_individual(
+            phenopacket_id=phenopacket_id,
+            year_of_birth='test',
+            sex='test'
+        )
+        print(individual)
     raise NotImplementedError
+    # return []
+
+
+def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Individual:
+    """Maps ERKER patient data to Individual block
+
+    Phenopackets Documentation of the Individual block:
+    https://phenopacket-schema.readthedocs.io/en/latest/individual.html
+
+    :param phenopacket_id: ID of the individual
+    :type phenopacket_id: str
+    :param year_of_birth: Year of birth of the individual
+    :type year_of_birth: str
+    :param sex: Sex of the individual
+    :type sex: str
+    :return: Individual Phenopacket block
+    :rtype: Individual
+    """
+    individual = Individual(
+        id=phenopacket_id,
+        date_of_birth=year_of_birth,
+        sex=sex,
+        taxonomy=OntologyClass(id='NCBITaxon:9606', label='Homo sapiens')
+    )
+
+    return individual
+
