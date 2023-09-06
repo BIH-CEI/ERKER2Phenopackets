@@ -43,8 +43,19 @@ def map_mc4r2phenopackets(
 
 
 def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
-    # TODO: Implement mapping
+    for row in chunk.rows(named=True):
+        phenopacket_id = row['record_id']
+
+        # TODO: Implement mapping
+        individual = _map_individual(
+            phenopacket_id=phenopacket_id,
+            year_of_birth='test',
+            sex='test'
+        )
     raise NotImplementedError
+    # return []
+
+
 def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Individual:
     """Maps ERKER patient data to Individual block
 
