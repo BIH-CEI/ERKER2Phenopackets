@@ -5,6 +5,7 @@ from typing import List
 import polars as pl
 from phenopackets import Phenopacket
 from phenopackets import Individual, OntologyClass
+from phenopackets import GeneDescriptor
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -52,6 +53,12 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             sex='test'
         )
         print(individual)
+
+        gene_descriptor = _map_gene_descriptor(
+            hgnc=row['ln_48018_6_1'],
+            symbol='THIS IS MISSING'
+        )
+        print(gene_descriptor)
     raise NotImplementedError
     # return []
 
