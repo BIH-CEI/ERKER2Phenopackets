@@ -237,19 +237,3 @@ def _create_metadata(
     )
 
     return meta_data
-
-
-def _map_individual(year_of_birth, sex) -> Individual: 
-    """ Maps ERKER data to Individual block
-    
-
-    Args:
-        year_of_birth (_type_): _description_
-        sex (_type_): _description_
-
-    Returns:
-        Individual: _description_
-    """
-    
-    pass
-
