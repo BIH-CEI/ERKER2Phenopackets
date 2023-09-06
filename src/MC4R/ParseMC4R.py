@@ -3,6 +3,7 @@ from ..utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp, \
     parse_year_month_day_to_iso8601_utc_timestamp
 
 import re
+import configparser
 
 # 1. method definition
 # 2. doc (with examples)
@@ -182,7 +183,7 @@ def parse_omim(omim: str) -> str:
         config = configparser.ConfigParser()
         config.read('../../data/config/config.cfg')
         return config.get('NoValue', 'omim')
-    elif re.match(pattern=pattern_with_suffix, text=omim) or re.match(pattern=pattern_with_out_suffix, text=omim):
+    elif re.match(pattern_with_suffix, omim) or re.match(pattern_with_out_suffix, omim):
         return 'OMIM:' + omim
     else:
         raise ValueError('The OMIM code does not match format "6d.4d" or "6d".')
