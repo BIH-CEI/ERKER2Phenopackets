@@ -4,7 +4,7 @@ from typing import List
 
 import polars as pl
 from phenopackets import Phenopacket
-from phenopackets import Individual, OntologyClass, Disease
+from phenopackets import Individual, OntologyClass, Disease, TimeElement
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -90,7 +90,8 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
 
 def _map_disease(
-        omim: str, orpha: str,
+        omim: str,
+        orpha: str,
         date_of_diagnosis: str) -> Disease:
     """Maps ERKER patient data to Disease block
 
@@ -103,8 +104,18 @@ def _map_disease(
     :param date_of_diagnosis:
     :return:
     """
+    # TODO: i don't know what to do with the omim
+    print(omim)
+    term = OntologyClass(
+        id=orpha,
+        label='' # TODO: put in a human readable label
+    )
+    onset = TimeElement(
+        timestamp=date_of_diagnosis,
+    )
     disease = Disease(
-
+        term=term,
+        onset=onset,
     )
 
     return disease
