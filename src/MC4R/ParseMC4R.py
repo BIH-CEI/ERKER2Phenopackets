@@ -2,6 +2,8 @@ from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
 from ..utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp, \
     parse_year_month_day_to_iso8601_utc_timestamp
 
+import re
+import configparser
 
 # 1. method definition
 # 2. doc (with examples)
@@ -125,7 +127,7 @@ def parse_phenotyping_date(phenotyping_date: str) -> str:
     return parse_date_string_to_iso8601_utc_timestamp(phenotyping_date)
 
 
-def parse_zygosity(zygosity):
+def parse_zygosity(zygosity: str) -> str:
     """
     Parses the zygosity (LOINC) of a patient entry from ERKER to a Phenopackets
     Zygosity code.
@@ -143,7 +145,7 @@ def parse_zygosity(zygosity):
     https://phenopacket-schema.readthedocs.io/en/latest/variant.html#rstvariant 
 
     :param zygosity: The zygosity of the patient's genetic record.
-    :type sex: str
+    :type zygosity: str
     :return: A string code representing the zygosity of the patient.
     :raises: Value Error: If the zygosity string is not a valid LOINC code
     """
@@ -151,3 +153,42 @@ def parse_zygosity(zygosity):
         return zygosity_map_erker2phenopackets[zygosity]
     else:
         raise ValueError(f'Unknown zygosity {zygosity}')
+    
+def parse_omim(omim: str) -> str:
+    """
+    Parses the OMIM Code of a patient entry from ERKER to the Phenopackets \
+    OMIM structure
+
+    Example:
+    parse_omim('155541.0024')
+    >>> 'OMIM:155541.0024'
+    
+    parse_omim('271630')
+    >>> 'OMIM:271630' 
+
+    Link to Phenopackets documentation, where requirement is defined:
+    https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
+    
+    
+    :param omim: OMIM code of the patient's genetic record.
+    :type omim: str
+    :return: a patient's OMIM code in Phenopacket representation
+    :raises: Value Error: If the OMIM string is not a valid OMIM code
+    """
+    
+    pattern_with_suffix = r'\d{6}\.\d{4}'
+    pattern_with_out_suffix = r'\d{6}'
+    
+    if omim is None:
+        config = configparser.ConfigParser()
+        config.read('../../data/config/config.cfg')
+        return config.get('NoValue', 'omim')
+    elif re.match(pattern_with_suffix, omim) or re.match(pattern_with_out_suffix, omim):
+        return 'OMIM:' + omim
+    else:
+        raise ValueError('The OMIM code does not match format "6d.4d" or "6d".')
+        
+          
+    
+    
+        

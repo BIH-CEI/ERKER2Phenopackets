@@ -1,7 +1,7 @@
 import pytest
 
 from src.MC4R.ParseMC4R import parse_year_of_birth, parse_sex, parse_phenotyping_date, \
-    parse_date_of_diagnosis, parse_zygosity
+    parse_date_of_diagnosis, parse_zygosity, parse_omim
 
 
 def test_parse_year_of_birth():
@@ -48,3 +48,14 @@ def test_parse_phenotyping_date():
 )
 def test_parse_zygosity(inp, expected):
     assert parse_zygosity(inp) == expected
+    
+
+@pytest.mark.parametrize(
+    ('inp', 'expected'),
+    (
+        ('155541.0024', 'OMIM:155541.0024'),   
+        ('271630', 'OMIM:271630')
+    )
+)
+def test_parse_omim(inp, expected):
+    assert parse_omim(inp) == expected
