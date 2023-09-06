@@ -9,6 +9,5 @@ zygosity_map_erker2phenopackets = {
     'ln_LA6705-3': 'GENO:0000136', # homozygous
     'ln_LA6706-1': 'GENO:0000135', # heterozygous
     'ln_LA6707-9': 'GENO:0000134', # hemizygous
-    None: 'GENO:0000137', # unspecified zygosity
-    '': 'GENO:0000137'
+    'sct_1220561009': 'GENO:0000137', # unspecified zygosity
 }
