@@ -162,3 +162,4 @@ phenopacket-schema
 
 data/confidential
 .vscode/settings.json
+.DS_Store
