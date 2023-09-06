@@ -2,6 +2,7 @@ from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
 from ..utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp, \
     parse_year_month_day_to_iso8601_utc_timestamp
 
+import re
 
 # 1. method definition
 # 2. doc (with examples)
@@ -158,8 +159,11 @@ def parse_omim(omim: str) -> str:
     OMIM structure
 
     Example:
-    parse_omim(155541.0024)
+    parse_omim('155541.0024')
     >>> 'OMIM:155541.0024'
+    
+    parse_omim('271630')
+    >>> 'OMIM:271630' 
 
     Link to Phenopackets documentation, where requirement is defined:
     https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
@@ -168,7 +172,21 @@ def parse_omim(omim: str) -> str:
     :param omim: OMIM code of the patient's genetic record.
     :type omim: str
     :return: a patient's OMIM code in Phenopacket representation
-    :raises: Value Error: If the OMIM string is not a OMIM code
+    :raises: Value Error: If the OMIM string is not a valid OMIM code
     """
+    
+    pattern_with_suffix = r'\d{6}\.\d{4}'
+    pattern_with_out_suffix = r'\d{6}'
+    
+    if omim is None:
+        # TODO: cfg val
+        return 'test'
+    elif re.match(pattern=pattern_with_suffix, text=omim) or re.match(pattern=pattern_with_out_suffix, text=omim):
+        return 'OMIM:' + omim
+    else:
+        raise ValueError('The OMIM code does not match format "6d.4d" or "6d".')
+        
+          
+    
     
         
