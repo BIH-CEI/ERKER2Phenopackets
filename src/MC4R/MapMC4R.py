@@ -4,7 +4,7 @@ from typing import List
 
 import polars as pl
 from phenopackets import Phenopacket
-from phenopackets import Individual, OntologyClass
+from phenopackets import Individual, OntologyClass, Disease
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -53,6 +53,13 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             sex='test'
         )
         print(individual)
+
+        disease = _map_disease(
+            omim='test',
+            orpha='test',
+            date_of_diagnosis='test'
+        )
+        print(disease)
     raise NotImplementedError
     # return []
 
@@ -81,3 +88,23 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     return individual
 
+
+def _map_disease(
+        omim: str, orpha: str,
+        date_of_diagnosis: str) -> Disease:
+    """Maps ERKER patient data to Disease block
+
+    Phenopackets Documentation of the Disease block:
+    https://phenopacket-schema.readthedocs.io/en/latest/disease.html#rstdisease
+
+    :param omim:
+    :type omim:
+    :param orpha:
+    :param date_of_diagnosis:
+    :return:
+    """
+    disease = Disease(
+
+    )
+
+    return disease
