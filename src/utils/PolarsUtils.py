@@ -255,3 +255,20 @@ def _map_cols_function(df: pl.DataFrame,
     return df.with_columns(
         pl.struct(col_names).apply(function).alias(new_col_name)
     )
+
+
+def fill_null_vals(df: pl.DataFrame, col: str, value: Any) -> pl.DataFrame:
+    """
+    Fill null values in column with value
+    :param df: DataFrame with null values
+    :type df: pl.DataFrame
+    :param col: Name of column with null values
+    :type col: str
+    :param value: Any value to fill the null values in the column
+    :type value: Any
+    :return: Dataframe with filled null values
+    :rtype: pl.DataFrame
+    """
+    return df.with_columns(
+        pl.col(col).fill_null(value=value)
+    )
