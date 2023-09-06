@@ -1,5 +1,3 @@
-import configparser
-import os
 import pytest
 
 from src.MC4R.ParseMC4R import parse_year_of_birth, parse_sex, parse_phenotyping_date, \
