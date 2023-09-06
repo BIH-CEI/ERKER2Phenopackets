@@ -14,7 +14,6 @@ def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
     if date_string is None or date_string == '':
         config = configparser.ConfigParser()
         config.read('../../data/config/config.cfg')
-        print(f'{date_string=} {config.get("NoValue", "date")=}')
         return config.get('NoValue', 'date')
     try:
         stripped = datetime.strptime(date_string, "%Y-%m-%d")
