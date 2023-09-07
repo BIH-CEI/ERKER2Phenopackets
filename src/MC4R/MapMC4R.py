@@ -61,7 +61,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
                   'sct_8116006_4', 'sct_8116006_5'],
             onsets=['sct_8116006_1_date', 'sct_8116006_2_date', 'sct_8116006_3_date',
                     'sct_8116006_4_date', 'sct_8116006_5_date'],
-            labels=['PUT LABEL HERE'] * 5 # TODO
+            labels=['PUT LABEL HERE'] * 5  # TODO
         )
         print(phenotypic_features)
     raise NotImplementedError
@@ -158,9 +158,9 @@ def _map_phenotypic_features(
     onsets = [onset for onset in onsets if not onset == no_date]
     phenotypic_features = list(
         map(
-            lambda t: _map_phenotypic_feature(
-            t[0], t[1], t[2]), zip(hpos, onsets, labels)
+            lambda t: _map_phenotypic_feature(t[0], t[1], t[2]), 
+            zip(hpos, onsets, labels)
         )
     )
-    
+
     return phenotypic_features
