@@ -112,8 +112,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         disease = _map_disease(
             orpha=row['sct_439401001_orpha'],
             date_of_diagnosis=row['parsed_date_of_diagnosis'],
-            label='Obesity due to melanocortin 4 receptor deficiency'  # TODO: add to
-            # config
+            label=config.get('Constants', 'disease_label')
         )
         print(disease)
 
