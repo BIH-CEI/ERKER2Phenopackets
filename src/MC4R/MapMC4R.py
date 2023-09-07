@@ -105,7 +105,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
                 row['sct_439401001_omim_g_1'],
                 row['sct_439401001_omim_g_2']
             ],
-            no_omim='test' # todo: fill with config val
+            no_omim=no_omim
         )
         print(gene_descriptor)
 
