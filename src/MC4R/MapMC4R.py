@@ -120,12 +120,12 @@ def _map_phenotypic_feature(
     :return:
     """
     if label:
-        ontology_class = OntologyClass(
+        phenotype = OntologyClass(
             id=hpo,
             label=label
         )
     else:
-        ontology_class = OntologyClass(
+        phenotype = OntologyClass(
             id=hpo,
         )
 
@@ -134,7 +134,7 @@ def _map_phenotypic_feature(
     )
 
     phenotypic_feature = PhenotypicFeature(
-        type=ontology_class,
+        type=phenotype,
         onset=onset
     )
     return phenotypic_feature
