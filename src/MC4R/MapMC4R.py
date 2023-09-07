@@ -125,3 +125,24 @@ def _map_phenotypic_feature(
         onset=onset
     )
     return phenotypic_feature
+
+
+def _map_phenotypic_features(
+        hpos: List[str],
+        onsets: List[str],
+        labels: List[str] = None) -> List[PhenotypicFeature]:
+    """Maps ERKER patient data to PhenotypicFeature block
+
+    Phenopackets Documentation of the PhenotypicFeature block:
+    https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html
+
+    :param hpos: list of hpo codes
+    :type hpos: List[str]
+    :param onsets: list of onset dates
+    :type onsets: List[str]
+    :param labels: list of human-readable class names, defaults to None
+    :type labels: List[str], optional
+    :return: list of PhenotypicFeature Phenopacket blocks
+    :rtype: List[PhenotypicFeature]
+    """
+    
