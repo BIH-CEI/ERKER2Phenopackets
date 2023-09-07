@@ -4,8 +4,8 @@ from typing import List
 
 import polars as pl
 from phenopackets import Phenopacket
-from phenopackets import Individual, OntologyClass
 from phenopackets import GeneDescriptor
+from phenopackets import Individual, OntologyClass, Disease, TimeElement
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -64,6 +64,15 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             no_omim='test' # todo: fill with config val
         )
         print(gene_descriptor)
+
+        disease = _map_disease(
+            orpha=row['sct_439401001_orpha'],
+            date_of_diagnosis=row['parsed_date_of_diagnosis'],
+            label='Obesity due to melanocortin 4 receptor deficiency'  # TODO: add to
+            # config
+        )
+        print(disease)
+
     raise NotImplementedError
     # return []
 
@@ -92,7 +101,7 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     return individual
 
-
+  
 def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str) -> \
         GeneDescriptor:
     """Maps ERKER gene data to GeneDescriptor block
@@ -125,3 +134,35 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
         )
 
     return gene_descriptor
+
+  
+def _map_disease(
+        orpha: str,
+        date_of_diagnosis: str,
+        label: str) -> Disease:
+    """Maps ERKER patient data to Disease block
+
+    Phenopackets Documentation of the Disease block:
+    https://phenopacket-schema.readthedocs.io/en/latest/disease.html#rstdisease
+
+    :param orpha: Orpha code encoding rare disease
+    :type orpha: str
+    :param date_of_diagnosis: Date of diagnosis
+    :type date_of_diagnosis: str
+    :param label: human-readable class name
+    :type label: str
+    :return: Disease Phenopackets block
+    """
+    term = OntologyClass(
+        id=orpha,
+        label=label
+    )
+    onset = TimeElement(
+        timestamp=date_of_diagnosis,
+    )
+    disease = Disease(
+        term=term,
+        onset=onset,
+    )
+
+    return disease
