@@ -99,7 +99,11 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
     return individual
 
 
-def _map_variation_descriptor(zygosity: str, hgvs: str, ref_allele: str):
+def _map_variation_descriptor(zygosity: str,
+                              p_hgvs: List[str],
+                              c_hgvs: List[str],
+                              ref_allele: str,
+                              no_mutation: str):
     """Maps ERKER patient data to VariationDescriptor block
 
     Phenopackets Documentation of the VariationDescriptor block:
@@ -111,8 +115,13 @@ def _map_variation_descriptor(zygosity: str, hgvs: str, ref_allele: str):
     :return:
     """
     # TODO: ich verstehe nicht ganz wie die struktur hier ausschauen soll
-    print(zygosity, hgvs, ref_allele)
+
+    # TODO: filter hgvs lists to avoid empty vals
+    p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
+    c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
+    expressions = []
     variation_descriptor = VariationDescriptor(
+        id='I don\'t know'
 
     )
     return variation_descriptor
