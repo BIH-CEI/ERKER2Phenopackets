@@ -66,10 +66,12 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
 
         variation_descriptor = _map_variation_descriptor(
             zygosity=row['ln_48007_9'],
-            hgvs='test',
+            p_hgvs=['ln_48005_3_1', 'ln_48005_3_2', 'ln_48005_3_3'],
+            c_hgvs=['ln_48006_6_1', 'ln_48006_6_2', 'ln_48006_6_3'],
             ref_allele='GRCh38 (hg38)',
             no_mutation=no_mutation
         )
+        print(variation_descriptor)
     raise NotImplementedError
     # return []
 
