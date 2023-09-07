@@ -156,13 +156,11 @@ def _map_phenotypic_features(
     # removing missing vals TODO: improve this logic because they can be out of order
     hpos = [hpo for hpo in hpos if not hpo == no_phenotype]
     onsets = [onset for onset in onsets if not onset == no_date]
-    phenotypic_features = []
-    for hpo, onset, label in zip(hpos, onsets, labels):
-        phenotypic_feature = _map_phenotypic_feature(
-            hpo=hpo,
-            onset=onset,
-            label=label
+    phenotypic_features = list(
+        map(
+            lambda t: _map_phenotypic_feature(
+            t[0], t[1], t[2]), zip(hpos, onsets, labels)
         )
-        phenotypic_features.append(phenotypic_feature)
-
+    )
+    
     return phenotypic_features
