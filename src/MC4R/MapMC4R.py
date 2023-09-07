@@ -154,7 +154,7 @@ def _map_variation_descriptor(variant_descriptor_id: str,
     variation_descriptor = VariationDescriptor(
         id=variant_descriptor_id,
         expressions=expressions,
-        allelicState=allelic_state
-
+        allelic_state=allelic_state,
+        vrs_ref_allele_seq=ref_allele,
     )
     return variation_descriptor
