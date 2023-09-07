@@ -160,12 +160,14 @@ def _map_phenotypic_features(
     :return: list of PhenotypicFeature Phenopacket blocks
     :rtype: List[PhenotypicFeature]
     """
-    # removing missing vals TODO: improve this logic because they can be out of order
+    # removing missing vals
     hpos = [hpo for hpo in hpos if not hpo == no_phenotype]
     onsets = [onset for onset in onsets if not onset == no_date]
+
+    # creating phenotypic feature blocks for each hpo code
     phenotypic_features = list(
         map(
-            lambda t: _map_phenotypic_feature(t[0], t[1], t[2]), 
+            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2]),
             zip(hpos, onsets, labels)
         )
     )
