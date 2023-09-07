@@ -106,3 +106,13 @@ def _map_phenotypic_feature(hpo: str, onset: str, label: str = None):
         ontology_class = OntologyClass(
             id=hpo,
         )
+
+    onset = TimeElement(
+        timestamp=onset
+    )
+
+    phenotypic_feature = PhenotypicFeature(
+        type=ontology_class,
+        onset=onset
+    )
+    return phenotypic_feature
