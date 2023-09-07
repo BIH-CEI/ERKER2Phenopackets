@@ -132,6 +132,8 @@ def _map_phenotypic_feature(
 def _map_phenotypic_features(
         hpos: List[str],
         onsets: List[str],
+        no_phenotype: str,
+        no_date: str,
         labels: List[str] = None) -> List[PhenotypicFeature]:
     """Maps ERKER patient data to PhenotypicFeature block
 
@@ -142,11 +144,18 @@ def _map_phenotypic_features(
     :type hpos: List[str]
     :param onsets: list of onset dates
     :type onsets: List[str]
+    :param no_phenotype: no phenotype code
+    :type no_phenotype: str
+    :param no_date: no date code
+    :type no_date: str
     :param labels: list of human-readable class names, defaults to None
     :type labels: List[str], optional
     :return: list of PhenotypicFeature Phenopacket blocks
     :rtype: List[PhenotypicFeature]
     """
+    # removing missing vals TODO: improve this logic because they can be out of order
+    hpos = [hpo for hpo in hpos if not hpo == no_phenotype]
+    onsets = [onset for onset in onsets if not onset == no_date]
     phenotypic_features = []
     for hpo, onset, label in zip(hpos, onsets, labels):
         phenotypic_feature = _map_phenotypic_feature(
