@@ -71,7 +71,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             # same mutation, p=protein, c=coding DNA reference sequence
             p_hgvs=['ln_48005_3_1', 'ln_48005_3_2', 'ln_48005_3_3'],
             c_hgvs=['ln_48006_6_1', 'ln_48006_6_2', 'ln_48006_6_3'],
-            ref_allele='GRCh38 (hg38)',
+            ref_allele='GRCh38 (hg38)', # todo: add to config
             no_mutation=no_mutation
         )
         print(variation_descriptor)
