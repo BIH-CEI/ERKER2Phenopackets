@@ -65,6 +65,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         print(individual)
 
         variation_descriptor = _map_variation_descriptor(
+            variant_descriptor_id='id:A', # TODO: change
             zygosity=row['parsed_zygosity'],
             allele_label=row['allele_label'],
             # same mutation, p=protein, c=coding DNA reference sequence
