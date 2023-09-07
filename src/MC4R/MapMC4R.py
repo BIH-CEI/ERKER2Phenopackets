@@ -100,7 +100,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
 
         gene_descriptor = _map_gene_descriptor(
             hgnc=row['ln_48018_6_1'],
-            symbol='MC4R',  # TODO: add to config
+            symbol=config.get('Constants', 'gene_descriptor_symbol'),
             omims=[
                 row['sct_439401001_omim_g_1'],
                 row['sct_439401001_omim_g_2']
