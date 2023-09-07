@@ -66,7 +66,11 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
                 row['sct_8116006_3_date'], row['sct_8116006_4_date'],
                 row['sct_8116006_5_date']
             ],
-            labels=['PUT LABEL HERE'] * 5,
+            labels=[
+                row['parsed_phenotype_label1'], row['parsed_phenotype_label2'],
+                row['parsed_phenotype_label3'], row['parsed_phenotype_label4'],
+                row['parsed_phenotype_label5']
+            ],
             no_phenotype='test',  # todo: add config
             no_date='test'  # todo: add config
         )
