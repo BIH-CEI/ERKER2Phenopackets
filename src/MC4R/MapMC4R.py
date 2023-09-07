@@ -104,7 +104,8 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
     return individual
 
 
-def _map_variation_descriptor(zygosity: str,
+def _map_variation_descriptor(variant_descriptor_id: str,
+                              zygosity: str,
                               allele_label: str,
                               p_hgvs: List[str],
                               c_hgvs: List[str],
@@ -117,6 +118,8 @@ def _map_variation_descriptor(zygosity: str,
     Phenopackets Documentation of the VariationDescriptor block:
     https://phenopacket-schema.readthedocs.io/en/latest/variant.html
 
+    :param variant_descriptor_id: ID for the VariantDescriptor block
+    :type variant_descriptor_id: str
     :param zygosity:
     :type zygosity: str
     :param allele_label: human-readable zygosity type
@@ -147,7 +150,7 @@ def _map_variation_descriptor(zygosity: str,
         label=allele_label
     )
     variation_descriptor = VariationDescriptor(
-        id='I don\'t know',
+        id=variant_descriptor_id,
         expressions=expressions,
         allelicState=allelic_state
 
