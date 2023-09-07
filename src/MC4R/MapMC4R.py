@@ -81,19 +81,19 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
                 row['parsed_phenotype_label3'], row['parsed_phenotype_label4'],
                 row['parsed_phenotype_label5']
             ],
-            no_phenotype='test',  # todo: add config
-            no_date='test'  # todo: add config
+            no_phenotype=no_phenotype,
+            no_date=no_date,
         )
         print(phenotypic_features)
 
         variation_descriptor = _map_variation_descriptor(
-            variant_descriptor_id='id:A', # TODO: wait for Daniel's answer
+            variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
             zygosity=row['parsed_zygosity'],
             allele_label=row['allele_label'],
             # same mutation, p=protein, c=coding DNA reference sequence
             p_hgvs=[row['ln_48005_3_1'], row['ln_48005_3_2'], row['ln_48005_3_3']],
             c_hgvs=[row['ln_48006_6_1'], row['ln_48006_6_2'], row['ln_48006_6_3']],
-            ref_allele='GRCh38 (hg38)', # todo: add to config
+            ref_allele=config.get('Constants', 'ref_allele'),
             no_mutation=no_mutation
         )
         print(variation_descriptor)
