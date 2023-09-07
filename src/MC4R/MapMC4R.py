@@ -5,6 +5,7 @@ from typing import List
 
 import polars as pl
 from phenopackets import Phenopacket
+from phenopackets import PhenotypicFeature
 from phenopackets import VariationDescriptor, Expression
 from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
@@ -63,6 +64,27 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             sex='test'
         )
         print(individual)
+
+        phenotypic_features = _map_phenotypic_features(
+            hpos=[
+                row['sct_8116006_1'], row['sct_8116006_2'],
+                row['sct_8116006_3'], row['sct_8116006_4'],
+                row['sct_8116006_5']]
+            ,
+            onsets=[
+                row['sct_8116006_1_date'], row['sct_8116006_2_date'],
+                row['sct_8116006_3_date'], row['sct_8116006_4_date'],
+                row['sct_8116006_5_date']
+            ],
+            labels=[
+                row['parsed_phenotype_label1'], row['parsed_phenotype_label2'],
+                row['parsed_phenotype_label3'], row['parsed_phenotype_label4'],
+                row['parsed_phenotype_label5']
+            ],
+            no_phenotype='test',  # todo: add config
+            no_date='test'  # todo: add config
+        )
+        print(phenotypic_features)
 
         variation_descriptor = _map_variation_descriptor(
             variant_descriptor_id='id:A', # TODO: wait for Daniel's answer
@@ -124,6 +146,81 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     return individual
 
+  
+def _map_phenotypic_feature(
+        hpo: str, onset: str, label: str = None) -> PhenotypicFeature:
+    """Maps ERKER patient data to PhenotypicFeature block
+
+    Phenopackets Documentation of the PhenotypicFeature block:
+    https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html
+
+    :param hpo: hpo code
+    :type hpo: str
+    :param onset: onset date
+    :type onset: str
+    :param label: human-readable class name, defaults to None
+    :type label: str, optional
+    :return:
+    """
+    if label:
+        phenotype = OntologyClass(
+            id=hpo,
+            label=label
+        )
+    else:
+        phenotype = OntologyClass(
+            id=hpo,
+        )
+
+    onset = TimeElement(
+        timestamp=onset
+    )
+
+    phenotypic_feature = PhenotypicFeature(
+        type=phenotype,
+        onset=onset
+    )
+    return phenotypic_feature
+
+
+def _map_phenotypic_features(
+        hpos: List[str],
+        onsets: List[str],
+        no_phenotype: str,
+        no_date: str,
+        labels: List[str] = None) -> List[PhenotypicFeature]:
+    """Maps ERKER patient data to PhenotypicFeature block
+
+    Phenopackets Documentation of the PhenotypicFeature block:
+    https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html
+
+    :param hpos: list of hpo codes
+    :type hpos: List[str]
+    :param onsets: list of onset dates
+    :type onsets: List[str]
+    :param no_phenotype: no phenotype code
+    :type no_phenotype: str
+    :param no_date: no date code
+    :type no_date: str
+    :param labels: list of human-readable class names, defaults to None
+    :type labels: List[str], optional
+    :return: list of PhenotypicFeature Phenopacket blocks
+    :rtype: List[PhenotypicFeature]
+    """
+    # removing missing vals
+    hpos = [hpo for hpo in hpos if not hpo == no_phenotype]
+    onsets = [onset for onset in onsets if not onset == no_date]
+
+    # creating phenotypic feature blocks for each hpo code
+    phenotypic_features = list(
+        map(
+            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2]),
+            zip(hpos, onsets, labels)
+        )
+    )
+
+    return phenotypic_features
+  
   
 def _map_variation_descriptor(variant_descriptor_id: str,
                               zygosity: str,
