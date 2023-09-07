@@ -101,7 +101,6 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
     https://phenopacket-schema.readthedocs.io/en/latest/gene.html?highlight
     =GeneDescriptor
 
-    :param omims:
     :param hgnc: the HGNC gene code of the patient
     :type hgnc: str
     :param omims: List of OMIM codes
