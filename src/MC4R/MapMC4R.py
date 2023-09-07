@@ -1,3 +1,4 @@
+import configparser
 import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import List
@@ -47,6 +48,14 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
     for row in chunk.rows(named=True):
         phenopacket_id = row['record_id']
 
+
+        config = configparser.ConfigParser()
+        config.read('../../data/config/config.cfg')
+        no_mutation = config.get('NoValue', 'mutation')
+        no_phenotype = config.get('NoValue', 'phenotype')
+        no_date = config.get('NoValue', 'date')
+        no_omim = config.get('NoValue', 'omim')
+
         # TODO: Implement mapping
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
@@ -57,9 +66,9 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
 
         variation_descriptor = _map_variation_descriptor(
             zygosity=row['ln_48007_9'],
-            hgvs='test',  # TODO: es gibt viele columns mit hgvs, ich weiss nicht wie
-            # wir das hier strukturieren wollen. Mehrere VariationDescriptor Objekte?
-            ref_allele='GRCh38 (hg38)'
+            hgvs='test',
+            ref_allele='GRCh38 (hg38)',
+            no_mutation=no_mutation
         )
     raise NotImplementedError
     # return []
