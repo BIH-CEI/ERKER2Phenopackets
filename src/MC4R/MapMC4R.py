@@ -115,7 +115,7 @@ def _map_disease(
     print(omim)
     term = OntologyClass(
         id=orpha,
-        label='' # TODO: put in a human readable label
+        label='Obesity due to melanocortin 4 receptor deficiency'
     )
     onset = TimeElement(
         timestamp=date_of_diagnosis,
