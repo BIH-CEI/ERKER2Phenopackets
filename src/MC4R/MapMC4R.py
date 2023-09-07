@@ -48,13 +48,13 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
     for row in chunk.rows(named=True):
         phenopacket_id = row['record_id']
 
-
         config = configparser.ConfigParser()
         config.read('../../data/config/config.cfg')
         no_mutation = config.get('NoValue', 'mutation')
         no_phenotype = config.get('NoValue', 'phenotype')
         no_date = config.get('NoValue', 'date')
         no_omim = config.get('NoValue', 'omim')
+        print(no_mutation, no_phenotype, no_date, no_omim)
 
         # TODO: Implement mapping
         individual = _map_individual(
