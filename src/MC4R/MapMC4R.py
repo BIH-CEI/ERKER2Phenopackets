@@ -54,6 +54,13 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             sex='test'
         )
         print(individual)
+
+        variation_descriptor = _map_variation_descriptor(
+            zygosity=row['ln_48007_9'],
+            hgvs='test',  # TODO: es gibt viele columns mit hgvs, ich weiss nicht wie
+            # wir das hier strukturieren wollen. Mehrere VariationDescriptor Objekte?
+            ref_allele='GRCh38 (hg38)'
+        )
     raise NotImplementedError
     # return []
 
@@ -100,4 +107,3 @@ def _map_variation_descriptor(zygosity: str, hgvs: str, ref_allele: str):
 
     )
     return variation_descriptor
-
