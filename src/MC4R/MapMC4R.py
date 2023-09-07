@@ -106,16 +106,22 @@ def _map_variation_descriptor(zygosity: str,
                               p_hgvs: List[str],
                               c_hgvs: List[str],
                               ref_allele: str,
-                              no_mutation: str):
+                              no_mutation: str) -> VariationDescriptor:
     """Maps ERKER patient data to VariationDescriptor block
 
     Phenopackets Documentation of the VariationDescriptor block:
     https://phenopacket-schema.readthedocs.io/en/latest/variant.html
 
     :param zygosity:
-    :param hgvs:
+    :type zygosity: str
+    :param p_hgvs: List of p.HGVS codes
+    :type p_hgvs: List[str]
+    :param c_hgvs: List of c.HGVS codes
+    :type c_hgvs: List[str]
     :param ref_allele:
-    :return:
+    :type ref_allele: str
+    :return: VariationDescriptor block
+    :rtype: VariationDescriptor
     """
     # TODO: ich verstehe nicht ganz wie die struktur hier ausschauen soll
 
