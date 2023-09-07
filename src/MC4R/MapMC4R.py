@@ -145,4 +145,13 @@ def _map_phenotypic_features(
     :return: list of PhenotypicFeature Phenopacket blocks
     :rtype: List[PhenotypicFeature]
     """
-    
+    phenotypic_features = []
+    for hpo, onset, label in zip(hpos, onsets, labels):
+        phenotypic_feature = _map_phenotypic_feature(
+            hpo=hpo,
+            onset=onset,
+            label=label
+        )
+        phenotypic_features.append(phenotypic_feature)
+
+    return phenotypic_features
