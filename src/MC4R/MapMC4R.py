@@ -60,8 +60,8 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         # TODO: Implement mapping
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
-            year_of_birth='test',
-            sex='test'
+            year_of_birth=row['parsed_year_of_birth'],
+            sex=row['parsed_sex']
         )
         print(individual)
 
