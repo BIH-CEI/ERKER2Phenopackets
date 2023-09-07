@@ -131,13 +131,7 @@ def _map_variation_descriptor(zygosity: str,
     hgvs = p_hgvs + c_hgvs
 
     # TODO: check, right now creating one expression for every hgvs val
-    expressions = [
-        Expression(
-            syntax='hgvs',
-            value=hgvs[i]
-        )
-        for i in range(len(hgvs))
-    ]
+    expressions = list(map(lambda x: Expression(syntax='hgvs', value=x), hgvs))
 
     allelic_state = AllelicState(
         id='I don\'t know',
