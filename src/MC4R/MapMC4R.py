@@ -4,6 +4,7 @@ from typing import List
 
 import polars as pl
 from phenopackets import Phenopacket
+from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
 
 from src.utils import calc_chunk_size, split_dataframe
@@ -13,8 +14,7 @@ def map_mc4r2phenopackets(
         df: pl.DataFrame, created_by: str,
         num_threads: int = os.cpu_count(),
 ) -> List[Phenopacket]:
-    """
-    Map MC4R DataFrame to List of Phenopackets.
+    """Maps MC4R DataFrame to List of Phenopackets.
 
     Maps the MC4R DataFrame to a list of Phenopackets. Each row in the DataFrame
     represents a single Phenopacket. The Phenopacket.id is the index of the row.
@@ -54,6 +54,17 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         )
         print(individual)
 
+        gene_descriptor = _map_gene_descriptor(
+            hgnc=row['ln_48018_6_1'],
+            symbol='MC4R',  # TODO: add to config
+            omims=[
+                row['sct_439401001_omim_g_1'],
+                row['sct_439401001_omim_g_2']
+            ],
+            no_omim='test' # todo: fill with config val
+        )
+        print(gene_descriptor)
+
         disease = _map_disease(
             orpha=row['sct_439401001_orpha'],
             date_of_diagnosis=row['parsed_date_of_diagnosis'],
@@ -90,7 +101,41 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     return individual
 
+  
+def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str) -> \
+        GeneDescriptor:
+    """Maps ERKER gene data to GeneDescriptor block
 
+    Phenopackets Documentation of the GeneDescriptor block:
+    https://phenopacket-schema.readthedocs.io/en/latest/gene.html?highlight
+    =GeneDescriptor
+
+    :param hgnc: the HGNC gene code of the patient
+    :type hgnc: str
+    :param omims: List of OMIM codes
+    :type omims: List[str]
+    :param no_omim: symbol for missing omim
+    :type no_omim: str
+    :return: GeneDescriptor Phenopackets block
+    :rtype: GeneDescriptor
+    """
+    omims = [omim for omim in omims if not omim == no_omim]  # filter out null vals
+
+    if omims:  # omims not empty
+        gene_descriptor = GeneDescriptor(
+            value_id=hgnc,
+            symbold=symbol,
+            alternateIds=omims
+        )
+    else:  # omims empty
+        gene_descriptor = GeneDescriptor(
+            value_id=hgnc,
+            symbold=symbol,
+        )
+
+    return gene_descriptor
+
+  
 def _map_disease(
         orpha: str,
         date_of_diagnosis: str,
