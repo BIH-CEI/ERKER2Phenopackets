@@ -1,11 +1,14 @@
+import configparser
 import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import List
 
 import polars as pl
 from phenopackets import Phenopacket
-from phenopackets import Individual, OntologyClass
-from phenopackets import TimeElement, PhenotypicFeature
+from phenopackets import PhenotypicFeature
+from phenopackets import VariationDescriptor, Expression
+from phenopackets import GeneDescriptor
+from phenopackets import Individual, OntologyClass, Disease, TimeElement
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -14,8 +17,7 @@ def map_mc4r2phenopackets(
         df: pl.DataFrame, created_by: str,
         num_threads: int = os.cpu_count(),
 ) -> List[Phenopacket]:
-    """
-    Map MC4R DataFrame to List of Phenopackets.
+    """Maps MC4R DataFrame to List of Phenopackets.
 
     Maps the MC4R DataFrame to a list of Phenopackets. Each row in the DataFrame
     represents a single Phenopacket. The Phenopacket.id is the index of the row.
@@ -47,6 +49,14 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
     for row in chunk.rows(named=True):
         phenopacket_id = row['record_id']
 
+        config = configparser.ConfigParser()
+        config.read('../../data/config/config.cfg')
+        no_mutation = config.get('NoValue', 'mutation')
+        no_phenotype = config.get('NoValue', 'phenotype')
+        no_date = config.get('NoValue', 'date')
+        no_omim = config.get('NoValue', 'omim')
+        print(no_mutation, no_phenotype, no_date, no_omim)
+
         # TODO: Implement mapping
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
@@ -75,6 +85,38 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             no_date='test'  # todo: add config
         )
         print(phenotypic_features)
+
+        variation_descriptor = _map_variation_descriptor(
+            variant_descriptor_id='id:A', # TODO: wait for Daniel's answer
+            zygosity=row['parsed_zygosity'],
+            allele_label=row['allele_label'],
+            # same mutation, p=protein, c=coding DNA reference sequence
+            p_hgvs=[row['ln_48005_3_1'], row['ln_48005_3_2'], row['ln_48005_3_3']],
+            c_hgvs=[row['ln_48006_6_1'], row['ln_48006_6_2'], row['ln_48006_6_3']],
+            ref_allele='GRCh38 (hg38)', # todo: add to config
+            no_mutation=no_mutation
+        )
+        print(variation_descriptor)
+
+        gene_descriptor = _map_gene_descriptor(
+            hgnc=row['ln_48018_6_1'],
+            symbol='MC4R',  # TODO: add to config
+            omims=[
+                row['sct_439401001_omim_g_1'],
+                row['sct_439401001_omim_g_2']
+            ],
+            no_omim='test' # todo: fill with config val
+        )
+        print(gene_descriptor)
+
+        disease = _map_disease(
+            orpha=row['sct_439401001_orpha'],
+            date_of_diagnosis=row['parsed_date_of_diagnosis'],
+            label='Obesity due to melanocortin 4 receptor deficiency'  # TODO: add to
+            # config
+        )
+        print(disease)
+
     raise NotImplementedError
     # return []
 
@@ -84,6 +126,7 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     Phenopackets Documentation of the Individual block:
     https://phenopacket-schema.readthedocs.io/en/latest/individual.html
+    ?highlight=ref%20allele#hgvs
 
     :param phenopacket_id: ID of the individual
     :type phenopacket_id: str
@@ -103,7 +146,7 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     return individual
 
-
+  
 def _map_phenotypic_feature(
         hpo: str, onset: str, label: str = None) -> PhenotypicFeature:
     """Maps ERKER patient data to PhenotypicFeature block
@@ -177,3 +220,124 @@ def _map_phenotypic_features(
     )
 
     return phenotypic_features
+  
+  
+def _map_variation_descriptor(variant_descriptor_id: str,
+                              zygosity: str,
+                              allele_label: str,
+                              p_hgvs: List[str],
+                              c_hgvs: List[str],
+                              ref_allele: str,
+                              no_mutation: str) -> VariationDescriptor:
+    """Maps ERKER patient data to VariationDescriptor block
+
+    p.HGVS and c.HGVS is the same mutation, p=protein, c=coding DNA reference sequence
+
+    Phenopackets Documentation of the VariationDescriptor block:
+    https://phenopacket-schema.readthedocs.io/en/latest/variant.html
+
+    :param variant_descriptor_id: ID for the VariantDescriptor block
+    :type variant_descriptor_id: str
+    :param zygosity: zygosity LOINC code 
+    :type zygosity: str
+    :param allele_label: human-readable zygosity type
+    :type allele_label: str
+    :param p_hgvs: List of p.HGVS codes (protein)
+    :type p_hgvs: List[str]
+    :param c_hgvs: List of c.HGVS codes (coding DNA reference sequence)
+    :type c_hgvs: List[str]
+    :param ref_allele: the corresponding reference allele, e.g.: hg38
+    :type ref_allele: str
+    :return: VariationDescriptor block
+    :rtype: VariationDescriptor
+    """
+    # filter hgvs lists to avoid null vals
+    p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
+    c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
+    hgvs = p_hgvs + c_hgvs
+
+    # create new expression for each hgvs code
+    expressions = list(
+        map(
+            lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
+            hgvs
+        )
+    )
+
+    allelic_state = OntologyClass(
+        id=zygosity,
+        label=allele_label
+    )
+    variation_descriptor = VariationDescriptor(
+        id=variant_descriptor_id,
+        expressions=expressions,
+        allelic_state=allelic_state,
+        vrs_ref_allele_seq=ref_allele,
+    )
+    return variation_descriptor
+  
+  
+def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str) -> \
+        GeneDescriptor:
+    """Maps ERKER gene data to GeneDescriptor block
+
+    Phenopackets Documentation of the GeneDescriptor block:
+    https://phenopacket-schema.readthedocs.io/en/latest/gene.html?highlight
+    =GeneDescriptor
+
+    :param hgnc: the HGNC gene code of the patient
+    :type hgnc: str
+    :param omims: List of OMIM codes
+    :type omims: List[str]
+    :param no_omim: symbol for missing omim
+    :type no_omim: str
+    :return: GeneDescriptor Phenopackets block
+    :rtype: GeneDescriptor
+    """
+    omims = [omim for omim in omims if not omim == no_omim]  # filter out null vals
+
+    if omims:  # omims not empty
+        gene_descriptor = GeneDescriptor(
+            value_id=hgnc,
+            symbold=symbol,
+            alternateIds=omims
+        )
+    else:  # omims empty
+        gene_descriptor = GeneDescriptor(
+            value_id=hgnc,
+            symbold=symbol,
+        )
+
+    return gene_descriptor
+
+  
+def _map_disease(
+        orpha: str,
+        date_of_diagnosis: str,
+        label: str) -> Disease:
+    """Maps ERKER patient data to Disease block
+
+    Phenopackets Documentation of the Disease block:
+    https://phenopacket-schema.readthedocs.io/en/latest/disease.html#rstdisease
+
+    :param orpha: Orpha code encoding rare disease
+    :type orpha: str
+    :param date_of_diagnosis: Date of diagnosis
+    :type date_of_diagnosis: str
+    :param label: human-readable class name
+    :type label: str
+    :return: Disease Phenopackets block
+    """
+    term = OntologyClass(
+        id=orpha,
+        label=label
+    )
+    onset = TimeElement(
+        timestamp=date_of_diagnosis,
+    )
+    disease = Disease(
+        term=term,
+        onset=onset,
+    )
+
+    return disease

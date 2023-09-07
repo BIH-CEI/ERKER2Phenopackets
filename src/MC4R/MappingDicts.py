@@ -18,3 +18,11 @@ phenotype_label_map_erker2phenopackets = {
     "HP:0025499": 'Class I obesity',
     "HP:0025502": 'Overweight',
 }
+
+allele_label_map_erker2phenopackets = {
+    'ln_LA6705-3': 'homozygous',
+    'ln_LA6706-1': 'heterozygous',
+    'ln_LA6707-9': 'hemizygous',
+    'sct_1220561009': 'unspecified zygosity',
+  
+}
