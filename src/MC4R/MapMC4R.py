@@ -56,7 +56,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
 
         gene_descriptor = _map_gene_descriptor(
             hgnc=row['ln_48018_6_1'],
-            symbol='THIS IS MISSING'
+            symbol='MC4R'
         )
         print(gene_descriptor)
     raise NotImplementedError
@@ -102,7 +102,7 @@ def _map_gene_descriptor(hgnc: str, symbol: str) -> GeneDescriptor:
     """
     gene_descriptor = GeneDescriptor(
         value_id=hgnc,
-        symbold='THIS IS MISSING',  # TODO: symbol is missing but required
+        symbold=symbol,
     )
 
     return gene_descriptor
