@@ -81,3 +81,16 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     return individual
 
+
+def _map_variation_descriptor(zygosity: str, hgvs: str, ref_allele: str):
+    """Maps ERKER patient data to VariationDescriptor block
+
+    Phenopackets Documentation of the VariationDescriptor block:
+    https://phenopacket-schema.readthedocs.io/en/latest/variant.html
+
+    :param zygosity:
+    :param hgvs:
+    :param ref_allele:
+    :return:
+    """
+
