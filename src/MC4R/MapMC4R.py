@@ -98,15 +98,20 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
 def _map_disease(
         orpha: str,
-        date_of_diagnosis: str) -> Disease:
+        date_of_diagnosis: str,
+        label: str) -> Disease:
     """Maps ERKER patient data to Disease block
 
     Phenopackets Documentation of the Disease block:
     https://phenopacket-schema.readthedocs.io/en/latest/disease.html#rstdisease
 
-    :param orpha:
-    :param date_of_diagnosis:
-    :return:
+    :param orpha: Orpha code encoding rare disease
+    :type orpha: str
+    :param date_of_diagnosis: Date of diagnosis
+    :type date_of_diagnosis: str
+    :param label: human-readable class name
+    :type label: str
+    :return: Disease Phenopackets block
     """
     term = OntologyClass(
         id=orpha,
