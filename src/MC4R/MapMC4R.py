@@ -56,7 +56,12 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
 
         gene_descriptor = _map_gene_descriptor(
             hgnc=row['ln_48018_6_1'],
-            symbol='MC4R'
+            symbol='MC4R',  # TODO: add to config
+            omims=[
+                row['sct_439401001_omim_g_1'],
+                row['sct_439401001_omim_g_2']
+            ],
+            no_omim='test' # todo: fill with config val
         )
         print(gene_descriptor)
     raise NotImplementedError
@@ -88,21 +93,36 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
     return individual
 
 
-def _map_gene_descriptor(hgnc: str, symbol: str) -> GeneDescriptor:
+def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str) -> \
+        GeneDescriptor:
     """Maps ERKER hgnc data to GeneDescriptor block
 
     Phenopackets Documentation of the GeneDescriptor block:
     https://phenopacket-schema.readthedocs.io/en/latest/gene.html?highlight
     =GeneDescriptor
 
+    :param omims:
     :param hgnc: the HGNC gene code of the patient
     :type hgnc: str
+    :param omims: List of OMIM codes
+    :type omims: List[str]
+    :param no_omim: symbol for missing omim
+    :type no_omim: str
     :return: GeneDescriptor Phenopackets block
     :rtype: GeneDescriptor
     """
-    gene_descriptor = GeneDescriptor(
-        value_id=hgnc,
-        symbold=symbol,
-    )
+    omims = [omim for omim in omims if not omim == no_omim]  # filter out null vals
+
+    if omims:  # something in omims
+        gene_descriptor = GeneDescriptor(
+            value_id=hgnc,
+            symbold=symbol,
+            alternateIds=omims
+        )
+    else:  # nothing in omims
+        gene_descriptor = GeneDescriptor(
+            value_id=hgnc,
+            symbold=symbol,
+        )
 
     return gene_descriptor
