@@ -103,39 +103,46 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
 
 def _map_variation_descriptor(zygosity: str,
+                              allele_label: str,
                               p_hgvs: List[str],
                               c_hgvs: List[str],
                               ref_allele: str,
                               no_mutation: str) -> VariationDescriptor:
     """Maps ERKER patient data to VariationDescriptor block
 
+    p.HGVS and c.HGVS is the same mutation, p=protein, c=coding DNA reference sequence
+
     Phenopackets Documentation of the VariationDescriptor block:
     https://phenopacket-schema.readthedocs.io/en/latest/variant.html
 
     :param zygosity:
     :type zygosity: str
-    :param p_hgvs: List of p.HGVS codes
+    :param allele_label: human-readable zygosity type
+    :type allele_label: str
+    :param p_hgvs: List of p.HGVS codes (protein)
     :type p_hgvs: List[str]
-    :param c_hgvs: List of c.HGVS codes
+    :param c_hgvs: List of c.HGVS codes (coding DNA reference sequence)
     :type c_hgvs: List[str]
     :param ref_allele:
     :type ref_allele: str
     :return: VariationDescriptor block
     :rtype: VariationDescriptor
     """
-    # TODO: ich verstehe nicht ganz wie die struktur hier ausschauen soll
-
-    # filter hgvs lists to avoid empty vals
+    # filter hgvs lists to avoid null vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
     hgvs = p_hgvs + c_hgvs
 
-    # TODO: check, right now creating one expression for every hgvs val
-    expressions = list(map(lambda x: Expression(syntax='hgvs', value=x), hgvs))
+    expressions = list(
+        map(
+            lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
+            hgvs
+        )
+    )
 
-    allelic_state = AllelicState(
-        id='I don\'t know',
-        label=zygosity
+    allelic_state = OntologyClass(
+        id=zygosity,
+        label=allele_label
     )
     variation_descriptor = VariationDescriptor(
         id='I don\'t know',
