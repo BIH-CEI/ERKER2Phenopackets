@@ -122,8 +122,14 @@ def _map_variation_descriptor(zygosity: str,
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
     expressions = []
+    allelic_state = AllelicState(
+        id='I don\'t know',
+        label=zygosity
+    )
     variation_descriptor = VariationDescriptor(
-        id='I don\'t know'
+        id='I don\'t know',
+        expressions=expressions,
+        allelicState=allelic_state
 
     )
     return variation_descriptor
