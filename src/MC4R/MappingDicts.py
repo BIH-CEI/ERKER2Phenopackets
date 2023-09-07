@@ -6,8 +6,15 @@ sex_map_erker2phenopackets = {
 }
 
 zygosity_map_erker2phenopackets = {
-    'ln_LA6705-3': 'GENO:0000136', # homozygous
-    'ln_LA6706-1': 'GENO:0000135', # heterozygous
-    'ln_LA6707-9': 'GENO:0000134', # hemizygous
-    'sct_1220561009': 'GENO:0000137', # unspecified zygosity
+    'ln_LA6705-3': 'GENO:0000136',  # homozygous
+    'ln_LA6706-1': 'GENO:0000135',  # heterozygous
+    'ln_LA6707-9': 'GENO:0000134',  # hemizygous
+    'sct_1220561009': 'GENO:0000137',  # unspecified zygosity
+}
+
+allele_label_map_erker2phenopackets = {
+    'ln_LA6705-3': 'homozygous',
+    'ln_LA6706-1': 'heterozygous',
+    'ln_LA6707-9': 'hemizygous',
+    'sct_1220561009': 'unspecified zygosity',
 }

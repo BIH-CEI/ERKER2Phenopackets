@@ -1,9 +1,11 @@
+import configparser
 import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import List
 
 import polars as pl
 from phenopackets import Phenopacket
+from phenopackets import VariationDescriptor, Expression
 from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
 
@@ -46,6 +48,14 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
     for row in chunk.rows(named=True):
         phenopacket_id = row['record_id']
 
+        config = configparser.ConfigParser()
+        config.read('../../data/config/config.cfg')
+        no_mutation = config.get('NoValue', 'mutation')
+        no_phenotype = config.get('NoValue', 'phenotype')
+        no_date = config.get('NoValue', 'date')
+        no_omim = config.get('NoValue', 'omim')
+        print(no_mutation, no_phenotype, no_date, no_omim)
+
         # TODO: Implement mapping
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
@@ -53,6 +63,18 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             sex='test'
         )
         print(individual)
+
+        variation_descriptor = _map_variation_descriptor(
+            variant_descriptor_id='id:A', # TODO: wait for Daniel's answer
+            zygosity=row['parsed_zygosity'],
+            allele_label=row['allele_label'],
+            # same mutation, p=protein, c=coding DNA reference sequence
+            p_hgvs=[row['ln_48005_3_1'], row['ln_48005_3_2'], row['ln_48005_3_3']],
+            c_hgvs=[row['ln_48006_6_1'], row['ln_48006_6_2'], row['ln_48006_6_3']],
+            ref_allele='GRCh38 (hg38)', # todo: add to config
+            no_mutation=no_mutation
+        )
+        print(variation_descriptor)
 
         gene_descriptor = _map_gene_descriptor(
             hgnc=row['ln_48018_6_1'],
@@ -82,6 +104,7 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     Phenopackets Documentation of the Individual block:
     https://phenopacket-schema.readthedocs.io/en/latest/individual.html
+    ?highlight=ref%20allele#hgvs
 
     :param phenopacket_id: ID of the individual
     :type phenopacket_id: str
@@ -101,6 +124,61 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     return individual
 
+  
+def _map_variation_descriptor(variant_descriptor_id: str,
+                              zygosity: str,
+                              allele_label: str,
+                              p_hgvs: List[str],
+                              c_hgvs: List[str],
+                              ref_allele: str,
+                              no_mutation: str) -> VariationDescriptor:
+    """Maps ERKER patient data to VariationDescriptor block
+
+    p.HGVS and c.HGVS is the same mutation, p=protein, c=coding DNA reference sequence
+
+    Phenopackets Documentation of the VariationDescriptor block:
+    https://phenopacket-schema.readthedocs.io/en/latest/variant.html
+
+    :param variant_descriptor_id: ID for the VariantDescriptor block
+    :type variant_descriptor_id: str
+    :param zygosity: zygosity LOINC code 
+    :type zygosity: str
+    :param allele_label: human-readable zygosity type
+    :type allele_label: str
+    :param p_hgvs: List of p.HGVS codes (protein)
+    :type p_hgvs: List[str]
+    :param c_hgvs: List of c.HGVS codes (coding DNA reference sequence)
+    :type c_hgvs: List[str]
+    :param ref_allele: the corresponding reference allele, e.g.: hg38
+    :type ref_allele: str
+    :return: VariationDescriptor block
+    :rtype: VariationDescriptor
+    """
+    # filter hgvs lists to avoid null vals
+    p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
+    c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
+    hgvs = p_hgvs + c_hgvs
+
+    # create new expression for each hgvs code
+    expressions = list(
+        map(
+            lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
+            hgvs
+        )
+    )
+
+    allelic_state = OntologyClass(
+        id=zygosity,
+        label=allele_label
+    )
+    variation_descriptor = VariationDescriptor(
+        id=variant_descriptor_id,
+        expressions=expressions,
+        allelic_state=allelic_state,
+        vrs_ref_allele_seq=ref_allele,
+    )
+    return variation_descriptor
+  
   
 def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str) -> \
         GeneDescriptor:
