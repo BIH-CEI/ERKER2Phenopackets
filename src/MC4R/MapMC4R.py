@@ -6,7 +6,7 @@ from typing import List
 import polars as pl
 from phenopackets import Phenopacket
 from phenopackets import Individual, OntologyClass
-from phenopackets import VariationDescriptor, Expression, AllelicState
+from phenopackets import VariationDescriptor, Expression
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -65,7 +65,9 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         print(individual)
 
         variation_descriptor = _map_variation_descriptor(
-            zygosity=row['ln_48007_9'],
+            zygosity=row['parsed_zygosity'],
+            allele_label=row['allele_label'],
+            # same mutation, p=protein, c=coding DNA reference sequence
             p_hgvs=['ln_48005_3_1', 'ln_48005_3_2', 'ln_48005_3_3'],
             c_hgvs=['ln_48006_6_1', 'ln_48006_6_2', 'ln_48006_6_3'],
             ref_allele='GRCh38 (hg38)',
