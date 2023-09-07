@@ -81,6 +81,7 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     Phenopackets Documentation of the Individual block:
     https://phenopacket-schema.readthedocs.io/en/latest/individual.html
+    ?highlight=ref%20allele#hgvs
 
     :param phenopacket_id: ID of the individual
     :type phenopacket_id: str
