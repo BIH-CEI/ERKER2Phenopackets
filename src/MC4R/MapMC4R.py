@@ -91,7 +91,8 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
     return individual
 
 
-def _map_phenotypic_feature(hpo: str, onset: str, label: str = None):
+def _map_phenotypic_feature(
+        hpo: str, onset: str, label: str = None) -> PhenotypicFeature:
     """Maps ERKER patient data to PhenotypicFeature block
 
     Phenopackets Documentation of the PhenotypicFeature block:
@@ -101,7 +102,7 @@ def _map_phenotypic_feature(hpo: str, onset: str, label: str = None):
     :type hpo: str
     :param onset: onset date
     :type onset: str
-    :param label: human-readable class name
+    :param label: human-readable class name, defaults to None
     :type label: str, optional
     :return:
     """
