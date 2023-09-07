@@ -129,7 +129,7 @@ def _map_variation_descriptor(variant_descriptor_id: str,
     :type p_hgvs: List[str]
     :param c_hgvs: List of c.HGVS codes (coding DNA reference sequence)
     :type c_hgvs: List[str]
-    :param ref_allele:
+    :param ref_allele: the corresponding reference allele, e.g.: hg38
     :type ref_allele: str
     :return: VariationDescriptor block
     :rtype: VariationDescriptor
