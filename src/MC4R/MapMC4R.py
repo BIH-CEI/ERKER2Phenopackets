@@ -5,6 +5,7 @@ from typing import List
 import polars as pl
 from phenopackets import Phenopacket
 from phenopackets import Individual, OntologyClass
+from phenopackets import TimeElement, PhenotypicFeature
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -96,3 +97,12 @@ def _map_phenotypic_feature(hpo: str, onset: str, label: str = None):
     :type label: str, optional
     :return:
     """
+    if label:
+        ontology_class = OntologyClass(
+            id=hpo,
+            label=label
+        )
+    else:
+        ontology_class = OntologyClass(
+            id=hpo,
+        )
