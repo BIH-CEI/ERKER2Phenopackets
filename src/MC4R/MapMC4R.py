@@ -138,6 +138,7 @@ def _map_variation_descriptor(variant_descriptor_id: str,
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
     hgvs = p_hgvs + c_hgvs
 
+    # create new expression for each hgvs code
     expressions = list(
         map(
             lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
