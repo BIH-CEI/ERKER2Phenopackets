@@ -6,7 +6,7 @@ from typing import List
 import polars as pl
 from phenopackets import Phenopacket
 from phenopackets import Individual, OntologyClass
-from phenopackets import VariationDescriptor
+from phenopackets import VariationDescriptor, Expression, AllelicState
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -118,10 +118,20 @@ def _map_variation_descriptor(zygosity: str,
     """
     # TODO: ich verstehe nicht ganz wie die struktur hier ausschauen soll
 
-    # TODO: filter hgvs lists to avoid empty vals
+    # filter hgvs lists to avoid empty vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
-    expressions = []
+    hgvs = p_hgvs + c_hgvs
+
+    # TODO: check, right now creating one expression for every hgvs val
+    expressions = [
+        Expression(
+            syntax='hgvs',
+            value=hgvs[i]
+        )
+        for i in range(len(hgvs))
+    ]
+
     allelic_state = AllelicState(
         id='I don\'t know',
         label=zygosity
