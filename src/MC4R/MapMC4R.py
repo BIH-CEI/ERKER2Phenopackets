@@ -111,7 +111,6 @@ def _map_disease(
     :param date_of_diagnosis:
     :return:
     """
-    # TODO: i don't know what to do with the omim
     print(omim)
     term = OntologyClass(
         id=orpha,
