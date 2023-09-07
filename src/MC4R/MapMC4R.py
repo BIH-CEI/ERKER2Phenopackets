@@ -55,18 +55,12 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         print(individual)
 
         disease1 = _map_disease(
-            omim=row['parsed_omim_1'],
-            orpha='test',
-            date_of_diagnosis=row['parsed_date_of_diagnosis']
+            orpha=row['sct_439401001_orpha'],
+            date_of_diagnosis=row['parsed_date_of_diagnosis'],
+            label='Obesity due to melanocortin 4 receptor deficiency'
         )
         print(disease1)
 
-        disease2 = _map_disease(
-            omim=row['parsed_omim_2'],
-            orpha='test',
-            date_of_diagnosis=row['parsed_date_of_diagnosis']
-        )
-        print(disease2)
     raise NotImplementedError
     # return []
 
@@ -115,7 +109,7 @@ def _map_disease(
     """
     term = OntologyClass(
         id=orpha,
-        label='Obesity due to melanocortin 4 receptor deficiency'
+        label='Obesity due to melanocortin 4 receptor deficiency'  # TODO: add to config
     )
     onset = TimeElement(
         timestamp=date_of_diagnosis,
