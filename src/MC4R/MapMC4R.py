@@ -55,13 +55,20 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         )
         print(individual)
 
-        # TODO: again not quite sure how to do this, multiple phenotypic features?
         phenotypic_features = _map_phenotypic_features(
-            hpos=['sct_8116006_1', 'sct_8116006_2', 'sct_8116006_3',
-                  'sct_8116006_4', 'sct_8116006_5'],
-            onsets=['sct_8116006_1_date', 'sct_8116006_2_date', 'sct_8116006_3_date',
-                    'sct_8116006_4_date', 'sct_8116006_5_date'],
-            labels=['PUT LABEL HERE'] * 5  # TODO
+            hpos=[
+                row['sct_8116006_1'], row['sct_8116006_2'],
+                row['sct_8116006_3'], row['sct_8116006_4'],
+                row['sct_8116006_5']]
+            ,
+            onsets=[
+                row['sct_8116006_1_date'], row['sct_8116006_2_date'],
+                row['sct_8116006_3_date'], row['sct_8116006_4_date'],
+                row['sct_8116006_5_date']
+            ],
+            labels=['PUT LABEL HERE'] * 5,
+            no_phenotype='test',  # todo: add config
+            no_date='test'  # todo: add config
         )
         print(phenotypic_features)
     raise NotImplementedError
