@@ -117,6 +117,10 @@ def _map_disease(
         id=orpha,
         label='Obesity due to melanocortin 4 receptor deficiency'
     )
+    term = OntologyClass(
+        id=omim,
+        label='MC4R (MELANOCORTIN 4 RECEPTOR) deficiency'
+    )
     onset = TimeElement(
         timestamp=date_of_diagnosis,
     )
