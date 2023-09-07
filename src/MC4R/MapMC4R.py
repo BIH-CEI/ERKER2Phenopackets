@@ -118,7 +118,7 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
             symbold=symbol,
             alternateIds=omims
         )
-    else:  # nothing in omims
+    else:  # omims empty
         gene_descriptor = GeneDescriptor(
             value_id=hgnc,
             symbold=symbol,
