@@ -54,13 +54,13 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         )
         print(individual)
 
-        disease1 = _map_disease(
+        disease = _map_disease(
             orpha=row['sct_439401001_orpha'],
             date_of_diagnosis=row['parsed_date_of_diagnosis'],
             label='Obesity due to melanocortin 4 receptor deficiency'  # TODO: add to
             # config
         )
-        print(disease1)
+        print(disease)
 
     raise NotImplementedError
     # return []
