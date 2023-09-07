@@ -121,7 +121,7 @@ def _map_variation_descriptor(variant_descriptor_id: str,
 
     :param variant_descriptor_id: ID for the VariantDescriptor block
     :type variant_descriptor_id: str
-    :param zygosity:
+    :param zygosity: zygosity LOINC code 
     :type zygosity: str
     :param allele_label: human-readable zygosity type
     :type allele_label: str
