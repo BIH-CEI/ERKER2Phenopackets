@@ -95,7 +95,7 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
 def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str) -> \
         GeneDescriptor:
-    """Maps ERKER hgnc data to GeneDescriptor block
+    """Maps ERKER gene data to GeneDescriptor block
 
     Phenopackets Documentation of the GeneDescriptor block:
     https://phenopacket-schema.readthedocs.io/en/latest/gene.html?highlight
