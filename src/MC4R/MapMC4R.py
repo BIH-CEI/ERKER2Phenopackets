@@ -97,7 +97,6 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
 
 def _map_disease(
-        omim: str,
         orpha: str,
         date_of_diagnosis: str) -> Disease:
     """Maps ERKER patient data to Disease block
@@ -105,20 +104,13 @@ def _map_disease(
     Phenopackets Documentation of the Disease block:
     https://phenopacket-schema.readthedocs.io/en/latest/disease.html#rstdisease
 
-    :param omim:
-    :type omim:
     :param orpha:
     :param date_of_diagnosis:
     :return:
     """
-    print(omim)
     term = OntologyClass(
         id=orpha,
         label='Obesity due to melanocortin 4 receptor deficiency'
-    )
-    term = OntologyClass(
-        id=omim,
-        label='MC4R (MELANOCORTIN 4 RECEPTOR) deficiency'
     )
     onset = TimeElement(
         timestamp=date_of_diagnosis,
