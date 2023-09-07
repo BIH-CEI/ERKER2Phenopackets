@@ -5,6 +5,7 @@ from typing import List
 import polars as pl
 from phenopackets import Phenopacket
 from phenopackets import Individual, OntologyClass
+from phenopackets import VariationDescriptor
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -93,4 +94,10 @@ def _map_variation_descriptor(zygosity: str, hgvs: str, ref_allele: str):
     :param ref_allele:
     :return:
     """
+    # TODO: ich verstehe nicht ganz wie die struktur hier ausschauen soll
+    print(zygosity, hgvs, ref_allele)
+    variation_descriptor = VariationDescriptor(
+
+    )
+    return variation_descriptor
 
