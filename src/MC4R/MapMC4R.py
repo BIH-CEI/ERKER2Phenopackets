@@ -9,6 +9,7 @@ from phenopackets import PhenotypicFeature
 from phenopackets import VariationDescriptor, Expression
 from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
+from loguru import logger
 
 from src.utils import calc_chunk_size, split_dataframe
 
@@ -54,6 +55,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
     phenopackets_list = []
     for row in chunk.rows(named=True):
         phenopacket_id = row['mc4r_id']
+        logger.debug(f'ID: {phenopacket_id}')
 
         # get constants from config file
         config = configparser.ConfigParser()
@@ -62,6 +64,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         no_phenotype = config.get('NoValue', 'phenotype')
         no_date = config.get('NoValue', 'date')
         no_omim = config.get('NoValue', 'omim')
+        
 
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
