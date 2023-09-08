@@ -38,7 +38,7 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     :param year_of_birth: The year of birth as an integer
     :type year_of_birth: int
     :return: Year of birth formatted as ISO8601 UTC timestamp
-    :rtype: str
+    :rtype: Google Protobuf Timestamp
     :raises: ValueError: if year_of_birth is not within 1900 and 2023
     """
     if year_of_birth < 1900 or year_of_birth > 2023:
