@@ -65,7 +65,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         no_date = config.get('NoValue', 'date')
         no_omim = config.get('NoValue', 'omim')
         
-
+        logger.debug(f'{row["parsed_year_of_birth"]=} {row["parsed_sex"]=}')
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
             year_of_birth=row['parsed_year_of_birth'],
