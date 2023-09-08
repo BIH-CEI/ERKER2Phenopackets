@@ -60,8 +60,8 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         # TODO: Implement mapping
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
-            year_of_birth='test',
-            sex='test'
+            year_of_birth=row['parsed_year_of_birth'],
+            sex=row['parsed_sex']
         )
         print(individual)
 
@@ -100,20 +100,19 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
 
         gene_descriptor = _map_gene_descriptor(
             hgnc=row['ln_48018_6_1'],
-            symbol='MC4R',  # TODO: add to config
+            symbol=config.get('Constants', 'gene_descriptor_symbol'),
             omims=[
                 row['sct_439401001_omim_g_1'],
                 row['sct_439401001_omim_g_2']
             ],
-            no_omim='test' # todo: fill with config val
+            no_omim=no_omim
         )
         print(gene_descriptor)
 
         disease = _map_disease(
             orpha=row['sct_439401001_orpha'],
             date_of_diagnosis=row['parsed_date_of_diagnosis'],
-            label='Obesity due to melanocortin 4 receptor deficiency'  # TODO: add to
-            # config
+            label=config.get('Constants', 'disease_label')
         )
         print(disease)
 
