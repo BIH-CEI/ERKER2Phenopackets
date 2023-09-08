@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Union
 
 from google.protobuf.timestamp_pb2 import Timestamp
-from google.protobuf.timestamp_pb2 import FromJsonString
+from google.protobuf import timestamp_pb2
 
 
 def parse_date_string_to_protobuf_timestamp(date_string: str) -> Timestamp:
@@ -27,7 +27,7 @@ def parse_iso8601_utc_to_protobuf_timestamp(iso8601_utc_timestamp: str) -> Times
     :return: A protobuf Timestamp object
     :rtype: Timestamp
     """
-    return FromJsonString(iso8601_utc_timestamp)
+    return timestamp_pb2.FromJsonString(iso8601_utc_timestamp)
 
 
 def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
