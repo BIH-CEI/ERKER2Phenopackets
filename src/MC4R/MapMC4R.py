@@ -101,16 +101,16 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             no_date=no_date,
         )
 
-        interpretation = _map_interpretation(
-            variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
-            zygosity=row['parsed_zygosity'],
-            allele_label=row['allele_label'],
-            # same mutation, p=protein, c=coding DNA reference sequence
-            p_hgvs=[row['ln_48005_3_1'], row['ln_48005_3_2'], row['ln_48005_3_3']],
-            c_hgvs=[row['ln_48004_6_1'], row['ln_48004_6_1'], row['ln_48004_6_1']],
-            ref_allele=config.get('Constants', 'ref_allele'),
-            no_mutation=no_mutation
-        )
+        # interpretation = _map_interpretation(
+        #     variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
+        #     zygosity=row['parsed_zygosity'],
+        #     allele_label=row['allele_label'],
+        #     # same mutation, p=protein, c=coding DNA reference sequence
+        #     p_hgvs=[row['ln_48005_3_1'], row['ln_48005_3_2'], row['ln_48005_3_3']],
+        #     c_hgvs=[row['ln_48004_6_1'], row['ln_48004_6_1'], row['ln_48004_6_1']],
+        #     ref_allele=config.get('Constants', 'ref_allele'),
+        #     no_mutation=no_mutation
+        # )
 
         gene_descriptor = _map_gene_descriptor(
             hgnc=row['ln_48018_6_1'],
@@ -133,10 +133,10 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             id=phenopacket_id,
             subject=individual,
             phenotypic_features=phenotypic_features,
-            interpretations=[interpretation],
-            genes=[gene_descriptor],
+            # genes=[gene_descriptor], # TODO: belongs under genomicdescr
             diseases=[disease],
-            created_by=config.get('Constants', 'creator_tag'),
+            # created_by=config.get('Constants', 'creator_tag'), # TODO: add to metadata
+            #interpretations=[interpretation], # TODO: belongs under genomicdescr
         )
 
         phenopackets_list.append(phenopacket)
@@ -303,6 +303,7 @@ def _map_interpretation(variant_descriptor_id: str,
     )
     
     genomic_interpretation = GenomicInterpretation(
+        interpretation_status="UNKNOWN_STATUS", # TODO: is this correct?
         call=variation_descriptor
     )
     
