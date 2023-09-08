@@ -2,6 +2,7 @@ import configparser
 import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import List
+import threading
 
 import polars as pl
 from phenopackets import Phenopacket
@@ -52,10 +53,13 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
     :return: List of Phenopackets
     :rtype: List[Phenopacket]
     """
+    thread_id = threading.get_ident()
+    logger.info(f'Currently working on thread {thread_id}')
+    
     phenopackets_list = []
     for row in chunk.rows(named=True):
         phenopacket_id = row['mc4r_id']
-        logger.debug(f'ID: {phenopacket_id}')
+        logger.debug(f'{thread_id}: ID: {phenopacket_id}')
 
         # get constants from config file
         config = configparser.ConfigParser()
@@ -65,7 +69,9 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         no_date = config.get('NoValue', 'date')
         no_omim = config.get('NoValue', 'omim')
         
-        logger.debug(f'{row["parsed_year_of_birth"]=} {row["parsed_sex"]=}')
+        logger.debug(f'{thread_id}: {row["parsed_year_of_birth"]=}')
+        logger.debug(f'{thread_id}: {row["parsed_sex"]=}')
+        
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
             year_of_birth=row['parsed_year_of_birth'],
