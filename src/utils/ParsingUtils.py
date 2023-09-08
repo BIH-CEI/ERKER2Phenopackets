@@ -27,7 +27,9 @@ def parse_iso8601_utc_to_protobuf_timestamp(iso8601_utc_timestamp: str) -> Times
     :return: A protobuf Timestamp object
     :rtype: Timestamp
     """
-    return timestamp_pb2.FromJsonString(iso8601_utc_timestamp)
+    timestamp = timestamp_pb2.Timestamp()
+    timestamp.FromJsonString(iso8601_utc_timestamp)
+    return timestamp
 
 
 def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
