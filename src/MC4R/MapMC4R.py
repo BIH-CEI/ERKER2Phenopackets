@@ -14,7 +14,7 @@ from src.utils import calc_chunk_size, split_dataframe
 
 
 def map_mc4r2phenopackets(
-        df: pl.DataFrame, created_by: str,
+        df: pl.DataFrame,
         num_threads: int = os.cpu_count(),
 ) -> List[Phenopacket]:
     """Maps MC4R DataFrame to List of Phenopackets.
@@ -25,8 +25,6 @@ def map_mc4r2phenopackets(
 
     :param df: MC4R DataFrame
     :type df: pl.DataFrame
-    :param created_by: Name of creator
-    :type created_by: str
     :param num_threads: Maximum number of threads to use, defaults to the number of CPUs
     :type num_threads: int, optional
     :return: List of Phenopackets
@@ -46,24 +44,30 @@ def map_mc4r2phenopackets(
 
 
 def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
-    for row in chunk.rows(named=True):
-        phenopacket_id = row['record_id']
+    """Maps a chunk of the MC4R DataFrame to a list of Phenopackets.
 
+    :param chunk: Chunk of the MC4R DataFrame
+    :type chunk: pl.DataFrame
+    :return: List of Phenopackets
+    :rtype: List[Phenopacket]
+    """
+    phenopackets_list = []
+    for row in chunk.rows(named=True):
+        phenopacket_id = row['mc4r_id']
+
+        # get constants from config file
         config = configparser.ConfigParser()
         config.read('../../data/config/config.cfg')
         no_mutation = config.get('NoValue', 'mutation')
         no_phenotype = config.get('NoValue', 'phenotype')
         no_date = config.get('NoValue', 'date')
         no_omim = config.get('NoValue', 'omim')
-        print(no_mutation, no_phenotype, no_date, no_omim)
 
-        # TODO: Implement mapping
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
             year_of_birth=row['parsed_year_of_birth'],
             sex=row['parsed_sex']
         )
-        print(individual)
 
         phenotypic_features = _map_phenotypic_features(
             hpos=[
@@ -84,7 +88,6 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             no_phenotype=no_phenotype,
             no_date=no_date,
         )
-        print(phenotypic_features)
 
         variation_descriptor = _map_variation_descriptor(
             variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
@@ -96,7 +99,6 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             ref_allele=config.get('Constants', 'ref_allele'),
             no_mutation=no_mutation
         )
-        print(variation_descriptor)
 
         gene_descriptor = _map_gene_descriptor(
             hgnc=row['ln_48018_6_1'],
@@ -107,17 +109,27 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             ],
             no_omim=no_omim
         )
-        print(gene_descriptor)
 
         disease = _map_disease(
             orpha=row['sct_439401001_orpha'],
             date_of_diagnosis=row['parsed_date_of_diagnosis'],
             label=config.get('Constants', 'disease_label')
         )
-        print(disease)
 
-    raise NotImplementedError
-    # return []
+        # Orchestrate the mapping
+        phenopacket = Phenopacket(
+            id=phenopacket_id,
+            subject=individual,
+            phenotypicFeatures=phenotypic_features,
+            variants=[variation_descriptor],
+            genes=[gene_descriptor],
+            diseases=[disease],
+            created_by=config.get('Constants', 'creator_tag'),
+        )
+
+        phenopackets_list.append(phenopacket)
+
+    return phenopackets_list
 
 
 def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Individual:
