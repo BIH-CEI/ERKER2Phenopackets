@@ -322,13 +322,13 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
     if omims:  # omims not empty
         gene_descriptor = GeneDescriptor(
             value_id=hgnc,
-            symbold=symbol,
+            symbol=symbol,
             alternateIds=omims
         )
     else:  # omims empty
         gene_descriptor = GeneDescriptor(
             value_id=hgnc,
-            symbold=symbol,
+            symbol=symbol,
         )
 
     return gene_descriptor
