@@ -12,7 +12,8 @@ from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
 from loguru import logger
 
-from src.utils import calc_chunk_size, split_dataframe
+from src.utils import calc_chunk_size, split_dataframe 
+from src.utils import parse_iso8601_utc_to_protobuf_timestamp
 
 
 def map_mc4r2phenopackets(
@@ -157,9 +158,10 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
     :return: Individual Phenopacket block
     :rtype: Individual
     """
+    year_of_birth_timestamp = parse_iso8601_utc_to_protobuf_timestamp(year_of_birth)
     individual = Individual(
         id=phenopacket_id,
-        date_of_birth=year_of_birth,
+        date_of_birth=year_of_birth_timestamp,
         sex=sex,
         taxonomy=OntologyClass(id='NCBITaxon:9606', label='Homo sapiens')
     )
@@ -192,8 +194,9 @@ def _map_phenotypic_feature(
             id=hpo,
         )
 
+    onset_timestamp = parse_iso8601_utc_to_protobuf_timestamp(onset)
     onset = TimeElement(
-        timestamp=onset
+        timestamp=onset_timestamp
     )
 
     phenotypic_feature = PhenotypicFeature(
@@ -352,8 +355,9 @@ def _map_disease(
         id=orpha,
         label=label
     )
+    date_of_diagnosis_timestamp = parse_iso8601_utc_to_protobuf_timestamp(onset)
     onset = TimeElement(
-        timestamp=date_of_diagnosis,
+        timestamp=date_of_diagnosis_timestamp,
     )
     disease = Disease(
         term=term,
