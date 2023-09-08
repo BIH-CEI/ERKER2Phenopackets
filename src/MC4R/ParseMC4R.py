@@ -45,7 +45,7 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     if year_of_birth < 1900 or year_of_birth > 2023:
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
                          f'but was {year_of_birth}')
-    return parse_year_month_day_to_iso8601_utc_timestamp(year_of_birth, 1, 1)
+    return parse_year_month_day_to_protobuf_timestamp(year_of_birth, 1, 1)
 
 
 def parse_date_of_diagnosis(date_of_diagnosis: str) -> str:
@@ -70,7 +70,7 @@ def parse_date_of_diagnosis(date_of_diagnosis: str) -> str:
     :return: An Age Phenopackets block representing the age of diagnosis of the patient
     :raises ValueError: If the date of diagnosis is not known
     """
-    return parse_date_string_to_iso8601_utc_timestamp(date_of_diagnosis)
+    return parse_date_string_to_protobuf_timestamp(date_of_diagnosis)
 
 
 def parse_sex(sex: str) -> str:
@@ -125,7 +125,7 @@ def parse_phenotyping_date(phenotyping_date: str) -> str:
     :return: Date of determination formatted as ISO8601 UTC timestamp
     :raises: Value Error: If date of determination is not in "YYYY-MM-DD" format
     """
-    return parse_date_string_to_iso8601_utc_timestamp(phenotyping_date)
+    return parse_date_string_to_protobuf_timestamp(phenotyping_date)
 
 
 def parse_zygosity(zygosity: str) -> str:
