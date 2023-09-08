@@ -10,6 +10,8 @@ from phenopackets import PhenotypicFeature
 from phenopackets import VariationDescriptor, Expression
 from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
+from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
+from phenopackets import VariantInterpretation
 from loguru import logger
 
 from src.utils import calc_chunk_size, split_dataframe 
@@ -99,7 +101,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             no_date=no_date,
         )
 
-        variation_descriptor = _map_variation_descriptor(
+        interpretation = _map_interpretation(
             variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
             zygosity=row['parsed_zygosity'],
             allele_label=row['allele_label'],
@@ -131,7 +133,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             id=phenopacket_id,
             subject=individual,
             phenotypic_features=phenotypic_features,
-            variants=[variation_descriptor],
+            interpretations=[interpretation],
             genes=[gene_descriptor],
             diseases=[disease],
             created_by=config.get('Constants', 'creator_tag'),
@@ -245,14 +247,16 @@ def _map_phenotypic_features(
     return phenotypic_features
   
   
-def _map_variation_descriptor(variant_descriptor_id: str,
+def _map_interpretation(variant_descriptor_id: str,
                               zygosity: str,
                               allele_label: str,
                               p_hgvs: List[str],
                               c_hgvs: List[str],
                               ref_allele: str,
                               no_mutation: str) -> VariationDescriptor:
-    """Maps ERKER patient data to VariationDescriptor block
+    """Maps ERKER patient data to Interpretation block
+    
+    Contains info about hgvs, in the VariationDescriptor block
 
     p.HGVS and c.HGVS is the same mutation, p=protein, c=coding DNA reference sequence
 
@@ -271,8 +275,8 @@ def _map_variation_descriptor(variant_descriptor_id: str,
     :type c_hgvs: List[str]
     :param ref_allele: the corresponding reference allele, e.g.: hg38
     :type ref_allele: str
-    :return: VariationDescriptor block
-    :rtype: VariationDescriptor
+    :return: Interpretation block (containing variation description)
+    :rtype: Interpretation
     """
     # filter hgvs lists to avoid null vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
@@ -297,7 +301,19 @@ def _map_variation_descriptor(variant_descriptor_id: str,
         allelic_state=allelic_state,
         vrs_ref_allele_seq=ref_allele,
     )
-    return variation_descriptor
+    
+    genomic_interpretation = GenomicInterpretation(
+        call=variation_descriptor
+    )
+    
+    diagnosis = Diagnosis(
+        genomic_interpretations=[genomic_interpretation]
+    )
+    
+    interpretation = Interpretation(
+        diagnosis=diagnosis
+    )
+    return interpretation
   
   
 def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str) -> \
