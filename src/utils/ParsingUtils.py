@@ -53,6 +53,29 @@ def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
         raise ValueError("Invalid date format. Please use YYYY-MM-DD format.")
 
 
+def parse_year_month_day_to_protobuf_timestamp(
+        year: Union[str, int],
+        month: Union[str, int],
+        day: Union[str, int]) -> Timestamp:
+    """ Parses a date split into year, month and day to a protobuf Timestamp object
+
+    :param year: Year of date
+    :type year: Union[str, int]
+    :param month: Month of date
+    :type month: Union[str, int]
+    :param day: Day of date
+    :type day: Union[str, int]
+    :return: A protobuf Timestamp object
+    :rtype: Timestamp
+    """
+    iso8601_utc_timestamp = parse_year_month_day_to_iso8601_utc_timestamp(
+        year,
+        month,
+        day
+    )
+    return parse_iso8601_utc_to_protobuf_timestamp(iso8601_utc_timestamp)
+
+
 def parse_year_month_day_to_iso8601_utc_timestamp(
         year: Union[str, int],
         month: Union[str, int],
