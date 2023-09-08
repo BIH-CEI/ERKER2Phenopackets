@@ -1,3 +1,4 @@
+from google.protobuf.timestamp_pb2 import Timestamp
 from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
 
 from src.utils import *
@@ -17,7 +18,7 @@ import configparser
 # 5. activate tests
 
 
-def parse_year_of_birth(year_of_birth: int) -> str:
+def parse_year_of_birth(year_of_birth: int) -> Timestamp:
     """Parses a patient's year of birth to ISO8601 UTC timestamp \
     (Required by Phenopackets)
 
@@ -39,7 +40,7 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     :param year_of_birth: The year of birth as an integer
     :type year_of_birth: int
     :return: Year of birth formatted as ISO8601 UTC timestamp
-    :rtype: Google Protobuf Timestamp
+    :rtype: Timestamp
     :raises: ValueError: if year_of_birth is not within 1900 and 2023
     """
     if year_of_birth < 1900 or year_of_birth > 2023:
@@ -48,7 +49,7 @@ def parse_year_of_birth(year_of_birth: int) -> str:
     return parse_year_month_day_to_protobuf_timestamp(year_of_birth, 1, 1)
 
 
-def parse_date_of_diagnosis(date_of_diagnosis: str) -> str:
+def parse_date_of_diagnosis(date_of_diagnosis: str) -> Timestamp:
     """Parses a patient's date of diagnosis from ERKER to a Phenopackets Age block
 
     By the Phenopackets documentation Version 2 the onset of a disease i.e. the time of
@@ -67,7 +68,9 @@ def parse_date_of_diagnosis(date_of_diagnosis: str) -> str:
     https://phenopacket-schema.readthedocs.io/en/latest/disease.html 
 
     :param date_of_diagnosis: Date of diagonsis in YYYY-MM-DD format.
+    :type date_of_diagnosis: str
     :return: An Age Phenopackets block representing the age of diagnosis of the patient
+    :rtype: Timestamp
     :raises ValueError: If the date of diagnosis is not known
     """
     return parse_date_string_to_protobuf_timestamp(date_of_diagnosis)
@@ -101,7 +104,7 @@ def parse_sex(sex: str) -> str:
         raise ValueError(f'Unknown sex {sex}')
 
 
-def parse_phenotyping_date(phenotyping_date: str) -> str:
+def parse_phenotyping_date(phenotyping_date: str) -> Timestamp:
     """
     Parses dates of determination of HPO values to ISO8601 UTC timestamp \
     (Required by Phenopackets)
@@ -123,6 +126,7 @@ def parse_phenotyping_date(phenotyping_date: str) -> str:
     :param phenotyping_date: Date of a phenotype's determination in "YYYY-MM-DD" format
     :type phenotyping_date: str
     :return: Date of determination formatted as ISO8601 UTC timestamp
+    :rtype: Timestamp
     :raises: Value Error: If date of determination is not in "YYYY-MM-DD" format
     """
     return parse_date_string_to_protobuf_timestamp(phenotyping_date)
