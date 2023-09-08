@@ -130,7 +130,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         phenopacket = Phenopacket(
             id=phenopacket_id,
             subject=individual,
-            phenotypicFeatures=phenotypic_features,
+            phenotypic_features=phenotypic_features,
             variants=[variation_descriptor],
             genes=[gene_descriptor],
             diseases=[disease],
