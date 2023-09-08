@@ -2,6 +2,33 @@ import configparser
 from datetime import datetime
 from typing import Union
 
+from google.protobuf.timestamp_pb2 import Timestamp
+from google.protobuf.timestamp_pb2 import FromJsonString
+
+
+def parse_date_string_to_protobuf_timestamp(date_string: str) -> Timestamp:
+    """ Parses a date string in format "YYYY-MM-DD" to a protobuf Timestamp object
+
+    :param date_string: Date string in format "YYYY-MM-DD"
+    :type date_string: str
+    :return: A protobuf Timestamp object
+    :rtype: Timestamp
+    """
+    iso8601_utc_timestamp = parse_date_string_to_iso8601_utc_timestamp(date_string)
+    return parse_iso8601_utc_to_protobuf_timestamp(iso8601_utc_timestamp)
+
+
+def parse_iso8601_utc_to_protobuf_timestamp(iso8601_utc_timestamp: str) -> Timestamp:
+    """
+    Parses a ISO8601 UTC timestamp to a protobuf Timestamp object
+
+    :param iso8601_utc_timestamp: ISO 8601 UTC timestamp
+    :type iso8601_utc_timestamp: str
+    :return: A protobuf Timestamp object
+    :rtype: Timestamp
+    """
+    return FromJsonString(iso8601_utc_timestamp)
+
 
 def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
     """ Parses a date string in format "YYYY-MM-DD" to ISO8601 UTC timestamp
@@ -9,7 +36,9 @@ def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
     ISO8601 UTC timestamp format: “YYYY-MM-DDTHH:MM:SSZ”
 
     :param date_string: Date string in format "YYYY-MM-DD"
-    :return:
+    :type date_string: str
+    :return: a Timestamp object in iso8601 utc format
+    :rtype: str
     """
     if date_string is None or date_string == '':
         config = configparser.ConfigParser()
