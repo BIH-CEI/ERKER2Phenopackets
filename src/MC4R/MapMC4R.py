@@ -323,7 +323,7 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
         gene_descriptor = GeneDescriptor(
             value_id=hgnc,
             symbol=symbol,
-            alternateIds=omims
+            alternate_ids=omims
         )
     else:  # omims empty
         gene_descriptor = GeneDescriptor(
@@ -355,7 +355,8 @@ def _map_disease(
         id=orpha,
         label=label
     )
-    date_of_diagnosis_timestamp = parse_iso8601_utc_to_protobuf_timestamp(onset)
+    date_of_diagnosis_timestamp \
+    = parse_iso8601_utc_to_protobuf_timestamp(date_of_diagnosis)
     onset = TimeElement(
         timestamp=date_of_diagnosis_timestamp,
     )
