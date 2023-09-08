@@ -154,7 +154,8 @@ def parse_zygosity(zygosity: str) -> str:
         return zygosity_map_erker2phenopackets[zygosity]
     else:
         raise ValueError(f'Unknown zygosity {zygosity}')
-    
+
+
 def parse_omim(omim: str) -> str:
     """
     Parses the OMIM Code of a patient entry from ERKER to the Phenopackets \
@@ -176,13 +177,13 @@ def parse_omim(omim: str) -> str:
     :return: a patient's OMIM code in Phenopacket representation
     :raises: Value Error: If the OMIM string is not a valid OMIM code
     """
-    pattern = r'\".*\"' # a string beginning and ending with " with anything in between
+    pattern = r'\".*\"'  # a string beginning and ending with " with anything in between
     if re.match(pattern, omim):
-        omim = omim[1:-1] # remove first and last char
-    
+        omim = omim[1:-1]  # remove first and last char
+
     pattern_with_suffix = r'\d{6}\.\d{4}'
     pattern_with_out_suffix = r'\d{6}'
-    
+
     if omim is None or omim == 'nan':
         config = configparser.ConfigParser()
         config.read('../../data/config/config.cfg')
@@ -192,8 +193,3 @@ def parse_omim(omim: str) -> str:
     else:
         raise ValueError('The OMIM code does not match format "6d.4d" or "6d".' \
                          f'Received: {omim}')
-        
-          
-    
-    
-        
