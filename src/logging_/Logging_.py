@@ -8,6 +8,7 @@ LOG_LEVELS = ['TRACE', 'DEBUG', 'INFO', 'SUCCESS', 'WARNING', 'ERROR', 'CRITICAL
 
 
 def setup_logging(level='DEBUG'):
+    """Setup logging_ for the project."""
     logger.remove()  # Remove default logger (stdout)    
 
     cur_time = datetime.now().strftime(
