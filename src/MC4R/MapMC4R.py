@@ -79,22 +79,22 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             sex=row['parsed_sex']
         )
 
+        # PHENOTYPIC FEATURES
+        hpo_cols = ['sct_8116006_1', 'sct_8116006_2',\
+                    'sct_8116006_3','sct_8116006_4', \
+                    'sct_8116006_5']
+        onset_cols = ['parsed_date_of_phenotyping1', 'parsed_date_of_phenotyping2',\
+                    'parsed_date_of_phenotyping3', 'parsed_date_of_phenotyping4', \
+                    'parsed_date_of_phenotyping5']
+        label_cols = ['parsed_phenotype_label1', 'parsed_phenotype_label2',
+                    'parsed_phenotype_label3', 'parsed_phenotype_label4',
+                    'parsed_phenotype_label5']
+        
         phenotypic_features = _map_phenotypic_features(
-            hpos=[
-                row['sct_8116006_1'], row['sct_8116006_2'],
-                row['sct_8116006_3'], row['sct_8116006_4'],
-                row['sct_8116006_5']]
-            ,
-            onsets=[
-                row['sct_8116006_1_date'], row['sct_8116006_2_date'],
-                row['sct_8116006_3_date'], row['sct_8116006_4_date'],
-                row['sct_8116006_5_date']
-            ],
-            labels=[
-                row['parsed_phenotype_label1'], row['parsed_phenotype_label2'],
-                row['parsed_phenotype_label3'], row['parsed_phenotype_label4'],
-                row['parsed_phenotype_label5']
-            ],
+            # only including cols if they are in the keyset of the row
+            hpos=[row[hpo_col] for hpo_col in hpo_cols if hpo_col in row],
+            onsets=[row[onset_col] for onset_col in onset_cols if onset_col in row],
+            labels=[row[label_col] for label_col in label_cols if label_col in row],
             no_phenotype=no_phenotype,
             no_date=no_date,
         )
@@ -105,7 +105,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             allele_label=row['allele_label'],
             # same mutation, p=protein, c=coding DNA reference sequence
             p_hgvs=[row['ln_48005_3_1'], row['ln_48005_3_2'], row['ln_48005_3_3']],
-            c_hgvs=[row['ln_48006_6_1'], row['ln_48006_6_2'], row['ln_48006_6_3']],
+            c_hgvs=[row['ln_48004_6_1'], row['ln_48004_6_1'], row['ln_48004_6_1']],
             ref_allele=config.get('Constants', 'ref_allele'),
             no_mutation=no_mutation
         )
