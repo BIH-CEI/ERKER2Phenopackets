@@ -139,6 +139,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         c_hgvs_cols = ['ln_48004_6_1', 'ln_48004_6_2', 'ln_48004_6_3']
 
         interpretation = _map_interpretation(
+            phenopacket_id=phenopacket_id,
             variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
             zygosity=row['parsed_zygosity'],
             allele_label=row['allele_label'],
@@ -335,7 +336,8 @@ def _map_phenotypic_features(
     return phenotypic_features
 
 
-def _map_interpretation(variant_descriptor_id: str,
+def _map_interpretation(phenopacket_id: str,
+                        variant_descriptor_id: str,
                         zygosity: str,
                         allele_label: str,
                         p_hgvs: List[str],
@@ -351,6 +353,8 @@ def _map_interpretation(variant_descriptor_id: str,
     Phenopackets Documentation of the VariationDescriptor block:
     https://phenopacket-schema.readthedocs.io/en/latest/variant.html
 
+    :param phenopacket_id: ID of the individual
+    :type phenopacket_id: str
     :param variant_descriptor_id: ID for the VariantDescriptor block
     :type variant_descriptor_id: str
     :param zygosity: zygosity LOINC code 
@@ -393,14 +397,22 @@ def _map_interpretation(variant_descriptor_id: str,
         variation_descriptor=variation_descriptor,
     )
 
-    genomic_interpretation = GenomicInterpretation(
-        interpretation_status="UNKNOWN_STATUS",  # TODO: is this correct?
+    genomic_interpretation_variant = GenomicInterpretation(
+        subject_or_biosample_id='subject_id:' + phenopacket_id,
+        interpretation_status="UNKNOWN_STATUS",  # TODO: ask daniel
         variant_interpretation=variant_interpretation,
+    )
+
+    genomic_interpretation_gene = GenomicInterpretation(
+        subject_or_biosample_id='subject_id:' + phenopacket_id,
+        interpretation_status="UNKNOWN_STATUS",  # TODO: ask daniel?
         gene=gene,
     )
 
     diagnosis = Diagnosis(
-        genomic_interpretations=[genomic_interpretation]
+        genomic_interpretations=[
+            genomic_interpretation_gene, genomic_interpretation_variant,
+        ]
     )
 
     interpretation = Interpretation(
