@@ -1,6 +1,7 @@
 import pytest
 
-from src.utils.ParsingUtils import parse_date_string_to_iso8601_utc_timestamp, \
+from ERKER2Phenopackets.src.utils.ParsingUtils import \
+    parse_date_string_to_iso8601_utc_timestamp, \
     parse_year_month_day_to_iso8601_utc_timestamp
 
 

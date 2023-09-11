@@ -16,9 +16,9 @@ from phenopackets import MetaData
 from phenopackets import VariantInterpretation
 from loguru import logger
 
-from src.utils import calc_chunk_size, split_dataframe, \
+from ERKER2Phenopackets.src.utils import calc_chunk_size, split_dataframe, \
     parse_date_string_to_protobuf_timestamp
-from src.utils import parse_iso8601_utc_to_protobuf_timestamp
+from ERKER2Phenopackets.src.utils import parse_iso8601_utc_to_protobuf_timestamp
 
 
 def map_mc4r2phenopackets(

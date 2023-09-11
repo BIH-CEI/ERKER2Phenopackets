@@ -159,9 +159,10 @@ cython_debug/
 .idea/
 phenopacket-schema
 
-data/confidential
+ERKER2Phenopackets/data/confidential
 .vscode/settings.json
 .DS_Store
-data/out/phenopackets/
-src/CreateSynthData.ipynb
+ERKER2Phenopackets/data/out/phenopackets/
+ERKER2Phenopackets/src/CreateSynthData.ipynb
 
+ERKER2Phenopackets/submodules/

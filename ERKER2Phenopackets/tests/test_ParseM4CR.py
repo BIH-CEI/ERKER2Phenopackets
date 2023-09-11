@@ -1,7 +1,7 @@
 import pytest
 
-from src.MC4R.ParseMC4R import parse_year_of_birth, parse_sex, parse_phenotyping_date, \
-    parse_date_of_diagnosis, parse_zygosity, parse_omim
+from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_year_of_birth, parse_sex, \
+    parse_phenotyping_date, parse_date_of_diagnosis, parse_zygosity, parse_omim
 
 
 def test_parse_year_of_birth():

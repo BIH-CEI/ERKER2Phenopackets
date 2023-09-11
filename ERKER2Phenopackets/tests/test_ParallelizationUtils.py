@@ -1,7 +1,8 @@
 import pytest
 import polars as pl
 
-from src.utils.ParallelizationUtils import calc_chunk_size, split_dataframe
+from ERKER2Phenopackets.src.utils.ParallelizationUtils import calc_chunk_size, \
+    split_dataframe
 
 
 @pytest.mark.parametrize(
