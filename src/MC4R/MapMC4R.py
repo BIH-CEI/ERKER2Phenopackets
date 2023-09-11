@@ -22,6 +22,7 @@ from src.utils import parse_iso8601_utc_to_protobuf_timestamp
 
 def map_mc4r2phenopackets(
         df: pl.DataFrame,
+        cur_time: str,
         num_threads: int = os.cpu_count(),
 ) -> List[Phenopacket]:
     """Maps MC4R DataFrame to List of Phenopackets.
@@ -32,6 +33,8 @@ def map_mc4r2phenopackets(
 
     :param df: MC4R DataFrame
     :type df: pl.DataFrame
+    :param cur_time: string representation of the current time ("YYYY-MM-DD")
+    :type cur_time: str
     :param num_threads: Maximum number of threads to use, defaults to the number of CPUs
     :type num_threads: int, optional
     :return: List of Phenopackets
@@ -42,7 +45,10 @@ def map_mc4r2phenopackets(
     chunks = split_dataframe(df=df, chunk_sizes=chunk_sizes)
 
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        collected_results = list(executor.map(_map_chunk, chunks))
+        collected_results = list(executor.map(
+            _map_chunk,  # function to execute
+            chunks, [cur_time] * len(chunks))  # arguments to pass to function
+        )
 
     # Collect results from all threads into a single list
     results = [result for result_list in collected_results for result in result_list]
@@ -146,7 +152,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str,) -> List[Phenopacket]:
             subject=individual,
             phenotypic_features=phenotypic_features,
             diseases=[disease],
-            # created_by=config.get('Constants', 'creator_tag'), # TODO: add to metadata
+            meta_data=meta_data,
             interpretations=[interpretation],
         )
 
