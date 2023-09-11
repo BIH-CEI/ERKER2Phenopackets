@@ -14,7 +14,7 @@ from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
 from phenopackets import VariantInterpretation
 from loguru import logger
 
-from src.utils import calc_chunk_size, split_dataframe 
+from src.utils import calc_chunk_size, split_dataframe
 from src.utils import parse_iso8601_utc_to_protobuf_timestamp
 
 
@@ -58,7 +58,7 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
     """
     thread_id = threading.get_ident()
     logger.info(f'Currently working on thread {thread_id}')
-    
+
     phenopackets_list = []
     for row in chunk.rows(named=True):
         phenopacket_id = row['mc4r_id']
@@ -71,10 +71,10 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         no_phenotype = config.get('NoValue', 'phenotype')
         no_date = config.get('NoValue', 'date')
         no_omim = config.get('NoValue', 'omim')
-        
+
         logger.debug(f'{thread_id}: {row["parsed_year_of_birth"]=}')
         logger.debug(f'{thread_id}: {row["parsed_sex"]=}')
-        
+
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
             year_of_birth=row['parsed_year_of_birth'],
@@ -82,16 +82,16 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         )
 
         # PHENOTYPIC FEATURES
-        hpo_cols = ['sct_8116006_1', 'sct_8116006_2',\
-                    'sct_8116006_3','sct_8116006_4', \
+        hpo_cols = ['sct_8116006_1', 'sct_8116006_2', \
+                    'sct_8116006_3', 'sct_8116006_4', \
                     'sct_8116006_5']
-        onset_cols = ['parsed_date_of_phenotyping1', 'parsed_date_of_phenotyping2',\
-                    'parsed_date_of_phenotyping3', 'parsed_date_of_phenotyping4', \
-                    'parsed_date_of_phenotyping5']
+        onset_cols = ['parsed_date_of_phenotyping1', 'parsed_date_of_phenotyping2', \
+                      'parsed_date_of_phenotyping3', 'parsed_date_of_phenotyping4', \
+                      'parsed_date_of_phenotyping5']
         label_cols = ['parsed_phenotype_label1', 'parsed_phenotype_label2',
-                    'parsed_phenotype_label3', 'parsed_phenotype_label4',
-                    'parsed_phenotype_label5']
-        
+                      'parsed_phenotype_label3', 'parsed_phenotype_label4',
+                      'parsed_phenotype_label5']
+
         phenotypic_features = _map_phenotypic_features(
             # only including cols if they are in the keyset of the row
             hpos=[row[hpo_col] for hpo_col in hpo_cols if hpo_col in row],
@@ -170,7 +170,7 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
 
     return individual
 
-  
+
 def _map_phenotypic_feature(
         hpo: str, onset: str, label: str = None) -> PhenotypicFeature:
     """Maps ERKER patient data to PhenotypicFeature block
@@ -245,15 +245,15 @@ def _map_phenotypic_features(
     )
 
     return phenotypic_features
-  
-  
+
+
 def _map_interpretation(variant_descriptor_id: str,
-                              zygosity: str,
-                              allele_label: str,
-                              p_hgvs: List[str],
-                              c_hgvs: List[str],
-                              ref_allele: str,
-                              no_mutation: str) -> VariationDescriptor:
+                        zygosity: str,
+                        allele_label: str,
+                        p_hgvs: List[str],
+                        c_hgvs: List[str],
+                        ref_allele: str,
+                        no_mutation: str) -> VariationDescriptor:
     """Maps ERKER patient data to Interpretation block
     
     Contains info about hgvs, in the VariationDescriptor block
@@ -299,24 +299,24 @@ def _map_interpretation(variant_descriptor_id: str,
         id=variant_descriptor_id,
         expressions=expressions,
         allelic_state=allelic_state,
-        vrs_ref_allele_seq=ref_allele,
+        vrs_ref_allele_seq=ref_allele,  # TODO: store in vcf record, leave empty here
     )
-    
+
     genomic_interpretation = GenomicInterpretation(
-        interpretation_status="UNKNOWN_STATUS", # TODO: is this correct?
-        call=variation_descriptor
+        interpretation_status="UNKNOWN_STATUS",  # TODO: is this correct?
+        variant_interpretation=variation_descriptor
     )
-    
+
     diagnosis = Diagnosis(
         genomic_interpretations=[genomic_interpretation]
     )
-    
+
     interpretation = Interpretation(
         diagnosis=diagnosis
     )
     return interpretation
-  
-  
+
+
 def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str) -> \
         GeneDescriptor:
     """Maps ERKER gene data to GeneDescriptor block
@@ -350,7 +350,7 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
 
     return gene_descriptor
 
-  
+
 def _map_disease(
         orpha: str,
         date_of_diagnosis: str,
@@ -373,7 +373,7 @@ def _map_disease(
         label=label
     )
     date_of_diagnosis_timestamp \
-    = parse_iso8601_utc_to_protobuf_timestamp(date_of_diagnosis)
+        = parse_iso8601_utc_to_protobuf_timestamp(date_of_diagnosis)
     onset = TimeElement(
         timestamp=date_of_diagnosis_timestamp,
     )

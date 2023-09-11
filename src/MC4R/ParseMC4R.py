@@ -21,7 +21,7 @@ import configparser
 def parse_year_of_birth(year_of_birth: int) -> Timestamp:
     """Parses a patient's year of birth to ISO8601 UTC timestamp \
     (Required by Phenopackets)
-
+    "YYYY-MM-DD"
     By the Phenopackets documentation it is required to store the date of birth of a 
     subject in a ISO8601 UTC timestamp.
 
