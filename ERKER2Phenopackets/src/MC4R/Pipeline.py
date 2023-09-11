@@ -27,9 +27,6 @@ def pipeline(data_path: Path):
 
     cur_time = datetime.now().strftime("%Y-%m-%d-%H%M")
 
-    # Set Creator Tag
-    created_by = config.get('Constants', 'creator_tag')
-
     # Read data in
     df = pl.read_csv(data_path)
 
