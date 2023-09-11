@@ -28,10 +28,8 @@ test = ["pytest==7.1.2", "ruff", "isort", "coverage", "pytest-cov"]
 [project.urls]  # Optional
 "Homepage" = "https://github.com/BIH-CEI/ERKER2Phenopackets"
 
-# TODO: The following would provide a command line executable called `sample`
-# which executes the function `main` from this package when invoked.
-# [project.scripts]  # Optional
-# sample = "sample:main"
+[project.scripts]
+pipeline = "ERKER2Phenopackets.src.MC4R.Pipeline:main"
 
 [build-system]
 # These are the assumed default build requirements from pip:

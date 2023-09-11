@@ -1,5 +1,3 @@
-import os
-
 import polars as pl  # the same as pandas just faster
 
 import configparser
