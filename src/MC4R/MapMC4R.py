@@ -11,7 +11,6 @@ from phenopackets import VariationDescriptor, Expression
 from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
 from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
-from phenopackets import VariantInterpretation
 from loguru import logger
 
 from src.utils import calc_chunk_size, split_dataframe
