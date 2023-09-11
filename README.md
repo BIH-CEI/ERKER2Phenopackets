@@ -20,9 +20,7 @@ More information on Phenopackets:
 
 TODO: A brief overview of your project and its purpose.
 
-## Features
-
-TODO: List the key features of your project.
+Please find a set of 50 phenopackets that were created in the [`ERKER2Phenopackets/data/out/phenopackets`](https://github.com/BIH-CEI/ERKER2Phenopackets/tree/main/ERKER2Phenopackets/data/out/phenopackets/example-phenopackets-from-synthetic-data) directory.
 
 ## Features
 
