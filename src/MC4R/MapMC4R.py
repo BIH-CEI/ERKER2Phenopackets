@@ -303,7 +303,8 @@ def _map_interpretation(variant_descriptor_id: str,
 
     genomic_interpretation = GenomicInterpretation(
         interpretation_status="UNKNOWN_STATUS",  # TODO: is this correct?
-        variant_interpretation=variation_descriptor
+        variant_interpretation=variation_descriptor,
+        gene=1  # todo: add gene
     )
 
     diagnosis = Diagnosis(
