@@ -11,7 +11,7 @@ def _map_phenopacket2json_str(phenopacket: Phenopacket) -> str:
 
 def write_phenopacket2json_file(phenopacket: Phenopacket, out_dr: str) -> None:
     json_str = _map_phenopacket2json_str(phenopacket)
-    out_path = os.path.join(out_dr, phenopacket.id)
+    out_path = os.path.join(out_dr, (phenopacket.id + '.json'))
     with open(out_path, 'w') as fh:
         fh.write(json_str)
         print(f'Successfully wrote phenopacket to JSON {out_dr}')
