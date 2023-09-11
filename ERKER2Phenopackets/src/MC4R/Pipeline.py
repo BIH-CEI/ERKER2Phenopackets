@@ -8,11 +8,13 @@ from datetime import datetime
 from ERKER2Phenopackets.src.utils import write_files
 from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets
 from ERKER2Phenopackets.src.utils import PolarsUtils
-from ERKER2Phenopackets.src.MC4R.MappingDicts import phenotype_label_map_erker2phenopackets
+from ERKER2Phenopackets.src.MC4R.MappingDicts import\
+phenotype_label_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.MappingDicts import allele_label_map_erker2phenopackets
-from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, sex_map_erker2phenopackets
-from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, parse_year_of_birth, \
-parse_phenotyping_date, parse_omim
+from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets,\
+sex_map_erker2phenopackets
+from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis,\
+parse_year_of_birth, parse_phenotyping_date, parse_omim
 from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
 
 
@@ -20,7 +22,6 @@ from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
 def pipeline(data_path: Path):
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
-    pass
 
     config = configparser.ConfigParser()
     config.read('../../data/config/config.cfg')
