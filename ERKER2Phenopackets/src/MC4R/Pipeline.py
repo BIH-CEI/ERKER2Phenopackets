@@ -3,6 +3,7 @@ import polars as pl  # the same as pandas just faster
 import configparser
 from pathlib import Path
 from datetime import datetime
+import sys
 
 from ERKER2Phenopackets.src.utils import write_files
 from ERKER2Phenopackets.src.utils import PolarsUtils
@@ -16,9 +17,13 @@ from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
 from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
 
 
-def pipeline(data_path: Path):
+def pipeline():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
+    if len(sys.argv) > 1:
+        data_path = sys.argv[1]
+    else:
+        data_path = input('Type the path to the file:\n')
 
     config = configparser.ConfigParser()
     config.read('../../data/config/config.cfg')
@@ -162,6 +167,4 @@ def pipeline(data_path: Path):
 
 
 if __name__ == "__main__":
-    inp_path = input('Type the path to the file:\n')
-    inp_path = Path(inp_path)
-    pipeline(inp_path)
+    pipeline()
