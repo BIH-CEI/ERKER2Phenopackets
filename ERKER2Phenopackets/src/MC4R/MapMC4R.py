@@ -82,6 +82,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         versions=config.get('Resources', 'versions').split(','),
         iri_prefixes=config.get('Resources', 'iri_prefixes').split(','),
     )
+    taxonomy = OntologyClass(id='NCBITaxon:9606', label='Homo sapiens')
 
     phenopackets_list = []
     for row in chunk.rows(named=True):
@@ -89,7 +90,6 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         logger.debug(f'{thread_id}: ID: {phenopacket_id}')
 
         # get constants from config file
-
         no_mutation = config.get('NoValue', 'mutation')
         no_phenotype = config.get('NoValue', 'phenotype')
         no_date = config.get('NoValue', 'date')
@@ -101,7 +101,8 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
             year_of_birth=row['parsed_year_of_birth'],
-            sex=row['parsed_sex']
+            sex=row['parsed_sex'],
+            taxonomy=taxonomy
         )
 
         # PHENOTYPIC FEATURES
@@ -226,7 +227,11 @@ def _create_metadata(created_by: str,
     return meta_data
 
 
-def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Individual:
+def _map_individual(phenopacket_id: str,
+                    year_of_birth: str,
+                    sex: str,
+                    taxonomy: OntologyClass
+                    ) -> Individual:
     """Maps ERKER patient data to Individual block
 
     Phenopackets Documentation of the Individual block:
@@ -239,6 +244,8 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
     :type year_of_birth: str
     :param sex: Sex of the individual
     :type sex: str
+    :param taxonomy: Taxonomy of the individual (Always human)
+    :type taxonomy: OntologyClass
     :return: Individual Phenopacket block
     :rtype: Individual
     """
@@ -247,7 +254,7 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
         id=phenopacket_id,
         date_of_birth=year_of_birth_timestamp,
         sex=sex,
-        taxonomy=OntologyClass(id='NCBITaxon:9606', label='Homo sapiens')
+        taxonomy=taxonomy,
     )
 
     return individual
