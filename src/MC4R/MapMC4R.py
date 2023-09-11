@@ -16,7 +16,7 @@ from phenopackets import MetaData
 from loguru import logger
 
 from src.utils import calc_chunk_size, split_dataframe, \
-    parse_date_string_to_iso8601_utc_timestamp
+    parse_date_string_to_protobuf_timestamp
 from src.utils import parse_iso8601_utc_to_protobuf_timestamp
 
 
@@ -70,7 +70,8 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str,) -> List[Phenopacket]:
     # metadata creation
     config = configparser.ConfigParser()
     config.read('../../data/config/config.cfg')
-    created = parse_date_string_to_iso8601_utc_timestamp(cur_time)
+    created = parse_date_string_to_protobuf_timestamp(cur_time)
+    logger.debug(type(created))
     meta_data = _create_metadata(
         created_by=config.get('Constants', 'creator_tag'),
         created=created,
