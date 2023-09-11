@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import List
 import threading
 
+import phenopackets
 import polars as pl
 from phenopackets import Phenopacket
 from phenopackets import PhenotypicFeature
@@ -11,6 +12,7 @@ from phenopackets import VariationDescriptor, Expression
 from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
 from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
+from phenopackets import MetaData
 from loguru import logger
 
 from src.utils import calc_chunk_size, split_dataframe
@@ -81,11 +83,11 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         )
 
         # PHENOTYPIC FEATURES
-        hpo_cols = ['sct_8116006_1', 'sct_8116006_2', \
-                    'sct_8116006_3', 'sct_8116006_4', \
+        hpo_cols = ['sct_8116006_1', 'sct_8116006_2',
+                    'sct_8116006_3', 'sct_8116006_4',
                     'sct_8116006_5']
-        onset_cols = ['parsed_date_of_phenotyping1', 'parsed_date_of_phenotyping2', \
-                      'parsed_date_of_phenotyping3', 'parsed_date_of_phenotyping4', \
+        onset_cols = ['parsed_date_of_phenotyping1', 'parsed_date_of_phenotyping2',
+                      'parsed_date_of_phenotyping3', 'parsed_date_of_phenotyping4',
                       'parsed_date_of_phenotyping5']
         label_cols = ['parsed_phenotype_label1', 'parsed_phenotype_label2',
                       'parsed_phenotype_label3', 'parsed_phenotype_label4',
@@ -133,7 +135,6 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             id=phenopacket_id,
             subject=individual,
             phenotypic_features=phenotypic_features,
-            # genes=[gene_descriptor], # TODO: belongs under genomicdescr
             diseases=[disease],
             # created_by=config.get('Constants', 'creator_tag'), # TODO: add to metadata
             interpretations=[interpretation],
@@ -142,6 +143,36 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
         phenopackets_list.append(phenopacket)
 
     return phenopackets_list
+
+
+def _create_metadata(created_by: str,
+                     created: str,
+                     resources: List[str],
+                     phenopacket_schema_version: str=phenopackets.__version__,
+                     ) -> MetaData:
+    """Creates the metadata block of the Phenopacket
+
+    https://phenopacket-schema.readthedocs.io/en/latest/metadata.html
+
+    :param created_by: List of authors
+    :type created_by: str
+    :param created: timestamp phenopacket creation
+    :type created: str
+    :param resources: List of used ontologies
+    :type resources: List[str]
+    :param phenopacket_schema_version: version of the phenopacket schema used,
+    defaults to phenopackets.__version__ (installed version of phenopackets)
+    :type phenopacket_schema_version: str, optional
+    :return: Metadata block
+    :rtype: MetaData
+    """
+    meta_data = MetaData(
+        created_by=created_by,
+        created=created,
+        phenopacket_schema_version=phenopacket_schema_version,
+        resources=resources
+    )
+    return meta_data
 
 
 def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Individual:
