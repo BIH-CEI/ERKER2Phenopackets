@@ -181,9 +181,7 @@ def parse_omim(omim: str) -> str:
     :return: a patient's OMIM code in Phenopacket representation
     :raises: Value Error: If the OMIM string is not a valid OMIM code
     """
-    pattern = r'\".*\"'  # a string beginning and ending with " with anything in between
-    if re.match(pattern, omim):
-        omim = omim[1:-1]  # remove first and last char
+    omim = omim.replace("\"", "")
 
     pattern_with_suffix = r'\d{6}\.\d{4}'
     pattern_with_out_suffix = r'\d{6}'
@@ -195,5 +193,5 @@ def parse_omim(omim: str) -> str:
     elif re.match(pattern_with_suffix, omim) or re.match(pattern_with_out_suffix, omim):
         return 'OMIM:' + omim
     else:
-        raise ValueError('The OMIM code does not match format "6d.4d" or "6d".' \
+        raise ValueError('The OMIM code does not match format "6d.4d" or "6d".'
                          f'Received: {omim}')
