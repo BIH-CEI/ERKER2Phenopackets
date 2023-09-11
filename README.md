@@ -13,6 +13,7 @@ More information on Phenopackets:
 - [Project Description](#project-description)
 - [Features](#features)
 - [Installation](#installation)
+- [Resources](#resources)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
 
@@ -76,13 +77,24 @@ Now, you have Python installed on your system, and you can start using it by run
 ### 4. Installing MongoDB
   Please follow the official [MongoDB Installation Tutorial](https://www.mongodb.com/docs/manual/administration/install-community/).
 
+## Resources
+
+### Ontologies
+- Human Phenotype Ontology (HP, version: 2023-06-06) [🔗](http://www.human-phenotype-ontology.org)
+- Online Mendelian Inheritance in Man (OMIM, version: 2023-09-08) [🔗](https://www.omim.org/)
+- Orphanet Rare Disease Ontology (OPRHA, version: 2023-09-10) [🔗](https://www.orpha.net/)
+- National Center for Biotechnology Information Taxonomy (NCBITaxon, version: 2023-02-21) [🔗](https://www.ncbi.nlm.nih.gov/taxonomy)
+- Logical Observation Identifiers Names and Codes (LOINC, version: 2023-08-15) [🔗](https://loinc.org/)
+- HUGO Gene Nomenclature Committee (HGNC, version: 2023-09-10) [🔗](https://www.genenames.org/)
+- Gene Ontology (GENO, version: 2023-07-27) [🔗](https://geneontology.org/)
+
 ## License
 
-TODO:Specify the license under which your project is distributed.
+This project is licensed under the terms of the [MIT License](https://github.com/BIH-CEI/ERKER2Phenopackets/blob/main/LICENSE)
 
 ## Acknowledgements
 
-TODO: Credit any individuals, resources, or tools that have inspired or helped your project.
+We would like to extend our thanks to Daniel Danis for his support in the development of this project.
 
 ---
 
