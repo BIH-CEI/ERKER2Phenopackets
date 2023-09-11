@@ -13,6 +13,7 @@ from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
 from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
 from phenopackets import MetaData
+from phenopackets import VariationInterpretation
 from loguru import logger
 
 from src.utils import calc_chunk_size, split_dataframe, \
@@ -385,9 +386,13 @@ def _map_interpretation(variant_descriptor_id: str,
         vrs_ref_allele_seq=ref_allele,  # TODO: store in vcf record, leave empty here
     )
 
+    variant_interpretation = VariationInterpretation(
+        variant_descriptor=variation_descriptor,
+    )
+
     genomic_interpretation = GenomicInterpretation(
         interpretation_status="UNKNOWN_STATUS",  # TODO: is this correct?
-        variant_interpretation=variation_descriptor,
+        variant_interpretation=variant_interpretation,
         gene=gene,
     )
 
