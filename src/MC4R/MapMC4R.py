@@ -13,7 +13,7 @@ from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
 from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
 from phenopackets import MetaData
-from phenopackets import VariationInterpretation
+from phenopackets import VariantInterpretation
 from loguru import logger
 
 from src.utils import calc_chunk_size, split_dataframe, \
@@ -152,7 +152,8 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         disease = _map_disease(
             orpha=row['sct_439401001_orpha'],
             date_of_diagnosis=row['parsed_date_of_diagnosis'],
-            label=config.get('Constants', 'disease_label')
+            label=config.get('Constants', 'disease_label'),
+            no_date=no_date,
         )
 
         # Orchestrate the mapping
@@ -386,8 +387,8 @@ def _map_interpretation(variant_descriptor_id: str,
         vrs_ref_allele_seq=ref_allele,  # TODO: store in vcf record, leave empty here
     )
 
-    variant_interpretation = VariationInterpretation(
-        variant_descriptor=variation_descriptor,
+    variant_interpretation = VariantInterpretation(
+        variation_descriptor=variation_descriptor,
     )
 
     genomic_interpretation = GenomicInterpretation(
@@ -443,7 +444,9 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
 def _map_disease(
         orpha: str,
         date_of_diagnosis: str,
-        label: str) -> Disease:
+        label: str,
+        no_date: str,
+) -> Disease:
     """Maps ERKER patient data to Disease block
 
     Phenopackets Documentation of the Disease block:
@@ -455,20 +458,31 @@ def _map_disease(
     :type date_of_diagnosis: str
     :param label: human-readable class name
     :type label: str
+    :param no_date: symbol for missing date
+    :type no_date: str
     :return: Disease Phenopackets block
     """
     term = OntologyClass(
         id=orpha,
         label=label
     )
-    date_of_diagnosis_timestamp \
-        = parse_iso8601_utc_to_protobuf_timestamp(date_of_diagnosis)
-    onset = TimeElement(
-        timestamp=date_of_diagnosis_timestamp,
-    )
-    disease = Disease(
-        term=term,
-        onset=onset,
-    )
+
+    # create timestamp for date of diagnosis
+    logger.debug(date_of_diagnosis)
+    if date_of_diagnosis != no_date:
+        date_of_diagnosis_timestamp \
+            = parse_iso8601_utc_to_protobuf_timestamp(date_of_diagnosis)
+        onset = TimeElement(
+            timestamp=date_of_diagnosis_timestamp,
+        )
+
+        disease = Disease(
+            term=term,
+            onset=onset,
+        )
+    else:
+        disease = Disease(
+            term=term,
+        )
 
     return disease
