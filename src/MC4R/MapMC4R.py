@@ -128,8 +128,8 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             hgnc=row['ln_48018_6_1'],
             symbol=config.get('Constants', 'gene_descriptor_symbol'),
             omims=[
-                row['sct_439401001_omim_g_1'],
-                row['sct_439401001_omim_g_2']
+                row['parsed_omim_1'],
+                row['parsed_omim_2']
             ],
             no_omim=no_omim
         )
@@ -424,7 +424,8 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
     :return: GeneDescriptor Phenopackets block
     :rtype: GeneDescriptor
     """
-    omims = [omim for omim in omims if not omim == no_omim]  # filter out null vals
+    # filter out  null vals
+    omims = [omim for omim in omims if not omim == no_omim]
 
     if omims:  # omims not empty
         gene_descriptor = GeneDescriptor(
