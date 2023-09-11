@@ -162,7 +162,7 @@ phenopacket-schema
 ERKER2Phenopackets/data/confidential
 .vscode/settings.json
 .DS_Store
-ERKER2Phenopackets/data/out/phenopackets/
+ERKER2Phenopackets/data/out/experimental_phenopackets/
 ERKER2Phenopackets/src/CreateSynthData.ipynb
 
 ERKER2Phenopackets/submodules/
