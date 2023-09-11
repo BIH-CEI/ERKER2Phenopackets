@@ -145,7 +145,6 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             # same mutation, p=protein, c=coding DNA reference sequence
             p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
             c_hgvs=[row[c_hgvs_col] for c_hgvs_col in c_hgvs_cols if c_hgvs_col in row],
-            ref_allele=config.get('Constants', 'ref_allele'),
             no_mutation=no_mutation,
             gene=gene_descriptor
         )
@@ -341,7 +340,6 @@ def _map_interpretation(variant_descriptor_id: str,
                         allele_label: str,
                         p_hgvs: List[str],
                         c_hgvs: List[str],
-                        ref_allele: str,
                         no_mutation: str,
                         gene: GeneDescriptor) -> VariationDescriptor:
     """Maps ERKER patient data to Interpretation block
@@ -363,8 +361,6 @@ def _map_interpretation(variant_descriptor_id: str,
     :type p_hgvs: List[str]
     :param c_hgvs: List of c.HGVS codes (coding DNA reference sequence)
     :type c_hgvs: List[str]
-    :param ref_allele: the corresponding reference allele, e.g.: hg38
-    :type ref_allele: str
     :param gene: GeneDescriptor block
     :type gene: GeneDescriptor
     :return: Interpretation block (containing variation description)
@@ -391,7 +387,6 @@ def _map_interpretation(variant_descriptor_id: str,
         id=variant_descriptor_id,
         expressions=expressions,
         allelic_state=allelic_state,
-        vrs_ref_allele_seq=ref_allele,  # TODO: store in vcf record, leave empty here
     )
 
     variant_interpretation = VariantInterpretation(
