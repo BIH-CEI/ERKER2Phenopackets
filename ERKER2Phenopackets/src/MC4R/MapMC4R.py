@@ -70,11 +70,24 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
 
     # metadata creation
     config = configparser.ConfigParser()
-    config.read('../../data/config/config.cfg')
+
+    try:
+        config.read('../../data/config/config.cfg')
+        no_mutation, no_phenotype, no_date, no_omim, created_by = \
+            _get_constants_from_config(config)
+    except Exception as e1:
+        try:
+            config.read('ERKER2Phenopackets/data/config/config.cfg')
+            no_mutation, no_phenotype, no_date, no_omim, created_by = \
+                _get_constants_from_config(config)
+        except Exception as e2:
+            print(f"Could not find config file. {e1} {e2}")
+            exit()
+
     created = parse_date_string_to_protobuf_timestamp(cur_time)
     logger.debug(type(created))
     meta_data = _create_metadata(
-        created_by=config.get('Constants', 'creator_tag'),
+        created_by=created_by,
         created=created,
         names=config.get('Resources', 'formal_names').split(','),
         namespace_prefixes=config.get('Resources', 'namespace_prefixes').split(','),
@@ -88,12 +101,6 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
     for row in chunk.rows(named=True):
         phenopacket_id = row['mc4r_id']
         logger.debug(f'{thread_id}: ID: {phenopacket_id}')
-
-        # get constants from config file
-        no_mutation = config.get('NoValue', 'mutation')
-        no_phenotype = config.get('NoValue', 'phenotype')
-        no_date = config.get('NoValue', 'date')
-        no_omim = config.get('NoValue', 'omim')
 
         logger.debug(f'{thread_id}: {row["parsed_year_of_birth"]=}')
         logger.debug(f'{thread_id}: {row["parsed_sex"]=}')
@@ -501,3 +508,13 @@ def _map_disease(
         )
 
     return disease
+
+
+def _get_constants_from_config(config):
+    no_mutation = config.get('NoValue', 'mutation')
+    no_phenotype = config.get('NoValue', 'phenotype')
+    no_date = config.get('NoValue', 'date')
+    no_omim = config.get('NoValue', 'omim')
+    created_by = config.get('Constants', 'creator_tag')
+
+    return no_mutation, no_phenotype, no_date, no_omim, created_by

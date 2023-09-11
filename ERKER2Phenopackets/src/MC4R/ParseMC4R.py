@@ -189,8 +189,18 @@ def parse_omim(omim: str) -> str:
 
     if omim is None or omim == 'nan':
         config = configparser.ConfigParser()
-        config.read('../../data/config/config.cfg')
-        return config.get('NoValue', 'omim')
+        try:
+            config.read('../../data/config/config.cfg')
+            no_omim = config.get('NoValue', 'omim')
+        except Exception as e1:
+            try:
+                config.read('ERKER2Phenopackets/data/config/config.cfg')
+                no_omim = config.get('NoValue', 'omim')
+            except Exception as e2:
+                print(f"Could not find config file. {e1} {e2}")
+                exit()
+
+        return no_omim
     elif re.match(pattern_with_suffix, omim) or re.match(pattern_with_out_suffix, omim):
         return 'OMIM:' + omim
     else:
