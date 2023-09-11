@@ -56,7 +56,7 @@ def map_mc4r2phenopackets(
     return results
 
 
-def _map_chunk(chunk: pl.DataFrame, cur_time: str,) -> List[Phenopacket]:
+def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
     """Maps a chunk of the MC4R DataFrame to a list of Phenopackets.
 
     :param chunk: Chunk of the MC4R DataFrame
@@ -75,7 +75,11 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str,) -> List[Phenopacket]:
     meta_data = _create_metadata(
         created_by=config.get('Constants', 'creator_tag'),
         created=created,
-        resources=['HPO', 'OMIM', 'ORPHA', 'NCBITaxon', 'LOINC', 'HGNC', 'GENO'],
+        names=config.get('Resources', 'formal_names').split(','),
+        namespace_prefixes=config.get('Resources', 'namespace_prefixes').split(','),
+        urls=config.get('Resources', 'urls').split(','),
+        versions=config.get('Resources', 'versions').split(','),
+        iri_prefixes=config.get('Resources', 'iri_prefixes').split(','),
     )
 
     phenopackets_list = []
@@ -164,8 +168,12 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str,) -> List[Phenopacket]:
 
 def _create_metadata(created_by: str,
                      created: str,
-                     resources: List[str],
-                     phenopacket_schema_version: str=phenopackets.__version__,
+                     names: List[str],
+                     namespace_prefixes: List[str],
+                     urls: List[str],
+                     versions: List[str],
+                     iri_prefixes: List[str],
+                     phenopacket_schema_version: str = phenopackets.__version__,
                      ) -> MetaData:
     """Creates the metadata block of the Phenopacket
 
@@ -175,19 +183,40 @@ def _create_metadata(created_by: str,
     :type created_by: str
     :param created: timestamp phenopacket creation
     :type created: str
-    :param resources: List of used ontologies
-    :type resources: List[str]
+    :param names: List of names of the resources used
+    :type names: List[str]
+    :param namespace_prefixes: List of namespace prefixes of the resources used
+    :type namespace_prefixes: List[str]
+    :param urls: List of urls of the resources used
+    :type urls: List[str]
+    :param versions: List of versions of the resources used
+    :type versions: List[str]
+    :param iri_prefixes: List of iri prefixes of the resources used
+    :type iri_prefixes: List[str]
     :param phenopacket_schema_version: version of the phenopacket schema used,
     defaults to phenopackets.__version__ (installed version of phenopackets)
     :type phenopacket_schema_version: str, optional
     :return: Metadata block
     :rtype: MetaData
     """
+    resources = []
+    for name, namespace_prefix, url, version, iri_prefix in zip(
+            names, namespace_prefixes, urls, versions, iri_prefixes):
+        resource = phenopackets.Resource(
+            id=namespace_prefix,
+            name=name,
+            namespace_prefix=namespace_prefix,
+            url=url,
+            version=version,
+            iri_prefix=iri_prefix,
+        )
+        resources.append(resource)
+
     meta_data = MetaData(
         created_by=created_by,
         created=created,
         phenopacket_schema_version=phenopacket_schema_version,
-        resources=resources
+        resources=resources,
     )
     return meta_data
 
