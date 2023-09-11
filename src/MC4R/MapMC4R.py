@@ -133,13 +133,16 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             no_omim=no_omim
         )
 
+        p_hgvs_cols = ['ln_48005_3_1', 'ln_48005_3_2', 'ln_48005_3_3']
+        c_hgvs_cols = ['ln_48004_6_1', 'ln_48004_6_2', 'ln_48004_6_3']
+
         interpretation = _map_interpretation(
             variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
             zygosity=row['parsed_zygosity'],
             allele_label=row['allele_label'],
             # same mutation, p=protein, c=coding DNA reference sequence
-            p_hgvs=[row['ln_48005_3_1'], row['ln_48005_3_2'], row['ln_48005_3_3']],
-            c_hgvs=[row['ln_48004_6_1'], row['ln_48004_6_1'], row['ln_48004_6_1']],
+            p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
+            c_hgvs=[row[c_hgvs_col] for c_hgvs_col in c_hgvs_cols if c_hgvs_col in row],
             ref_allele=config.get('Constants', 'ref_allele'),
             no_mutation=no_mutation,
             gene=gene_descriptor
