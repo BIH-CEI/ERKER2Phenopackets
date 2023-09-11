@@ -2,19 +2,28 @@ import configparser
 import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import List
+import threading
 
+import phenopackets
 import polars as pl
 from phenopackets import Phenopacket
 from phenopackets import PhenotypicFeature
 from phenopackets import VariationDescriptor, Expression
 from phenopackets import GeneDescriptor
 from phenopackets import Individual, OntologyClass, Disease, TimeElement
+from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
+from phenopackets import MetaData
+from phenopackets import VariantInterpretation
+from loguru import logger
 
-from src.utils import calc_chunk_size, split_dataframe
+from src.utils import calc_chunk_size, split_dataframe, \
+    parse_date_string_to_protobuf_timestamp
+from src.utils import parse_iso8601_utc_to_protobuf_timestamp
 
 
 def map_mc4r2phenopackets(
         df: pl.DataFrame,
+        cur_time: str,
         num_threads: int = os.cpu_count(),
 ) -> List[Phenopacket]:
     """Maps MC4R DataFrame to List of Phenopackets.
@@ -25,6 +34,8 @@ def map_mc4r2phenopackets(
 
     :param df: MC4R DataFrame
     :type df: pl.DataFrame
+    :param cur_time: string representation of the current time ("YYYY-MM-DD")
+    :type cur_time: str
     :param num_threads: Maximum number of threads to use, defaults to the number of CPUs
     :type num_threads: int, optional
     :return: List of Phenopackets
@@ -35,7 +46,10 @@ def map_mc4r2phenopackets(
     chunks = split_dataframe(df=df, chunk_sizes=chunk_sizes)
 
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        collected_results = list(executor.map(_map_chunk, chunks))
+        collected_results = list(executor.map(
+            _map_chunk,  # function to execute
+            chunks, [cur_time] * len(chunks))  # arguments to pass to function
+        )
 
     # Collect results from all threads into a single list
     results = [result for result_list in collected_results for result in result_list]
@@ -43,7 +57,7 @@ def map_mc4r2phenopackets(
     return results
 
 
-def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
+def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
     """Maps a chunk of the MC4R DataFrame to a list of Phenopackets.
 
     :param chunk: Chunk of the MC4R DataFrame
@@ -51,17 +65,38 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
     :return: List of Phenopackets
     :rtype: List[Phenopacket]
     """
+    thread_id = threading.get_ident()
+    logger.info(f'Currently working on thread {thread_id}')
+
+    # metadata creation
+    config = configparser.ConfigParser()
+    config.read('../../data/config/config.cfg')
+    created = parse_date_string_to_protobuf_timestamp(cur_time)
+    logger.debug(type(created))
+    meta_data = _create_metadata(
+        created_by=config.get('Constants', 'creator_tag'),
+        created=created,
+        names=config.get('Resources', 'formal_names').split(','),
+        namespace_prefixes=config.get('Resources', 'namespace_prefixes').split(','),
+        urls=config.get('Resources', 'urls').split(','),
+        versions=config.get('Resources', 'versions').split(','),
+        iri_prefixes=config.get('Resources', 'iri_prefixes').split(','),
+    )
+
     phenopackets_list = []
     for row in chunk.rows(named=True):
         phenopacket_id = row['mc4r_id']
+        logger.debug(f'{thread_id}: ID: {phenopacket_id}')
 
         # get constants from config file
-        config = configparser.ConfigParser()
-        config.read('../../data/config/config.cfg')
+
         no_mutation = config.get('NoValue', 'mutation')
         no_phenotype = config.get('NoValue', 'phenotype')
         no_date = config.get('NoValue', 'date')
         no_omim = config.get('NoValue', 'omim')
+
+        logger.debug(f'{thread_id}: {row["parsed_year_of_birth"]=}')
+        logger.debug(f'{thread_id}: {row["parsed_sex"]=}')
 
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
@@ -69,67 +104,126 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
             sex=row['parsed_sex']
         )
 
+        # PHENOTYPIC FEATURES
+        hpo_cols = ['sct_8116006_1', 'sct_8116006_2',
+                    'sct_8116006_3', 'sct_8116006_4',
+                    'sct_8116006_5']
+        onset_cols = ['parsed_date_of_phenotyping1', 'parsed_date_of_phenotyping2',
+                      'parsed_date_of_phenotyping3', 'parsed_date_of_phenotyping4',
+                      'parsed_date_of_phenotyping5']
+        label_cols = ['parsed_phenotype_label1', 'parsed_phenotype_label2',
+                      'parsed_phenotype_label3', 'parsed_phenotype_label4',
+                      'parsed_phenotype_label5']
+
         phenotypic_features = _map_phenotypic_features(
-            hpos=[
-                row['sct_8116006_1'], row['sct_8116006_2'],
-                row['sct_8116006_3'], row['sct_8116006_4'],
-                row['sct_8116006_5']]
-            ,
-            onsets=[
-                row['sct_8116006_1_date'], row['sct_8116006_2_date'],
-                row['sct_8116006_3_date'], row['sct_8116006_4_date'],
-                row['sct_8116006_5_date']
-            ],
-            labels=[
-                row['parsed_phenotype_label1'], row['parsed_phenotype_label2'],
-                row['parsed_phenotype_label3'], row['parsed_phenotype_label4'],
-                row['parsed_phenotype_label5']
-            ],
+            # only including cols if they are in the keyset of the row
+            hpos=[row[hpo_col] for hpo_col in hpo_cols if hpo_col in row],
+            onsets=[row[onset_col] for onset_col in onset_cols if onset_col in row],
+            labels=[row[label_col] for label_col in label_cols if label_col in row],
             no_phenotype=no_phenotype,
             no_date=no_date,
-        )
-
-        variation_descriptor = _map_variation_descriptor(
-            variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
-            zygosity=row['parsed_zygosity'],
-            allele_label=row['allele_label'],
-            # same mutation, p=protein, c=coding DNA reference sequence
-            p_hgvs=[row['ln_48005_3_1'], row['ln_48005_3_2'], row['ln_48005_3_3']],
-            c_hgvs=[row['ln_48006_6_1'], row['ln_48006_6_2'], row['ln_48006_6_3']],
-            ref_allele=config.get('Constants', 'ref_allele'),
-            no_mutation=no_mutation
         )
 
         gene_descriptor = _map_gene_descriptor(
             hgnc=row['ln_48018_6_1'],
             symbol=config.get('Constants', 'gene_descriptor_symbol'),
             omims=[
-                row['sct_439401001_omim_g_1'],
-                row['sct_439401001_omim_g_2']
+                row['parsed_omim_1'],
+                row['parsed_omim_2']
             ],
             no_omim=no_omim
+        )
+
+        p_hgvs_cols = ['ln_48005_3_1', 'ln_48005_3_2', 'ln_48005_3_3']
+        c_hgvs_cols = ['ln_48004_6_1', 'ln_48004_6_2', 'ln_48004_6_3']
+
+        interpretation = _map_interpretation(
+            variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
+            zygosity=row['parsed_zygosity'],
+            allele_label=row['allele_label'],
+            # same mutation, p=protein, c=coding DNA reference sequence
+            p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
+            c_hgvs=[row[c_hgvs_col] for c_hgvs_col in c_hgvs_cols if c_hgvs_col in row],
+            ref_allele=config.get('Constants', 'ref_allele'),
+            no_mutation=no_mutation,
+            gene=gene_descriptor
         )
 
         disease = _map_disease(
             orpha=row['sct_439401001_orpha'],
             date_of_diagnosis=row['parsed_date_of_diagnosis'],
-            label=config.get('Constants', 'disease_label')
+            label=config.get('Constants', 'disease_label'),
+            no_date=no_date,
         )
 
         # Orchestrate the mapping
         phenopacket = Phenopacket(
             id=phenopacket_id,
             subject=individual,
-            phenotypicFeatures=phenotypic_features,
-            variants=[variation_descriptor],
-            genes=[gene_descriptor],
+            phenotypic_features=phenotypic_features,
             diseases=[disease],
-            created_by=config.get('Constants', 'creator_tag'),
+            meta_data=meta_data,
+            interpretations=[interpretation],
         )
 
         phenopackets_list.append(phenopacket)
 
     return phenopackets_list
+
+
+def _create_metadata(created_by: str,
+                     created: str,
+                     names: List[str],
+                     namespace_prefixes: List[str],
+                     urls: List[str],
+                     versions: List[str],
+                     iri_prefixes: List[str],
+                     phenopacket_schema_version: str = phenopackets.__version__,
+                     ) -> MetaData:
+    """Creates the metadata block of the Phenopacket
+
+    https://phenopacket-schema.readthedocs.io/en/latest/metadata.html
+
+    :param created_by: List of authors
+    :type created_by: str
+    :param created: timestamp phenopacket creation
+    :type created: str
+    :param names: List of names of the resources used
+    :type names: List[str]
+    :param namespace_prefixes: List of namespace prefixes of the resources used
+    :type namespace_prefixes: List[str]
+    :param urls: List of urls of the resources used
+    :type urls: List[str]
+    :param versions: List of versions of the resources used
+    :type versions: List[str]
+    :param iri_prefixes: List of iri prefixes of the resources used
+    :type iri_prefixes: List[str]
+    :param phenopacket_schema_version: version of the phenopacket schema used,
+    defaults to phenopackets.__version__ (installed version of phenopackets)
+    :type phenopacket_schema_version: str, optional
+    :return: Metadata block
+    :rtype: MetaData
+    """
+    resources = []
+    for name, namespace_prefix, url, version, iri_prefix in zip(
+            names, namespace_prefixes, urls, versions, iri_prefixes):
+        resource = phenopackets.Resource(
+            id=namespace_prefix,
+            name=name,
+            namespace_prefix=namespace_prefix,
+            url=url,
+            version=version,
+            iri_prefix=iri_prefix,
+        )
+        resources.append(resource)
+
+    meta_data = MetaData(
+        created_by=created_by,
+        created=created,
+        phenopacket_schema_version=phenopacket_schema_version,
+        resources=resources,
+    )
+    return meta_data
 
 
 def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Individual:
@@ -148,16 +242,17 @@ def _map_individual(phenopacket_id: str, year_of_birth: str, sex: str) -> Indivi
     :return: Individual Phenopacket block
     :rtype: Individual
     """
+    year_of_birth_timestamp = parse_iso8601_utc_to_protobuf_timestamp(year_of_birth)
     individual = Individual(
         id=phenopacket_id,
-        date_of_birth=year_of_birth,
+        date_of_birth=year_of_birth_timestamp,
         sex=sex,
         taxonomy=OntologyClass(id='NCBITaxon:9606', label='Homo sapiens')
     )
 
     return individual
 
-  
+
 def _map_phenotypic_feature(
         hpo: str, onset: str, label: str = None) -> PhenotypicFeature:
     """Maps ERKER patient data to PhenotypicFeature block
@@ -183,8 +278,9 @@ def _map_phenotypic_feature(
             id=hpo,
         )
 
+    onset_timestamp = parse_iso8601_utc_to_protobuf_timestamp(onset)
     onset = TimeElement(
-        timestamp=onset
+        timestamp=onset_timestamp
     )
 
     phenotypic_feature = PhenotypicFeature(
@@ -231,16 +327,19 @@ def _map_phenotypic_features(
     )
 
     return phenotypic_features
-  
-  
-def _map_variation_descriptor(variant_descriptor_id: str,
-                              zygosity: str,
-                              allele_label: str,
-                              p_hgvs: List[str],
-                              c_hgvs: List[str],
-                              ref_allele: str,
-                              no_mutation: str) -> VariationDescriptor:
-    """Maps ERKER patient data to VariationDescriptor block
+
+
+def _map_interpretation(variant_descriptor_id: str,
+                        zygosity: str,
+                        allele_label: str,
+                        p_hgvs: List[str],
+                        c_hgvs: List[str],
+                        ref_allele: str,
+                        no_mutation: str,
+                        gene: GeneDescriptor) -> VariationDescriptor:
+    """Maps ERKER patient data to Interpretation block
+    
+    Contains info about hgvs, in the VariationDescriptor block
 
     p.HGVS and c.HGVS is the same mutation, p=protein, c=coding DNA reference sequence
 
@@ -259,8 +358,10 @@ def _map_variation_descriptor(variant_descriptor_id: str,
     :type c_hgvs: List[str]
     :param ref_allele: the corresponding reference allele, e.g.: hg38
     :type ref_allele: str
-    :return: VariationDescriptor block
-    :rtype: VariationDescriptor
+    :param gene: GeneDescriptor block
+    :type gene: GeneDescriptor
+    :return: Interpretation block (containing variation description)
+    :rtype: Interpretation
     """
     # filter hgvs lists to avoid null vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
@@ -283,11 +384,29 @@ def _map_variation_descriptor(variant_descriptor_id: str,
         id=variant_descriptor_id,
         expressions=expressions,
         allelic_state=allelic_state,
-        vrs_ref_allele_seq=ref_allele,
+        vrs_ref_allele_seq=ref_allele,  # TODO: store in vcf record, leave empty here
     )
-    return variation_descriptor
-  
-  
+
+    variant_interpretation = VariantInterpretation(
+        variation_descriptor=variation_descriptor,
+    )
+
+    genomic_interpretation = GenomicInterpretation(
+        interpretation_status="UNKNOWN_STATUS",  # TODO: is this correct?
+        variant_interpretation=variant_interpretation,
+        gene=gene,
+    )
+
+    diagnosis = Diagnosis(
+        genomic_interpretations=[genomic_interpretation]
+    )
+
+    interpretation = Interpretation(
+        diagnosis=diagnosis
+    )
+    return interpretation
+
+
 def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str) -> \
         GeneDescriptor:
     """Maps ERKER gene data to GeneDescriptor block
@@ -305,27 +424,30 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
     :return: GeneDescriptor Phenopackets block
     :rtype: GeneDescriptor
     """
-    omims = [omim for omim in omims if not omim == no_omim]  # filter out null vals
+    # filter out  null vals
+    omims = [omim for omim in omims if not omim == no_omim]
 
     if omims:  # omims not empty
         gene_descriptor = GeneDescriptor(
             value_id=hgnc,
-            symbold=symbol,
-            alternateIds=omims
+            symbol=symbol,
+            alternate_ids=omims
         )
     else:  # omims empty
         gene_descriptor = GeneDescriptor(
             value_id=hgnc,
-            symbold=symbol,
+            symbol=symbol,
         )
 
     return gene_descriptor
 
-  
+
 def _map_disease(
         orpha: str,
         date_of_diagnosis: str,
-        label: str) -> Disease:
+        label: str,
+        no_date: str,
+) -> Disease:
     """Maps ERKER patient data to Disease block
 
     Phenopackets Documentation of the Disease block:
@@ -337,18 +459,31 @@ def _map_disease(
     :type date_of_diagnosis: str
     :param label: human-readable class name
     :type label: str
+    :param no_date: symbol for missing date
+    :type no_date: str
     :return: Disease Phenopackets block
     """
     term = OntologyClass(
         id=orpha,
         label=label
     )
-    onset = TimeElement(
-        timestamp=date_of_diagnosis,
-    )
-    disease = Disease(
-        term=term,
-        onset=onset,
-    )
+
+    # create timestamp for date of diagnosis
+    logger.debug(date_of_diagnosis)
+    if date_of_diagnosis != no_date:
+        date_of_diagnosis_timestamp \
+            = parse_iso8601_utc_to_protobuf_timestamp(date_of_diagnosis)
+        onset = TimeElement(
+            timestamp=date_of_diagnosis_timestamp,
+        )
+
+        disease = Disease(
+            term=term,
+            onset=onset,
+        )
+    else:
+        disease = Disease(
+            term=term,
+        )
 
     return disease

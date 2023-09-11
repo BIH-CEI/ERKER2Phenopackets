@@ -1,4 +1,4 @@
-from typing import List, Union, Dict, Any, Callable
+from typing import List, Union, Dict, Any, Callable, Type
 import warnings
 
 import polars as pl
@@ -127,8 +127,8 @@ def get_num_rows(df: pl.DataFrame) -> int:
 
 def add_id_col(df: pl.DataFrame,
                id_col_name: str,
-               id_prefix: str = None, id_suffix: str = None) -> \
-        pl.DataFrame:
+               id_prefix: str = None, id_suffix: str = None, id_datatype: Type = int
+    ) -> pl.DataFrame:
     """
     Add id column to DataFrame
 
@@ -145,12 +145,21 @@ def add_id_col(df: pl.DataFrame,
     :type id_prefix: str
     :param id_suffix: Suffix for id column
     :type id_suffix: str
+    :param id_datatype: the datatype of the id column, if id_suffix and id_prefix are 
+        not specified
+    :type id_datatype: Type
     :return: DataFrame with id column
     :rtype: pl.DataFrame
     """
     # add id column with prefix and/or suffix
     if not id_prefix and not id_suffix:
-        df = df.with_columns((pl.Series(range(0, df.height))).alias(id_col_name))
+        if id_datatype == int:
+            df = df.with_columns((pl.Series(range(0, df.height))).alias(id_col_name))
+        elif id_datatype == str:
+            ids = [str(i) for i in range(0, df.height)]
+            df = df.with_columns((pl.Series(ids)).alias(id_col_name))
+        else: 
+            raise ValueError(f'id_datatype has to be int or str, not {id_datatype}')
     elif id_prefix and not id_suffix:
         df = df.with_columns((pl.Series(
             f'{id_prefix}{i}' for i in range(0, df.height)
