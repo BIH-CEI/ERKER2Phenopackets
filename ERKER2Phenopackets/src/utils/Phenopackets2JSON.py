@@ -1,5 +1,6 @@
 import os
-from typing import List
+from pathlib import Path
+from typing import List, Union
 
 from phenopackets import Phenopacket
 from google.protobuf.json_format import MessageToJson
@@ -18,7 +19,7 @@ def write_phenopacket2json_file(phenopacket: Phenopacket, out_dr: str) -> None:
 
 
 def write_phenopackets2json_files(
-        phenopackets_list: List[Phenopacket], out_dir: str) -> None:
+        phenopackets_list: List[Phenopacket], out_dir: Union[str, Path]) -> None:
     """Writes a list of phenopackets to JSON files.
 
     :param phenopackets_list: The list of phenopackets.
