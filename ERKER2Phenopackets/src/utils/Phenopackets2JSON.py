@@ -10,7 +10,10 @@ def _map_phenopacket2json_str(phenopacket: Phenopacket) -> str:
     return MessageToJson(phenopacket)
 
 
-def write_phenopacket2json_file(phenopacket: Phenopacket, out_dr: str) -> None:
+def write_phenopacket2json_file(
+        phenopacket: Phenopacket,
+        out_dr: Union[str, Path]
+                                ) -> None:
     json_str = _map_phenopacket2json_str(phenopacket)
     out_path = os.path.join(out_dr, (phenopacket.id + '.json'))
     with open(out_path, 'w') as fh:
@@ -25,7 +28,7 @@ def write_phenopackets2json_files(
     :param phenopackets_list: The list of phenopackets.
     :type phenopackets_list: List[Phenopacket]
     :param out_dir: The output directory.
-    :type out_dir: str
+    :type out_dir: Union[str, Path]
     """
     # Make sure output out_dr exists.
     os.makedirs(out_dir, exist_ok=True)
