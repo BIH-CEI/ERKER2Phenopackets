@@ -1,12 +1,10 @@
 import polars as pl  # the same as pandas just faster
-from loguru import logger
 
 import configparser
 from pathlib import Path
 from datetime import datetime
 
 from ERKER2Phenopackets.src.utils import write_files
-from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets
 from ERKER2Phenopackets.src.utils import PolarsUtils
 from ERKER2Phenopackets.src.MC4R.MappingDicts import \
     phenotype_label_map_erker2phenopackets
@@ -167,6 +165,6 @@ def pipeline(data_path: Path):
 
 
 if __name__ == "__main__":
-    inp_path = input('Type the path to the file')
+    inp_path = input('Type the path to the file:\n')
     inp_path = Path(inp_path)
     pipeline(inp_path)
