@@ -1,3 +1,5 @@
+import os
+
 import polars as pl  # the same as pandas just faster
 
 import configparser
@@ -17,16 +19,18 @@ from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
 from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
 
 
-def pipeline():
+def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
     if len(sys.argv) > 1:
         data_path = sys.argv[1]
     else:
-        data_path = input('Type the path to the file:\n')
+        print("No path to data provided. Please provide a path to the data as a "
+              "command line argument.")
+        return
 
     config = configparser.ConfigParser()
-    config.read('../../data/config/config.cfg')
+    config.read('ERKER2Phenopackets/data/config/config.cfg')
 
     phenopackets_out = Path(config.get('Paths', 'phenopackets_out'))
 
@@ -44,8 +48,6 @@ def pipeline():
     df = PolarsUtils.add_id_col(df, id_col_name='mc4r_id', id_datatype=str)
 
     # Parsing step
-    config = configparser.ConfigParser()
-    config.read('../../data/config/config.cfg')
     no_mutation = config.get('NoValue', 'mutation')
     no_phenotype = config.get('NoValue', 'phenotype')
     no_date = config.get('NoValue', 'date')
@@ -167,4 +169,4 @@ def pipeline():
 
 
 if __name__ == "__main__":
-    pipeline()
+    main()
