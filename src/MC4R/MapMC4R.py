@@ -15,7 +15,8 @@ from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
 from phenopackets import MetaData
 from loguru import logger
 
-from src.utils import calc_chunk_size, split_dataframe
+from src.utils import calc_chunk_size, split_dataframe, \
+    parse_date_string_to_iso8601_utc_timestamp
 from src.utils import parse_iso8601_utc_to_protobuf_timestamp
 
 
@@ -49,7 +50,7 @@ def map_mc4r2phenopackets(
     return results
 
 
-def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
+def _map_chunk(chunk: pl.DataFrame, cur_time: str,) -> List[Phenopacket]:
     """Maps a chunk of the MC4R DataFrame to a list of Phenopackets.
 
     :param chunk: Chunk of the MC4R DataFrame
@@ -60,14 +61,23 @@ def _map_chunk(chunk: pl.DataFrame) -> List[Phenopacket]:
     thread_id = threading.get_ident()
     logger.info(f'Currently working on thread {thread_id}')
 
+    # metadata creation
+    config = configparser.ConfigParser()
+    config.read('../../data/config/config.cfg')
+    created = parse_date_string_to_iso8601_utc_timestamp(cur_time)
+    meta_data = _create_metadata(
+        created_by=config.get('Constants', 'creator_tag'),
+        created=created,
+        resources=['HPO', 'OMIM', 'ORPHA', 'NCBITaxon', 'LOINC', 'HGNC', 'GENO'],
+    )
+
     phenopackets_list = []
     for row in chunk.rows(named=True):
         phenopacket_id = row['mc4r_id']
         logger.debug(f'{thread_id}: ID: {phenopacket_id}')
 
         # get constants from config file
-        config = configparser.ConfigParser()
-        config.read('../../data/config/config.cfg')
+
         no_mutation = config.get('NoValue', 'mutation')
         no_phenotype = config.get('NoValue', 'phenotype')
         no_date = config.get('NoValue', 'date')
