@@ -399,19 +399,19 @@ def _map_interpretation(phenopacket_id: str,
     )
 
     variant_interpretation = VariantInterpretation(
-        variation_descriptor=variation_descriptor,
+        variation_descriptor=variation_descriptor
     )
 
     genomic_interpretation_variant = GenomicInterpretation(
         subject_or_biosample_id='subject_id:' + phenopacket_id,
-        interpretation_status='UNKNOWN_STATUS',  # TODO: ask daniel
-        variant_interpretation=variant_interpretation,
+        interpretation_status=interpretation_status,
+        variant_interpretation=variant_interpretation
     )
 
     genomic_interpretation_gene = GenomicInterpretation(
         subject_or_biosample_id='subject_id:' + phenopacket_id,
-        interpretation_status='UNKNOWN_STATUS',  # TODO: ask daniel?
-        gene=gene,
+        interpretation_status=interpretation_status,
+        gene=gene
     )
 
     diagnosis = Diagnosis(
