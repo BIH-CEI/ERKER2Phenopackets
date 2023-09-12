@@ -48,7 +48,9 @@ def main():
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
-    phenopackets_out = Path(config.get('Paths', 'phenopackets_out'))
+    phenopackets_out = Path(config.get('Paths', 'phenopackets_out_script'))
+    print(phenopackets_out)
+    exit(1)
 
     cur_time = datetime.now().strftime("%Y-%m-%d-%H%M")
     logger.debug(f'Current time: {cur_time}')
