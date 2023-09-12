@@ -19,13 +19,17 @@ More information on Phenopackets:
 
 ## Project Description
 
-TODO: A brief overview of your project and its purpose.
+Reliable exchange of medical data between medical facilities is essential for patient's medical care. Especially patients with rare diseases can profit of digital interoperability. 
 
-Please find a set of 50 phenopackets that were created in the [`ERKER2Phenopackets/data/out/phenopackets`](https://github.com/BIH-CEI/ERKER2Phenopackets/tree/main/ERKER2Phenopackets/data/out/phenopackets/example-phenopackets-from-synthetic-data) directory.
+To capture and produce RD-specific and FAIR (Findability, Accessability, Interoperability, Reusability) data, the *ERKER* (ERDRI-CDS kompatible Erfassung in REDCap / ERDRI-CDS compatible data capture in REDCap) was developed within our research projects CORD-MI, Screen4Care, Fair4Rare and Lab4Rare. With the subproject ERKER2Phenopackets we develop the transfer of ERKER data to Phenopackets - a computable representation of clinical data enabling deep phenotyping. The MC4R-deficiency, a rare genetic disease resulting in severe obesity, is used to develop the first example pipeline.
+
+Please find a set of 50 phenopackets that were created artificially in the [`ERKER2Phenopackets/data/out/phenopackets`](https://github.com/BIH-CEI/ERKER2Phenopackets/tree/main/ERKER2Phenopackets/data/out/phenopackets/example-phenopackets-from-synthetic-data) directory.
 
 ## Features
 
-Provide examples and explanations of how your project can be used. Include code snippets or screenshots if necessary.
+REDCap is a clinical electronic data capture system, for which many university hospitals have licenses. The *ERKER* version 1.5 form (ERDRI-CDS kompatible Erfassung in REDCap / ERDRI-CDS compatible data capture in REDCap) can be downloaded for free here: https://github.com/BIH-CEI/ERKER. For disease specific RD data capture in .csv or Excel format, you can use the Python import template to capture the data semi automatically. 
+
+For further use of Phenopackets please read: https://www.nature.com/articles/s41587-022-01357-4. The overall pipeline from the ERKER format to Phenopackets will be developed here. 
 
 ## Installation
 
