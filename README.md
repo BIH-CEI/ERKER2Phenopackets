@@ -83,7 +83,7 @@ To run the pipeline, you require a `.csv` file in ERKER format with the relevant
 
 1. Follow the steps in the [Installation](#installation) section. (Especially important is the `pip install .` command)
 2. Navigate to the root directory (top level `ERKER2Phenopackets` folder).
-3. Run `pipeline <csv-file-path> [Optional: <output-folder-name>]`
+3. Run `pipeline <csv-file-path> [Optional: <output-folder-name>]` <br>
    a. If you do not provide an output folder name, the output folder will be named according to the current date and time in the `'YYYY-MM-DD-hhmm'` format.
 4. You can find the created phenopackets in the `ERKER2Phenopackets/data/out/phenopackets/<output-folder-name>` folder.
 
