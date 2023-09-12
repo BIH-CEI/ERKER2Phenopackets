@@ -20,6 +20,23 @@ from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
 def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
+    setup_logging(level='INFO')
+    dir_name = ''
+    if len(sys.argv) > 1:
+        data_path = sys.argv[1]
+        if len(sys.argv) > 2:
+            dir_name = sys.argv[2]
+            disallowed_chars_pattern = r'[<>:"/\\|?*]'
+
+            logger.warning(f'Removing invalid characters from your directory name: '
+                           f'{dir_name}. Directory names may not contain the '
+                           f'following characters: <>:"/\\|?*')
+
+            dir_name = re.sub(disallowed_chars_pattern, '', dir_name)
+
+            if dir_name == ' ' or dir_name is None:
+                logger.warning('Your directory name is invalid.')
+                dir_name = ''
     if len(sys.argv) > 1:
         data_path = sys.argv[1]
     else:
@@ -161,7 +178,10 @@ def main():
     phenopackets = _map_chunk(df, cur_time[:10])  # map_mc4r2phenopackets(df, cur_time)
 
     # Write to JSON
-    phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
+    if dir_name:
+        phenopackets_out_dir = phenopackets_out / dir_name
+    else:
+        phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
 
     write_files(phenopackets, phenopackets_out_dir)
 
