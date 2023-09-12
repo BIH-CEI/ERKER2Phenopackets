@@ -147,7 +147,8 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
             c_hgvs=[row[c_hgvs_col] for c_hgvs_col in c_hgvs_cols if c_hgvs_col in row],
             no_mutation=no_mutation,
-            gene=gene_descriptor
+            gene=gene_descriptor,
+            interpretation_status=config.get('Constants', 'interpretation_status'),
         )
 
         disease = _map_disease(
@@ -343,7 +344,9 @@ def _map_interpretation(phenopacket_id: str,
                         p_hgvs: List[str],
                         c_hgvs: List[str],
                         no_mutation: str,
-                        gene: GeneDescriptor) -> VariationDescriptor:
+                        gene: GeneDescriptor,
+                        interpretation_status: str
+                        ) -> VariationDescriptor:
     """Maps ERKER patient data to Interpretation block
     
     Contains info about hgvs, in the VariationDescriptor block
@@ -367,6 +370,8 @@ def _map_interpretation(phenopacket_id: str,
     :type c_hgvs: List[str]
     :param gene: GeneDescriptor block
     :type gene: GeneDescriptor
+    :param interpretation_status: status of the interpretation
+    :type interpretation_status: str
     :return: Interpretation block (containing variation description)
     :rtype: Interpretation
     """
@@ -394,19 +399,19 @@ def _map_interpretation(phenopacket_id: str,
     )
 
     variant_interpretation = VariantInterpretation(
-        variation_descriptor=variation_descriptor,
+        variation_descriptor=variation_descriptor
     )
 
     genomic_interpretation_variant = GenomicInterpretation(
         subject_or_biosample_id='subject_id:' + phenopacket_id,
-        interpretation_status="UNKNOWN_STATUS",  # TODO: ask daniel
-        variant_interpretation=variant_interpretation,
+        interpretation_status=interpretation_status,
+        variant_interpretation=variant_interpretation
     )
 
     genomic_interpretation_gene = GenomicInterpretation(
         subject_or_biosample_id='subject_id:' + phenopacket_id,
-        interpretation_status="UNKNOWN_STATUS",  # TODO: ask daniel?
-        gene=gene,
+        interpretation_status=interpretation_status,
+        gene=gene
     )
 
     diagnosis = Diagnosis(
