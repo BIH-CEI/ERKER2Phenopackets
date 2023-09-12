@@ -1,9 +1,11 @@
 import polars as pl  # the same as pandas just faster
+from loguru import logger
 
 import configparser
 from pathlib import Path
 from datetime import datetime
 import sys
+import re
 
 from ERKER2Phenopackets.src.utils import write_files
 from ERKER2Phenopackets.src.utils import PolarsUtils
@@ -15,6 +17,7 @@ from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
     parse_year_of_birth, parse_phenotyping_date, parse_omim
 from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
+from ERKER2Phenopackets.src.logging_ import setup_logging
 
 
 def main():
@@ -37,11 +40,9 @@ def main():
             if dir_name == ' ' or dir_name is None:
                 logger.warning('Your directory name is invalid.')
                 dir_name = ''
-    if len(sys.argv) > 1:
-        data_path = sys.argv[1]
     else:
-        print("No path to data provided. Please provide a path to the data as a "
-              "command line argument.")
+        logger.critical('No path to data provided. Please provide a path to the data '
+                        'as a command line argument.')
         return
 
     config = configparser.ConfigParser()
@@ -50,6 +51,7 @@ def main():
     phenopackets_out = Path(config.get('Paths', 'phenopackets_out'))
 
     cur_time = datetime.now().strftime("%Y-%m-%d-%H%M")
+    logger.debug(f'Current time: {cur_time}')
 
     # Read data in
     df = pl.read_csv(data_path)
@@ -183,7 +185,11 @@ def main():
     else:
         phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
 
+    logger.info(f'Writing phenopackets to {phenopackets_out_dir.resolve()}')
+
+    logger.debug('Starting to write files to disk')
     write_files(phenopackets, phenopackets_out_dir)
+    logger.info(f'Successfully wrote {len(phenopackets)} files to disk')
 
 
 if __name__ == "__main__":
