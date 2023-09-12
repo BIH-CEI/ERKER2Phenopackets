@@ -49,7 +49,7 @@ def main():
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
     phenopackets_out = Path(config.get('Paths', 'phenopackets_out_script'))
-    print(phenopackets_out)
+    logger.critical(phenopackets_out)
     exit(1)
 
     cur_time = datetime.now().strftime("%Y-%m-%d-%H%M")
