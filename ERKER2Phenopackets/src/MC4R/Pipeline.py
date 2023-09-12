@@ -182,7 +182,7 @@ def main():
 
     # Write to JSON
     if dir_name:
-        phenopackets_out_dir = phenopackets_out / dir_name
+        phenopackets_out_dir = phenopackets_out / dir_name # create dir for output
     else:
         phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
 
