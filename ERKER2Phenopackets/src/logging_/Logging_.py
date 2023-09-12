@@ -15,8 +15,17 @@ def setup_logging(level='DEBUG'):
         "%Y%m%d-%H%M")  # get cur time for unique dir name
 
     config = configparser.ConfigParser()
-    config.read('../../data/config/config.cfg')
-    log_file = Path(config.get('Paths', 'log_path')) / cur_time / 'pipeline.log'
+
+    try:
+        config.read('../../data/config/config.cfg')
+        log_file = Path(config.get('Paths', 'log_path')) / cur_time / 'pipeline.log'
+    except Exception as e1:
+        try:
+            config.read('ERKER2Phenopackets/data/config/config.cfg')
+            log_file = Path(config.get('Paths', 'log_path')) / cur_time / 'pipeline.log'
+        except Exception as e2:
+            print(f"Could not find config file. \n {e1} \n {e2}")
+            exit()
 
     # Log to a file     
     logger.add(log_file, level=level)
