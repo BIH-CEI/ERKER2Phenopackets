@@ -1,8 +1,11 @@
 import polars as pl  # the same as pandas just faster
+from loguru import logger
 
 import configparser
 from pathlib import Path
 from datetime import datetime
+import sys
+import re
 
 from ERKER2Phenopackets.src.utils import write_files
 from ERKER2Phenopackets.src.utils import PolarsUtils
@@ -14,18 +17,42 @@ from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
     parse_year_of_birth, parse_phenotyping_date, parse_omim
 from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
+from ERKER2Phenopackets.src.logging_ import setup_logging
 
 
-def pipeline(data_path: Path):
+def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
+    setup_logging(level='INFO')
+    dir_name = ''
+    if len(sys.argv) > 1:
+        data_path = sys.argv[1]
+        if len(sys.argv) > 2:
+            dir_name = sys.argv[2]
+            disallowed_chars_pattern = r'[<>:"/\\|?*]'
+
+            logger.warning(f'Removing invalid characters from your directory name: '
+                           f'{dir_name}. Directory names may not contain the '
+                           f'following characters: <>:"/\\|?*')
+
+            dir_name = re.sub(disallowed_chars_pattern, '', dir_name)
+
+            if dir_name == ' ' or dir_name is None:
+                logger.warning('Your directory name is invalid.')
+                dir_name = ''
+    else:
+        logger.critical('No path to data provided. Please provide a path to the data '
+                        'as a command line argument.')
+        return
 
     config = configparser.ConfigParser()
-    config.read('../../data/config/config.cfg')
+    config.read('ERKER2Phenopackets/data/config/config.cfg')
 
-    phenopackets_out = Path(config.get('Paths', 'phenopackets_out'))
+    phenopackets_out = Path(config.get('Paths', 'phenopackets_out_script'))
+    logger.debug(phenopackets_out.resolve())
 
     cur_time = datetime.now().strftime("%Y-%m-%d-%H%M")
+    logger.debug(f'Current time: {cur_time}')
 
     # Read data in
     df = pl.read_csv(data_path)
@@ -39,8 +66,6 @@ def pipeline(data_path: Path):
     df = PolarsUtils.add_id_col(df, id_col_name='mc4r_id', id_datatype=str)
 
     # Parsing step
-    config = configparser.ConfigParser()
-    config.read('../../data/config/config.cfg')
     no_mutation = config.get('NoValue', 'mutation')
     no_phenotype = config.get('NoValue', 'phenotype')
     no_date = config.get('NoValue', 'date')
@@ -156,12 +181,17 @@ def pipeline(data_path: Path):
     phenopackets = _map_chunk(df, cur_time[:10])  # map_mc4r2phenopackets(df, cur_time)
 
     # Write to JSON
-    phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
+    if dir_name:
+        phenopackets_out_dir = phenopackets_out / dir_name # create dir for output
+    else:
+        phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
 
+    logger.info(f'Writing phenopackets to {phenopackets_out_dir.resolve()}')
+
+    logger.debug('Starting to write files to disk')
     write_files(phenopackets, phenopackets_out_dir)
+    logger.info(f'Successfully wrote {len(phenopackets)} files to disk')
 
 
 if __name__ == "__main__":
-    inp_path = input('Type the path to the file:\n')
-    inp_path = Path(inp_path)
-    pipeline(inp_path)
+    main()
