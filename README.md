@@ -113,5 +113,5 @@ We would like to extend our thanks to Daniel Danis for his support in the develo
 ---
 
 - Authors: 
-  - [Adam Gräfe](https://github.com/graefea)
+  - [Adam Graefe](https://github.com/graefea)
   - [Filip Rehburg](https://github.com/frehburg)
