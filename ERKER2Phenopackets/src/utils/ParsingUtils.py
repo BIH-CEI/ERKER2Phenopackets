@@ -48,7 +48,7 @@ def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
     """
     logger.trace(f'Parsing date string {date_string} to iso8601 utc timestamp')
     if date_string is None or date_string == '':
-        logger.trace(f'No date string provided. using NO_DATE from config file')
+        logger.trace('No date string provided. using NO_DATE from config file')
         config = configparser.ConfigParser()
         config.read('../../data/config/config.cfg')
         return config.get('NoValue', 'date')
