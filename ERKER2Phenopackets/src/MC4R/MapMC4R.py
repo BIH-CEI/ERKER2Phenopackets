@@ -82,25 +82,38 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
     """
     thread_id = threading.get_ident()
     logger.info(f'Currently working on thread {thread_id}')
+    logger.trace(f'{thread_id}: Called _map_chunk() with the following parameters:'
+                 f'\n\tchunk: {chunk.head(5)}'
+                 f'\n\tcur_time: {cur_time}')
 
     # metadata creation
     config = configparser.ConfigParser()
 
+    logger.debug(f'{thread_id}: CWD: {os.getcwd()}')
+    logger.trace(f'{thread_id}: Trying to read config file from default location')
     try:
         config.read('../../data/config/config.cfg')
         no_mutation, no_phenotype, no_date, no_omim, created_by = \
             _get_constants_from_config(config)
+        logger.trace(f'{thread_id}: Successfully read config file from default '
+                     f'location')
     except Exception as e1:
+        logger.trace(f'{thread_id}: Could not find config file in default location.'
+                     f' {e1}')
         try:
+            logger.trace(f'{thread_id}: Trying to read config file from alternative '
+                         f'location')
             config.read('ERKER2Phenopackets/data/config/config.cfg')
             no_mutation, no_phenotype, no_date, no_omim, created_by = \
                 _get_constants_from_config(config)
+            logger.trace(f'{thread_id}: Successfully read config file from alternative '
+                         f'location')
         except Exception as e2:
-            print(f"Could not find config file. {e1} {e2}")
+            logger.error(f'{thread_id}: Could not find config file. {e1} {e2}')
             exit()
 
+    logger.trace(f'{thread_id}: Creating metadata block')
     created = parse_date_string_to_protobuf_timestamp(cur_time)
-    logger.debug(type(created))
     meta_data = _create_metadata(
         created_by=created_by,
         created=created,
@@ -110,24 +123,30 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         versions=config.get('Resources', 'versions').split(','),
         iri_prefixes=config.get('Resources', 'iri_prefixes').split(','),
     )
+    logger.trace(f'{thread_id}: Successfully created metadata block \n {meta_data}')
+
+    logger.trace(f'{thread_id}: Creating taxonomy block')
     taxonomy = OntologyClass(id='NCBITaxon:9606', label='Homo sapiens')
+    logger.trace(f'{thread_id}:Successfully created taxonomy block {taxonomy}')
 
     phenopackets_list = []
-    for row in chunk.rows(named=True):
+    logger.trace(f'{thread_id}: Starting loop to build phenopacket for each patient.')
+    for i, row in enumerate(chunk.rows(named=True)):
+        logger.trace(f'{thread_id}: Iteration {i + 1}/{chunk.height}')
+        logger.trace(f'{thread_id}: Mapping row: {row}')
         phenopacket_id = row['mc4r_id']
-        logger.debug(f'{thread_id}: ID: {phenopacket_id}')
 
-        logger.debug(f'{thread_id}: {row["parsed_year_of_birth"]=}')
-        logger.debug(f'{thread_id}: {row["parsed_sex"]=}')
-
+        logger.trace(f'{thread_id}: Creating individual block')
         individual = _map_individual(
             phenopacket_id=phenopacket_id,
             year_of_birth=row['parsed_year_of_birth'],
             sex=row['parsed_sex'],
             taxonomy=taxonomy
         )
+        logger.trace(f'{thread_id}: Created individual block {individual}')
 
         # PHENOTYPIC FEATURES
+        logger.trace(f'{thread_id}: Creating phenotypic features block')
         hpo_cols = ['sct_8116006_1', 'sct_8116006_2',
                     'sct_8116006_3', 'sct_8116006_4',
                     'sct_8116006_5']
@@ -146,7 +165,11 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             no_phenotype=no_phenotype,
             no_date=no_date,
         )
+        logger.trace(f'{thread_id}: Successfully created phenotypic features block '
+                     f'{phenotypic_features}')
 
+        # GENE DESCRIPTOR
+        logger.trace(f'{thread_id}: Creating gene descriptor block')
         gene_descriptor = _map_gene_descriptor(
             hgnc=row['ln_48018_6_1'],
             symbol=config.get('Constants', 'gene_descriptor_symbol'),
@@ -156,7 +179,11 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             ],
             no_omim=no_omim
         )
+        logger.trace(f'{thread_id}: Successfully created gene descriptor block '
+                        f'{gene_descriptor}')
 
+        # INTERPRETATION
+        logger.trace(f'{thread_id}: Creating interpretation block')
         p_hgvs_cols = ['ln_48005_3_1', 'ln_48005_3_2', 'ln_48005_3_3']
         c_hgvs_cols = ['ln_48004_6_1', 'ln_48004_6_2', 'ln_48004_6_3']
 
@@ -172,15 +199,21 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             gene=gene_descriptor,
             interpretation_status=config.get('Constants', 'interpretation_status'),
         )
+        logger.trace(f'{thread_id}: Successfully created interpretation block '
+                        f'{interpretation}')
 
+        # DISEASE
+        logger.trace(f'{thread_id}: Creating disease block')
         disease = _map_disease(
             orpha=row['sct_439401001_orpha'],
             date_of_diagnosis=row['parsed_date_of_diagnosis'],
             label=config.get('Constants', 'disease_label'),
             no_date=no_date,
         )
+        logger.trace(f'{thread_id}: Successfully created disease block {disease}')
 
         # Orchestrate the mapping
+        logger.trace(f'{thread_id}: Creating phenopacket')
         phenopacket = Phenopacket(
             id=phenopacket_id,
             subject=individual,
@@ -189,9 +222,14 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             meta_data=meta_data,
             interpretations=[interpretation],
         )
+        logger.trace(f'{thread_id}: Successfully created phenopacket {phenopacket}')
 
         phenopackets_list.append(phenopacket)
 
+        logger.trace(f'{thread_id}: Appended phenopacket to list')
+        logger.trace(f'{thread_id}: Finished mapping row {i + 1}/{chunk.height}')
+
+    logger.trace(f'{thread_id}: Finished loop to build phenopacket for each patient.')
     return phenopackets_list
 
 
