@@ -180,7 +180,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             no_omim=no_omim
         )
         logger.trace(f'{thread_id}: Successfully created gene descriptor block '
-                        f'{gene_descriptor}')
+                     f'{gene_descriptor}')
 
         # INTERPRETATION
         logger.trace(f'{thread_id}: Creating interpretation block')
@@ -200,7 +200,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             interpretation_status=config.get('Constants', 'interpretation_status'),
         )
         logger.trace(f'{thread_id}: Successfully created interpretation block '
-                        f'{interpretation}')
+                     f'{interpretation}')
 
         # DISEASE
         logger.trace(f'{thread_id}: Creating disease block')
@@ -266,6 +266,15 @@ def _create_metadata(created_by: str,
     :return: Metadata block
     :rtype: MetaData
     """
+    logger.trace(f'Creating metadata block with the following parameters:'
+                 f'\n\tcreated_by: {created_by}'
+                 f'\n\tcreated: {created}'
+                 f'\n\tnames: {names}'
+                 f'\n\tnamespace_prefixes: {namespace_prefixes}'
+                 f'\n\turls: {urls}'
+                 f'\n\tversions: {versions}'
+                 f'\n\tiri_prefixes: {iri_prefixes}'
+                 f'\n\tphenopacket_schema_version: {phenopacket_schema_version}')
     resources = []
     for name, namespace_prefix, url, version, iri_prefix in zip(
             names, namespace_prefixes, urls, versions, iri_prefixes):
@@ -310,6 +319,12 @@ def _map_individual(phenopacket_id: str,
     :return: Individual Phenopacket block
     :rtype: Individual
     """
+    logger.trace(f'Mapping individual with the following parameters:'
+                 f'\n\tphenopacket_id: {phenopacket_id}'
+                 f'\n\tyear_of_birth: {year_of_birth}'
+                 f'\n\tsex {sex}'
+                 f'\n\ttaxonomy: {taxonomy}')
+
     year_of_birth_timestamp = parse_iso8601_utc_to_protobuf_timestamp(year_of_birth)
     individual = Individual(
         id=phenopacket_id,
@@ -336,6 +351,11 @@ def _map_phenotypic_feature(
     :type label: str, optional
     :return:
     """
+    logger.trace(f'Mapping phenotypic feature with the following parameters:'
+                 f'\n\thpo: {hpo}'
+                 f'\n\tonset: {onset}'
+                 f'\n\tlabel: {label}')
+
     if label:
         phenotype = OntologyClass(
             id=hpo,
@@ -382,6 +402,13 @@ def _map_phenotypic_features(
     :return: list of PhenotypicFeature Phenopacket blocks
     :rtype: List[PhenotypicFeature]
     """
+    logger.trace(f'Mapping phenotypic features with the following parameters:'
+                 f'\n\thpos: {hpos}'
+                 f'\n\tonsets: {onsets}'
+                 f'\n\tno_phenotype: {no_phenotype}'
+                 f'\n\tno_date: {no_date}'
+                 f'\n\tlabels: {labels}')
+
     # removing missing vals
     hpos = [hpo for hpo in hpos if not hpo == no_phenotype]
     onsets = [onset for onset in onsets if not onset == no_date]
@@ -435,6 +462,17 @@ def _map_interpretation(phenopacket_id: str,
     :return: Interpretation block (containing variation description)
     :rtype: Interpretation
     """
+    logger.trace(f'Mapping interpretation with the following parameters:'
+                 f'\n\tphenopacket_id: {phenopacket_id}'
+                 f'\n\tvariant_descriptor_id: {variant_descriptor_id}'
+                 f'\n\tzygosity: {zygosity}'
+                 f'\n\tallele_label: {allele_label}'
+                 f'\n\tp_hgvs: {p_hgvs}'
+                 f'\n\tc_hgvs: {c_hgvs}'
+                 f'\n\tno_mutation: {no_mutation}'
+                 f'\n\tgene: {gene}'
+                 f'\n\tinterpretation_status: {interpretation_status}')
+
     # filter hgvs lists to avoid null vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
@@ -503,6 +541,12 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
     :return: GeneDescriptor Phenopackets block
     :rtype: GeneDescriptor
     """
+    logger.trace(f'Mapping gene descriptor with the following parameters:'
+                 f'\n\thgnc: {hgnc}'
+                 f'\n\tsymbol: {symbol}'
+                 f'\n\tomims: {omims}'
+                 f'\n\tno_omim: {no_omim}')
+
     # filter out  null vals
     omims = [omim for omim in omims if not omim == no_omim]
 
@@ -542,6 +586,12 @@ def _map_disease(
     :type no_date: str
     :return: Disease Phenopackets block
     """
+    logger.trace(f'Mapping disease with the following parameters:'
+                 f'\n\torpha: {orpha}'
+                 f'\n\tdate_of_diagnosis: {date_of_diagnosis}'
+                 f'\n\tlabel: {label}'
+                 f'\n\tno_date: {no_date}')
+
     term = OntologyClass(
         id=orpha,
         label=label
@@ -569,10 +619,13 @@ def _map_disease(
 
 
 def _get_constants_from_config(config):
+    logger.trace('Called _get_constants_from_config()')
     no_mutation = config.get('NoValue', 'mutation')
     no_phenotype = config.get('NoValue', 'phenotype')
     no_date = config.get('NoValue', 'date')
     no_omim = config.get('NoValue', 'omim')
     created_by = config.get('Constants', 'creator_tag')
+
+    logger.trace('Successfully finished _get_constants_from_config()')
 
     return no_mutation, no_phenotype, no_date, no_omim, created_by
