@@ -502,27 +502,55 @@ def _map_interpretation(phenopacket_id: str,
         variation_descriptor=variation_descriptor
     )
 
+    # TODO(frehburg, grafea) - (0) - Right now this handles one variant per case/phenopacket, right?
+    #  However, will this always be the case for the ERKER format?
+    #  How about diseases with autosomal recessive mode of inheritance, where
+    #  a pair of heterozygous variants can be disease causing (compound heterozygosity)?
+    #  In that case, we need to create 2 genomic interpretations, one per variant, and I am not sure the current
+    #  architecture would allow that.
     genomic_interpretation_variant = GenomicInterpretation(
         subject_or_biosample_id=phenopacket_id,
         interpretation_status=interpretation_status,
         variant_interpretation=variant_interpretation
     )
 
-    genomic_interpretation_gene = GenomicInterpretation(
-        subject_or_biosample_id=phenopacket_id,
-        interpretation_status=interpretation_status,
-        gene=gene
-    )
+    # TODO(frehburg, grafea) - (1) - I believe we should only keep the genomic interpretation with the variant data (above).
+    #  In this setting, where we have short variants (single nucleotide polymorphisms (SNP) or short insertions/deletions),
+    #  we can infer the gene from the variant data. In general, the `gene` field of the GenomicInterpretation should
+    #  be used if we do not have the variant data, for instance, to represent the candidate
+    #  or the most likely causal gene.
+    # genomic_interpretation_gene = GenomicInterpretation(
+    #     subject_or_biosample_id=phenopacket_id,
+    #     interpretation_status=interpretation_status,
+    #     gene=gene
+    # )
+
 
     diagnosis = Diagnosis(
+        # TODO(frehburg, grafea) - (2) - if we are including the diagnosis in the phenopacket, then we must add
+        #  the `disease` field - a required field of the Diagnosis element.
+        #  The disease is an ontology class, so we need an
+        #  id (e.g. `MONDO:0019115`) and a label (e.g. `obesity due to melanocortin 4 receptor deficiency`)
+        #  as in http://purl.obolibrary.org/obo/MONDO_0019115.
+        #  Adam, Filip, please select the disease code!
         genomic_interpretations=[
-            genomic_interpretation_gene, genomic_interpretation_variant,
+            # TODO(frehburg, grafea) - (3) - please delete the comment and the line below if you agree with dropping
+            #  the gene interpretation.
+            # genomic_interpretation_gene,
+            genomic_interpretation_variant,
         ]
     )
 
     interpretation_id = uuid.uuid4()
     interpretation = Interpretation(
         id=str(interpretation_id),  # Generates a random str like `4d062c1e-ea58-4ad9-8307-b7d07fe6b0ab`
+        # TODO(frehburg, grafea) - (4) - consider setting `progress_status`
+        #  https://phenopacket-schema.readthedocs.io/en/latest/interpretation.html#progressstatus
+        #  Right now it is set to the default value = `UNKNOWN_PROGRESS`.
+        #  However, we *do* have the diagnosis, which is inconsistent with the unknown progress.
+        #  I think this is a clinical question. Adam, can we consider the variants as causal/contributory
+        #  (per https://phenopacket-schema.readthedocs.io/en/latest/genomic-interpretation.html#interpretationstatus)
+        #  to the disease? If yes, then we can make the diagnosis and set the progress status, right?
         diagnosis=diagnosis
     )
     return interpretation
