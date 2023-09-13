@@ -31,14 +31,14 @@ def write_phenopackets2json_files(
     :param out_dir: The output directory.
     :type out_dir: Union[str, Path]
     """
-    logger.info(f'Writing {len(phenopackets_list)} phenopackets to JSON in {out_dir}')
+    logger.trace(f'Called write_phenopackets2json_files with {len(phenopackets_list)}')
     # Make sure output out_dr exists.
     logger.trace(f'Creating output directory {out_dir}')
     os.makedirs(out_dir, exist_ok=True)
     logger.trace(f'Successfully created output directory {out_dir}')
 
-    logger.trace(f'Started writing phenopackets to JSON in {out_dir}')
+    logger.trace(f'Started loop to write phenopackets to JSON in {out_dir}')
     for phenopacket in phenopackets_list:
         write_phenopacket2json_file(phenopacket, out_dir)
+    logger.trace(f'Finished loop to write phenopackets to JSON in {out_dir}')
 
-    logger.info(f'Wrote {len(phenopackets_list)} phenopackets to JSON in {out_dir}')

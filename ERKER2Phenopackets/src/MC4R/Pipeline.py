@@ -32,9 +32,10 @@ def main():
             dir_name = sys.argv[2]
             disallowed_chars_pattern = r'[<>:"/\\|?*]'
 
-            logger.warning(f'Removing invalid characters from your directory name: '
-                           f'{dir_name}. Directory names may not contain the '
-                           f'following characters: <>:"/\\|?*')
+            if re.search(disallowed_chars_pattern, dir_name):
+                logger.warning(f'Removing invalid characters from your directory name: '
+                               f'{dir_name} . Directory names may not contain the '
+                               f'following characters: <>:"/\\|?*')
 
             dir_name = re.sub(disallowed_chars_pattern, '', dir_name)
 
@@ -46,8 +47,8 @@ def main():
                         'as a command line argument.')
         return
     logger.info(f'Data path: {data_path}')
-    logger.info(f'Output directory name: {dir_name}, if empty, current time will be '
-                f'used')
+    logger.info(f'Output directory name: {dir_name}'
+                f'{", if empty, current time will be used" if not dir_name else ""}')
 
     logger.trace('Reading config file')
     config = configparser.ConfigParser()
@@ -66,7 +67,7 @@ def main():
     logger.info(f'Read {len(df)} rows')
 
     # Null value analysis
-    logger.info('Null values analysis:')
+    logger.info('Preprocessing data')
     PolarsUtils.null_value_analysis(df, verbose=False)
 
     # Preprocessing
@@ -214,13 +215,11 @@ def main():
 
     # Write to JSON
     if dir_name:
-        phenopackets_out_dir = phenopackets_out / dir_name # create dir for output
+        phenopackets_out_dir = phenopackets_out / dir_name  # create dir for output
     else:
         phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
 
     logger.info(f'Writing phenopackets to {phenopackets_out_dir.resolve()}')
-
-    logger.debug('Starting to write files to disk')
     write_files(phenopackets, phenopackets_out_dir)
     logger.info(f'Successfully wrote {len(phenopackets)} files to disk')
     logger.info('Finished MC4R pipeline')
