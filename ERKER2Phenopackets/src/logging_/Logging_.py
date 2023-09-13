@@ -27,6 +27,8 @@ def setup_logging(level='DEBUG'):
             print(f"Could not find config file. \n {e1} \n {e2}")
             exit()
 
+    print(f"Logging to {log_file.resolve()}")
+
     # Log to a file     
     logger.add(log_file, level='TRACE')
 

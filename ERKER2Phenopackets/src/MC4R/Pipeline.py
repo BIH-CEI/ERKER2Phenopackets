@@ -7,6 +7,7 @@ from datetime import datetime
 import sys
 import re
 
+from ERKER2Phenopackets.src.logging_ import setup_logging
 from ERKER2Phenopackets.src.utils import write_files
 from ERKER2Phenopackets.src.utils import PolarsUtils
 from ERKER2Phenopackets.src.MC4R.MappingDicts import \
@@ -17,7 +18,6 @@ from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
     parse_year_of_birth, parse_phenotyping_date, parse_omim
 from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
-from ERKER2Phenopackets.src.logging_ import setup_logging
 
 
 def main():
@@ -49,7 +49,7 @@ def main():
     pipeline(data_path, out_dir_name)
 
 
-def pipeline(data_path: str, out_dir_name: str=''):
+def pipeline(data_path: str, out_dir_name: str = ''):
     logger.info(f'Data path: {data_path}')
     if out_dir_name:
         logger.info(f'Output directory name: {out_dir_name}')
