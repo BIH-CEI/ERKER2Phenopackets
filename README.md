@@ -1,4 +1,5 @@
 # ERKER to Phenopackets
+### v1.1.0: MC4R Pipeline finished
 In this repository we are developing a pipeline mapping the ERKER Dataset to the [Phenopackets](https://github.com/phenopackets/phenopacket-schema) format. The ERKER dataset is a collection of clinical data from the Charité Berlin. The Phenopackets format is a standard for the exchange of phenotypic and genomic data for patients with rare diseases. The goal of this project is to develop a general pipeline that can be used to map any clinical dataset to the Phenopackets format.
 
 More information on Phenopackets:
