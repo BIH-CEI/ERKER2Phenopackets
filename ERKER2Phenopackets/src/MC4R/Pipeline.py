@@ -24,6 +24,7 @@ def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
     setup_logging(level='INFO')
+    logger.info('Starting MC4R pipeline')
     dir_name = ''
     if len(sys.argv) > 1:
         data_path = sys.argv[1]
@@ -31,9 +32,10 @@ def main():
             dir_name = sys.argv[2]
             disallowed_chars_pattern = r'[<>:"/\\|?*]'
 
-            logger.warning(f'Removing invalid characters from your directory name: '
-                           f'{dir_name}. Directory names may not contain the '
-                           f'following characters: <>:"/\\|?*')
+            if re.search(disallowed_chars_pattern, dir_name):
+                logger.warning('Removing invalid characters from your directory name: '
+                               f'{dir_name} . Directory names may not contain the '
+                               'following characters: <>:"/\\|?*')
 
             dir_name = re.sub(disallowed_chars_pattern, '', dir_name)
 
@@ -44,74 +46,97 @@ def main():
         logger.critical('No path to data provided. Please provide a path to the data '
                         'as a command line argument.')
         return
+    logger.info(f'Data path: {data_path}')
+    logger.info(f'Output directory name: {dir_name}'
+                f'{", if empty, current time will be used" if not dir_name else ""}')
 
+    logger.trace('Reading config file')
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
     phenopackets_out = Path(config.get('Paths', 'phenopackets_out_script'))
+    logger.trace('Finished reading config file')
     logger.debug(phenopackets_out.resolve())
 
     cur_time = datetime.now().strftime("%Y-%m-%d-%H%M")
     logger.debug(f'Current time: {cur_time}')
 
     # Read data in
+    logger.info('Reading data')
     df = pl.read_csv(data_path)
+    logger.info(f'Read {len(df)} rows')
 
-    PolarsUtils.null_value_analysis(df, verbose=True)
+    # Null value analysis
+    logger.info('Preprocessing data')
+    PolarsUtils.null_value_analysis(df, verbose=False)
 
     # Preprocessing
     df = PolarsUtils.drop_null_cols(df, remove_all_null=True, remove_any_null=False)
 
     df.drop_in_place('record_id')
+    logger.info('Dropped record_id column, since it was not unique.')
     df = PolarsUtils.add_id_col(df, id_col_name='mc4r_id', id_datatype=str)
+    logger.info('Added mc4r_id as ID column')
 
     # Parsing step
+    logger.info('Start parsing data for phenopacket creation')
     no_mutation = config.get('NoValue', 'mutation')
     no_phenotype = config.get('NoValue', 'phenotype')
     no_date = config.get('NoValue', 'date')
     no_omim = config.get('NoValue', 'omim')
 
     # sct_184099003_y (year of birth)
+    logger.trace('Parsing year of birth column')
     df = PolarsUtils.map_col(df, map_from='sct_184099003_y',
                              map_to='parsed_year_of_birth',
                              mapping=parse_year_of_birth)
 
     # sct_281053000 (sex)
+    logger.trace('Parsing sex column')
     df = PolarsUtils.map_col(df, map_from='sct_281053000', map_to='parsed_sex',
                              mapping=sex_map_erker2phenopackets)
 
     # sct_432213005 (date of diagnosis)
+    logger.trace('Parsing date of diagnosis column')
     df = PolarsUtils.map_col(df, map_from='sct_432213005',
                              map_to='parsed_date_of_diagnosis',
                              mapping=parse_date_of_diagnosis)
+    logger.trace('Filling null values in date of diagnosis column')
     df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_diagnosis', no_date)
 
     # # ln_48007_9 (zygosity)
+    logger.trace('Parsing zygosity column')
     df = PolarsUtils.map_col(df, map_from='ln_48007_9', map_to='parsed_zygosity',
                              mapping=zygosity_map_erker2phenopackets)
+    logger.trace('Parsing ref allele label column')
     df = PolarsUtils.map_col(df, map_from='ln_48007_9', map_to='allele_label',
                              mapping=allele_label_map_erker2phenopackets)
 
     # sct_439401001_orpha (diagnosis (ORPHA))
+    logger.trace('Diagnosis (ORPHA) column does not require parsing')
     # does not require mapping
 
     # sct_439401001_omim_g_1, sct_439401001_omim_g_2, sct_439401001_omim_g_3 \
     # (Primärdiagnose OMIM)
+    logger.trace('Parsing OMIM columns')
     df = PolarsUtils.map_col(df, map_from='sct_439401001_omim_g_1',
                              map_to='parsed_omim_1', mapping=parse_omim)
-    df = PolarsUtils.fill_null_vals(df, 'parsed_omim_1', no_omim)
-
     df = PolarsUtils.map_col(df, map_from='sct_439401001_omim_g_2',
                              map_to='parsed_omim_2', mapping=parse_omim)
+
+    logger.trace('Filling null values in OMIM columns')
+    df = PolarsUtils.fill_null_vals(df, 'parsed_omim_1', no_omim)
     df = PolarsUtils.fill_null_vals(df, 'parsed_omim_2', no_omim)
 
     # ln_48005_3_1, ln_48005_3_2, ln_48005_3_3 (mutation p.HGVS)
+    logger.trace('Filling null values in mutation (p.HGVS) columns')
     df = PolarsUtils.fill_null_vals(df, 'ln_48005_3_1', no_mutation)
     df = PolarsUtils.fill_null_vals(df, 'ln_48005_3_2', no_mutation)
     if 'ln_48005_3_3' in df.columns:
         df = PolarsUtils.fill_null_vals(df, 'ln_48005_3_3', no_mutation)
 
     # ln_48004_6_1, ln_48004_6_2, ln_48004_6_3 (mutation c.HGVS)
+    logger.trace('Filling null values in mutation (c.HGVS) columns')
     df = PolarsUtils.fill_null_vals(df, 'ln_48004_6_1', no_mutation)
     df = PolarsUtils.fill_null_vals(df, 'ln_48004_6_2', no_mutation)
     if 'ln_48004_6_3' in df.columns:
@@ -119,9 +144,11 @@ def main():
 
     # ln_48018_6_1 (gene HGNC)
     # does not require mapping
+    logger.trace('HGNC column does not require parsing')
 
     # sct_8116006_1, sct_8116006_2, sct_8116006_3, sct_8116006_4, \
     # sct_8116006_5 (phenotype classification)
+    logger.trace('Filling null values in phenotype classification columns')
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_1', no_phenotype)
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_2', no_phenotype)
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_3', no_phenotype)
@@ -131,6 +158,8 @@ def main():
 
     # sct_8116006_1_date, sct_8116006_2_date, sct_8116006_3_date, sct_8116006_4_date, \
     # sct_8116006_5_date (dates of phenotype determination)
+    logger.trace('Parsing date of phenotype determination columns')
+    logger.trace('Filling null values in date of phenotype determination columns')
     df = PolarsUtils.map_col(df, map_from='sct_8116006_1_date',
                              map_to='parsed_date_of_phenotyping1',
                              mapping=parse_phenotyping_date)
@@ -159,7 +188,8 @@ def main():
                                  mapping=parse_phenotyping_date)
         df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_phenotyping5', no_date)
 
-        # phenotype label
+    # phenotype label
+    logger.trace('Parsing phenotype label columns')
     df = PolarsUtils.map_col(df, map_from='sct_8116006_1',
                              map_to='parsed_phenotype_label1',
                              mapping=phenotype_label_map_erker2phenopackets)
@@ -176,21 +206,23 @@ def main():
         df = PolarsUtils.map_col(df, map_from='sct_8116006_5',
                                  map_to='parsed_phenotype_label5',
                                  mapping=phenotype_label_map_erker2phenopackets)
+    logger.info('Finished parsing data')
 
     # Map to Phenopackets
+    logger.info('Start mapping data to phenopackets')
     phenopackets = _map_chunk(df, cur_time[:10])  # map_mc4r2phenopackets(df, cur_time)
+    logger.info('Finished mapping data to phenopackets')
 
     # Write to JSON
     if dir_name:
-        phenopackets_out_dir = phenopackets_out / dir_name # create dir for output
+        phenopackets_out_dir = phenopackets_out / dir_name  # create dir for output
     else:
         phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
 
     logger.info(f'Writing phenopackets to {phenopackets_out_dir.resolve()}')
-
-    logger.debug('Starting to write files to disk')
     write_files(phenopackets, phenopackets_out_dir)
     logger.info(f'Successfully wrote {len(phenopackets)} files to disk')
+    logger.info('Finished MC4R pipeline')
 
 
 if __name__ == "__main__":

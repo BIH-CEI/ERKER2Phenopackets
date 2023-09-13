@@ -1,5 +1,6 @@
 from google.protobuf.timestamp_pb2 import Timestamp
 from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
+from loguru import logger
 
 import re
 import configparser
@@ -44,10 +45,20 @@ def parse_year_of_birth(year_of_birth: int) -> Timestamp:
     :rtype: Timestamp
     :raises: ValueError: if year_of_birth is not within 1900 and 2023
     """
+    logger.trace(f'Parsing year of birth {year_of_birth}')
+    logger.trace('Checking if year of birth is within 1900 and 2023')
     if year_of_birth < 1900 or year_of_birth > 2023:
-        raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
+        logger.error('year_of_birth has to be within 1900 and 2023,'
+                     f'but was {year_of_birth}')
+        raise ValueError('year_of_birth has to be within 1900 and 2023,'
                          f'but was {year_of_birth}')
-    return parse_year_month_day_to_iso8601_utc_timestamp(year_of_birth, 1, 1)
+    logger.trace('Passed check if year of birth is within 1900 and 2023')
+    parsed_year_of_birth = parse_year_month_day_to_iso8601_utc_timestamp(
+        year_of_birth, 1, 1
+    )
+    logger.trace(f'Finished parsing year of birth {year_of_birth} -> '
+                 f'{parsed_year_of_birth}')
+    return parsed_year_of_birth
 
 
 def parse_date_of_diagnosis(date_of_diagnosis: str) -> Timestamp:
@@ -74,7 +85,13 @@ def parse_date_of_diagnosis(date_of_diagnosis: str) -> Timestamp:
     :rtype: Timestamp
     :raises ValueError: If the date of diagnosis is not known
     """
-    return parse_date_string_to_iso8601_utc_timestamp(date_of_diagnosis)
+    logger.trace(f'Parsing date of diagnosis {date_of_diagnosis}')
+    parsed_date_of_diagnosis = parse_date_string_to_iso8601_utc_timestamp(
+        date_of_diagnosis
+    )
+    logger.trace(f'Finished parsing date of diagnosis {date_of_diagnosis} -> '
+                 f'{parsed_date_of_diagnosis}')
+    return parsed_date_of_diagnosis
 
 
 def parse_sex(sex: str) -> str:
@@ -98,10 +115,14 @@ def parse_sex(sex: str) -> str:
     Link to Phenopackets documentation, where requirement is defined:
     https://phenopacket-schema.readthedocs.io/en/latest/sex.html 
     """
-
+    logger.trace(f'Parsing sex {sex}')
+    logger.trace(f'Check if sex {sex} is a valid SNOMED sex code')
     if sex in sex_map_erker2phenopackets:
-        return sex_map_erker2phenopackets[sex]
+        parsed_sex = sex_map_erker2phenopackets[sex]
+        logger.trace(f'Finished parsing sex {sex} -> {parsed_sex}')
+        return parsed_sex
     else:
+        logger.error(f'Unknown sex {sex}')
         raise ValueError(f'Unknown sex {sex}')
 
 
@@ -130,7 +151,13 @@ def parse_phenotyping_date(phenotyping_date: str) -> Timestamp:
     :rtype: Timestamp
     :raises: Value Error: If date of determination is not in "YYYY-MM-DD" format
     """
-    return parse_date_string_to_iso8601_utc_timestamp(phenotyping_date)
+    logger.trace(f'Parsing phenotyping date {phenotyping_date}')
+    parsed_phenotyping_date = parse_date_string_to_iso8601_utc_timestamp(
+        phenotyping_date
+    )
+    logger.trace(f'Finished parsing phenotyping date {phenotyping_date} -> '
+                 f'{parsed_phenotyping_date}')
+    return parsed_phenotyping_date
 
 
 def parse_zygosity(zygosity: str) -> str:
@@ -155,9 +182,14 @@ def parse_zygosity(zygosity: str) -> str:
     :return: A string code representing the zygosity of the patient.
     :raises: Value Error: If the zygosity string is not a valid LOINC code
     """
+    logger.trace(f'Parsing zygosity {zygosity}')
+    logger.trace(f'Check if zygosity {zygosity} is a valid LOINC zygosity code')
     if zygosity in zygosity_map_erker2phenopackets:
+        logger.trace(f'Finished parsing zygosity {zygosity} -> '
+                     f'{zygosity_map_erker2phenopackets[zygosity]}')
         return zygosity_map_erker2phenopackets[zygosity]
     else:
+        logger.error(f'Unknown zygosity {zygosity}')
         raise ValueError(f'Unknown zygosity {zygosity}')
 
 
@@ -182,27 +214,48 @@ def parse_omim(omim: str) -> str:
     :return: a patient's OMIM code in Phenopacket representation
     :raises: Value Error: If the OMIM string is not a valid OMIM code
     """
+    logger.trace(f'Parsing OMIM {omim}')
+    logger.trace(f'Check if OMIM {omim} contains unnecessary quotation marks')
     omim = omim.replace("\"", "")
+    logger.trace('If OMIM contained unnecessary quotation marks,'
+                 f' they were removed {omim}')
 
     pattern_with_suffix = r'\d{6}\.\d{4}'
     pattern_with_out_suffix = r'\d{6}'
 
+    logger.trace('Check if OMIM is None or nan')
+    logger.trace(f'Check if OMIM {omim} matches pattern {pattern_with_suffix} or '
+                 f'{pattern_with_out_suffix} to check if it is a valid OMIM code')
+
     if omim is None or omim == 'nan':
+        logger.trace('OMIM is None or nan. Trying to read config file to get'
+                     ' NO_OMIM value')
+
         config = configparser.ConfigParser()
         try:
+            logger.trace('Trying to read config file from default location')
             config.read('../../data/config/config.cfg')
             no_omim = config.get('NoValue', 'omim')
+            logger.trace(f'Found NO_OMIM value in config file: {no_omim}')
         except Exception as e1:
+            logger.trace('Could not find config file in default location.')
             try:
+                logger.trace('Trying to read config file from alternative location')
                 config.read('ERKER2Phenopackets/data/config/config.cfg')
                 no_omim = config.get('NoValue', 'omim')
+                logger.trace(f'Found NO_OMIM value in config file: {no_omim}')
             except Exception as e2:
-                print(f"Could not find config file. {e1} {e2}")
+                logger.error(f'Could not find config file. {e1} {e2}')
                 exit()
-
+        logger.trace(f'Finished parsing OMIM {omim} -> {no_omim}, '
+                     'since it was nan or None')
         return no_omim
     elif re.match(pattern_with_suffix, omim) or re.match(pattern_with_out_suffix, omim):
+        logger.trace(f'Successfully matched OMIM {omim} to a valid OMIM pattern.')
+        logger.trace(f'Finished parsing OMIM {omim} -> OMIM:{omim}')
         return 'OMIM:' + omim
     else:
+        logger.error('The OMIM code does not match format "6d.4d" or "6d".'
+                     f'Received: {omim}')
         raise ValueError('The OMIM code does not match format "6d.4d" or "6d".'
                          f'Received: {omim}')

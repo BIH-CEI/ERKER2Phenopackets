@@ -2,6 +2,7 @@ from typing import List, Union, Dict, Any, Callable, Type
 import warnings
 
 import polars as pl
+from loguru import logger
 
 
 def null_value_analysis(df: pl.DataFrame, verbose=False) -> Union[None, pl.DataFrame]:
@@ -22,10 +23,11 @@ def null_value_analysis(df: pl.DataFrame, verbose=False) -> Union[None, pl.DataF
     )
 
     at_least_1_null = null_analysis.filter(0 < null_analysis['null_count']).height
-    print(f'There are {count_all_null_cols(df)}/{df.width} columns with only null '
-          f'values in the data')
-    print(f'There are {at_least_1_null}/{df.width} columns with at least one null '
-          f'value in the data')
+    logger.info(f'There are {count_all_null_cols(df)}/{df.width} columns with only '
+                f'null '
+                f'values in the data')
+    logger.info(f'There are {at_least_1_null}/{df.width} columns with at least one null'
+                f' value in the data')
 
     if verbose:
         return null_analysis
@@ -54,7 +56,8 @@ def drop_null_cols(df: pl.DataFrame, remove_all_null: bool, remove_any_null: boo
 
     num_cols_end = df.width
 
-    print(f'Dropped {num_cols_start - num_cols_end} columns. {num_cols_end} columns '
+    logger.info(f'Dropped {num_cols_start - num_cols_end} columns. {num_cols_end} '
+              f'columns '
           f'remaining.')
     return df
 
@@ -128,7 +131,7 @@ def get_num_rows(df: pl.DataFrame) -> int:
 def add_id_col(df: pl.DataFrame,
                id_col_name: str,
                id_prefix: str = None, id_suffix: str = None, id_datatype: Type = int
-    ) -> pl.DataFrame:
+               ) -> pl.DataFrame:
     """
     Add id column to DataFrame
 
@@ -158,7 +161,7 @@ def add_id_col(df: pl.DataFrame,
         elif id_datatype == str:
             ids = [str(i) for i in range(0, df.height)]
             df = df.with_columns((pl.Series(ids)).alias(id_col_name))
-        else: 
+        else:
             raise ValueError(f'id_datatype has to be int or str, not {id_datatype}')
     elif id_prefix and not id_suffix:
         df = df.with_columns((pl.Series(
