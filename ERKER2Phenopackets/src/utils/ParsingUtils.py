@@ -4,6 +4,7 @@ from typing import Union
 
 from google.protobuf.timestamp_pb2 import Timestamp
 from google.protobuf import timestamp_pb2
+from loguru import logger
 
 
 def parse_date_string_to_protobuf_timestamp(date_string: str) -> Timestamp:
@@ -14,6 +15,7 @@ def parse_date_string_to_protobuf_timestamp(date_string: str) -> Timestamp:
     :return: A protobuf Timestamp object
     :rtype: Timestamp
     """
+    logger.trace(f'Parsing date string {date_string} to protobuf timestamp')
     iso8601_utc_timestamp = parse_date_string_to_iso8601_utc_timestamp(date_string)
     return parse_iso8601_utc_to_protobuf_timestamp(iso8601_utc_timestamp)
 
@@ -27,6 +29,8 @@ def parse_iso8601_utc_to_protobuf_timestamp(iso8601_utc_timestamp: str) -> Times
     :return: A protobuf Timestamp object
     :rtype: Timestamp
     """
+    logger.trace(f'Parsing iso8601 utc timestamp {iso8601_utc_timestamp} to protobuf '
+                 f'timestamp')
     timestamp = timestamp_pb2.Timestamp()
     timestamp.FromJsonString(iso8601_utc_timestamp)
     return timestamp
@@ -42,7 +46,9 @@ def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
     :return: a Timestamp object in iso8601 utc format
     :rtype: str
     """
+    logger.trace(f'Parsing date string {date_string} to iso8601 utc timestamp')
     if date_string is None or date_string == '':
+        logger.trace(f'No date string provided. using NO_DATE from config file')
         config = configparser.ConfigParser()
         config.read('../../data/config/config.cfg')
         return config.get('NoValue', 'date')
@@ -52,7 +58,10 @@ def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
         return formatted
     except ValueError:
         # If parsing fails, raise a ValueError
-        raise ValueError("Invalid date format. Please use YYYY-MM-DD format.")
+        logger.error(f'Invalid date format. Please use YYYY-MM-DD format. Got'
+                     f' {date_string}')
+        raise ValueError(f'Invalid date format. Please use YYYY-MM-DD format. Got '
+                         f'{date_string}')
 
 
 def parse_year_month_day_to_protobuf_timestamp(
@@ -70,6 +79,8 @@ def parse_year_month_day_to_protobuf_timestamp(
     :return: A protobuf Timestamp object
     :rtype: Timestamp
     """
+    logger.trace(f'Parsing year {year}, month {month} and day {day} to protobuf '
+                    f'timestamp')
     iso8601_utc_timestamp = parse_year_month_day_to_iso8601_utc_timestamp(
         year,
         month,
@@ -94,6 +105,8 @@ def parse_year_month_day_to_iso8601_utc_timestamp(
     :rtype: str
     :raises: ValueError: If month is not between 1 and 12 or day is not between 1 and 31
     """
+    logger.trace(f'Parsing year {year}, month {month} and day {day} to iso8601 utc '
+                    f'timestamp')
     if isinstance(year, str):
         year = int(year)
     if isinstance(month, str):
@@ -101,8 +114,10 @@ def parse_year_month_day_to_iso8601_utc_timestamp(
     if isinstance(day, str):
         day = int(day)
     if 0 < month > 12:
+        logger.error(f'Month must be between 1 and 12. Got {month}')
         raise ValueError(f'Month must be between 1 and 12. Got {month}')
     if 0 < day > 31:
+        logger.error(f'Day must be between 1 and 31. Got {day}')
         raise ValueError(f'Day must be between 1 and 31. Got {day}')
 
     formatted_date = f'{year:04d}-{month:02d}-{day:02d}T00:00:00.00Z'
