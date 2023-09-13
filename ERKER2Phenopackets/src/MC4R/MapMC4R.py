@@ -41,19 +41,34 @@ def map_mc4r2phenopackets(
     :return: List of Phenopackets
     :rtype: List[Phenopacket]
     """
-    # divide the DataFrame into chunks
-    chunk_sizes = calc_chunk_size(num_chunks=num_threads, num_instances=df.height)
-    chunks = split_dataframe(df=df, chunk_sizes=chunk_sizes)
+    logger.trace('Called map_mc4r2phenopackets() with the following parameters:'
+                 f'\n\tdf: {df.head(5)}'
+                 f'\n\tcur_time: {cur_time}'
+                 f'\n\tnum_threads: {num_threads}')
 
+    # divide the DataFrame into chunks
+    logger.trace(f'Calculating chunk sizes to split the DataFrame into {num_threads} '
+                 f'chunks')
+    chunk_sizes = calc_chunk_size(num_chunks=num_threads, num_instances=df.height)
+    logger.trace(f'Resulting chunk sizes by splitting {df.height} elements into '
+                 f'{num_threads} chunks: {chunk_sizes}')
+    logger.trace(f'Splitting the DataFrame into {num_threads} chunks')
+    chunks = split_dataframe(df=df, chunk_sizes=chunk_sizes)
+    logger.trace(f'Finished splitting the DataFrame into {num_threads} chunks')
+
+    logger.trace(f'Creating {num_threads} threads to map the chunks to Phenopackets')
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
         collected_results = list(executor.map(
             _map_chunk,  # function to execute
             chunks, [cur_time] * len(chunks))  # arguments to pass to function
         )
+    logger.trace(f'Finished mapping the chunks to Phenopackets')
 
     # Collect results from all threads into a single list
     results = [result for result_list in collected_results for result in result_list]
+    logger.trace('Successfully collected results from all threads')
 
+    logger.trace('Finished map_mc4r2phenopackets()')
     return results
 
 
