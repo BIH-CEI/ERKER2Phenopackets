@@ -1,5 +1,6 @@
 from google.protobuf.timestamp_pb2 import Timestamp
 from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
+from loguru import logger
 
 import re
 import configparser
@@ -44,10 +45,18 @@ def parse_year_of_birth(year_of_birth: int) -> Timestamp:
     :rtype: Timestamp
     :raises: ValueError: if year_of_birth is not within 1900 and 2023
     """
+    logger.trace(f'Parsing year of birth {year_of_birth}')
     if year_of_birth < 1900 or year_of_birth > 2023:
+        logger.error(f'year_of_birth has to be within 1900 and 2023,'
+                        f'but was {year_of_birth}')
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
                          f'but was {year_of_birth}')
-    return parse_year_month_day_to_iso8601_utc_timestamp(year_of_birth, 1, 1)
+    parsed_year_of_birth = parse_year_month_day_to_iso8601_utc_timestamp(
+        year_of_birth, 1, 1
+    )
+    logger.trace(f'Finished parsing year of birth {year_of_birth} -> '
+                 f'{parsed_year_of_birth}')
+    return parsed_year_of_birth
 
 
 def parse_date_of_diagnosis(date_of_diagnosis: str) -> Timestamp:
