@@ -238,7 +238,7 @@ def parse_omim(omim: str) -> str:
             no_omim = config.get('NoValue', 'omim')
             logger.trace(f'Found NO_OMIM value in config file: {no_omim}')
         except Exception as e1:
-            logger.trace(f'Could not find config file in default location.')
+            logger.trace('Could not find config file in default location.')
             try:
                 logger.trace('Trying to read config file from alternative location')
                 config.read('ERKER2Phenopackets/data/config/config.cfg')
