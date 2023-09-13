@@ -501,13 +501,13 @@ def _map_interpretation(phenopacket_id: str,
     )
 
     genomic_interpretation_variant = GenomicInterpretation(
-        subject_or_biosample_id='subject_id:' + phenopacket_id,
+        subject_or_biosample_id=phenopacket_id,
         interpretation_status=interpretation_status,
         variant_interpretation=variant_interpretation
     )
 
     genomic_interpretation_gene = GenomicInterpretation(
-        subject_or_biosample_id='subject_id:' + phenopacket_id,
+        subject_or_biosample_id=phenopacket_id,
         interpretation_status=interpretation_status,
         gene=gene
     )
