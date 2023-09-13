@@ -24,6 +24,7 @@ def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
     setup_logging(level='INFO')
+    logger.info('Starting MC4R pipeline')
     dir_name = ''
     if len(sys.argv) > 1:
         data_path = sys.argv[1]
@@ -44,28 +45,40 @@ def main():
         logger.critical('No path to data provided. Please provide a path to the data '
                         'as a command line argument.')
         return
+    logger.info(f'Data path: {data_path}')
+    logger.info(f'Output directory name: {dir_name}, if empty, current time will be '
+                f'used')
 
+    logger.trace('Reading config file')
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
     phenopackets_out = Path(config.get('Paths', 'phenopackets_out_script'))
+    logger.trace('Finished reading config file')
     logger.debug(phenopackets_out.resolve())
 
     cur_time = datetime.now().strftime("%Y-%m-%d-%H%M")
     logger.debug(f'Current time: {cur_time}')
 
     # Read data in
+    logger.info('Reading data')
     df = pl.read_csv(data_path)
+    logger.info(f'Read {len(df)} rows')
 
-    PolarsUtils.null_value_analysis(df, verbose=True)
+    # Null value analysis
+    logger.info('Null values analysis:')
+    PolarsUtils.null_value_analysis(df, verbose=False)
 
     # Preprocessing
     df = PolarsUtils.drop_null_cols(df, remove_all_null=True, remove_any_null=False)
 
     df.drop_in_place('record_id')
+    logger.info(f'Dropped record_id column, since it was not unique.')
     df = PolarsUtils.add_id_col(df, id_col_name='mc4r_id', id_datatype=str)
+    logger.info(f'Added mc4r_id as ID column')
 
     # Parsing step
+    logger.info('Start parsing data for phenopacket creation')
     no_mutation = config.get('NoValue', 'mutation')
     no_phenotype = config.get('NoValue', 'phenotype')
     no_date = config.get('NoValue', 'date')
@@ -176,9 +189,12 @@ def main():
         df = PolarsUtils.map_col(df, map_from='sct_8116006_5',
                                  map_to='parsed_phenotype_label5',
                                  mapping=phenotype_label_map_erker2phenopackets)
+    logger.info('Finished parsing data')
 
     # Map to Phenopackets
+    logger.info('Start mapping data to phenopackets')
     phenopackets = _map_chunk(df, cur_time[:10])  # map_mc4r2phenopackets(df, cur_time)
+    logger.info('Finished mapping data to phenopackets')
 
     # Write to JSON
     if dir_name:
@@ -191,6 +207,7 @@ def main():
     logger.debug('Starting to write files to disk')
     write_files(phenopackets, phenopackets_out_dir)
     logger.info(f'Successfully wrote {len(phenopackets)} files to disk')
+    logger.info('Finished MC4R pipeline')
 
 
 if __name__ == "__main__":
