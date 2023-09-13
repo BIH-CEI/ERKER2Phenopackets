@@ -182,9 +182,14 @@ def parse_zygosity(zygosity: str) -> str:
     :return: A string code representing the zygosity of the patient.
     :raises: Value Error: If the zygosity string is not a valid LOINC code
     """
+    logger.trace(f'Parsing zygosity {zygosity}')
+    logger.trace(f'Check if zygosity {zygosity} is a valid LOINC zygosity code')
     if zygosity in zygosity_map_erker2phenopackets:
+        logger.trace(f'Finished parsing zygosity {zygosity} -> '
+                     f'{zygosity_map_erker2phenopackets[zygosity]}')
         return zygosity_map_erker2phenopackets[zygosity]
     else:
+        logger.error(f'Unknown zygosity {zygosity}')
         raise ValueError(f'Unknown zygosity {zygosity}')
 
 
