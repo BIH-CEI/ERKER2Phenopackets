@@ -48,7 +48,7 @@ def map_mc4r2phenopackets(
 
     # divide the DataFrame into chunks
     logger.trace(f'Calculating chunk sizes to split the DataFrame into {num_threads} '
-                 f'chunks')
+                 'chunks')
     chunk_sizes = calc_chunk_size(num_chunks=num_threads, num_instances=df.height)
     logger.trace(f'Resulting chunk sizes by splitting {df.height} elements into '
                  f'{num_threads} chunks: {chunk_sizes}')
@@ -62,7 +62,7 @@ def map_mc4r2phenopackets(
             _map_chunk,  # function to execute
             chunks, [cur_time] * len(chunks))  # arguments to pass to function
         )
-    logger.trace(f'Finished mapping the chunks to Phenopackets')
+    logger.trace('Finished mapping the chunks to Phenopackets')
 
     # Collect results from all threads into a single list
     results = [result for result_list in collected_results for result in result_list]
@@ -96,18 +96,18 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         no_mutation, no_phenotype, no_date, no_omim, created_by = \
             _get_constants_from_config(config)
         logger.trace(f'{thread_id}: Successfully read config file from default '
-                     f'location')
+                     'location')
     except Exception as e1:
         logger.trace(f'{thread_id}: Could not find config file in default location.'
                      f' {e1}')
         try:
             logger.trace(f'{thread_id}: Trying to read config file from alternative '
-                         f'location')
+                         'location')
             config.read('ERKER2Phenopackets/data/config/config.cfg')
             no_mutation, no_phenotype, no_date, no_omim, created_by = \
                 _get_constants_from_config(config)
             logger.trace(f'{thread_id}: Successfully read config file from alternative '
-                         f'location')
+                         'location')
         except Exception as e2:
             logger.error(f'{thread_id}: Could not find config file. {e1} {e2}')
             exit()
