@@ -33,9 +33,9 @@ def main():
             disallowed_chars_pattern = r'[<>:"/\\|?*]'
 
             if re.search(disallowed_chars_pattern, dir_name):
-                logger.warning(f'Removing invalid characters from your directory name: '
+                logger.warning('Removing invalid characters from your directory name: '
                                f'{dir_name} . Directory names may not contain the '
-                               f'following characters: <>:"/\\|?*')
+                               'following characters: <>:"/\\|?*')
 
             dir_name = re.sub(disallowed_chars_pattern, '', dir_name)
 
@@ -74,9 +74,9 @@ def main():
     df = PolarsUtils.drop_null_cols(df, remove_all_null=True, remove_any_null=False)
 
     df.drop_in_place('record_id')
-    logger.info(f'Dropped record_id column, since it was not unique.')
+    logger.info('Dropped record_id column, since it was not unique.')
     df = PolarsUtils.add_id_col(df, id_col_name='mc4r_id', id_datatype=str)
-    logger.info(f'Added mc4r_id as ID column')
+    logger.info('Added mc4r_id as ID column')
 
     # Parsing step
     logger.info('Start parsing data for phenopacket creation')
