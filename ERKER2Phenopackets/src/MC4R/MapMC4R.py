@@ -3,6 +3,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import List
 import threading
+import uuid
 
 import phenopackets
 import polars as pl
@@ -20,6 +21,7 @@ from ERKER2Phenopackets.src.utils import calc_chunk_size, split_dataframe, \
     parse_date_string_to_protobuf_timestamp
 from ERKER2Phenopackets.src.utils import parse_iso8601_utc_to_protobuf_timestamp
 
+uuid_gen = uuid.uuid4()
 
 def map_mc4r2phenopackets(
         df: pl.DataFrame,
@@ -518,7 +520,9 @@ def _map_interpretation(phenopacket_id: str,
         ]
     )
 
+    interpretation_id = uuid.uuid4()
     interpretation = Interpretation(
+        id=str(interpretation_id),  # Generates a random str like `4d062c1e-ea58-4ad9-8307-b7d07fe6b0ab`
         diagnosis=diagnosis
     )
     return interpretation
