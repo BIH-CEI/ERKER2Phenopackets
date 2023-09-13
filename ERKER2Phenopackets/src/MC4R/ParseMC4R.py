@@ -46,13 +46,13 @@ def parse_year_of_birth(year_of_birth: int) -> Timestamp:
     :raises: ValueError: if year_of_birth is not within 1900 and 2023
     """
     logger.trace(f'Parsing year of birth {year_of_birth}')
-    logger.trace(f'Checking if year of birth is within 1900 and 2023')
+    logger.trace('Checking if year of birth is within 1900 and 2023')
     if year_of_birth < 1900 or year_of_birth > 2023:
-        logger.error(f'year_of_birth has to be within 1900 and 2023,'
+        logger.error('year_of_birth has to be within 1900 and 2023,'
                      f'but was {year_of_birth}')
-        raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
+        raise ValueError('year_of_birth has to be within 1900 and 2023,'
                          f'but was {year_of_birth}')
-    logger.trace(f'Passed check if year of birth is within 1900 and 2023')
+    logger.trace('Passed check if year of birth is within 1900 and 2023')
     parsed_year_of_birth = parse_year_month_day_to_iso8601_utc_timestamp(
         year_of_birth, 1, 1
     )
@@ -217,13 +217,13 @@ def parse_omim(omim: str) -> str:
     logger.trace(f'Parsing OMIM {omim}')
     logger.trace(f'Check if OMIM {omim} contains unnecessary quotation marks')
     omim = omim.replace("\"", "")
-    logger.trace(f'If OMIM contained unnecessary quotation marks,'
+    logger.trace('If OMIM contained unnecessary quotation marks,'
                  f' they were removed {omim}')
 
     pattern_with_suffix = r'\d{6}\.\d{4}'
     pattern_with_out_suffix = r'\d{6}'
 
-    logger.trace(f'Check if OMIM is None or nan')
+    logger.trace('Check if OMIM is None or nan')
     logger.trace(f'Check if OMIM {omim} matches pattern {pattern_with_suffix} or '
                  f'{pattern_with_out_suffix} to check if it is a valid OMIM code')
 
@@ -248,14 +248,14 @@ def parse_omim(omim: str) -> str:
                 logger.error(f'Could not find config file. {e1} {e2}')
                 exit()
         logger.trace(f'Finished parsing OMIM {omim} -> {no_omim}, '
-                     f'since it was nan or None')
+                     'since it was nan or None')
         return no_omim
     elif re.match(pattern_with_suffix, omim) or re.match(pattern_with_out_suffix, omim):
         logger.trace(f'Successfully matched OMIM {omim} to a valid OMIM pattern.')
         logger.trace(f'Finished parsing OMIM {omim} -> OMIM:{omim}')
         return 'OMIM:' + omim
     else:
-        logger.error(f'The OMIM code does not match format "6d.4d" or "6d".'
+        logger.error('The OMIM code does not match format "6d.4d" or "6d".'
                      f'Received: {omim}')
         raise ValueError('The OMIM code does not match format "6d.4d" or "6d".'
                          f'Received: {omim}')
