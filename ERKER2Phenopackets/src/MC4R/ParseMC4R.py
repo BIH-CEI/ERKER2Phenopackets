@@ -48,7 +48,7 @@ def parse_year_of_birth(year_of_birth: int) -> Timestamp:
     logger.trace(f'Parsing year of birth {year_of_birth}')
     if year_of_birth < 1900 or year_of_birth > 2023:
         logger.error(f'year_of_birth has to be within 1900 and 2023,'
-                        f'but was {year_of_birth}')
+                     f'but was {year_of_birth}')
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
                          f'but was {year_of_birth}')
     parsed_year_of_birth = parse_year_month_day_to_iso8601_utc_timestamp(
@@ -83,7 +83,13 @@ def parse_date_of_diagnosis(date_of_diagnosis: str) -> Timestamp:
     :rtype: Timestamp
     :raises ValueError: If the date of diagnosis is not known
     """
-    return parse_date_string_to_iso8601_utc_timestamp(date_of_diagnosis)
+    logger.trace(f'Parsing date of diagnosis {date_of_diagnosis}')
+    parsed_date_of_diagnosis = parse_date_string_to_iso8601_utc_timestamp(
+        date_of_diagnosis
+    )
+    logger.trace(f'Finished parsing date of diagnosis {date_of_diagnosis} -> '
+                 f'{parsed_date_of_diagnosis}')
+    return parsed_date_of_diagnosis
 
 
 def parse_sex(sex: str) -> str:
