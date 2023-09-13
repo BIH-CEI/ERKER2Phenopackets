@@ -214,27 +214,48 @@ def parse_omim(omim: str) -> str:
     :return: a patient's OMIM code in Phenopacket representation
     :raises: Value Error: If the OMIM string is not a valid OMIM code
     """
+    logger.trace(f'Parsing OMIM {omim}')
+    logger.trace(f'Check if OMIM {omim} contains unnecessary quotation marks')
     omim = omim.replace("\"", "")
+    logger.trace(f'If OMIM contained unnecessary quotation marks,'
+                 f' they were removed {omim}')
 
     pattern_with_suffix = r'\d{6}\.\d{4}'
     pattern_with_out_suffix = r'\d{6}'
 
+    logger.trace(f'Check if OMIM is None or nan')
+    logger.trace(f'Check if OMIM {omim} matches pattern {pattern_with_suffix} or '
+                 f'{pattern_with_out_suffix} to check if it is a valid OMIM code')
+
     if omim is None or omim == 'nan':
+        logger.trace('OMIM is None or nan. Trying to read config file to get'
+                     ' NO_OMIM value')
+
         config = configparser.ConfigParser()
         try:
+            logger.trace('Trying to read config file from default location')
             config.read('../../data/config/config.cfg')
             no_omim = config.get('NoValue', 'omim')
+            logger.trace(f'Found NO_OMIM value in config file: {no_omim}')
         except Exception as e1:
+            logger.trace(f'Could not find config file in default location.')
             try:
+                logger.trace('Trying to read config file from alternative location')
                 config.read('ERKER2Phenopackets/data/config/config.cfg')
                 no_omim = config.get('NoValue', 'omim')
+                logger.trace(f'Found NO_OMIM value in config file: {no_omim}')
             except Exception as e2:
-                print(f"Could not find config file. {e1} {e2}")
+                logger.error(f'Could not find config file. {e1} {e2}')
                 exit()
-
+        logger.trace(f'Finished parsing OMIM {omim} -> {no_omim}, '
+                     f'since it was nan or None')
         return no_omim
     elif re.match(pattern_with_suffix, omim) or re.match(pattern_with_out_suffix, omim):
+        logger.trace(f'Successfully matched OMIM {omim} to a valid OMIM pattern.')
+        logger.trace(f'Finished parsing OMIM {omim} -> OMIM:{omim}')
         return 'OMIM:' + omim
     else:
+        logger.error(f'The OMIM code does not match format "6d.4d" or "6d".'
+                     f'Received: {omim}')
         raise ValueError('The OMIM code does not match format "6d.4d" or "6d".'
                          f'Received: {omim}')
