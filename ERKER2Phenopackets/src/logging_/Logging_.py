@@ -28,7 +28,7 @@ def setup_logging(level='DEBUG'):
             exit()
 
     # Log to a file     
-    logger.add(log_file, level=level)
+    logger.add(log_file, level='TRACE')
 
     # You can customize the log format as needed    
     logger_format = (
