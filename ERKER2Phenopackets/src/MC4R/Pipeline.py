@@ -25,30 +25,37 @@ def main():
     the resulting phenopackets to json files on disk"""
     setup_logging(level='INFO')
     logger.info('Starting MC4R pipeline')
-    dir_name = ''
+    out_dir_name = ''
     if len(sys.argv) > 1:
         data_path = sys.argv[1]
         if len(sys.argv) > 2:
-            dir_name = sys.argv[2]
+            out_dir_name = sys.argv[2]
             disallowed_chars_pattern = r'[<>:"/\\|?*]'
 
-            if re.search(disallowed_chars_pattern, dir_name):
+            if re.search(disallowed_chars_pattern, out_dir_name):
                 logger.warning('Removing invalid characters from your directory name: '
-                               f'{dir_name} . Directory names may not contain the '
+                               f'{out_dir_name} . Directory names may not contain the '
                                'following characters: <>:"/\\|?*')
 
-            dir_name = re.sub(disallowed_chars_pattern, '', dir_name)
+            out_dir_name = re.sub(disallowed_chars_pattern, '', out_dir_name)
 
-            if dir_name == ' ' or dir_name is None:
+            if out_dir_name == ' ' or out_dir_name is None:
                 logger.warning('Your directory name is invalid.')
-                dir_name = ''
+                out_dir_name = ''
     else:
         logger.critical('No path to data provided. Please provide a path to the data '
                         'as a command line argument.')
         return
+    pipeline(data_path, out_dir_name)
+
+
+def pipeline(data_path: str, out_dir_name: str=''):
     logger.info(f'Data path: {data_path}')
-    logger.info(f'Output directory name: {dir_name}'
-                f'{", if empty, current time will be used" if not dir_name else ""}')
+    if out_dir_name:
+        logger.info(f'Output directory name: {out_dir_name}')
+    else:
+        logger.info('No output directory name provided, current time will be used as '
+                    'output directory name')
 
     logger.trace('Reading config file')
     config = configparser.ConfigParser()
@@ -214,8 +221,8 @@ def main():
     logger.info('Finished mapping data to phenopackets')
 
     # Write to JSON
-    if dir_name:
-        phenopackets_out_dir = phenopackets_out / dir_name  # create dir for output
+    if out_dir_name:
+        phenopackets_out_dir = phenopackets_out / out_dir_name  # create dir for output
     else:
         phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
 
