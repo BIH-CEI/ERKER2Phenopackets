@@ -85,46 +85,57 @@ def main():
     no_omim = config.get('NoValue', 'omim')
 
     # sct_184099003_y (year of birth)
+    logger.trace('Parsing year of birth column')
     df = PolarsUtils.map_col(df, map_from='sct_184099003_y',
                              map_to='parsed_year_of_birth',
                              mapping=parse_year_of_birth)
 
     # sct_281053000 (sex)
+    logger.trace('Parsing sex column')
     df = PolarsUtils.map_col(df, map_from='sct_281053000', map_to='parsed_sex',
                              mapping=sex_map_erker2phenopackets)
 
     # sct_432213005 (date of diagnosis)
+    logger.trace('Parsing date of diagnosis column')
     df = PolarsUtils.map_col(df, map_from='sct_432213005',
                              map_to='parsed_date_of_diagnosis',
                              mapping=parse_date_of_diagnosis)
+    logger.trace('Filling null values in date of diagnosis column')
     df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_diagnosis', no_date)
 
     # # ln_48007_9 (zygosity)
+    logger.trace('Parsing zygosity column')
     df = PolarsUtils.map_col(df, map_from='ln_48007_9', map_to='parsed_zygosity',
                              mapping=zygosity_map_erker2phenopackets)
+    logger.trace('Parsing ref allele label column')
     df = PolarsUtils.map_col(df, map_from='ln_48007_9', map_to='allele_label',
                              mapping=allele_label_map_erker2phenopackets)
 
     # sct_439401001_orpha (diagnosis (ORPHA))
+    logger.trace('Diagnosis (ORPHA) column does not require parsing')
     # does not require mapping
 
     # sct_439401001_omim_g_1, sct_439401001_omim_g_2, sct_439401001_omim_g_3 \
     # (Primärdiagnose OMIM)
+    logger.trace('Parsing OMIM columns')
     df = PolarsUtils.map_col(df, map_from='sct_439401001_omim_g_1',
                              map_to='parsed_omim_1', mapping=parse_omim)
-    df = PolarsUtils.fill_null_vals(df, 'parsed_omim_1', no_omim)
-
     df = PolarsUtils.map_col(df, map_from='sct_439401001_omim_g_2',
                              map_to='parsed_omim_2', mapping=parse_omim)
+
+    logger.trace('Filling null values in OMIM columns')
+    df = PolarsUtils.fill_null_vals(df, 'parsed_omim_1', no_omim)
     df = PolarsUtils.fill_null_vals(df, 'parsed_omim_2', no_omim)
 
     # ln_48005_3_1, ln_48005_3_2, ln_48005_3_3 (mutation p.HGVS)
+    logger.trace('Filling null values in mutation (p.HGVS) columns')
     df = PolarsUtils.fill_null_vals(df, 'ln_48005_3_1', no_mutation)
     df = PolarsUtils.fill_null_vals(df, 'ln_48005_3_2', no_mutation)
     if 'ln_48005_3_3' in df.columns:
         df = PolarsUtils.fill_null_vals(df, 'ln_48005_3_3', no_mutation)
 
     # ln_48004_6_1, ln_48004_6_2, ln_48004_6_3 (mutation c.HGVS)
+    logger.trace('Filling null values in mutation (c.HGVS) columns')
     df = PolarsUtils.fill_null_vals(df, 'ln_48004_6_1', no_mutation)
     df = PolarsUtils.fill_null_vals(df, 'ln_48004_6_2', no_mutation)
     if 'ln_48004_6_3' in df.columns:
@@ -132,9 +143,11 @@ def main():
 
     # ln_48018_6_1 (gene HGNC)
     # does not require mapping
+    logger.trace('HGNC column does not require parsing')
 
     # sct_8116006_1, sct_8116006_2, sct_8116006_3, sct_8116006_4, \
     # sct_8116006_5 (phenotype classification)
+    logger.trace('Filling null values in phenotype classification columns')
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_1', no_phenotype)
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_2', no_phenotype)
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_3', no_phenotype)
@@ -144,6 +157,8 @@ def main():
 
     # sct_8116006_1_date, sct_8116006_2_date, sct_8116006_3_date, sct_8116006_4_date, \
     # sct_8116006_5_date (dates of phenotype determination)
+    logger.trace('Parsing date of phenotype determination columns')
+    logger.trace('Filling null values in date of phenotype determination columns')
     df = PolarsUtils.map_col(df, map_from='sct_8116006_1_date',
                              map_to='parsed_date_of_phenotyping1',
                              mapping=parse_phenotyping_date)
@@ -172,7 +187,8 @@ def main():
                                  mapping=parse_phenotyping_date)
         df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_phenotyping5', no_date)
 
-        # phenotype label
+    # phenotype label
+    logger.trace('Parsing phenotype label columns')
     df = PolarsUtils.map_col(df, map_from='sct_8116006_1',
                              map_to='parsed_phenotype_label1',
                              mapping=phenotype_label_map_erker2phenopackets)
