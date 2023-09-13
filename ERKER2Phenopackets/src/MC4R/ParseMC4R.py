@@ -151,7 +151,13 @@ def parse_phenotyping_date(phenotyping_date: str) -> Timestamp:
     :rtype: Timestamp
     :raises: Value Error: If date of determination is not in "YYYY-MM-DD" format
     """
-    return parse_date_string_to_iso8601_utc_timestamp(phenotyping_date)
+    logger.trace(f'Parsing phenotyping date {phenotyping_date}')
+    parsed_phenotyping_date = parse_date_string_to_iso8601_utc_timestamp(
+        phenotyping_date
+    )
+    logger.trace(f'Finished parsing phenotyping date {phenotyping_date} -> '
+                 f'{parsed_phenotyping_date}')
+    return parsed_phenotyping_date
 
 
 def parse_zygosity(zygosity: str) -> str:
