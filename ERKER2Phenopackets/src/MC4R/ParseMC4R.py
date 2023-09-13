@@ -46,11 +46,13 @@ def parse_year_of_birth(year_of_birth: int) -> Timestamp:
     :raises: ValueError: if year_of_birth is not within 1900 and 2023
     """
     logger.trace(f'Parsing year of birth {year_of_birth}')
+    logger.trace(f'Checking if year of birth is within 1900 and 2023')
     if year_of_birth < 1900 or year_of_birth > 2023:
         logger.error(f'year_of_birth has to be within 1900 and 2023,'
                      f'but was {year_of_birth}')
         raise ValueError(f'year_of_birth has to be within 1900 and 2023,'
                          f'but was {year_of_birth}')
+    logger.trace(f'Passed check if year of birth is within 1900 and 2023')
     parsed_year_of_birth = parse_year_month_day_to_iso8601_utc_timestamp(
         year_of_birth, 1, 1
     )
@@ -113,10 +115,14 @@ def parse_sex(sex: str) -> str:
     Link to Phenopackets documentation, where requirement is defined:
     https://phenopacket-schema.readthedocs.io/en/latest/sex.html 
     """
-
+    logger.trace(f'Parsing sex {sex}')
+    logger.trace(f'Check if sex {sex} is a valid SNOMED sex code')
     if sex in sex_map_erker2phenopackets:
-        return sex_map_erker2phenopackets[sex]
+        parsed_sex = sex_map_erker2phenopackets[sex]
+        logger.trace(f'Finished parsing sex {sex} -> {parsed_sex}')
+        return parsed_sex
     else:
+        logger.error(f'Unknown sex {sex}')
         raise ValueError(f'Unknown sex {sex}')
 
 
