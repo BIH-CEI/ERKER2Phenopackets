@@ -279,12 +279,12 @@ def _create_metadata(created_by: str,
     for name, namespace_prefix, url, version, iri_prefix in zip(
             names, namespace_prefixes, urls, versions, iri_prefixes):
         resource = phenopackets.Resource(
-            id=namespace_prefix,
-            name=name,
-            namespace_prefix=namespace_prefix,
-            url=url,
-            version=version,
-            iri_prefix=iri_prefix,
+            id=namespace_prefix.strip(),
+            name=name.strip(),
+            namespace_prefix=namespace_prefix.strip(),
+            url=url.strip(),
+            version=version.strip(),
+            iri_prefix=iri_prefix.strip(),
         )
         resources.append(resource)
 
