@@ -28,8 +28,9 @@ Check if the column is valid for ID.
 
 Otherwise, let the user add a new column as ID. 
 
-| **Name:** &nbsp;&nbsp;&nbsp;&nbsp; | **Prefix:** &nbsp;&nbsp;&nbsp;&nbsp; | **Suffix:** &nbsp;&nbsp;&nbsp;&nbsp; |
-|------------------------------------|--------------------------------------|--------------------------------------|
+| **Name:** mc4r_id | **Prefix:** mc4r_id_ | **Suffix:** |   
+|-------------------|----------------------|-------------| 
+<button type="button">Add ID column</button>
 
 ## Null Values
 
