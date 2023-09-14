@@ -4,6 +4,11 @@
 
 ### Categorical Variable Name <button type="button">Drop Column</button>
 
+#### Visualization
+
+![image](https://github.com/BIH-CEI/ERKER2Phenopackets/assets/43171336/1c2235e7-c668-410a-8697-52699605a9d6)
+
+
 #### Values
 
 | **Value** | **Count** | **Percentage** |
@@ -50,6 +55,11 @@ A green/ red check indicates whether the syntax is correct or not.
 
 
 ### Numerical Variable Name <button type="button">Drop Column</button>
+
+#### Visualization
+
+![image](https://github.com/BIH-CEI/ERKER2Phenopackets/assets/43171336/598d827e-138b-42a6-8a50-685dd6f52a7b)
+
 
 #### Values
 
