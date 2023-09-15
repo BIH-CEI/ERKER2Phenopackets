@@ -434,8 +434,8 @@ def _map_interpretation(phenopacket_id: str,
                         p_hgvs: List[str],
                         c_hgvs: List[str],
                         no_mutation: str,
-                        gene: GeneDescriptor,
-                        interpretation_status: str
+                        interpretation_status: str,
+                        gene: GeneDescriptor = None,
                         ) -> VariationDescriptor:
     """Maps ERKER patient data to Interpretation block
     
@@ -458,10 +458,10 @@ def _map_interpretation(phenopacket_id: str,
     :type p_hgvs: List[str]
     :param c_hgvs: List of c.HGVS codes (coding DNA reference sequence)
     :type c_hgvs: List[str]
-    :param gene: GeneDescriptor block
-    :type gene: GeneDescriptor
     :param interpretation_status: status of the interpretation
     :type interpretation_status: str
+    :param gene: GeneDescriptor block
+    :type gene: GeneDescriptor, optional
     :return: Interpretation block (containing variation description)
     :rtype: Interpretation
     """
