@@ -173,17 +173,17 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
 
         # GENE DESCRIPTOR
         logger.trace(f'{thread_id}: Creating gene descriptor block')
-        gene_descriptor = _map_gene_descriptor(
-            hgnc=row['ln_48018_6_1'],
-            symbol=config.get('Constants', 'gene_descriptor_symbol'),
-            omims=[
-                row['parsed_omim_1'],
-                row['parsed_omim_2']
-            ],
-            no_omim=no_omim
-        )
-        logger.trace(f'{thread_id}: Successfully created gene descriptor block '
-                     f'{gene_descriptor}')
+        # gene_descriptor = _map_gene_descriptor(
+        #     hgnc=row['ln_48018_6_1'],
+        #     symbol=config.get('Constants', 'gene_descriptor_symbol'),
+        #     omims=[
+        #         row['parsed_omim_1'],
+        #         row['parsed_omim_2']
+        #     ],
+        #     no_omim=no_omim
+        # )
+        # logger.trace(f'{thread_id}: Successfully created gene descriptor block '
+        #              f'{gene_descriptor}')
 
         # INTERPRETATION
         logger.trace(f'{thread_id}: Creating interpretation block')
@@ -199,7 +199,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
             c_hgvs=[row[c_hgvs_col] for c_hgvs_col in c_hgvs_cols if c_hgvs_col in row],
             no_mutation=no_mutation,
-            gene=gene_descriptor,
+            # gene=gene_descriptor,
             interpretation_status=config.get('Constants', 'interpretation_status'),
         )
         logger.trace(f'{thread_id}: Successfully created interpretation block '
@@ -282,7 +282,7 @@ def _create_metadata(created_by: str,
     for name, namespace_prefix, url, version, iri_prefix in zip(
             names, namespace_prefixes, urls, versions, iri_prefixes):
         resource = phenopackets.Resource(
-            id=namespace_prefix.strip(),
+            id=namespace_prefix.strip(),  # strip to remove trailing whitespaces
             name=name.strip(),
             namespace_prefix=namespace_prefix.strip(),
             url=url.strip(),
