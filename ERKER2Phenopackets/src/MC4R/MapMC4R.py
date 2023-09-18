@@ -512,6 +512,13 @@ def _map_interpretation(phenopacket_id: str,
     #  and I am not sure the current
     #  architecture would allow that.
     
+    # in the new version of the ERKER we allow these choices for the zygosity:
+    # Homozygous // (simple) Heterozygous // Compound heterozygous //Double heterozygous
+    # // Hemizygous // Not recorded (qualifier value)
+    #we also allow multipole genomic interpretations: 3 clinical relevant variants and 
+    # 5 genetic side variants. Therefore, we could allow a compound heterozygous patient
+    # to be captured with both clinical relevant variants
+    
     
     genomic_interpretation_variant = GenomicInterpretation(
         subject_or_biosample_id=phenopacket_id,
