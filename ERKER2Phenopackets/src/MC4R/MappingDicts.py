@@ -17,6 +17,7 @@ phenotype_label_map_erker2phenopackets = {
     "HP:0025500": 'Class II obesity',
     "HP:0025499": 'Class I obesity',
     "HP:0025502": 'Overweight',
+    "HP:0001513": 'Obesity',
 }
 
 allele_label_map_erker2phenopackets = {
