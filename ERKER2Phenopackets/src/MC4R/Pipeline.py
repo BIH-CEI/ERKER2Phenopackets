@@ -160,8 +160,7 @@ def pipeline(data_path: str, out_dir_name: str = ''):
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_2', no_phenotype)
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_3', no_phenotype)
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_4', no_phenotype)
-    if 'sct_8116006_5' in df.columns:
-        df = PolarsUtils.fill_null_vals(df, 'sct_8116006_5', no_phenotype)
+    df = PolarsUtils.fill_null_vals(df, 'sct_8116006_5', no_phenotype)
 
     # sct_8116006_1_date, sct_8116006_2_date, sct_8116006_3_date, sct_8116006_4_date, \
     # sct_8116006_5_date (dates of phenotype determination)
