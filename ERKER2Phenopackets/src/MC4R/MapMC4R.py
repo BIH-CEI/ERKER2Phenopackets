@@ -511,6 +511,8 @@ def _map_interpretation(phenopacket_id: str,
     #  In that case, we need to create 2 genomic interpretations, one per variant,
     #  and I am not sure the current
     #  architecture would allow that.
+    
+    
     genomic_interpretation_variant = GenomicInterpretation(
         subject_or_biosample_id=phenopacket_id,
         interpretation_status=interpretation_status,
@@ -566,6 +568,10 @@ def _map_interpretation(phenopacket_id: str,
         #  -interpretation.html#interpretationstatus)
         #  to the disease? If yes, then we can make the diagnosis and set the
         #  progress status, right?
+        
+        # we can switch the default value of progress_status to 'SOLVED', as all 
+        # diseases are definitive diagnosis. 
+        # the variants can be considered as 'contributory' 
         diagnosis=diagnosis
     )
     return interpretation
