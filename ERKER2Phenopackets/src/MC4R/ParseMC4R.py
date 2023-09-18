@@ -161,10 +161,22 @@ def parse_phenotyping_date(phenotyping_date: str) -> Timestamp:
 
 def parse_phenotyping_status(phenotyping_status: str) -> str:
     """
-
-    :param phenotyping_status: _description_
+    Parses status of HPO values (confirmed & refuted) to excluded boolean
+    
+    By the Phenopackets documentation it is possible to express a refuted phenotype \
+    with the boolean field 'exluded'. By default the exluded boolean is false, \
+    i.e. the phenotype is confirmed. If a phenotype is not recorded, it will not be \
+    represented within the Phenopackets.
+    
+    Could be: 
+    * 'sct_410605003' : 'false'
+    * 'sct_723511001' : 'true'
+    * 'sct_1220561009' : dropped out of analysis
+    
+    :param phenotyping_status: The status of a specific phenotype as a SNOMED code
     :type phenotyping_status: str
-    :return: _description_
+    :return: A string code represing the status of the excluded boolean or dropping out\
+        this phenopype 
     :rtype: str
     """
 
