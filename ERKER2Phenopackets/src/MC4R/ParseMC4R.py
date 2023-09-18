@@ -159,6 +159,16 @@ def parse_phenotyping_date(phenotyping_date: str) -> Timestamp:
                  f'{parsed_phenotyping_date}')
     return parsed_phenotyping_date
 
+def parse_phenotyping_status(phenotyping_status: str) -> str:
+    """
+
+    :param phenotyping_status: _description_
+    :type phenotyping_status: str
+    :return: _description_
+    :rtype: str
+    """
+
+
 
 def parse_zygosity(zygosity: str) -> str:
     """
