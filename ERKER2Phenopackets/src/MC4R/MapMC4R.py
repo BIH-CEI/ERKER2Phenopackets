@@ -540,6 +540,8 @@ def _map_interpretation(phenopacket_id: str,
     #     interpretation_status=interpretation_status,
     #     gene=gene
     # )
+    
+    
 
     diagnosis = Diagnosis(
         # TODO(frehburg, grafea) - (2) - if we are including the diagnosis in the
@@ -550,6 +552,9 @@ def _map_interpretation(phenopacket_id: str,
         #  receptor deficiency`)
         #  as in http://purl.obolibrary.org/obo/MONDO_0019115.
         #  Adam, Filip, please select the disease code!
+        
+        # so we can add ontologyClass: id: "ORPHA:71529", 
+        # label: "Obesity due to melanocortin 4 receptor deficiency"
         genomic_interpretations=[
             # TODO(frehburg, grafea) - (3) - please delete the comment and the line
             #  below if you agree with dropping
