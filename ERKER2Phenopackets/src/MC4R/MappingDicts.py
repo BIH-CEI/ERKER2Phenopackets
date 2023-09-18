@@ -20,6 +20,11 @@ phenotype_label_map_erker2phenopackets = {
     "HP:0001513": 'Obesity',
 }
 
+phenotype_status_map_erker2phenopackets = {
+    "sct_410605003" : 'false',
+    "sct_723511001" : 'true',
+}
+
 allele_label_map_erker2phenopackets = {
     'ln_LA6705-3': 'homozygous',
     'ln_LA6706-1': 'heterozygous',
