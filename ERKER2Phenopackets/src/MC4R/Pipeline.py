@@ -193,6 +193,10 @@ def pipeline(data_path: str, out_dir_name: str = ''):
                                  map_to='parsed_date_of_phenotyping5',
                                  mapping=parse_phenotyping_date)
         df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_phenotyping5', no_date)
+        
+    # sct_8116006_1_status, sct_8116006_2_status, sct_8116006_3_status,\
+    # sct_8116006_4_status, sct_8116006_5_status (status of phenotype determination)
+    
 
     # phenotype label
     logger.trace('Parsing phenotype label columns')
