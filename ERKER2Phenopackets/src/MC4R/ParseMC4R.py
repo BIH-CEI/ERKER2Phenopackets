@@ -174,7 +174,7 @@ def parse_phenotyping_status(phenotyping_status: str) -> str:
     Could be: 
     * 'sct_410605003' : 'false'
     * 'sct_723511001' : 'true'
-    * 'sct_1220561009' : NO_PHENOTYPE
+    * 'sct_1220561009' : NOT_RECORDED
     
     :param phenotyping_status: The status of a specific phenotype as a SNOMED code
     :type phenotyping_status: str
@@ -185,7 +185,7 @@ def parse_phenotyping_status(phenotyping_status: str) -> str:
     logger.trace(f'Parsing phenotype status {phenotyping_status}')
     logger.trace(f'Check if phenotype status {phenotyping_status} is recorded or not')
     if phenotyping_status == 'sct_1220561009':
-        parsed_phenotyping_status = 'NO_PHENOTYPE'
+        parsed_phenotyping_status = 'NOT_RECORDED'
         return parsed_phenotyping_status
     else:
         parsed_phenotyping_status = \
