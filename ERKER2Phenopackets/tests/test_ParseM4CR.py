@@ -2,7 +2,7 @@ import pytest
 
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import \
 parse_year_of_birth, parse_sex, parse_phenotyping_date, parse_date_of_diagnosis,\
-parse_zygosity, parse_omim, parse_phenotyping_status
+parse_zygosity, parse_omim, parse_phenotyping_status, parse_phenotyping_status
 
 def test_parse_year_of_birth():
     example_yob = 2000
@@ -62,7 +62,7 @@ def test_parse_omim(inp, expected):
     
 
 @pytest.mark.parametrize(
-    ('inp', 'exprected'),
+    ('inp', 'expected'),
     (
         ('sct_410605003', 'false'),
         ('sct_723511001', 'true'),
