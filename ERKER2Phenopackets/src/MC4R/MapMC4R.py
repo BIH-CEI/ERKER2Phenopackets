@@ -378,8 +378,6 @@ def _map_phenotypic_feature(
         timestamp=onset_timestamp
     )
     
-    excluded = status
-
     phenotypic_feature = PhenotypicFeature(
         type=phenotype,
         onset=onset,
