@@ -1,6 +1,8 @@
 from distutils import config
 from google.protobuf.timestamp_pb2 import Timestamp
-from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
+from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets, \
+    phenotype_status_map_erker2phenopackets
+
 from loguru import logger
 
 import re
@@ -182,8 +184,8 @@ def parse_phenotyping_status(phenotyping_status: str) -> str:
     """
     logger.trace(f'Parsing phenotype status {phenotyping_status}')
     logger.trace(f'Check if phenotype status {phenotyping_status} is recorded or not')
-    if phenotyping_status not in phenotype_status_map_erker2phenopackets:
-        parsed_phenotyping_status = config.get('NoValue', 'phenotype')
+    if phenotyping_status == 'sct_1220561009':
+        parsed_phenotyping_status = 'NO_PHENOTYPE'
         return parsed_phenotyping_status
     else:
         parsed_phenotyping_status = \
