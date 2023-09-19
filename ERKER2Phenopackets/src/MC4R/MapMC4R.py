@@ -503,7 +503,7 @@ def _map_interpretation(phenopacket_id: str,
         variation_descriptor=variation_descriptor
     )
 
-    # TODO(frehburg, grafea) - (0) - Right now this handles one variant per
+    # Right now this handles one variant per
     #  case/phenopacket, right?
     #  However, will this always be the case for the ERKER format?
     #  How about diseases with autosomal recessive mode of inheritance, where
@@ -568,7 +568,7 @@ def _map_interpretation(phenopacket_id: str,
     interpretation = Interpretation(
         id=str(interpretation_id),
         # Generates a random str like `4d062c1e-ea58-4ad9-8307-b7d07fe6b0ab`
-        # TODO(frehburg, grafea) - (4) - consider setting `progress_status`
+        # consider setting `progress_status`
         #  https://phenopacket-schema.readthedocs.io/en/latest/interpretation.html
         #  #progressstatus
         #  Right now it is set to the default value = `UNKNOWN_PROGRESS`.
