@@ -204,7 +204,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
 
         # DISEASE
         logger.trace(f'{thread_id}: Creating disease block')
-        disease = _map_disease(
+        diagnosis = _map_disease(
             orpha=row['sct_439401001_orpha'],
             date_of_diagnosis=row['parsed_date_of_diagnosis'],
             label=config.get('Constants', 'disease_label'),
@@ -218,7 +218,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             id=phenopacket_id,
             subject=individual,
             phenotypic_features=phenotypic_features,
-            diseases=[disease],
+            diseases=[diagnosis],
             meta_data=meta_data,
             interpretations=[interpretation],
         )
