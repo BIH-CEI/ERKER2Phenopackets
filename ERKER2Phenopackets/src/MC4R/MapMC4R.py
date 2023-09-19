@@ -210,7 +210,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             label=config.get('Constants', 'disease_label'),
             no_date=no_date,
         )
-        logger.trace(f'{thread_id}: Successfully created disease block {disease}')
+        logger.trace(f'{thread_id}: Successfully created diagnosis block {diagnosis}')
 
         # Orchestrate the mapping
         logger.trace(f'{thread_id}: Creating phenopacket')
