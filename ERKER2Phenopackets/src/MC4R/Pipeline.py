@@ -201,7 +201,6 @@ def pipeline(data_path: str, out_dir_name: str = ''):
     df = PolarsUtils.map_col(df, map_from= 'sct_8116006_1_status',
                              map_to='parsed_phenotype_status1',
                              mapping=parse_phenotyping_status)
-    #df = PolarsUtils.fill_null_vals(df, 'parsed_phenotype_status1')
     df = PolarsUtils.map_col(df, map_from= 'sct_8116006_2_status',
                             map_to='parsed_phenotype_status2',
                             mapping=parse_phenotyping_status)
