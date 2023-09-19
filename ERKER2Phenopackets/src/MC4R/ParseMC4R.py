@@ -1,4 +1,3 @@
-from distutils import config
 from google.protobuf.timestamp_pb2 import Timestamp
 from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets, \
     phenotype_status_map_erker2phenopackets
