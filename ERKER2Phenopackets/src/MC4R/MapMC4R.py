@@ -156,12 +156,16 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         label_cols = ['parsed_phenotype_label1', 'parsed_phenotype_label2',
                       'parsed_phenotype_label3', 'parsed_phenotype_label4',
                       'parsed_phenotype_label5']
+        status_cols =  ['parsed_phenotype_status1', 'parsed_phenotype_status2',
+                        'parsed_phenotype_status3', 'parsed_phenotype_status4',
+                        'parsed_phenotype_status5']
 
         phenotypic_features = _map_phenotypic_features(
             # only including cols if they are in the keyset of the row
             hpos=[row[hpo_col] for hpo_col in hpo_cols if hpo_col in row],
             onsets=[row[onset_col] for onset_col in onset_cols if onset_col in row],
             labels=[row[label_col] for label_col in label_cols if label_col in row],
+            status=[row[status_col] for status_col in status_cols if status_col in row],
             no_phenotype=no_phenotype,
             no_date=no_date,
         )
