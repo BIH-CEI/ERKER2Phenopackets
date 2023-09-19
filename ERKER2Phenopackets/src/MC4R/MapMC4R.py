@@ -582,7 +582,7 @@ def _map_interpretation(phenopacket_id: str,
         #  progress status, right?
         
         # we can switch the default value of progress_status to 'SOLVED', as all 
-        # diseases are definitive diagnosis. 
+        # diseases are definitive diagnoses. 
         # the variants can be considered as 'contributory' 
         diagnosis=diagnosis
     )
