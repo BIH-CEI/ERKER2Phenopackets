@@ -337,7 +337,7 @@ def _map_individual(phenopacket_id: str,
 
 
 def _map_phenotypic_feature(
-        hpo: str, onset: str, label: str = None) -> PhenotypicFeature:
+        hpo: str, onset: str, status: str, label: str = None) -> PhenotypicFeature:
     """Maps ERKER patient data to PhenotypicFeature block
 
     Phenopackets Documentation of the PhenotypicFeature block:
@@ -347,6 +347,8 @@ def _map_phenotypic_feature(
     :type hpo: str
     :param onset: onset date
     :type onset: str
+    :type status: str for confirmed/refuted/not recorded
+    :param status: str
     :param label: human-readable class name, defaults to None
     :type label: str, optional
     :return:
@@ -354,7 +356,8 @@ def _map_phenotypic_feature(
     logger.trace(f'Mapping phenotypic feature with the following parameters:'
                  f'\n\thpo: {hpo}'
                  f'\n\tonset: {onset}'
-                 f'\n\tlabel: {label}')
+                 f'\n\tlabel: {label}'
+                 f'\n\tstatus: {status}')
 
     if label:
         phenotype = OntologyClass(
@@ -370,10 +373,13 @@ def _map_phenotypic_feature(
     onset = TimeElement(
         timestamp=onset_timestamp
     )
+    
+    excluded = status
 
     phenotypic_feature = PhenotypicFeature(
         type=phenotype,
-        onset=onset
+        onset=onset,
+        excluded=status
     )
     return phenotypic_feature
 
@@ -383,6 +389,7 @@ def _map_phenotypic_features(
         onsets: List[str],
         no_phenotype: str,
         no_date: str,
+        status: str,
         labels: List[str] = None) -> List[PhenotypicFeature]:
     """Maps ERKER patient data to PhenotypicFeature block
 
@@ -397,6 +404,8 @@ def _map_phenotypic_features(
     :type no_phenotype: str
     :param no_date: no date code
     :type no_date: str
+    :param status: str representing confirmed/refuted/not recorded
+    :type status: str
     :param labels: list of human-readable class names, defaults to None
     :type labels: List[str], optional
     :return: list of PhenotypicFeature Phenopacket blocks
@@ -407,6 +416,7 @@ def _map_phenotypic_features(
                  f'\n\tonsets: {onsets}'
                  f'\n\tno_phenotype: {no_phenotype}'
                  f'\n\tno_date: {no_date}'
+                 f'\n\tstatus: {status}'
                  f'\n\tlabels: {labels}')
 
     # removing missing vals
@@ -416,8 +426,9 @@ def _map_phenotypic_features(
     # creating phenotypic feature blocks for each hpo code
     phenotypic_features = list(
         map(
-            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2]),
-            zip(hpos, onsets, labels)
+            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2],\
+                                              status=t[3]),
+            zip(hpos, onsets, labels, status)
         )
     )
 
