@@ -1,4 +1,5 @@
-from .MappingDicts import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
+from .MappingDicts import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets,\
+    phenotype_status_map_erker2phenopackets
 from .ParseMC4R import parse_year_of_birth, parse_sex, parse_zygosity, parse_omim
 from .MapMC4R import map_mc4r2phenopackets
 
@@ -7,5 +8,7 @@ __all__ = [
 
     'parse_year_of_birth', 'parse_sex', 'parse_zygosity', 'parse_omim',
 
-    'map_mc4r2phenopackets',
+    'map_mc4r2phenopackets', 'phenotype_status_map_erker2phenopackets', 
+    
+    'parse_phenotyping_status'
 ]
