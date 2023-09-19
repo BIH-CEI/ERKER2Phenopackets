@@ -16,7 +16,7 @@ from ERKER2Phenopackets.src.MC4R.MappingDicts import allele_label_map_erker2phen
 from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
     sex_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
-    parse_year_of_birth, parse_phenotyping_date, parse_omim
+    parse_phenotyping_status, parse_year_of_birth, parse_phenotyping_date, parse_omim
 from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
 
 
@@ -196,7 +196,24 @@ def pipeline(data_path: str, out_dir_name: str = ''):
         
     # sct_8116006_1_status, sct_8116006_2_status, sct_8116006_3_status,\
     # sct_8116006_4_status, sct_8116006_5_status (status of phenotype determination)
-    
+    logger.trace('Parsing status of phenotype determination columns')
+    logger.trace('Filling null values in status of phenotype determination columns')
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_1_status',
+                             map_to='parsed_phenotype_status1',
+                             mapping=parse_phenotyping_status)
+    #df = PolarsUtils.fill_null_vals(df, 'parsed_phenotype_status1')
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_2_status',
+                            map_to='parsed_phenotype_status2',
+                            mapping=parse_phenotyping_status)
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_3_status',
+                            map_to='parsed_phenotype_status3',
+                            mapping=parse_phenotyping_status)
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_4_status',
+                            map_to='parsed_phenotype_status4',
+                            mapping=parse_phenotyping_status)
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_5_status',
+                            map_to='parsed_phenotype_status5',
+                            mapping=parse_phenotyping_status)
 
     # phenotype label
     logger.trace('Parsing phenotype label columns')
