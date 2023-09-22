@@ -23,6 +23,7 @@ phenotype_label_map_erker2phenopackets = {
 phenotype_status_map_erker2phenopackets = {
     "sct_410605003" : 'false',
     "sct_723511001" : 'true',
+    "sct_1220561009": 'NOT_RECORDED'
 }
 
 allele_label_map_erker2phenopackets = {
