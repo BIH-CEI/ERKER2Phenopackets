@@ -1,4 +1,5 @@
 import configparser
+from distutils import config
 import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Union
@@ -557,7 +558,10 @@ def _map_interpretation(phenopacket_id: str,
     # // Hemizygous // Not recorded (qualifier value)
     # we also allow multipole genomic interpretations: 3 clinical relevant variants and
     # 5 genetic side variants. Therefore, we could allow a compound heterozygous patient
-    # to be captured with both clinical relevant variants
+    # to be captured with both clinical relevant variants. 
+    # --> for  now the ERKER form only allows zygosity of the main diagnosis i.e. the 
+    # main disease causing mutation. For this analysis with MC4R-defi
+    
 
     genomic_interpretation_variant = GenomicInterpretation(
         subject_or_biosample_id=phenopacket_id,
@@ -605,23 +609,7 @@ def _map_interpretation(phenopacket_id: str,
     interpretation_id = uuid.uuid4()
     interpretation = Interpretation(
         id=str(interpretation_id),
-        # Generates a random str like `4d062c1e-ea58-4ad9-8307-b7d07fe6b0ab`
-        # consider setting `progress_status`
-        #  https://phenopacket-schema.readthedocs.io/en/latest/interpretation.html
-        #  #progressstatus
-        #  Right now it is set to the default value = `UNKNOWN_PROGRESS`.
-        #  However, we *do* have the diagnosis, which is inconsistent with the
-        #  unknown progress.
-        #  I think this is a clinical question. Adam, can we consider the variants as
-        #  causal/contributory
-        #  (per https://phenopacket-schema.readthedocs.io/en/latest/genomic
-        #  -interpretation.html#interpretationstatus)
-        #  to the disease? If yes, then we can make the diagnosis and set the
-        #  progress status, right?
-
-        # we can switch the default value of progress_status to 'SOLVED', as all 
-        # diseases are definitive diagnoses. 
-        # the variants can be considered as 'contributory' 
+        progress_status = config.get('Constants', 'progress_status')
         diagnosis=diagnosis
     )
     return interpretation
