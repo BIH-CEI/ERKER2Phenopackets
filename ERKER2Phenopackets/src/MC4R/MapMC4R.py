@@ -598,7 +598,7 @@ def _map_interpretation(phenopacket_id: str,
             #  the gene interpretation.
             # genomic_interpretation_gene,
             genomic_interpretation_variant,
-        ]
+        ],
         disease=disease,
     )
 
