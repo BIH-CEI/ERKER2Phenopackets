@@ -544,25 +544,6 @@ def _map_interpretation(phenopacket_id: str,
         variation_descriptor=variation_descriptor
     )
 
-    # Right now this handles one variant per
-    #  case/phenopacket, right?
-    #  However, will this always be the case for the ERKER format?
-    #  How about diseases with autosomal recessive mode of inheritance, where
-    #  a pair of heterozygous variants can be disease causing (compound heterozygosity)?
-    #  In that case, we need to create 2 genomic interpretations, one per variant,
-    #  and I am not sure the current
-    #  architecture would allow that.
-
-    # in the new version of the ERKER we allow these choices for the zygosity:
-    # Homozygous // (simple) Heterozygous // Compound heterozygous //Double heterozygous
-    # // Hemizygous // Not recorded (qualifier value)
-    # we also allow multipole genomic interpretations: 3 clinical relevant variants and
-    # 5 genetic side variants. Therefore, we could allow a compound heterozygous patient
-    # to be captured with both clinical relevant variants. 
-    # --> for  now the ERKER form only allows zygosity of the main diagnosis i.e. the 
-    # main disease causing mutation. For this analysis with MC4R-defi
-    
-
     genomic_interpretation_variant = GenomicInterpretation(
         subject_or_biosample_id=phenopacket_id,
         interpretation_status=interpretation_status,
@@ -585,10 +566,6 @@ def _map_interpretation(phenopacket_id: str,
     # )
 
     diagnosis = Diagnosis(
-
-
-        # so we can add ontologyClass: id: "ORPHA:71529", 
-        # label: "Obesity due to melanocortin 4 receptor deficiency"
         genomic_interpretations=[
             # TODO(frehburg, grafea) - (3) - please delete the comment and the line
             #  below if you agree with dropping
