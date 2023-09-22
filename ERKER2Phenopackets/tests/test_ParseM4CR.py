@@ -64,8 +64,8 @@ def test_parse_omim(inp, expected):
 @pytest.mark.parametrize(
     ('inp', 'expected'),
     (
-        ('sct_410605003', 'false'),
-        ('sct_723511001', 'true'),
+        ('sct_410605003', 'False'),
+        ('sct_723511001', 'True'),
         ('sct_1220561009', 'NO_PHENOTYPE')
     )
 )
