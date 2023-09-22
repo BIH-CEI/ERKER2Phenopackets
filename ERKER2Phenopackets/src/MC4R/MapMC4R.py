@@ -511,15 +511,14 @@ def _map_interpretation(phenopacket_id: str,
     #  In that case, we need to create 2 genomic interpretations, one per variant,
     #  and I am not sure the current
     #  architecture would allow that.
-    
+
     # in the new version of the ERKER we allow these choices for the zygosity:
     # Homozygous // (simple) Heterozygous // Compound heterozygous //Double heterozygous
     # // Hemizygous // Not recorded (qualifier value)
-    #we also allow multipole genomic interpretations: 3 clinical relevant variants and 
+    # we also allow multipole genomic interpretations: 3 clinical relevant variants and
     # 5 genetic side variants. Therefore, we could allow a compound heterozygous patient
     # to be captured with both clinical relevant variants
-    
-    
+
     genomic_interpretation_variant = GenomicInterpretation(
         subject_or_biosample_id=phenopacket_id,
         interpretation_status=interpretation_status,
@@ -540,8 +539,6 @@ def _map_interpretation(phenopacket_id: str,
     #     interpretation_status=interpretation_status,
     #     gene=gene
     # )
-    
-    
 
     diagnosis = Diagnosis(
         # TODO(frehburg, grafea) - (2) - if we are including the diagnosis in the
@@ -552,7 +549,7 @@ def _map_interpretation(phenopacket_id: str,
         #  receptor deficiency`)
         #  as in http://purl.obolibrary.org/obo/MONDO_0019115.
         #  Adam, Filip, please select the disease code!
-        
+
         # so we can add ontologyClass: id: "ORPHA:71529", 
         # label: "Obesity due to melanocortin 4 receptor deficiency"
         genomic_interpretations=[
@@ -580,7 +577,7 @@ def _map_interpretation(phenopacket_id: str,
         #  -interpretation.html#interpretationstatus)
         #  to the disease? If yes, then we can make the diagnosis and set the
         #  progress status, right?
-        
+
         # we can switch the default value of progress_status to 'SOLVED', as all 
         # diseases are definitive diagnoses. 
         # the variants can be considered as 'contributory' 
