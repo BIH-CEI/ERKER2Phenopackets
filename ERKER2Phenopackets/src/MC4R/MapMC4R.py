@@ -1,7 +1,7 @@
 import configparser
 import os
 from concurrent.futures import ThreadPoolExecutor
-from typing import List
+from typing import List, Union
 import threading
 
 import phenopackets
@@ -343,11 +343,13 @@ def _map_individual(phenopacket_id: str,
 
 def _map_phenotypic_feature(
         hpo: str, onset: str, status: str, not_recorded: str, label: str = None
-    ) -> PhenotypicFeature:
+    ) -> Union[PhenotypicFeature, None]:
     """Maps ERKER patient data to PhenotypicFeature block
 
     Phenopackets Documentation of the PhenotypicFeature block:
     https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html
+    
+    If the status is set to not recorded, this function return None
 
     :param hpo: hpo code
     :type hpo: str
@@ -359,7 +361,7 @@ def _map_phenotypic_feature(
     :type not_recorded: str
     :param label: human-readable class name, defaults to None
     :type label: str, optional
-    :return:
+    :return: Union[PhenotypicFeature, None]
     """
     logger.trace(f'Mapping phenotypic feature with the following parameters:'
                  f'\n\thpo: {hpo}'
@@ -446,7 +448,8 @@ def _map_phenotypic_features(
     
     # filter out Nones (if the feature has status not recorded, a none object is 
     # returned by the _map_phenotypic_feature method)
-    # TODO: implement
+    phenotypic_features = [phenotyptic_feature for phenotyptic_feature in \
+        phenotypic_features if not phenotyptic_feature is None]
 
     return phenotypic_features
 
