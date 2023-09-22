@@ -565,7 +565,7 @@ def _map_interpretation(phenopacket_id: str,
     interpretation_id = uuid.uuid4()
     interpretation = Interpretation(
         id=str(interpretation_id),
-        # progress_status = progress_status,
+        progress_status = progress_status,
         diagnosis=diagnosis
     )
     return interpretation
