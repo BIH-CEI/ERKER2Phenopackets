@@ -20,6 +20,7 @@ def validate(path: Path) -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
     :rtype: Tuple[bool, str]
     :raises ValueError: If the path is not a file or directory
     :raises ValueError: If the path is a file but not a json file
+    :raises ValueError: If the path is a directory but does not contain any json files
     """
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
@@ -47,6 +48,10 @@ def validate(path: Path) -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
                 ret_list.append(_validate_phenopacket(
                     file_path, command, phenopacket_json_path_placeholder
                 ))
+
+            if not ret_list:
+                logger.error(f'Directory {path} does not contain any json files')
+                raise ValueError(f'Directory {path} does not contain any json files')
             return ret_list
 
 
