@@ -156,9 +156,9 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         label_cols = ['parsed_phenotype_label1', 'parsed_phenotype_label2',
                       'parsed_phenotype_label3', 'parsed_phenotype_label4',
                       'parsed_phenotype_label5']
-        status_cols =  ['parsed_phenotype_status1', 'parsed_phenotype_status2',
-                        'parsed_phenotype_status3', 'parsed_phenotype_status4',
-                        'parsed_phenotype_status5']
+        status_cols = ['parsed_phenotype_status1', 'parsed_phenotype_status2',
+                       'parsed_phenotype_status3', 'parsed_phenotype_status4',
+                       'parsed_phenotype_status5']
 
         phenotypic_features = _map_phenotypic_features(
             # only including cols if they are in the keyset of the row
@@ -343,7 +343,7 @@ def _map_individual(phenopacket_id: str,
 
 def _map_phenotypic_feature(
         hpo: str, onset: str, status: str, not_recorded: str, label: str = None
-    ) -> Union[PhenotypicFeature, None]:
+) -> Union[PhenotypicFeature, None]:
     """Maps ERKER patient data to PhenotypicFeature block
 
     Phenopackets Documentation of the PhenotypicFeature block:
@@ -384,7 +384,7 @@ def _map_phenotypic_feature(
     onset = TimeElement(
         timestamp=onset_timestamp
     )
-    
+
     if status != not_recorded:
         status: bool = eval(status)
         phenotypic_feature = PhenotypicFeature(
@@ -402,7 +402,7 @@ def _map_phenotypic_features(
         no_phenotype: str,
         no_date: str,
         not_recorded: str,
-        status: str,
+        status: List[str],
         labels: List[str] = None) -> List[PhenotypicFeature]:
     """Maps ERKER patient data to PhenotypicFeature block
 
@@ -419,8 +419,8 @@ def _map_phenotypic_features(
     :type no_date: str
     :param not_recorded: not recorded code
     :type not_recorded: str
-    :param status: str representing confirmed/refuted/not recorded
-    :type status: str
+    :param status: string representing confirmed/refuted/not recorded
+    :type status: List[str]
     :param labels: list of human-readable class names, defaults to None
     :type labels: List[str], optional
     :return: list of PhenotypicFeature Phenopacket blocks
@@ -441,16 +441,16 @@ def _map_phenotypic_features(
     # creating phenotypic feature blocks for each hpo code
     phenotypic_features = list(
         map(
-            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2],\
+            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2],
                                               status=t[3], not_recorded=not_recorded),
             zip(hpos, onsets, labels, status)
         )
     )
-    
+
     # filter out Nones (if the feature has status not recorded, a none object is 
     # returned by the _map_phenotypic_feature method)
-    phenotypic_features = [phenotyptic_feature for phenotyptic_feature in \
-        phenotypic_features if not phenotyptic_feature is None]
+    phenotypic_features = [phenotyptic_feature for phenotyptic_feature in
+                           phenotypic_features if phenotyptic_feature is not None]
 
     return phenotypic_features
 
@@ -656,7 +656,7 @@ def _get_constants_from_config(config):
     no_date = config.get('NoValue', 'date')
     no_omim = config.get('NoValue', 'omim')
     not_recorded = config.get('NoValue', 'recorded')
-    
+
     created_by = config.get('Constants', 'creator_tag')
 
     logger.trace('Successfully finished _get_constants_from_config()')
