@@ -82,3 +82,30 @@ def _validate_phenopacket(path: Path, command: str,
     return False, 'a'
 
 def main():
+    setup_logging(level='INFO')
+    logger.info('Validating phenopackets')
+    path = ''
+    if len(sys.argv) > 1:
+        path = Path(sys.argv[1])
+    else:
+        directory = Path('ERKER2Phenopackets/data/out/phenopackets')
+        subdirectories = \
+            [
+                os.path.join(directory, entry) for entry in os.listdir(directory)
+                if os.path.isdir(os.path.join(directory, entry))
+            ]
+        sorted_directories = sorted(subdirectories, key=os.path.getmtime, reverse=True)
+        path = Path(sorted_directories[0])
+
+        if not path or not path.is_dir():
+            logger.error('No path to data provided. Please provide a path to the data '
+                         'as a command line argument.')
+            raise ValueError('No path to data provided. Please provide a path to the '
+                             'data as a command line argument.')
+    validate(path)
+
+
+if __name__ == '__main__':
+    validate(Path(r'C:\Users\Surface\OneDrive\Documents\DataSpell\ERKER2Phenopackets'
+                  r'\ERKER2Phenopackets\data\out\phenopackets\example-phenopackets-from'
+                  r'-synthetic-data\0.json'))
