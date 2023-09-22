@@ -1,3 +1,22 @@
+from loguru import logger
+import configparser
+
+config = configparser.ConfigParser()
+try:
+    config.read('../../data/config/config.cfg')
+    not_recorded = config.get('NoValue', 'recorded')
+    logger.trace('Successfully read config file from default location')
+except Exception as e1:
+    logger.trace(f'Could not find config file in default location. {e1}')
+    try:
+        logger.trace('Trying to read config file from alternative location')
+        config.read('ERKER2Phenopackets/data/config/config.cfg')
+        not_recorded = config.get('NoValue', 'recorded')
+        logger.trace('Successfully read config file from alternative location')
+    except Exception as e2:
+        logger.error(f'Could not find config file. {e1} {e2}')
+        exit()
+
 sex_map_erker2phenopackets = {
     'sct_248152002': 'FEMALE',
     'sct_248153007': 'MALE',
@@ -17,6 +36,13 @@ phenotype_label_map_erker2phenopackets = {
     "HP:0025500": 'Class II obesity',
     "HP:0025499": 'Class I obesity',
     "HP:0025502": 'Overweight',
+    "HP:0001513": 'Obesity',
+}
+
+phenotype_status_map_erker2phenopackets = {
+    "sct_410605003" : 'False',
+    "sct_723511001" : 'True',
+    "sct_1220561009": not_recorded
 }
 
 allele_label_map_erker2phenopackets = {

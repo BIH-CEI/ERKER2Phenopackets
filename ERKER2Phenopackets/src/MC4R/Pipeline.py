@@ -7,17 +7,17 @@ from datetime import datetime
 import sys
 import re
 
+from ERKER2Phenopackets.src.logging_ import setup_logging
 from ERKER2Phenopackets.src.utils import write_files
 from ERKER2Phenopackets.src.utils import PolarsUtils
 from ERKER2Phenopackets.src.MC4R.MappingDicts import \
     phenotype_label_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.MappingDicts import allele_label_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
-    sex_map_erker2phenopackets
+    sex_map_erker2phenopackets, phenotype_status_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
-    parse_year_of_birth, parse_phenotyping_date, parse_omim
+     parse_year_of_birth, parse_phenotyping_date, parse_omim
 from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
-from ERKER2Phenopackets.src.logging_ import setup_logging
 
 
 def main():
@@ -25,30 +25,37 @@ def main():
     the resulting phenopackets to json files on disk"""
     setup_logging(level='INFO')
     logger.info('Starting MC4R pipeline')
-    dir_name = ''
+    out_dir_name = ''
     if len(sys.argv) > 1:
         data_path = sys.argv[1]
         if len(sys.argv) > 2:
-            dir_name = sys.argv[2]
+            out_dir_name = sys.argv[2]
             disallowed_chars_pattern = r'[<>:"/\\|?*]'
 
-            if re.search(disallowed_chars_pattern, dir_name):
+            if re.search(disallowed_chars_pattern, out_dir_name):
                 logger.warning('Removing invalid characters from your directory name: '
-                               f'{dir_name} . Directory names may not contain the '
+                               f'{out_dir_name} . Directory names may not contain the '
                                'following characters: <>:"/\\|?*')
 
-            dir_name = re.sub(disallowed_chars_pattern, '', dir_name)
+            out_dir_name = re.sub(disallowed_chars_pattern, '', out_dir_name)
 
-            if dir_name == ' ' or dir_name is None:
+            if out_dir_name == ' ' or out_dir_name is None:
                 logger.warning('Your directory name is invalid.')
-                dir_name = ''
+                out_dir_name = ''
     else:
         logger.critical('No path to data provided. Please provide a path to the data '
                         'as a command line argument.')
         return
+    pipeline(data_path, out_dir_name)
+
+
+def pipeline(data_path: str, out_dir_name: str = ''):
     logger.info(f'Data path: {data_path}')
-    logger.info(f'Output directory name: {dir_name}'
-                f'{", if empty, current time will be used" if not dir_name else ""}')
+    if out_dir_name:
+        logger.info(f'Output directory name: {out_dir_name}')
+    else:
+        logger.info('No output directory name provided, current time will be used as '
+                    'output directory name')
 
     logger.trace('Reading config file')
     config = configparser.ConfigParser()
@@ -153,8 +160,7 @@ def main():
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_2', no_phenotype)
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_3', no_phenotype)
     df = PolarsUtils.fill_null_vals(df, 'sct_8116006_4', no_phenotype)
-    if 'sct_8116006_5' in df.columns:
-        df = PolarsUtils.fill_null_vals(df, 'sct_8116006_5', no_phenotype)
+    df = PolarsUtils.fill_null_vals(df, 'sct_8116006_5', no_phenotype)
 
     # sct_8116006_1_date, sct_8116006_2_date, sct_8116006_3_date, sct_8116006_4_date, \
     # sct_8116006_5_date (dates of phenotype determination)
@@ -187,6 +193,26 @@ def main():
                                  map_to='parsed_date_of_phenotyping5',
                                  mapping=parse_phenotyping_date)
         df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_phenotyping5', no_date)
+        
+    # sct_8116006_1_status, sct_8116006_2_status, sct_8116006_3_status,\
+    # sct_8116006_4_status, sct_8116006_5_status (status of phenotype determination)
+    logger.trace('Parsing status of phenotype determination columns')
+    logger.trace('Filling null values in status of phenotype determination columns')
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_1_status',
+                             map_to='parsed_phenotype_status1',
+                             mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_2_status',
+                            map_to='parsed_phenotype_status2',
+                            mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_3_status',
+                            map_to='parsed_phenotype_status3',
+                            mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_4_status',
+                            map_to='parsed_phenotype_status4',
+                            mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_5_status',
+                            map_to='parsed_phenotype_status5',
+                            mapping=phenotype_status_map_erker2phenopackets)
 
     # phenotype label
     logger.trace('Parsing phenotype label columns')
@@ -214,8 +240,8 @@ def main():
     logger.info('Finished mapping data to phenopackets')
 
     # Write to JSON
-    if dir_name:
-        phenopackets_out_dir = phenopackets_out / dir_name  # create dir for output
+    if out_dir_name:
+        phenopackets_out_dir = phenopackets_out / out_dir_name  # create dir for output
     else:
         phenopackets_out_dir = phenopackets_out / cur_time  # create dir for output
 

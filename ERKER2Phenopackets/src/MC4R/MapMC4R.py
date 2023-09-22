@@ -1,7 +1,7 @@
 import configparser
 import os
 from concurrent.futures import ThreadPoolExecutor
-from typing import List
+from typing import List, Union
 import threading
 import uuid
 
@@ -11,9 +11,9 @@ from phenopackets import Phenopacket
 from phenopackets import PhenotypicFeature
 from phenopackets import VariationDescriptor, Expression
 from phenopackets import GeneDescriptor
-from phenopackets import Individual, OntologyClass, Disease, TimeElement
+from phenopackets import Individual, OntologyClass, TimeElement
 from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
-from phenopackets import MetaData
+from phenopackets import MetaData, Disease
 from phenopackets import VariantInterpretation
 from loguru import logger
 
@@ -96,7 +96,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
     logger.trace(f'{thread_id}: Trying to read config file from default location')
     try:
         config.read('../../data/config/config.cfg')
-        no_mutation, no_phenotype, no_date, no_omim, created_by = \
+        no_mutation, no_phenotype, no_date, no_omim, not_recorded, created_by = \
             _get_constants_from_config(config)
         logger.trace(f'{thread_id}: Successfully read config file from default '
                      'location')
@@ -107,7 +107,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             logger.trace(f'{thread_id}: Trying to read config file from alternative '
                          'location')
             config.read('ERKER2Phenopackets/data/config/config.cfg')
-            no_mutation, no_phenotype, no_date, no_omim, created_by = \
+            no_mutation, no_phenotype, no_date, no_omim, not_recorded, created_by = \
                 _get_constants_from_config(config)
             logger.trace(f'{thread_id}: Successfully read config file from alternative '
                          'location')
@@ -159,14 +159,19 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         label_cols = ['parsed_phenotype_label1', 'parsed_phenotype_label2',
                       'parsed_phenotype_label3', 'parsed_phenotype_label4',
                       'parsed_phenotype_label5']
+        status_cols = ['parsed_phenotype_status1', 'parsed_phenotype_status2',
+                       'parsed_phenotype_status3', 'parsed_phenotype_status4',
+                       'parsed_phenotype_status5']
 
         phenotypic_features = _map_phenotypic_features(
             # only including cols if they are in the keyset of the row
             hpos=[row[hpo_col] for hpo_col in hpo_cols if hpo_col in row],
             onsets=[row[onset_col] for onset_col in onset_cols if onset_col in row],
             labels=[row[label_col] for label_col in label_cols if label_col in row],
+            status=[row[status_col] for status_col in status_cols if status_col in row],
             no_phenotype=no_phenotype,
             no_date=no_date,
+            not_recorded=not_recorded,
         )
         logger.trace(f'{thread_id}: Successfully created phenotypic features block '
                      f'{phenotypic_features}')
@@ -185,6 +190,21 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         # logger.trace(f'{thread_id}: Successfully created gene descriptor block '
         #              f'{gene_descriptor}')
 
+        # DISEASE
+        logger.trace(f'{thread_id}: Creating disease block')
+        disease = _map_disease_for_diagnosis(
+            orpha=row['sct_439401001_orpha'],
+            label=config.get('Constants', 'disease_label'),
+        )
+        # #  activate this if we switch back to Disease block
+        # disease = _map_disease_block(
+        #     orpha=row['sct_439401001_orpha'],
+        #     date_of_diagnosis=row['parsed_date_of_diagnosis'],
+        #     label=config.get('Constants', 'disease_label'),
+        #     no_date=no_date,
+        # )
+        logger.trace(f'{thread_id}: Successfully created diagnosis block {disease}')
+
         # INTERPRETATION
         logger.trace(f'{thread_id}: Creating interpretation block')
         p_hgvs_cols = ['ln_48005_3_1', 'ln_48005_3_2', 'ln_48005_3_3']
@@ -201,19 +221,10 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             no_mutation=no_mutation,
             # gene=gene_descriptor,
             interpretation_status=config.get('Constants', 'interpretation_status'),
+            disease=disease,
         )
         logger.trace(f'{thread_id}: Successfully created interpretation block '
                      f'{interpretation}')
-
-        # DISEASE
-        logger.trace(f'{thread_id}: Creating disease block')
-        disease = _map_disease(
-            orpha=row['sct_439401001_orpha'],
-            date_of_diagnosis=row['parsed_date_of_diagnosis'],
-            label=config.get('Constants', 'disease_label'),
-            no_date=no_date,
-        )
-        logger.trace(f'{thread_id}: Successfully created disease block {disease}')
 
         # Orchestrate the mapping
         logger.trace(f'{thread_id}: Creating phenopacket')
@@ -340,24 +351,33 @@ def _map_individual(phenopacket_id: str,
 
 
 def _map_phenotypic_feature(
-        hpo: str, onset: str, label: str = None) -> PhenotypicFeature:
+        hpo: str, onset: str, status: str, not_recorded: str, label: str = None
+) -> Union[PhenotypicFeature, None]:
     """Maps ERKER patient data to PhenotypicFeature block
 
     Phenopackets Documentation of the PhenotypicFeature block:
     https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html
+    
+    If the status is set to not recorded, this function return None
 
     :param hpo: hpo code
     :type hpo: str
     :param onset: onset date
     :type onset: str
+    :type status: str for confirmed/refuted/not recorded
+    :param status: str
+    :param not_recorded: not recorded code
+    :type not_recorded: str
     :param label: human-readable class name, defaults to None
     :type label: str, optional
-    :return:
+    :return: Union[PhenotypicFeature, None]
     """
     logger.trace(f'Mapping phenotypic feature with the following parameters:'
                  f'\n\thpo: {hpo}'
                  f'\n\tonset: {onset}'
-                 f'\n\tlabel: {label}')
+                 f'\n\tlabel: {label}'
+                 f'\n\tstatus: {status}'
+                 f'\n\tnot_recorded: {not_recorded}')
 
     if label:
         phenotype = OntologyClass(
@@ -374,11 +394,15 @@ def _map_phenotypic_feature(
         timestamp=onset_timestamp
     )
 
-    phenotypic_feature = PhenotypicFeature(
-        type=phenotype,
-        onset=onset
-    )
-    return phenotypic_feature
+    if status != not_recorded:
+        status: bool = eval(status)
+        phenotypic_feature = PhenotypicFeature(
+            type=phenotype,
+            onset=onset,
+            excluded=status
+        )
+        return phenotypic_feature
+    return None
 
 
 def _map_phenotypic_features(
@@ -386,6 +410,8 @@ def _map_phenotypic_features(
         onsets: List[str],
         no_phenotype: str,
         no_date: str,
+        not_recorded: str,
+        status: List[str],
         labels: List[str] = None) -> List[PhenotypicFeature]:
     """Maps ERKER patient data to PhenotypicFeature block
 
@@ -400,6 +426,10 @@ def _map_phenotypic_features(
     :type no_phenotype: str
     :param no_date: no date code
     :type no_date: str
+    :param not_recorded: not recorded code
+    :type not_recorded: str
+    :param status: string representing confirmed/refuted/not recorded
+    :type status: List[str]
     :param labels: list of human-readable class names, defaults to None
     :type labels: List[str], optional
     :return: list of PhenotypicFeature Phenopacket blocks
@@ -410,6 +440,7 @@ def _map_phenotypic_features(
                  f'\n\tonsets: {onsets}'
                  f'\n\tno_phenotype: {no_phenotype}'
                  f'\n\tno_date: {no_date}'
+                 f'\n\tstatus: {status}'
                  f'\n\tlabels: {labels}')
 
     # removing missing vals
@@ -419,10 +450,16 @@ def _map_phenotypic_features(
     # creating phenotypic feature blocks for each hpo code
     phenotypic_features = list(
         map(
-            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2]),
-            zip(hpos, onsets, labels)
+            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2],
+                                              status=t[3], not_recorded=not_recorded),
+            zip(hpos, onsets, labels, status)
         )
     )
+
+    # filter out Nones (if the feature has status not recorded, a none object is 
+    # returned by the _map_phenotypic_feature method)
+    phenotypic_features = [phenotyptic_feature for phenotyptic_feature in
+                           phenotypic_features if phenotyptic_feature is not None]
 
     return phenotypic_features
 
@@ -434,8 +471,9 @@ def _map_interpretation(phenopacket_id: str,
                         p_hgvs: List[str],
                         c_hgvs: List[str],
                         no_mutation: str,
+                        gene: GeneDescriptor,
                         interpretation_status: str,
-                        gene: GeneDescriptor = None,
+                        disease: OntologyClass,
                         ) -> VariationDescriptor:
     """Maps ERKER patient data to Interpretation block
     
@@ -462,6 +500,8 @@ def _map_interpretation(phenopacket_id: str,
     :type interpretation_status: str
     :param gene: GeneDescriptor block
     :type gene: GeneDescriptor, optional
+    :param disease: Disease block
+    :type disease: OntologyClass
     :return: Interpretation block (containing variation description)
     :rtype: Interpretation
     """
@@ -559,6 +599,7 @@ def _map_interpretation(phenopacket_id: str,
             # genomic_interpretation_gene,
             genomic_interpretation_variant,
         ]
+        disease=disease,
     )
 
     interpretation_id = uuid.uuid4()
@@ -627,12 +668,40 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
     return gene_descriptor
 
 
-def _map_disease(
+def _map_disease_for_diagnosis(
+        orpha: str,
+        label: str,
+) -> OntologyClass:
+    """Maps ERKER patient data to Disease block
+
+    Phenopackets Documentation of the Diagnosis block:
+    https://phenopacket-schema.readthedocs.io/en/latest/interpretation.html#rstdiagnosis
+
+    :param orpha: Orpha code encoding rare disease
+    :type orpha: str
+    :param label: human-readable class name
+    :type label: str
+    :return: OntologyClass Phenopackets block of disease
+    """
+    logger.trace(f'Mapping disease with the following parameters:'
+                 f'\n\torpha: {orpha}'
+                 f'\n\tlabel: {label}'
+                 )
+
+    disease = OntologyClass(
+        id=orpha,
+        label=label
+    )
+
+    return disease
+
+
+def _map_disease_block(
         orpha: str,
         date_of_diagnosis: str,
         label: str,
         no_date: str,
-) -> Disease:
+) -> OntologyClass:
     """Maps ERKER patient data to Disease block
 
     Phenopackets Documentation of the Disease block:
@@ -640,7 +709,7 @@ def _map_disease(
 
     :param orpha: Orpha code encoding rare disease
     :type orpha: str
-    :param date_of_diagnosis: Date of diagnosis
+    :param date_of_diagnosis: date of diagnosis
     :type date_of_diagnosis: str
     :param label: human-readable class name
     :type label: str
@@ -652,7 +721,8 @@ def _map_disease(
                  f'\n\torpha: {orpha}'
                  f'\n\tdate_of_diagnosis: {date_of_diagnosis}'
                  f'\n\tlabel: {label}'
-                 f'\n\tno_date: {no_date}')
+                 f'\n\tno_date: {no_date}'
+                 )
 
     term = OntologyClass(
         id=orpha,
@@ -686,8 +756,10 @@ def _get_constants_from_config(config):
     no_phenotype = config.get('NoValue', 'phenotype')
     no_date = config.get('NoValue', 'date')
     no_omim = config.get('NoValue', 'omim')
+    not_recorded = config.get('NoValue', 'recorded')
+
     created_by = config.get('Constants', 'creator_tag')
 
     logger.trace('Successfully finished _get_constants_from_config()')
 
-    return no_mutation, no_phenotype, no_date, no_omim, created_by
+    return no_mutation, no_phenotype, no_date, no_omim, not_recorded, created_by
