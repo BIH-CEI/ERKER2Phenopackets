@@ -550,27 +550,8 @@ def _map_interpretation(phenopacket_id: str,
         variant_interpretation=variant_interpretation
     )
 
-    # TODO(frehburg, grafea) - (1) - I believe we should only keep the genomic
-    #  interpretation with the variant data (above).
-    #  In this setting, where we have short variants (single nucleotide polymorphisms
-    #  (SNP) or short insertions/deletions),
-    #  we can infer the gene from the variant data. In general, the `gene` field of
-    #  the GenomicInterpretation should
-    #  be used if we do not have the variant data, for instance, to represent the
-    #  candidate
-    #  or the most likely causal gene.
-    # genomic_interpretation_gene = GenomicInterpretation(
-    #     subject_or_biosample_id=phenopacket_id,
-    #     interpretation_status=interpretation_status,
-    #     gene=gene
-    # )
-
     diagnosis = Diagnosis(
         genomic_interpretations=[
-            # TODO(frehburg, grafea) - (3) - please delete the comment and the line
-            #  below if you agree with dropping
-            #  the gene interpretation.
-            # genomic_interpretation_gene,
             genomic_interpretation_variant,
         ],
         disease=disease,
