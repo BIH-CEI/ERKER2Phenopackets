@@ -6,7 +6,6 @@ from loguru import logger
 
 import re
 import configparser
-from typing import Union
 
 from ERKER2Phenopackets.src.utils import parse_year_month_day_to_iso8601_utc_timestamp
 from ERKER2Phenopackets.src.utils import parse_date_string_to_iso8601_utc_timestamp
