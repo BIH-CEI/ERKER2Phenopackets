@@ -472,9 +472,9 @@ def _map_interpretation(phenopacket_id: str,
                         c_hgvs: List[str],
                         no_mutation: str,
                         interpretation_status: str,
+                        progress_status: str,
                         disease: OntologyClass,
                         gene: GeneDescriptor = None,
-                        progress_status: str,
                         ) -> VariationDescriptor:
     """Maps ERKER patient data to Interpretation block
     
