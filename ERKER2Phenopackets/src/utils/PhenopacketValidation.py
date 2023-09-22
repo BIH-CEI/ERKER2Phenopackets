@@ -77,6 +77,26 @@ def _validate_phenopacket(path: Path, command: str,
 
     command = command.replace(phenopacket_json_path_placeholder, str(path.resolve()))
     output = subprocess.check_output(command, shell=True, text=True)
+    outputs = output.split('\n')
+
+    no_errors = True
+    validation_results = ''
+
+    # Print the captured output
+    logger.info(f'Validation output of {path}:')
+    for line in outputs:  # errors
+        split_line = line.split(',')
+
+        if line and split_line[1] == 'ERROR':
+            err = ' '.join(split_line[2:])
+            logger.error(err)
+            validation_results += 'ERROR:' + err + '\n'
+            no_errors = False
+
+        elif line:  # no errors
+            logger.info(line)
+            validation_results += line + '\n'
+            # TODO: see if we can make this nice in the the case  of no errors
 
     # Print the captured output
     logger.info(f'Validation output of {path}: \n{output}')
