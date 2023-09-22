@@ -473,8 +473,7 @@ def _map_interpretation(phenopacket_id: str,
                         c_hgvs: List[str],
                         no_mutation: str,
                         interpretation_status: str,
-                     
-                      #  progress_status: str,
+                        progress_status: str,
                         disease: OntologyClass,
                         gene: GeneDescriptor = None,
                         ) -> VariationDescriptor:
@@ -501,6 +500,8 @@ def _map_interpretation(phenopacket_id: str,
     :type c_hgvs: List[str]
     :param interpretation_status: status of the interpretation
     :type interpretation_status: str
+    :pram progress_status: The current resolution status.
+    :type progress_status: str
     :param gene: GeneDescriptor block
     :type gene: GeneDescriptor, optional
     :param disease: Disease block
@@ -518,7 +519,7 @@ def _map_interpretation(phenopacket_id: str,
                  f'\n\tno_mutation: {no_mutation}'
                  f'\n\tgene: {gene}'
                  f'\n\tinterpretation_status: {interpretation_status}'
-          #       f'\n\tprogress_status: {progress_status}'
+                 f'\n\tprogress_status: {progress_status}'
     )
     
     # filter hgvs lists to avoid null vals
