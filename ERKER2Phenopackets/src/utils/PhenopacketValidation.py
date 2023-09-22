@@ -80,3 +80,5 @@ def _validate_phenopacket(path: Path, command: str,
     print(output)
 
     return False, 'a'
+
+def main():
