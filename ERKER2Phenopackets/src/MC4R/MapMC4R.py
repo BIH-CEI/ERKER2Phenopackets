@@ -585,14 +585,7 @@ def _map_interpretation(phenopacket_id: str,
     # )
 
     diagnosis = Diagnosis(
-        # TODO(frehburg, grafea) - (2) - if we are including the diagnosis in the
-        #  phenopacket, then we must add
-        #  the `disease` field - a required field of the Diagnosis element.
-        #  The disease is an ontology class, so we need an
-        #  id (e.g. `MONDO:0019115`) and a label (e.g. `obesity due to melanocortin 4
-        #  receptor deficiency`)
-        #  as in http://purl.obolibrary.org/obo/MONDO_0019115.
-        #  Adam, Filip, please select the disease code!
+
 
         # so we can add ontologyClass: id: "ORPHA:71529", 
         # label: "Obesity due to melanocortin 4 receptor deficiency"
@@ -609,7 +602,7 @@ def _map_interpretation(phenopacket_id: str,
     interpretation_id = uuid.uuid4()
     interpretation = Interpretation(
         id=str(interpretation_id),
-        progress_status = config.get('Constants', 'progress_status')
+        progress_status = config.get('Constants', 'progress_status'),
         diagnosis=diagnosis
     )
     return interpretation
