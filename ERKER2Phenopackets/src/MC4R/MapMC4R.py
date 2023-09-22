@@ -93,7 +93,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
     logger.trace(f'{thread_id}: Trying to read config file from default location')
     try:
         config.read('../../data/config/config.cfg')
-        no_mutation, no_phenotype, no_date, no_omim, created_by = \
+        no_mutation, no_phenotype, no_date, no_omim, not_recorded, created_by = \
             _get_constants_from_config(config)
         logger.trace(f'{thread_id}: Successfully read config file from default '
                      'location')
@@ -104,7 +104,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             logger.trace(f'{thread_id}: Trying to read config file from alternative '
                          'location')
             config.read('ERKER2Phenopackets/data/config/config.cfg')
-            no_mutation, no_phenotype, no_date, no_omim, created_by = \
+            no_mutation, no_phenotype, no_date, no_omim, not_recorded, created_by = \
                 _get_constants_from_config(config)
             logger.trace(f'{thread_id}: Successfully read config file from alternative '
                          'location')
@@ -378,6 +378,8 @@ def _map_phenotypic_feature(
         timestamp=onset_timestamp
     )
     
+    
+    
     phenotypic_feature = PhenotypicFeature(
         type=phenotype,
         onset=onset,
@@ -637,8 +639,10 @@ def _get_constants_from_config(config):
     no_phenotype = config.get('NoValue', 'phenotype')
     no_date = config.get('NoValue', 'date')
     no_omim = config.get('NoValue', 'omim')
+    not_recorded = config.get('NoValue', 'recorded')
+    
     created_by = config.get('Constants', 'creator_tag')
 
     logger.trace('Successfully finished _get_constants_from_config()')
 
-    return no_mutation, no_phenotype, no_date, no_omim, created_by
+    return no_mutation, no_phenotype, no_date, no_omim, not_recorded, created_by
