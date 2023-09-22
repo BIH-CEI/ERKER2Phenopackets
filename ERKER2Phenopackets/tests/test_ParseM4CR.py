@@ -1,8 +1,8 @@
 import pytest
 
-from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_year_of_birth, parse_sex, \
-    parse_phenotyping_date, parse_date_of_diagnosis, parse_zygosity, parse_omim
-
+from ERKER2Phenopackets.src.MC4R.ParseMC4R import \
+parse_year_of_birth, parse_sex, parse_phenotyping_date, parse_date_of_diagnosis,\
+parse_zygosity, parse_omim, parse_phenotyping_status, parse_phenotyping_status
 
 def test_parse_year_of_birth():
     example_yob = 2000
@@ -59,3 +59,15 @@ def test_parse_zygosity(inp, expected):
 )
 def test_parse_omim(inp, expected):
     assert parse_omim(inp) == expected
+    
+
+@pytest.mark.parametrize(
+    ('inp', 'expected'),
+    (
+        ('sct_410605003', 'false'),
+        ('sct_723511001', 'true'),
+        ('sct_1220561009', 'NO_PHENOTYPE')
+    )
+)
+def test_parse_ph_status(inp, expected):
+    assert parse_phenotyping_status(inp) == expected

@@ -1,7 +1,7 @@
 import configparser
 import os
 from concurrent.futures import ThreadPoolExecutor
-from typing import List
+from typing import List, Union
 import threading
 
 import phenopackets
@@ -93,7 +93,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
     logger.trace(f'{thread_id}: Trying to read config file from default location')
     try:
         config.read('../../data/config/config.cfg')
-        no_mutation, no_phenotype, no_date, no_omim, created_by = \
+        no_mutation, no_phenotype, no_date, no_omim, not_recorded, created_by = \
             _get_constants_from_config(config)
         logger.trace(f'{thread_id}: Successfully read config file from default '
                      'location')
@@ -104,7 +104,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             logger.trace(f'{thread_id}: Trying to read config file from alternative '
                          'location')
             config.read('ERKER2Phenopackets/data/config/config.cfg')
-            no_mutation, no_phenotype, no_date, no_omim, created_by = \
+            no_mutation, no_phenotype, no_date, no_omim, not_recorded, created_by = \
                 _get_constants_from_config(config)
             logger.trace(f'{thread_id}: Successfully read config file from alternative '
                          'location')
@@ -156,14 +156,19 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         label_cols = ['parsed_phenotype_label1', 'parsed_phenotype_label2',
                       'parsed_phenotype_label3', 'parsed_phenotype_label4',
                       'parsed_phenotype_label5']
+        status_cols =  ['parsed_phenotype_status1', 'parsed_phenotype_status2',
+                        'parsed_phenotype_status3', 'parsed_phenotype_status4',
+                        'parsed_phenotype_status5']
 
         phenotypic_features = _map_phenotypic_features(
             # only including cols if they are in the keyset of the row
             hpos=[row[hpo_col] for hpo_col in hpo_cols if hpo_col in row],
             onsets=[row[onset_col] for onset_col in onset_cols if onset_col in row],
             labels=[row[label_col] for label_col in label_cols if label_col in row],
+            status=[row[status_col] for status_col in status_cols if status_col in row],
             no_phenotype=no_phenotype,
             no_date=no_date,
+            not_recorded=not_recorded,
         )
         logger.trace(f'{thread_id}: Successfully created phenotypic features block '
                      f'{phenotypic_features}')
@@ -337,24 +342,33 @@ def _map_individual(phenopacket_id: str,
 
 
 def _map_phenotypic_feature(
-        hpo: str, onset: str, label: str = None) -> PhenotypicFeature:
+        hpo: str, onset: str, status: str, not_recorded: str, label: str = None
+    ) -> Union[PhenotypicFeature, None]:
     """Maps ERKER patient data to PhenotypicFeature block
 
     Phenopackets Documentation of the PhenotypicFeature block:
     https://phenopacket-schema.readthedocs.io/en/latest/phenotype.html
+    
+    If the status is set to not recorded, this function return None
 
     :param hpo: hpo code
     :type hpo: str
     :param onset: onset date
     :type onset: str
+    :type status: str for confirmed/refuted/not recorded
+    :param status: str
+    :param not_recorded: not recorded code
+    :type not_recorded: str
     :param label: human-readable class name, defaults to None
     :type label: str, optional
-    :return:
+    :return: Union[PhenotypicFeature, None]
     """
     logger.trace(f'Mapping phenotypic feature with the following parameters:'
                  f'\n\thpo: {hpo}'
                  f'\n\tonset: {onset}'
-                 f'\n\tlabel: {label}')
+                 f'\n\tlabel: {label}'
+                 f'\n\tstatus: {status}'
+                 f'\n\tnot_recorded: {not_recorded}')
 
     if label:
         phenotype = OntologyClass(
@@ -370,12 +384,16 @@ def _map_phenotypic_feature(
     onset = TimeElement(
         timestamp=onset_timestamp
     )
-
-    phenotypic_feature = PhenotypicFeature(
-        type=phenotype,
-        onset=onset
-    )
-    return phenotypic_feature
+    
+    if status != not_recorded:
+        status: bool = eval(status)
+        phenotypic_feature = PhenotypicFeature(
+            type=phenotype,
+            onset=onset,
+            excluded=status
+        )
+        return phenotypic_feature
+    return None
 
 
 def _map_phenotypic_features(
@@ -383,6 +401,8 @@ def _map_phenotypic_features(
         onsets: List[str],
         no_phenotype: str,
         no_date: str,
+        not_recorded: str,
+        status: str,
         labels: List[str] = None) -> List[PhenotypicFeature]:
     """Maps ERKER patient data to PhenotypicFeature block
 
@@ -397,6 +417,10 @@ def _map_phenotypic_features(
     :type no_phenotype: str
     :param no_date: no date code
     :type no_date: str
+    :param not_recorded: not recorded code
+    :type not_recorded: str
+    :param status: str representing confirmed/refuted/not recorded
+    :type status: str
     :param labels: list of human-readable class names, defaults to None
     :type labels: List[str], optional
     :return: list of PhenotypicFeature Phenopacket blocks
@@ -407,6 +431,7 @@ def _map_phenotypic_features(
                  f'\n\tonsets: {onsets}'
                  f'\n\tno_phenotype: {no_phenotype}'
                  f'\n\tno_date: {no_date}'
+                 f'\n\tstatus: {status}'
                  f'\n\tlabels: {labels}')
 
     # removing missing vals
@@ -416,10 +441,16 @@ def _map_phenotypic_features(
     # creating phenotypic feature blocks for each hpo code
     phenotypic_features = list(
         map(
-            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2]),
-            zip(hpos, onsets, labels)
+            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2],\
+                                              status=t[3], not_recorded=not_recorded),
+            zip(hpos, onsets, labels, status)
         )
     )
+    
+    # filter out Nones (if the feature has status not recorded, a none object is 
+    # returned by the _map_phenotypic_feature method)
+    phenotypic_features = [phenotyptic_feature for phenotyptic_feature in \
+        phenotypic_features if not phenotyptic_feature is None]
 
     return phenotypic_features
 
@@ -624,8 +655,10 @@ def _get_constants_from_config(config):
     no_phenotype = config.get('NoValue', 'phenotype')
     no_date = config.get('NoValue', 'date')
     no_omim = config.get('NoValue', 'omim')
+    not_recorded = config.get('NoValue', 'recorded')
+    
     created_by = config.get('Constants', 'creator_tag')
 
     logger.trace('Successfully finished _get_constants_from_config()')
 
-    return no_mutation, no_phenotype, no_date, no_omim, created_by
+    return no_mutation, no_phenotype, no_date, no_omim, not_recorded, created_by
