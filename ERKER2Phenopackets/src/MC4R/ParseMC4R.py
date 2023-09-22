@@ -6,10 +6,11 @@ from loguru import logger
 
 import re
 import configparser
+from typing import Union
 
 from ERKER2Phenopackets.src.utils import parse_year_month_day_to_iso8601_utc_timestamp
 from ERKER2Phenopackets.src.utils import parse_date_string_to_iso8601_utc_timestamp
-
+from ERKER2Phenopackets.src.decorators import deprecated
 
 # 1. method definition
 # 2. doc (with examples)
@@ -161,6 +162,9 @@ def parse_phenotyping_date(phenotyping_date: str) -> Timestamp:
                  f'{parsed_phenotyping_date}')
     return parsed_phenotyping_date
 
+
+@deprecated('Please use dictionary as mapping for the parsing step, since this will' 
+            'lead to increased performance.')
 def parse_phenotyping_status(phenotyping_status: str) -> str:
     """
     Parses status of HPO values (confirmed & refuted) to excluded boolean
