@@ -8,7 +8,7 @@ def deprecated(reason=''):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             logger.warning(f'DeprecationWarning: {func.__name__} is deprecated.' 
-                           f'{reason}')
+                           f' {reason}')
             warnings.warn(f'{func.__name__} is deprecated. {reason}', 
                           category=DeprecationWarning)
             return func(*args, **kwargs)
