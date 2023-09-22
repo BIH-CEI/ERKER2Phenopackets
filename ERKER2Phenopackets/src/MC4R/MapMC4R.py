@@ -383,14 +383,14 @@ def _map_phenotypic_feature(
         timestamp=onset_timestamp
     )
     
-    
-    
-    phenotypic_feature = PhenotypicFeature(
-        type=phenotype,
-        onset=onset,
-        excluded=status
-    )
-    return phenotypic_feature
+    if status != not_recorded:
+        phenotypic_feature = PhenotypicFeature(
+            type=phenotype,
+            onset=onset,
+            excluded=status
+        )
+        return phenotypic_feature
+    return None
 
 
 def _map_phenotypic_features(
@@ -443,6 +443,10 @@ def _map_phenotypic_features(
             zip(hpos, onsets, labels, status)
         )
     )
+    
+    # filter out Nones (if the feature has status not recorded, a none object is 
+    # returned by the _map_phenotypic_feature method)
+    # TODO: implement
 
     return phenotypic_features
 
