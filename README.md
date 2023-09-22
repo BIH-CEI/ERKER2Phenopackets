@@ -50,11 +50,11 @@ To install Python using the standard method with pip, follow these steps:
   a. If Python is installed, you'll see the version number. Please check that your version is at least `3.10` or higher. if not, run `pip install --upgrade python` <br>
   b. If not, proceed with the installation.
 
-3. **Download Python:** Visit the official Python website at [python.org](https://www.python.org/downloads/) and download the latest version of Python for your operating system.
+2. **Download Python:** Visit the official Python website at [python.org](https://www.python.org/downloads/) and download the latest version of Python for your operating system.
 
-4. **Run the Installer:** Double-click the downloaded installer and follow the on-screen instructions. Make sure to check the box that says "Add Python to PATH" during installation to easily run Python from the command line.
+3. **Run the Installer:** Double-click the downloaded installer and follow the on-screen instructions. Make sure to check the box that says "Add Python to PATH" during installation to easily run Python from the command line.
 
-5. **Verify Installation:** After installation, open your terminal or command prompt and type `python --version` or `python3 --version` to confirm that Python is installed and check the version.
+4. **Verify Installation:** After installation, open your terminal or command prompt and type `python --version` or `python3 --version` to confirm that Python is installed and check the version.
 
 #### B. Installing Python with Anaconda
 
@@ -89,14 +89,21 @@ Unfortunately, as of writing this, there is no Python version of `phenopacket-to
 the CLI version of `phenopacket-tools`, which is then automatically called upon if installed, when executing the 
 `pipeline` command.
 
-**Note:** During development we used the `phenopacket-tools` version `v1.0.0-RC3`.
+*Note:* During development we used the `phenopacket-tools` version `v1.0.0-RC3`.
+
 
 To install `phenopacket-tools` follow these steps:
-1. Download the most recent CLI version of `phenopacket-tools` from the 
-[Releases page](https://github.com/phenopackets/phenopacket-tools/releases) 
-2. Unzip the downloaded file and place the `.jar` file (e.g., `phenopacket-tools-cli-1.0.0-RC3.jar`) into the 
+1. **Check if Java is already installed:** Open your terminal or command prompt and type `java --version`. <br>
+  a. If Java is installed, you'll see the version number. <br>
+  b. If not, proceed with the installation.
+2. **Download Java:** Visit the official Java website at [java.com](https://www.java.com/en/download/) 
+and download the latest version of Java for your operating system. Follow the on-screen instructions.
+3. **Download the `phenopacket-tools` CLI:** Visit the official `phenopacket-tools` 
+[releases page](https://github.com/phenopackets/phenopacket-tools/releases) and download the latest version of the
+`phenopacket-tools` CLI.
+4. Unzip the downloaded file and place the `.jar` file (e.g., `phenopacket-tools-cli-1.0.0-RC3.jar`) into the 
 `ERKER2Phenopackets/submodules/phenopacket-tools` directory.
-3. If you are using a different version of `phenopacket-tools`, please also change the path to the `.jar` file in the 
+5. If you are using a different version of `phenopacket-tools`, please also change the path to the `.jar` file in the 
 `config.cfg` configuration file under the header `Paths` at `jar_path`.
 
 ### 4. Installing MongoDB
