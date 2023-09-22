@@ -98,10 +98,7 @@ def _validate_phenopacket(path: Path, command: str,
             validation_results += line + '\n'
             # TODO: see if we can make this nice in the the case  of no errors
 
-    # Print the captured output
-    logger.info(f'Validation output of {path}: \n{output}')
-
-    return False, 'a'
+    return no_errors, validation_results
 
 
 def main():
