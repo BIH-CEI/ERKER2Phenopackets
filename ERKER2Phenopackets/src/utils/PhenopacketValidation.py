@@ -123,9 +123,3 @@ def main():
             raise ValueError('No path to data provided. Please provide a path to the '
                              'data as a command line argument.')
     validate(path)
-
-
-if __name__ == '__main__':
-    validate(Path(r'C:\Users\Surface\OneDrive\Documents\DataSpell\ERKER2Phenopackets'
-                  r'\ERKER2Phenopackets\data\out\phenopackets\example-phenopackets-from'
-                  r'-synthetic-data\0.json'))
