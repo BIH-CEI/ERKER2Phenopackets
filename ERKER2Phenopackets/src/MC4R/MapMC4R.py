@@ -232,7 +232,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             id=phenopacket_id,
             subject=individual,
             phenotypic_features=phenotypic_features,
-            diseases=[disease],
+            # diseases=[disease],
             meta_data=meta_data,
             interpretations=[interpretation],
         )
@@ -471,9 +471,9 @@ def _map_interpretation(phenopacket_id: str,
                         p_hgvs: List[str],
                         c_hgvs: List[str],
                         no_mutation: str,
-                        gene: GeneDescriptor,
                         interpretation_status: str,
                         disease: OntologyClass,
+                        gene: GeneDescriptor = None,
                         ) -> VariationDescriptor:
     """Maps ERKER patient data to Interpretation block
     
