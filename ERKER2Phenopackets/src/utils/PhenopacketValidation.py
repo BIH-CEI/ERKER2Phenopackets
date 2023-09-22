@@ -1,12 +1,13 @@
 import subprocess
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple, List, Union
 import configparser
 
 from phenopackets import Phenopacket
+from loguru import logger
 
 
-def validate(path: Path) -> Tuple[bool, str]:
+def validate(path: Path) -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
     """Validates a phenopacket file or directory of phenopackets
 
     This function validates a phenopacket file or directory of phenopackets.
@@ -17,8 +18,9 @@ def validate(path: Path) -> Tuple[bool, str]:
     :type path: Path
     :return: Tuple of a boolean and an error message
     :rtype: Tuple[bool, str]
+    :raises ValueError: If the path is not a file or directory
+    :raises ValueError: If the path is a file but not a json file
     """
-    # read config file
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
@@ -29,14 +31,23 @@ def validate(path: Path) -> Tuple[bool, str]:
     phenopacket_json_path_placeholder = \
         config.get('Placeholders', 'phenopacket_json_path')
 
-    # replace the path to the jar file in the command
     command = command.replace(jar_path_placeholder, jar_path)
-    # 1. Check if the path leads to a file or a directory
-    # 2. If it is a file, check if it is a json file
-    # 3. If it is a directory, collect all json files in the directory
-    # 4. Check if the json files are valid phenopackets
-    # 5. If they are valid, return True and an empty string,
-    # else return False and the error message
+    ret_list = []
+    if path.is_file():
+        if path.suffix == '.json':
+            return _validate_phenopacket(
+                path, command, phenopacket_json_path_placeholder
+            )
+        else:
+            logger.error(f'File {path} is not a json file')
+            raise ValueError(f'File {path} is not a json file')
+    elif path.is_dir():
+        for file_path in path.iterdir():
+            if file_path.suffix == '.json':
+                ret_list.append(_validate_phenopacket(
+                    file_path, command, phenopacket_json_path_placeholder
+                ))
+            return ret_list
 
 
 def _validate_phenopacket(path: Path, command: str,
