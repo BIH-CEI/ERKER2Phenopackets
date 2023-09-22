@@ -6,7 +6,6 @@ from typing import Tuple, List, Union
 import configparser
 
 from ERKER2Phenopackets.src.logging_ import setup_logging
-from phenopackets import Phenopacket
 from loguru import logger
 
 
