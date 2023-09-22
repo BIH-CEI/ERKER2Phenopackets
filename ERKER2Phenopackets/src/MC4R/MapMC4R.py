@@ -386,6 +386,7 @@ def _map_phenotypic_feature(
     )
     
     if status != not_recorded:
+        status: bool = eval(status)
         phenotypic_feature = PhenotypicFeature(
             type=phenotype,
             onset=onset,
