@@ -3,7 +3,7 @@ import functools
 from loguru import logger
 
 
-def deprecated(reason):
+def deprecated(reason=''):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
