@@ -221,7 +221,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             no_mutation=no_mutation,
             # gene=gene_descriptor,
             interpretation_status=config.get('Constants', 'interpretation_status'),
-            progress_status=config.get('Constants', 'progress_status')
+            progress_status=config.get('Constants', 'progress_status'),
             disease=disease,
         )
         logger.trace(f'{thread_id}: Successfully created interpretation block '
