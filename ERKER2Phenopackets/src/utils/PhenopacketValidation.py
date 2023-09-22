@@ -21,7 +21,7 @@ def validate(path: Path) -> Tuple[bool, str]:
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
-    jar_path = Path(config.get('Paths', 'jar_path')).resolve()
+    jar_path = str(Path(config.get('Paths', 'jar_path')).resolve())
     command = config.get('CLICommands', 'validate')
 
     jar_path_placeholder = config.get('Placeholders', 'jar_path')
