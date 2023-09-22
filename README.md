@@ -83,8 +83,24 @@ Now, you have Python installed on your system, and you can start using it by run
 3. Run `pip install .`
 4. (Optional): If you would like to install the required Python packages for testing run `pip install .[test]`
 
+### [Optional] 4. Installing [`phenopacket-tools`](https://github.com/phenopackets/phenopacket-tools)
+We can use `phenopacket-tools` to validate the created phenopackets. 
+Unfortunately, as of writing this, there is no Python version of `phenopacket-tools` available. Therefore, we rely on 
+the CLI version of `phenopacket-tools`, which is then automatically called upon if installed, when executing the 
+`pipeline` command.
+
+**Note:** During development we used the `phenopacket-tools` version `v1.0.0-RC3`.
+
+To install `phenopacket-tools` follow these steps:
+1. Download the most recent CLI version of `phenopacket-tools` from the 
+[Releases page](https://github.com/phenopackets/phenopacket-tools/releases) 
+2. Unzip the downloaded file and place the `.jar` file (e.g., `phenopacket-tools-cli-1.0.0-RC3.jar`) into the 
+`ERKER2Phenopackets/submodules/phenopacket-tools` directory.
+3. If you are using a different version of `phenopacket-tools`, please also change the path to the `.jar` file in the 
+`config.cfg` configuration file under the header `Paths` at `jar_path`.
+
 ### 4. Installing MongoDB
-  Please follow the official [MongoDB Installation Tutorial](https://www.mongodb.com/docs/manual/administration/install-community/).
+Please follow the official [MongoDB Installation Tutorial](https://www.mongodb.com/docs/manual/administration/install-community/).
 
 ## Running the Pipeline
 To run the pipeline, you require a `.csv` file in ERKER format with filled columns that allow Phenopacket creation from MC4R data.
