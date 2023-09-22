@@ -1,8 +1,11 @@
 import subprocess
+import sys
+import os
 from pathlib import Path
 from typing import Tuple, List, Union
 import configparser
 
+from ERKER2Phenopackets.src.logging_ import setup_logging
 from phenopackets import Phenopacket
 from loguru import logger
 
@@ -77,9 +80,10 @@ def _validate_phenopacket(path: Path, command: str,
     output = subprocess.check_output(command, shell=True, text=True)
 
     # Print the captured output
-    print(output)
+    logger.info(f'Validation output of {path}: \n{output}')
 
     return False, 'a'
+
 
 def main():
     setup_logging(level='INFO')
