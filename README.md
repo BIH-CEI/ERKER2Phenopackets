@@ -106,7 +106,7 @@ and download the latest version of Java for your operating system. Follow the on
 5. If you are using a different version of `phenopacket-tools`, please also change the path to the `.jar` file in the 
 `config.cfg` configuration file under the header `Paths` at `jar_path`.
 
-### 4. Installing MongoDB
+### 5. Installing MongoDB
 Please follow the official [MongoDB Installation Tutorial](https://www.mongodb.com/docs/manual/administration/install-community/).
 
 ## Running the Pipeline
@@ -118,6 +118,9 @@ To run the pipeline, you require a `.csv` file in ERKER format with filled colum
    a. If you do not provide an output folder name, the output folder will be named according to the current date and time in the `'YYYY-MM-DD-hhmm'` format.
 4. You can find the created phenopackets in the `ERKER2Phenopackets/data/out/phenopackets/<output-folder-name>` folder. 
 Do not upload real patient data to GitHub.
+
+## Validating Phenopackets
+Run `validate` (optionally add path of phenopackets out to validate all phenopackets in that folder), defaults to validating last created phenopackets.
 
 ## Resources
 
