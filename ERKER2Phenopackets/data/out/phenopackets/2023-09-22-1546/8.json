@@ -1,0 +1,133 @@
+{
+  "id": "8",
+  "subject": {
+    "id": "8",
+    "dateOfBirth": "2008-01-01T00:00:00Z",
+    "sex": "FEMALE",
+    "taxonomy": {
+      "id": "NCBITaxon:9606",
+      "label": "Homo sapiens"
+    }
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0001513",
+        "label": "Obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2009-01-27T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0025499",
+        "label": "Class I obesity"
+      },
+      "onset": {
+        "timestamp": "1996-02-08T00:00:00Z"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "a6c35ba6-7f82-4261-a58c-5abb6e2c8066",
+      "progressStatus": "SOLVED",
+      "diagnosis": {
+        "disease": {
+          "id": "ORPHA:71529",
+          "label": "Obesity due to melanocortin 4 receptor deficiency"
+        },
+        "genomicInterpretations": [
+          {
+            "subjectOrBiosampleId": "8",
+            "interpretationStatus": "CONTRIBUTORY",
+            "variantInterpretation": {
+              "variationDescriptor": {
+                "id": "id:A",
+                "expressions": [
+                  {
+                    "syntax": "hgvs",
+                    "value": "NP_005903.2:p.Asn274Ser"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.307G>A"
+                  }
+                ],
+                "allelicState": {
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "created": "2023-09-22T00:00:00Z",
+    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "resources": [
+      {
+        "id": "HP",
+        "name": "Human Phenotype Ontology",
+        "url": "http://www.human-phenotype-ontology.org",
+        "version": "2023-06-06",
+        "namespacePrefix": "HP",
+        "iriPrefix": "http://purl.obolibrary.org/obo/HP_"
+      },
+      {
+        "id": "OMIM",
+        "name": "Online Mendelian Inheritance in Man",
+        "url": "https://www.omim.org/",
+        "version": "2023-09-08",
+        "namespacePrefix": "OMIM",
+        "iriPrefix": "https://www.omim.org/"
+      },
+      {
+        "id": "ORPHA",
+        "name": "Orphanet Rare Disease Ontology",
+        "url": "https://www.orpha.net/",
+        "version": "2023-09-10",
+        "namespacePrefix": "ORPHA",
+        "iriPrefix": "https://registry.identifiers.org/registry/orphanet.ordo"
+      },
+      {
+        "id": "NCBITaxon",
+        "name": "National Center for Biotechnology Information Taxonomy",
+        "url": "https://www.ncbi.nlm.nih.gov/taxonomy",
+        "version": "2023-02-21",
+        "namespacePrefix": "NCBITaxon",
+        "iriPrefix": "http://purl.obolibrary.org/obo/NCBITaxon_"
+      },
+      {
+        "id": "LOINC",
+        "name": "Logical Observation Identifiers Names and Codes",
+        "url": "https://loinc.org/",
+        "version": "2023-08-15",
+        "namespacePrefix": "LOINC",
+        "iriPrefix": "https://loinc.org/"
+      },
+      {
+        "id": "HGNC",
+        "name": "HUGO Gene Nomenclature Committee",
+        "url": "https://www.genenames.org/",
+        "version": "2023-09-10",
+        "namespacePrefix": "HGNC",
+        "iriPrefix": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+      },
+      {
+        "id": "GENO",
+        "name": "Gene Ontology",
+        "url": "https://geneontology.org/",
+        "version": "2023-07-27",
+        "namespacePrefix": "GENO",
+        "iriPrefix": "http://purl.obolibrary.org/obo/GENO_"
+      }
+    ],
+    "phenopacketSchemaVersion": "2.0.2"
+  }
+}
