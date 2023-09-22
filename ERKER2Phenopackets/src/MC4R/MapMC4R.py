@@ -474,6 +474,7 @@ def _map_interpretation(phenopacket_id: str,
                         interpretation_status: str,
                         disease: OntologyClass,
                         gene: GeneDescriptor = None,
+                        progress_status: str,
                         ) -> VariationDescriptor:
     """Maps ERKER patient data to Interpretation block
     
@@ -514,7 +515,8 @@ def _map_interpretation(phenopacket_id: str,
                  f'\n\tc_hgvs: {c_hgvs}'
                  f'\n\tno_mutation: {no_mutation}'
                  f'\n\tgene: {gene}'
-                 f'\n\tinterpretation_status: {interpretation_status}')
+                 f'\n\tinterpretation_status: {interpretation_status}'
+                 f'\n\tprogress_status: {progress_status}')
 
     config = configparser.ConfigParser()
     
@@ -697,6 +699,7 @@ def _get_constants_from_config(config):
     no_date = config.get('NoValue', 'date')
     no_omim = config.get('NoValue', 'omim')
     not_recorded = config.get('NoValue', 'recorded')
+    
 
     created_by = config.get('Constants', 'creator_tag')
 
