@@ -1,5 +1,4 @@
 import configparser
-from distutils import config
 import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Union
@@ -517,6 +516,8 @@ def _map_interpretation(phenopacket_id: str,
                  f'\n\tgene: {gene}'
                  f'\n\tinterpretation_status: {interpretation_status}')
 
+    config = configparser.ConfigParser()
+    
     # filter hgvs lists to avoid null vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
