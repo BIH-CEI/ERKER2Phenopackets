@@ -1,3 +1,4 @@
+import subprocess
 from pathlib import Path
 from typing import Tuple
 import configparser
@@ -57,5 +58,9 @@ def _validate_phenopacket(path: Path, command: str,
     """
 
     command = command.replace(phenopacket_json_path_placeholder, str(path.resolve()))
+    output = subprocess.check_output(command, shell=True, text=True)
+
+    # Print the captured output
+    print(output)
 
     return False, 'a'
