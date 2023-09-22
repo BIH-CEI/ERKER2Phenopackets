@@ -168,6 +168,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             status=[row[status_col] for status_col in status_cols if status_col in row],
             no_phenotype=no_phenotype,
             no_date=no_date,
+            not_recorded=not_recorded,
         )
         logger.trace(f'{thread_id}: Successfully created phenotypic features block '
                      f'{phenotypic_features}')
@@ -341,7 +342,8 @@ def _map_individual(phenopacket_id: str,
 
 
 def _map_phenotypic_feature(
-        hpo: str, onset: str, status: str, label: str = None) -> PhenotypicFeature:
+        hpo: str, onset: str, status: str, not_recorded: str, label: str = None
+    ) -> PhenotypicFeature:
     """Maps ERKER patient data to PhenotypicFeature block
 
     Phenopackets Documentation of the PhenotypicFeature block:
@@ -353,6 +355,8 @@ def _map_phenotypic_feature(
     :type onset: str
     :type status: str for confirmed/refuted/not recorded
     :param status: str
+    :param not_recorded: not recorded code
+    :type not_recorded: str
     :param label: human-readable class name, defaults to None
     :type label: str, optional
     :return:
@@ -361,7 +365,8 @@ def _map_phenotypic_feature(
                  f'\n\thpo: {hpo}'
                  f'\n\tonset: {onset}'
                  f'\n\tlabel: {label}'
-                 f'\n\tstatus: {status}')
+                 f'\n\tstatus: {status}'
+                 f'\n\tnot_recorded: {not_recorded}')
 
     if label:
         phenotype = OntologyClass(
@@ -393,6 +398,7 @@ def _map_phenotypic_features(
         onsets: List[str],
         no_phenotype: str,
         no_date: str,
+        not_recorded: str,
         status: str,
         labels: List[str] = None) -> List[PhenotypicFeature]:
     """Maps ERKER patient data to PhenotypicFeature block
@@ -408,6 +414,8 @@ def _map_phenotypic_features(
     :type no_phenotype: str
     :param no_date: no date code
     :type no_date: str
+    :param not_recorded: not recorded code
+    :type not_recorded: str
     :param status: str representing confirmed/refuted/not recorded
     :type status: str
     :param labels: list of human-readable class names, defaults to None
@@ -431,7 +439,7 @@ def _map_phenotypic_features(
     phenotypic_features = list(
         map(
             lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2],\
-                                              status=t[3]),
+                                              status=t[3], not_recorded=not_recorded),
             zip(hpos, onsets, labels, status)
         )
     )
