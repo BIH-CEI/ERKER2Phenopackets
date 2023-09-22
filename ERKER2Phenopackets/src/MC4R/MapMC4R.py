@@ -221,6 +221,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             no_mutation=no_mutation,
             # gene=gene_descriptor,
             interpretation_status=config.get('Constants', 'interpretation_status'),
+            progress_status=config.get('Constants', 'progress_status')
             disease=disease,
         )
         logger.trace(f'{thread_id}: Successfully created interpretation block '
@@ -472,7 +473,8 @@ def _map_interpretation(phenopacket_id: str,
                         c_hgvs: List[str],
                         no_mutation: str,
                         interpretation_status: str,
-                        progress_status: str,
+                     
+                      #  progress_status: str,
                         disease: OntologyClass,
                         gene: GeneDescriptor = None,
                         ) -> VariationDescriptor:
@@ -516,9 +518,8 @@ def _map_interpretation(phenopacket_id: str,
                  f'\n\tno_mutation: {no_mutation}'
                  f'\n\tgene: {gene}'
                  f'\n\tinterpretation_status: {interpretation_status}'
-                 f'\n\tprogress_status: {progress_status}')
-
-    config = configparser.ConfigParser()
+          #       f'\n\tprogress_status: {progress_status}'
+    )
     
     # filter hgvs lists to avoid null vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
@@ -563,7 +564,7 @@ def _map_interpretation(phenopacket_id: str,
     interpretation_id = uuid.uuid4()
     interpretation = Interpretation(
         id=str(interpretation_id),
-        progress_status = config.get('Constants', 'progress_status'),
+        # progress_status = progress_status,
         diagnosis=diagnosis
     )
     return interpretation
