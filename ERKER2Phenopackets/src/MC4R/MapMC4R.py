@@ -10,9 +10,9 @@ from phenopackets import Phenopacket
 from phenopackets import PhenotypicFeature
 from phenopackets import VariationDescriptor, Expression
 from phenopackets import GeneDescriptor
-from phenopackets import Individual, OntologyClass, Disease, TimeElement
+from phenopackets import Individual, OntologyClass, TimeElement
 from phenopackets import Interpretation, Diagnosis, GenomicInterpretation
-from phenopackets import MetaData
+from phenopackets import MetaData, Disease
 from phenopackets import VariantInterpretation
 from loguru import logger
 
@@ -182,6 +182,21 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         logger.trace(f'{thread_id}: Successfully created gene descriptor block '
                      f'{gene_descriptor}')
 
+        # DISEASE
+        logger.trace(f'{thread_id}: Creating disease block')
+        disease = _map_disease_for_diagnosis(
+            orpha=row['sct_439401001_orpha'],
+            label=config.get('Constants', 'disease_label'),
+        )
+        # #  activate this if we switch back to Disease block
+        # disease = _map_disease_block(
+        #     orpha=row['sct_439401001_orpha'],
+        #     date_of_diagnosis=row['parsed_date_of_diagnosis'],
+        #     label=config.get('Constants', 'disease_label'),
+        #     no_date=no_date,
+        # )
+        logger.trace(f'{thread_id}: Successfully created diagnosis block {disease}')
+
         # INTERPRETATION
         logger.trace(f'{thread_id}: Creating interpretation block')
         p_hgvs_cols = ['ln_48005_3_1', 'ln_48005_3_2', 'ln_48005_3_3']
@@ -198,19 +213,10 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             no_mutation=no_mutation,
             gene=gene_descriptor,
             interpretation_status=config.get('Constants', 'interpretation_status'),
+            disease=disease,
         )
         logger.trace(f'{thread_id}: Successfully created interpretation block '
                      f'{interpretation}')
-
-        # DISEASE
-        logger.trace(f'{thread_id}: Creating disease block')
-        diagnosis = _map_disease(
-            orpha=row['sct_439401001_orpha'],
-            date_of_diagnosis=row['parsed_date_of_diagnosis'],
-            label=config.get('Constants', 'disease_label'),
-            no_date=no_date,
-        )
-        logger.trace(f'{thread_id}: Successfully created diagnosis block {diagnosis}')
 
         # Orchestrate the mapping
         logger.trace(f'{thread_id}: Creating phenopacket')
@@ -218,7 +224,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             id=phenopacket_id,
             subject=individual,
             phenotypic_features=phenotypic_features,
-            diseases=[diagnosis],
+            diseases=[disease],
             meta_data=meta_data,
             interpretations=[interpretation],
         )
@@ -432,7 +438,8 @@ def _map_interpretation(phenopacket_id: str,
                         c_hgvs: List[str],
                         no_mutation: str,
                         gene: GeneDescriptor,
-                        interpretation_status: str
+                        interpretation_status: str,
+                        disease: OntologyClass,
                         ) -> VariationDescriptor:
     """Maps ERKER patient data to Interpretation block
     
@@ -459,6 +466,8 @@ def _map_interpretation(phenopacket_id: str,
     :type gene: GeneDescriptor
     :param interpretation_status: status of the interpretation
     :type interpretation_status: str
+    :param disease: Disease block
+    :type disease: OntologyClass
     :return: Interpretation block (containing variation description)
     :rtype: Interpretation
     """
@@ -515,7 +524,8 @@ def _map_interpretation(phenopacket_id: str,
     diagnosis = Diagnosis(
         genomic_interpretations=[
             genomic_interpretation_gene, genomic_interpretation_variant,
-        ]
+        ],
+        disease=disease,
     )
 
     interpretation = Interpretation(
@@ -565,12 +575,40 @@ def _map_gene_descriptor(hgnc: str, symbol: str, omims: List[str], no_omim: str)
     return gene_descriptor
 
 
-def _map_disease(
+def _map_disease_for_diagnosis(
+        orpha: str,
+        label: str,
+) -> OntologyClass:
+    """Maps ERKER patient data to Disease block
+
+    Phenopackets Documentation of the Diagnosis block:
+    https://phenopacket-schema.readthedocs.io/en/latest/interpretation.html#rstdiagnosis
+
+    :param orpha: Orpha code encoding rare disease
+    :type orpha: str
+    :param label: human-readable class name
+    :type label: str
+    :return: OntologyClass Phenopackets block of disease
+    """
+    logger.trace(f'Mapping disease with the following parameters:'
+                 f'\n\torpha: {orpha}'
+                 f'\n\tlabel: {label}'
+                 )
+
+    disease = OntologyClass(
+        id=orpha,
+        label=label
+    )
+
+    return disease
+
+
+def _map_disease_block(
         orpha: str,
         date_of_diagnosis: str,
         label: str,
         no_date: str,
-) -> Disease:
+) -> OntologyClass:
     """Maps ERKER patient data to Disease block
 
     Phenopackets Documentation of the Disease block:
@@ -578,7 +616,7 @@ def _map_disease(
 
     :param orpha: Orpha code encoding rare disease
     :type orpha: str
-    :param date_of_diagnosis: Date of diagnosis
+    :param date_of_diagnosis: date of diagnosis
     :type date_of_diagnosis: str
     :param label: human-readable class name
     :type label: str
@@ -590,7 +628,8 @@ def _map_disease(
                  f'\n\torpha: {orpha}'
                  f'\n\tdate_of_diagnosis: {date_of_diagnosis}'
                  f'\n\tlabel: {label}'
-                 f'\n\tno_date: {no_date}')
+                 f'\n\tno_date: {no_date}'
+                 )
 
     term = OntologyClass(
         id=orpha,
