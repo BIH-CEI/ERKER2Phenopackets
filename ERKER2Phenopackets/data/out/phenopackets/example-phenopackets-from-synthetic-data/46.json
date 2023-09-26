@@ -41,7 +41,7 @@
   ],
   "interpretations": [
     {
-      "id": "72559314-abe7-45c7-be66-23db711c6e8e",
+      "id": "243c747e-04ef-46ed-a7de-8238b1468e6f",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -64,7 +64,8 @@
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000402"
+                  "id": "GENO:0000402",
+                  "label": "compound heterozygous"
                 }
               }
             }
