@@ -450,8 +450,13 @@ def _map_phenotypic_features(
     # creating phenotypic feature blocks for each hpo code
     phenotypic_features = list(
         map(
-            lambda t: _map_phenotypic_feature(hpo=t[0], onset=t[1], label=t[2],
-                                              status=t[3], not_recorded=not_recorded),
+            lambda zipped: _map_phenotypic_feature(
+                hpo=zipped[0],
+                onset=zipped[1],
+                label=zipped[2],
+                status=zipped[3],
+                not_recorded=not_recorded
+            ),
             zip(hpos, onsets, labels, status)
         )
     )
