@@ -434,6 +434,7 @@ def _map_phenotypic_features(
     :type labels: List[str], optional
     :return: list of PhenotypicFeature Phenopacket blocks
     :rtype: List[PhenotypicFeature]
+    :raises ValueError: If the length of hpos, onsets, labels and status is not equal
     """
     logger.trace(f'Mapping phenotypic features with the following parameters:'
                  f'\n\thpos: {hpos}'
@@ -442,6 +443,14 @@ def _map_phenotypic_features(
                  f'\n\tno_date: {no_date}'
                  f'\n\tstatus: {status}'
                  f'\n\tlabels: {labels}')
+
+    if not (len(hpos) == len(onsets) == len(labels) == len(status)):
+        logger.error('Length of hpos, onsets, labels and status must be equal.'
+                     f'Received lengths {len(hpos)}, {len(onsets)}, {len(labels)}, '
+                     f'{len(status)}')
+        raise ValueError('Length of hpos, onsets, labels and status must be equal.'
+                         f'Received lengths {len(hpos)}, {len(onsets)},'
+                         f' {len(labels)}, {len(status)}')
 
     # removing missing vals
     hpos = [hpo for hpo in hpos if not hpo == no_phenotype]
