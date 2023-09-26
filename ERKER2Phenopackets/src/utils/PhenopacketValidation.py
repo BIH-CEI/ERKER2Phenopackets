@@ -47,14 +47,15 @@ def validate(path: Path) -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
     elif path.is_dir():
         for file_path in path.iterdir():
             if file_path.suffix == '.json':
-                ret_list.append(_validate_phenopacket(
+                cur_ret = _validate_phenopacket(
                     file_path, command, phenopacket_json_path_placeholder
-                ))
+                )
+                ret_list.append(cur_ret)
 
             if not ret_list:
                 logger.error(f'Directory {path} does not contain any json files')
                 raise ValueError(f'Directory {path} does not contain any json files')
-            return ret_list
+    return ret_list
 
 
 def _validate_phenopacket(path: Path, command: str,
