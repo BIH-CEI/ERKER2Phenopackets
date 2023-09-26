@@ -85,23 +85,32 @@ def _validate_phenopacket(path: Path, command: str,
 
     no_errors = True
     validation_results = ''
+    printed_intro_for_file = False
+
+    def intro_for_file(printed_yet: bool) -> bool:
+        if not printed_yet:
+            logger.info(f'Validation output of {path}:')
+            return True
 
     # Print the captured output
-    logger.info(f'Validation output of {path}:')
     for line in outputs:  # errors
         split_line = line.split(',')
 
         if line and split_line[1] == 'ERROR':
+            printed_intro_for_file = intro_for_file(printed_intro_for_file)
+
             err = ' '.join(split_line[2:])
+
             logger.error(err)
             validation_results += 'ERROR:' + err + '\n'
             no_errors = False
 
         elif line:  # no errors
+            printed_intro_for_file = intro_for_file(printed_intro_for_file)
             logger.info(line)
             validation_results += line + '\n'
         else:
-            logger.info(f'No errors found in {path.name}')
+            logger.trace(f'No errors found in {path.name}')
 
     return no_errors, validation_results
 
