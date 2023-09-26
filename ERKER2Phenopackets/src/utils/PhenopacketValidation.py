@@ -97,7 +97,7 @@ def _validate_phenopacket(path: Path, command: str,
         elif line:  # no errors
             logger.info(line)
             validation_results += line + '\n'
-            # TODO: see if we can make this nice in the the case  of no errors
+            logger.info(f'No errors found in {path.name}')
 
     return no_errors, validation_results
 
