@@ -22,7 +22,8 @@
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "excluded": true,
       "onset": {
@@ -31,7 +32,8 @@
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
         "timestamp": "2000-12-13T00:00:00Z"
@@ -39,7 +41,8 @@
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
         "timestamp": "2018-05-16T00:00:00Z"
@@ -47,7 +50,8 @@
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
         "timestamp": "2005-02-17T00:00:00Z"
@@ -56,7 +60,7 @@
   ],
   "interpretations": [
     {
-      "id": "5e491372-9a34-4603-b7fe-2ded570eb595",
+      "id": "ee66c827-2af7-4ced-8443-da46dc49d6fc",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",

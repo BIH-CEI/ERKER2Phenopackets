@@ -22,7 +22,8 @@
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "excluded": true,
       "onset": {
@@ -32,7 +33,7 @@
   ],
   "interpretations": [
     {
-      "id": "36c598ee-10a0-4dc8-bab9-dfb045c919e4",
+      "id": "27a7683d-5ec7-4718-8a60-485dc4b981d6",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",

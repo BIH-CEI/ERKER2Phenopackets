@@ -12,7 +12,8 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "excluded": true,
       "onset": {
@@ -21,7 +22,8 @@
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "excluded": true,
       "onset": {
@@ -31,7 +33,7 @@
   ],
   "interpretations": [
     {
-      "id": "d6f81f3a-ce07-4aa0-bbdc-530932b1168c",
+      "id": "51b02561-87fc-44f0-a20e-a2fae4b487c4",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",

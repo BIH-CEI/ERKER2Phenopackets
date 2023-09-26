@@ -31,7 +31,8 @@
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
         "timestamp": "2000-12-13T00:00:00Z"
@@ -40,7 +41,7 @@
   ],
   "interpretations": [
     {
-      "id": "fecfd376-8d73-4cbe-a9c6-c666298355b9",
+      "id": "72559314-abe7-45c7-be66-23db711c6e8e",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",

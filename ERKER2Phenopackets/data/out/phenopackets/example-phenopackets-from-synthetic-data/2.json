@@ -12,7 +12,8 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
         "timestamp": "2017-08-17T00:00:00Z"
@@ -30,7 +31,7 @@
   ],
   "interpretations": [
     {
-      "id": "5ffb1ac2-f7a4-463f-a2ce-8a2d5c0c22d7",
+      "id": "1eb9894e-4c86-4ad0-8e80-c2b682968699",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
