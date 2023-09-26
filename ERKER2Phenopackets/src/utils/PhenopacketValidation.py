@@ -52,9 +52,12 @@ def validate(path: Path) -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
                 )
                 ret_list.append(cur_ret)
 
-            if not ret_list:
-                logger.error(f'Directory {path} does not contain any json files')
-                raise ValueError(f'Directory {path} does not contain any json files')
+        if not ret_list:
+            logger.error(f'Directory {path} does not contain any json files')
+            raise ValueError(f'Directory {path} does not contain any json files')
+
+        num_invalid = sum([not ret[0] for ret in ret_list])
+        logger.info(f'Number of invalid phenopackets: {num_invalid}')
     return ret_list
 
 
