@@ -58,6 +58,8 @@ def validate(path: Path) -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
 
         num_invalid = sum([not ret[0] for ret in ret_list])
         logger.info(f'Number of invalid phenopackets: {num_invalid}')
+
+    logger.info('Finished validating phenopackets')
     return ret_list
 
 
