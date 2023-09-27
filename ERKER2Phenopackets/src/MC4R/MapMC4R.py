@@ -562,8 +562,8 @@ def _map_interpretation(phenopacket_id: str,
 
         allelic_state = OntologyClass(
             # TODO: each variant should have its own zygosities + label
-            id=zygosities,
-            label=allele_labels
+            id=zygosity,
+            label=allele_label
         )
         variation_descriptor = VariationDescriptor(
             id=variant_descriptor_id,
