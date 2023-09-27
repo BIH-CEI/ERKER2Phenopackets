@@ -78,6 +78,9 @@ def map_mc4r2phenopackets(
 def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
     """Maps a chunk of the MC4R DataFrame to a list of Phenopackets.
 
+    Can be used as a sequential alternative to `map_mc4r2phenopackets()` for
+    debugging purposes.
+
     :param chunk: Chunk of the MC4R DataFrame
     :type chunk: pl.DataFrame
     :param cur_time: string representation of the current time ("YYYY-MM-DD")
