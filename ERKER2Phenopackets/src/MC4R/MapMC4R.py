@@ -209,12 +209,14 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
         logger.trace(f'{thread_id}: Creating interpretation block')
         p_hgvs_cols = ['ln_48005_3_1', 'ln_48005_3_2', 'ln_48005_3_3']
         c_hgvs_cols = ['ln_48004_6_1', 'ln_48004_6_2', 'ln_48004_6_3']
+        zygosity_cols = ['ln_48007_9_1', 'ln_48007_9_2','ln_48007_9_3']
 
         interpretation = _map_interpretation(
             phenopacket_id=phenopacket_id,
             variant_descriptor_ids=
             config.get('Constants', 'variant_descriptor_ids').split(','),
-            zygosity=row['parsed_zygosity'],
+            zygosity=[row[zygosity_col] for zygosity_col in zygosity_cols\
+                if zygosity_col in row] 
             allele_label=row['allele_label'],
             # same mutation, p=protein, c=coding DNA reference sequence
             p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
