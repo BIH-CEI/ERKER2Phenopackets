@@ -2,9 +2,9 @@ import polars as pl  # the same as pandas just faster
 from loguru import logger
 
 import configparser
+import argparse
 from pathlib import Path
 from datetime import datetime
-import sys
 import re
 
 from ERKER2Phenopackets.src.logging_ import setup_logging
