@@ -121,8 +121,9 @@ def pipeline(data_path: str, out_dir_name: str = ''):
                             mapping=zygosity_map_erker2phenopackets)
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_2', map_to='allele_label_2',
                              mapping=allele_label_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='parsed_zygosity_3',
-                            mapping=zygosity_map_erker2phenopackets)
+    if 'ln_48007_9_3' in df.columns:
+        df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='parsed_zygosity_3',
+                                mapping=zygosity_map_erker2phenopackets)
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='allele_label_3',
                              mapping=allele_label_map_erker2phenopackets)
 
