@@ -62,7 +62,7 @@ def map_mc4r2phenopackets(
     logger.trace(f'Creating {num_threads} threads to map the chunks to Phenopackets')
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
         collected_results = list(executor.map(
-            _map_chunk,  # function to execute
+            map_chunk,  # function to execute
             chunks, [cur_time] * len(chunks))  # arguments to pass to function
         )
     logger.trace('Finished mapping the chunks to Phenopackets')
@@ -75,11 +75,13 @@ def map_mc4r2phenopackets(
     return results
 
 
-def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
+def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
     """Maps a chunk of the MC4R DataFrame to a list of Phenopackets.
 
     :param chunk: Chunk of the MC4R DataFrame
     :type chunk: pl.DataFrame
+    :param cur_time: string representation of the current time ("YYYY-MM-DD")
+    :type cur_time: str
     :return: List of Phenopackets
     :rtype: List[Phenopacket]
     """

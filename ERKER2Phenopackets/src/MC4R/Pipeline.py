@@ -297,7 +297,7 @@ def pipeline(
     # Map to Phenopackets
     logger.info('Start mapping data to phenopackets')
     if debug:
-        phenopackets = _map_chunk(df, cur_time[:10])
+        phenopackets = map_chunk(df, cur_time[:10])
     else:
         phenopackets = map_mc4r2phenopackets(df, cur_time[:10])
     logger.info('Finished mapping data to phenopackets')
