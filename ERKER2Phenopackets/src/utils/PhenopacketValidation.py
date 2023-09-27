@@ -119,7 +119,6 @@ def _validate_phenopacket(path: Path, command: str,
 
 
 def main():
-    setup_logging(level='INFO')
 
     arg_parser = argparse.ArgumentParser(
         prog='validate',
@@ -134,14 +133,18 @@ def main():
         help='Path to a phenopacket file or directory of phenopackets'
     )
 
-    # Parse the arguments
     args = arg_parser.parse_args()
 
-    logger.info('Validating phenopackets')
+    setup_logging(level='INFO')
+    logger.debug(f'{args.path=}')
 
     if args.path:
-        validate(args.path)
+        logger.debug('if args.path: in if')
+        logger.info('Validating phenopackets')
+
+        path = Path(args.path)
     else:
+        logger.debug('if args.path: in else')
         config = configparser.ConfigParser()
         config.read('ERKER2Phenopackets/data/config/config.cfg')
 
@@ -165,3 +168,4 @@ def main():
                          'as a command line argument.')
             raise ValueError('No path to data provided. Please provide a path to the '
                              'data as a command line argument.')
+    validate(path)
