@@ -542,7 +542,7 @@ def _map_interpretation(phenopacket_id: str,
             lambda hgvs_element: GenomicInterpretation(
                 subject_or_biosample_id=phenopacket_id,
                 interpretation_status=interpretation_status,
-                variant_interpretation=variant_interpretation
+                variant_interpretation=VariantInterpretation
                 ),
             hgvs
         )
