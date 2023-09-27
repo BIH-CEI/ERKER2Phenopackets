@@ -47,6 +47,4 @@ def split_dataframe(df: pl.DataFrame, chunk_sizes: List[int]) -> List[pl.DataFra
         (sum(chunk_sizes[:i]), chunk_sizes[i])
         for i in range(len(chunk_sizes))
     ]
-    for start, length in chunk_intervals:
-        print(f'start: {start}, length: {length}')
     return [df.slice(start, length) for (start, length) in chunk_intervals]
