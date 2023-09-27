@@ -51,7 +51,9 @@ def main():
 
     setup_logging(level='TRACE')
 
-    clear_dir(args.all, args.experimental, args.publish)
+    if not (args.all or args.experimental or args.publish):
+        clear_dir(all_=False, experimental=True, publish=False)
+    clear_dir(all_=args.all, experimental=args.experimental, publish=args.publish)
 
 
 if __name__ == '__main__':
