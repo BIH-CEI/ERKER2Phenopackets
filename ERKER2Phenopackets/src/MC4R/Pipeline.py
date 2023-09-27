@@ -61,7 +61,10 @@ def pipeline(data_path: str, out_dir_name: str = ''):
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
-    phenopackets_out = Path(config.get('Paths', 'phenopackets_out_script'))
+    if publish:
+        phenopackets_out = Path(config.get('Paths', 'phenopackets_out_script'))
+    else:
+        phenopackets_out = Path(config.get('Paths', 'test_phenopackets_out_script'))
     logger.trace('Finished reading config file')
     logger.debug(phenopackets_out.resolve())
 
