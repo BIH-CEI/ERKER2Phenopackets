@@ -51,7 +51,7 @@ def main():
 
     args = arg_parser.parse_args()
 
-    setup_logging(level='TRACE')
+    setup_logging(level='INFO')
 
     if not args.all and not args.experimental and not args.publish:
         logger.debug('No tag given, setting deleting experimental to True')
