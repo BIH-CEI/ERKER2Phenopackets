@@ -1,5 +1,4 @@
 import polars as pl  # the same as pandas just faster
-from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
 from loguru import logger
 
 import configparser
@@ -18,7 +17,7 @@ from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
     sex_map_erker2phenopackets, phenotype_status_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
     parse_year_of_birth, parse_phenotyping_date, parse_omim
-from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets
+from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets, map_chunk
 
 
 def main():
