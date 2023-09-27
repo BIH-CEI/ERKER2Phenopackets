@@ -85,10 +85,10 @@ def main():
         logger.critical('No path to data provided. Please provide a path to the data '
                         'as a command line argument.')
         return
-    pipeline(data_path, out_dir_name)
+    pipeline(data_path, out_dir_name, publish=args.publish)
 
 
-def pipeline(data_path: str, out_dir_name: str = ''):
+def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
     logger.info(f'Data path: {data_path}')
     if out_dir_name:
         logger.info(f'Output directory name: {out_dir_name}')
