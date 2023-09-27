@@ -9,6 +9,8 @@ from .ParsingUtils import parse_date_string_to_protobuf_timestamp, \
     parse_year_month_day_to_iso8601_utc_timestamp, \
     parse_iso8601_utc_to_protobuf_timestamp
 
+from .PhenopacketValidation import validate
+
 __all__ = [
     'write_file', 'write_files',
 
@@ -19,5 +21,6 @@ __all__ = [
     'parse_date_string_to_iso8601_utc_timestamp', 
     'parse_year_month_day_to_iso8601_utc_timestamp',
     'parse_iso8601_utc_to_protobuf_timestamp',
-    
+
+    'validate',
 ]
