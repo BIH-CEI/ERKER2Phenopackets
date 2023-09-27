@@ -1,3 +1,4 @@
+import argparse
 import subprocess
 import sys
 import os
@@ -119,10 +120,27 @@ def _validate_phenopacket(path: Path, command: str,
 
 def main():
     setup_logging(level='INFO')
+
+    arg_parser = argparse.ArgumentParser(
+        prog='validate',
+        description='Validates a phenopacket file or directory of phenopackets. '
+                    'By default validates directory of last created phenopackets.'
+    )
+
+    arg_parser.add_argument(
+        'path',
+        nargs='?',
+        default='',
+        help='Path to a phenopacket file or directory of phenopackets'
+    )
+
+    # Parse the arguments
+    args = arg_parser.parse_args()
+
     logger.info('Validating phenopackets')
-    path = ''
-    if len(sys.argv) > 1:
-        path = Path(sys.argv[1])
+
+    if args.path:
+        validate(args.path)
     else:
         directory = Path('ERKER2Phenopackets/data/out/phenopackets')
         subdirectories = \
@@ -138,4 +156,3 @@ def main():
                          'as a command line argument.')
             raise ValueError('No path to data provided. Please provide a path to the '
                              'data as a command line argument.')
-    validate(path)
