@@ -163,7 +163,7 @@ def pipeline(
     df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_diagnosis', no_date)
 
     # ln_48007_9_1, ln_48007_9_2, ln_48007_9_3 (zygosity)
-    logger.trace('Parsing zygosity column')
+    logger.trace('Parsing zygosity and allele label columns')
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_1', map_to='parsed_zygosity_1',
                              mapping=zygosity_map_erker2phenopackets)
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_1', map_to='allele_label_1',
