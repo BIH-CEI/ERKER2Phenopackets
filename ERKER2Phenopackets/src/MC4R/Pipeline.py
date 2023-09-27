@@ -16,7 +16,7 @@ from ERKER2Phenopackets.src.MC4R.MappingDicts import allele_label_map_erker2phen
 from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
     sex_map_erker2phenopackets, phenotype_status_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
-     parse_year_of_birth, parse_phenotyping_date, parse_omim
+    parse_year_of_birth, parse_phenotyping_date, parse_omim
 from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets
 
 
@@ -118,12 +118,13 @@ def pipeline(data_path: str, out_dir_name: str = ''):
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_1', map_to='allele_label_1',
                              mapping=allele_label_map_erker2phenopackets)
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_2', map_to='parsed_zygosity_2',
-                            mapping=zygosity_map_erker2phenopackets)
+                             mapping=zygosity_map_erker2phenopackets)
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_2', map_to='allele_label_2',
                              mapping=allele_label_map_erker2phenopackets)
     if 'ln_48007_9_3' in df.columns:
-        df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='parsed_zygosity_3',
-                                mapping=zygosity_map_erker2phenopackets)
+        df = PolarsUtils.map_col(df, map_from='ln_48007_9_3',
+                                 map_to='parsed_zygosity_3',
+                                 mapping=zygosity_map_erker2phenopackets)
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='allele_label_3',
                              mapping=allele_label_map_erker2phenopackets)
 
@@ -201,26 +202,26 @@ def pipeline(data_path: str, out_dir_name: str = ''):
                                  map_to='parsed_date_of_phenotyping5',
                                  mapping=parse_phenotyping_date)
         df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_phenotyping5', no_date)
-        
+
     # sct_8116006_1_status, sct_8116006_2_status, sct_8116006_3_status,\
     # sct_8116006_4_status, sct_8116006_5_status (status of phenotype determination)
     logger.trace('Parsing status of phenotype determination columns')
     logger.trace('Filling null values in status of phenotype determination columns')
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_1_status',
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_1_status',
                              map_to='parsed_phenotype_status1',
                              mapping=phenotype_status_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_2_status',
-                            map_to='parsed_phenotype_status2',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_3_status',
-                            map_to='parsed_phenotype_status3',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_4_status',
-                            map_to='parsed_phenotype_status4',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_5_status',
-                            map_to='parsed_phenotype_status5',
-                            mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_2_status',
+                             map_to='parsed_phenotype_status2',
+                             mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_3_status',
+                             map_to='parsed_phenotype_status3',
+                             mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_4_status',
+                             map_to='parsed_phenotype_status4',
+                             mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_5_status',
+                             map_to='parsed_phenotype_status5',
+                             mapping=phenotype_status_map_erker2phenopackets)
 
     # phenotype label
     logger.trace('Parsing phenotype label columns')
