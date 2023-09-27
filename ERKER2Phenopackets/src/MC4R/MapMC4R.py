@@ -525,18 +525,18 @@ def _map_interpretation(phenopacket_id: str,
     # filter hgvs lists to avoid null vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
-    hgvs = p_hgvs + c_hgvs
-    for p, c in zip(p_hgvs, c_hgvs):
-        variant = [p, c]
-
-    # create new expression for each hgvs code
-    expressions = list(
-        map(
-            lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
-            variant
+    
+    for variant in zip(p_hgvs, c_hgvs):
+        # create new expression for each hgvs code
+        expressions = list(
+            map(
+                lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
+                variant 
+            )
         )
-    )
-    # create new genomicInterpretation for each variant
+    
+   
+    #create new genomicInterpretation for each variant
     genomicInterpretations = list(
         map(
             lambda hgvs_element: GenomicInterpretation(
@@ -562,17 +562,14 @@ def _map_interpretation(phenopacket_id: str,
         variation_descriptor=variation_descriptor
     )
 
-    genomic_interpretation_variant = genomicInterpretations
-    # GenomicInterpretation(
+    # genomic_interpretation_variant = GenomicInterpretation(
     #     subject_or_biosample_id=phenopacket_id,
     #     interpretation_status=interpretation_status,
     #     variant_interpretation=variant_interpretation
     # )
 
     diagnosis = Diagnosis(
-        genomic_interpretations=[
-            genomic_interpretation_variant,
-        ],
+        genomic_interpretations=None, # TODO PUT GENOMIC INTERPRS IN HERE
         disease=disease,
     )
 
