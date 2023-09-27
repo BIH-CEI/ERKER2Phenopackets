@@ -547,7 +547,7 @@ def _map_interpretation(phenopacket_id: str,
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
 
     genomic_interpretations = []
-    for variant_descriptor_id, variant in zip(variant_descriptor_ids, p_hgvs, c_hgvs):
+    for variant_descriptor_id, *variant in zip(variant_descriptor_ids, p_hgvs, c_hgvs):
         # create new expression for each hgvs code
         expressions = list(
             map(
