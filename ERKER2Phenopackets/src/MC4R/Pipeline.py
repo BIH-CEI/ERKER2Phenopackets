@@ -164,8 +164,8 @@ def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
         df = PolarsUtils.map_col(df, map_from='ln_48007_9_3',
                                  map_to='parsed_zygosity_3',
                                  mapping=zygosity_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='allele_label_3',
-                             mapping=allele_label_map_erker2phenopackets)
+        df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='allele_label_3',
+                                 mapping=allele_label_map_erker2phenopackets)
 
     # sct_439401001_orpha (diagnosis (ORPHA))
     logger.trace('Diagnosis (ORPHA) column does not require parsing')
