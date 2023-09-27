@@ -537,7 +537,11 @@ def _map_interpretation(phenopacket_id: str,
     # create new genomicInterpretation for each variant
     genomicInterpretations = list(
         map(
-            lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
+            lambda hgvs_element: GenomicInterpretation(
+                subject_or_biosample_id=phenopacket_id,
+                interpretation_status=interpretation_status,
+                variant_interpretation=variant_interpretation
+                ),
             hgvs
         )
     )
@@ -556,11 +560,12 @@ def _map_interpretation(phenopacket_id: str,
         variation_descriptor=variation_descriptor
     )
 
-    genomic_interpretation_variant = GenomicInterpretation(
-        subject_or_biosample_id=phenopacket_id,
-        interpretation_status=interpretation_status,
-        variant_interpretation=variant_interpretation
-    )
+    genomic_interpretation_variant = genomicInterpretations
+    # GenomicInterpretation(
+    #     subject_or_biosample_id=phenopacket_id,
+    #     interpretation_status=interpretation_status,
+    #     variant_interpretation=variant_interpretation
+    # )
 
     diagnosis = Diagnosis(
         genomic_interpretations=[
