@@ -42,15 +42,13 @@ def main():
     arg_parser.add_argument('-v', '--validate', action='store_true',
                             help='Validate the created phenopackets')
 
-    # Add positional arguments
+    # positional arguments
     arg_parser.add_argument('data_path', help='The path to the data')
     arg_parser.add_argument('out_dir_name', nargs='?', default='',
                             help='The name of the output directory')
 
-    # Parse the arguments
     args = arg_parser.parse_args()
 
-    # Check the flags
     if args.debug:
         level = 'DEBUG'
     elif args.trace:
@@ -61,7 +59,10 @@ def main():
     setup_logging(level=level)
 
     if args.publish:
-        print('Will write phenopackets to out')
+        logger.info('Publishing phenopackets to data/out/phenopackets')
+
+    if args.validate:
+        logger.info('Will validate phenopackets after creation')
 
     logger.info('Starting MC4R pipeline')
     out_dir_name = ''
@@ -89,6 +90,7 @@ def main():
     pipeline(data_path, out_dir_name, publish=args.publish)
 
     if args.validate:
+        logger.info('Starting up validation tool...')
         validate()
 
 
