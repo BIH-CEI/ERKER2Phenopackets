@@ -24,30 +24,27 @@ def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
     # Create the parser
-    parser = argparse.ArgumentParser(prog='pipeline',
-                                     description='A pipeline to map ERKER data in '
-                                                 '.csv format to phenopackets.')
+    arg_parser = argparse.ArgumentParser(prog='pipeline',
+                                         description='A pipeline to map ERKER data in '
+                                                     '.csv format to phenopackets.')
 
-    # Create a mutually exclusive group
-    group = parser.add_mutually_exclusive_group()
+    mut_excl_group = arg_parser.add_mutually_exclusive_group()
 
-    # Add the mutually exclusive options to the group
-    group.add_argument('-d', '--debug', action='store_true',
-                       help='Enable debug logging')
-    group.add_argument('-t', '--trace', action='store_true',
-                       help='Enable trace logging')
+    mut_excl_group.add_argument('-d', '--debug', action='store_true',
+                                help='Enable debug logging')
+    mut_excl_group.add_argument('-t', '--trace', action='store_true',
+                                help='Enable trace logging')
 
-    # Add the other flags
-    parser.add_argument('-p', '--publish', action='store_true',
-                        help='Write phenopackets to out instead of test')
+    arg_parser.add_argument('-p', '--publish', action='store_true',
+                            help='Write phenopackets to out instead of test')
 
     # Add positional arguments
-    parser.add_argument('data_path', help='The path to the data')
-    parser.add_argument('out_dir_name', nargs='?', default='',
-                        help='The name of the output directory')
+    arg_parser.add_argument('data_path', help='The path to the data')
+    arg_parser.add_argument('out_dir_name', nargs='?', default='',
+                            help='The name of the output directory')
 
     # Parse the arguments
-    args = parser.parse_args()
+    args = arg_parser.parse_args()
 
     # Check the flags
     if args.debug:
