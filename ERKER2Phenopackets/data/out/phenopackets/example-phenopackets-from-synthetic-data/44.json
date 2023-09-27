@@ -2,8 +2,8 @@
   "id": "44",
   "subject": {
     "id": "44",
-    "dateOfBirth": "1995-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "1999-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,40 +12,18 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "2010-03-31T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025500",
-        "label": "Class II obesity"
-      },
-      "onset": {
-        "timestamp": "2019-03-11T00:00:00Z"
-      }
-    },
-    {
-      "type": {
         "id": "HP:0001507",
         "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2015-06-15T00:00:00Z"
+        "timestamp": "2011-09-30T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "917ff944-4334-49ef-af4b-9ca06a15e9fd",
-=======
-      "id": "1111a1c3-46ae-4537-a782-d16f24f6d908",
->>>>>>> main
+      "id": "3bc01e97-77c1-44a6-8fe8-d0a8d93863c5",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -57,19 +35,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Pro48Ser"
+                    "value": "NP_005903.2:p.(Arg165Gln)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Tyr268His"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NM_005912.3:c.751A>C"
                   }
                 ],
                 "allelicState": {
@@ -85,11 +59,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

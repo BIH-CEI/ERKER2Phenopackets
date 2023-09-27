@@ -2,8 +2,8 @@
   "id": "2",
   "subject": {
     "id": "2",
-    "dateOfBirth": "1999-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "1998-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -15,23 +15,26 @@
         "id": "HP:0001507",
         "label": "Growth abnormality"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2017-08-17T00:00:00Z"
+        "timestamp": "2004-06-01T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "1995-05-24T00:00:00Z"
+        "timestamp": "1997-02-12T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "d5eecb37-7b7a-472e-b99a-6d2c9232693e",
+      "id": "9399f707-667e-4307-a7d3-97f06262d6f0",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -47,17 +50,14 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile251Leu"
+                    "value": "NP_005903.2:p.(Ile251Leu)"
                   },
                   {
                     "syntax": "hgvs",
                     "value": "NM_005912.3:c.307G>A"
                   }
                 ],
-                "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
-                }
+                "allelicState": {}
               }
             }
           }

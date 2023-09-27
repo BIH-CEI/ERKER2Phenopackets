@@ -2,7 +2,7 @@
   "id": "48",
   "subject": {
     "id": "48",
-    "dateOfBirth": "1994-01-01T00:00:00Z",
+    "dateOfBirth": "1997-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,27 +17,23 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1994-06-30T00:00:00Z"
+        "timestamp": "2006-06-08T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "1993-01-30T00:00:00Z"
+        "timestamp": "1999-04-08T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "7b4e45d9-e5cd-4f0b-a226-5fd3bed3cbca",
-=======
-      "id": "8f1f1482-1816-42d9-96ed-dee247d83653",
->>>>>>> main
+      "id": "706add3e-6e92-4244-b871-5cbd16d5ea53",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -49,15 +45,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Gly181Asp"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.142C>T"
+                    "value": "NM_005912.3:c.751A>C"
                   }
                 ],
                 "allelicState": {
@@ -73,11 +69,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

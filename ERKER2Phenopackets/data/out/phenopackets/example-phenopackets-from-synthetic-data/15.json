@@ -2,8 +2,8 @@
   "id": "15",
   "subject": {
     "id": "15",
-    "dateOfBirth": "1993-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "2004-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,22 +17,23 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1992-01-30T00:00:00Z"
+        "timestamp": "1997-08-22T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025500",
-        "label": "Class II obesity"
+        "id": "HP:0025499",
+        "label": "Class I obesity"
       },
       "onset": {
-        "timestamp": "1995-04-25T00:00:00Z"
+        "timestamp": "2000-07-21T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "d9542219-6df5-4359-a882-524709da508e",
+      "id": "48f22a30-2cdb-40aa-8059-f96c00d6d54f",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -44,24 +45,20 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.(Ile251Leu)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.811T>C"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.110A>T"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000137",
+                  "label": "unspecified zygosity"
                 }
               }
             }

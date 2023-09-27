@@ -2,7 +2,7 @@
   "id": "27",
   "subject": {
     "id": "27",
-    "dateOfBirth": "1999-01-01T00:00:00Z",
+    "dateOfBirth": "2004-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,12 +12,12 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1992-06-16T00:00:00Z"
+        "timestamp": "2003-06-21T00:00:00Z"
       }
     },
     {
@@ -27,17 +27,14 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2015-03-18T00:00:00Z"
+        "timestamp": "1994-12-08T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "ac23f59b-85b0-46a2-bc53-b9d072e87b0f",
-=======
-      "id": "1c4a386d-b6af-448d-add5-7cb5180b1e03",
->>>>>>> main
+      "id": "309aec0c-f949-4ab6-a94a-f93b11eda8b7",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -49,15 +46,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.(Asp90Asn)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.821A>G"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
@@ -73,11 +70,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

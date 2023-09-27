@@ -2,8 +2,8 @@
   "id": "34",
   "subject": {
     "id": "34",
-    "dateOfBirth": "2006-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "1993-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,40 +12,49 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1994-07-18T00:00:00Z"
+        "timestamp": "2007-06-10T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0025499",
+        "label": "Class I obesity"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2009-05-10T00:00:00Z"
+        "timestamp": "2006-03-16T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0025500",
+        "label": "Class II obesity"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "1999-12-17T00:00:00Z"
+        "timestamp": "1997-12-17T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0025499",
+        "label": "Class I obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2014-03-27T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "86c9260f-045d-436b-ac49-9ab51694e4d8",
-=======
-      "id": "5da1a45a-02e4-4e0c-a8a4-a446126b1269",
->>>>>>> main
+      "id": "2b474766-f0e3-4cdf-9a55-ddfa75def2dc",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -57,20 +66,20 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.(Pro48Ser)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NM_005912.3:c.496G>C"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000136",
-                  "label": "homozygous"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -81,11 +90,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

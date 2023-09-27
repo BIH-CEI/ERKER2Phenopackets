@@ -2,7 +2,7 @@
   "id": "13",
   "subject": {
     "id": "13",
-    "dateOfBirth": "1997-01-01T00:00:00Z",
+    "dateOfBirth": "1999-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,47 +12,19 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0025499",
+        "label": "Class I obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1998-01-14T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "2007-04-15T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025500",
-        "label": "Class II obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "2001-01-13T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "2005-01-19T00:00:00Z"
+        "timestamp": "1995-05-30T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "06af62d5-c7ad-4f98-94f7-35f64e6334f9",
+      "id": "2d6b324c-c2e0-4c91-a3ce-5bca07b9bd31",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -64,11 +36,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NP_005903.2:p.(Thr112Met)"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.494G>A"
                   }
                 ],
                 "allelicState": {

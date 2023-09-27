@@ -2,41 +2,17 @@
   "id": "37",
   "subject": {
     "id": "37",
-    "dateOfBirth": "2015-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "1999-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
     }
   },
-  "phenotypicFeatures": [
-    {
-      "type": {
-        "id": "HP:0025500",
-        "label": "Class II obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1995-02-12T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025502",
-        "label": "Overweight"
-      },
-      "onset": {
-        "timestamp": "2002-02-23T00:00:00Z"
-      }
-    }
-  ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "243a1a4e-cc0b-4ff8-90a5-5eb2f30f6060",
-=======
-      "id": "4562e7a5-2fa9-4fdf-8c22-12b19422ef9e",
->>>>>>> main
+      "id": "8a25e66a-9746-464f-8798-f2339c09dcaa",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -48,19 +24,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile251Leu"
+                    "value": "NP_005903.2:p.(Cys271Arg)"
                   },
                   {
                     "syntax": "hgvs",
                     "value": "NM_005912.3:c.307G>A"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.474T>C"
                   }
                 ],
                 "allelicState": {
@@ -76,11 +48,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

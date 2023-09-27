@@ -2,7 +2,7 @@
   "id": "1",
   "subject": {
     "id": "1",
-    "dateOfBirth": "2006-01-01T00:00:00Z",
+    "dateOfBirth": "1999-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,7 +17,17 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1998-05-30T00:00:00Z"
+        "timestamp": "1997-02-05T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0025501",
+        "label": "Class III obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "1999-05-21T00:00:00Z"
       }
     },
     {
@@ -25,33 +35,24 @@
         "id": "HP:0001513",
         "label": "Obesity"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "1996-05-27T00:00:00Z"
+        "timestamp": "2000-01-14T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0025499",
+        "label": "Class I obesity"
       },
       "onset": {
-        "timestamp": "2004-01-26T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "2000-07-27T00:00:00Z"
+        "timestamp": "2017-02-09T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "cc3ee3e2-f3a9-4e0e-a905-e7bf2f01934f",
+      "id": "59feed3c-1ec3-4f95-955f-b3e557805296",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -63,20 +64,20 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile170Val"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.494G>A"
+                    "value": "NM_005912.3:c.380C>T"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000137",
+                  "label": "unspecified zygosity"
                 }
               }
             }

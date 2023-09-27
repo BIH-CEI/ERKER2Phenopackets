@@ -2,7 +2,7 @@
   "id": "3",
   "subject": {
     "id": "3",
-    "dateOfBirth": "2009-01-01T00:00:00Z",
+    "dateOfBirth": "1993-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,7 +17,7 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2008-03-03T00:00:00Z"
+        "timestamp": "2013-02-09T00:00:00Z"
       }
     },
     {
@@ -25,28 +25,15 @@
         "id": "HP:0025499",
         "label": "Class I obesity"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "1999-04-20T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025500",
-        "label": "Class II obesity"
-      },
-      "onset": {
-        "timestamp": "1999-02-18T00:00:00Z"
+        "timestamp": "1999-09-09T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "d0c686e1-b4e6-4adb-97df-8d9858f96746",
-=======
-      "id": "9a1a8672-9821-4211-b5d3-c9a03c75cb13",
->>>>>>> main
+      "id": "b5d2e4fd-8f46-4b17-bb78-965eaefb367a",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -58,15 +45,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.335C>A"
+                    "value": "NM_005912.3:c.542G>A"
                   }
                 ],
                 "allelicState": {
@@ -82,11 +69,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

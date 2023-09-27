@@ -2,8 +2,8 @@
   "id": "36",
   "subject": {
     "id": "36",
-    "dateOfBirth": "1993-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "1988-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,12 +12,12 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2012-01-01T00:00:00Z"
+        "timestamp": "1999-02-23T00:00:00Z"
       }
     },
     {
@@ -25,19 +25,15 @@
         "id": "HP:0001507",
         "label": "Growth abnormality"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "2000-06-14T00:00:00Z"
+        "timestamp": "2006-09-23T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "898a336f-74f3-4b2a-bf5c-1accc22eb11e",
-=======
-      "id": "62186c40-b6e2-4293-abb7-e9d18c7728f0",
->>>>>>> main
+      "id": "779013a9-e7db-43ac-a6d5-4bd943b3b45f",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -49,15 +45,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile251Leu"
+                    "value": "NP_005903.2:p.(Tyr268His)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NM_005912.3:c.751A>C"
                   }
                 ],
                 "allelicState": {
@@ -73,11 +69,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

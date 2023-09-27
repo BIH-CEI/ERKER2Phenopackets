@@ -2,8 +2,8 @@
   "id": "10",
   "subject": {
     "id": "10",
-    "dateOfBirth": "1995-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "2009-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,32 +17,14 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1999-11-19T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1997-08-25T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "1995-08-16T00:00:00Z"
+        "timestamp": "1997-06-20T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "b8576eb3-83ec-4494-881d-3ceaa89099e2",
+      "id": "77d62b16-b7f0-4cb4-8892-02d9a309f5d5",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -54,15 +36,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ser127Leu"
+                    "value": "NP_005903.2:p.(Ile251Leu)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {

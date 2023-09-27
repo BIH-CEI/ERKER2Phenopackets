@@ -2,7 +2,7 @@
   "id": "45",
   "subject": {
     "id": "45",
-    "dateOfBirth": "2013-01-01T00:00:00Z",
+    "dateOfBirth": "2001-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,7 +17,7 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2004-11-10T00:00:00Z"
+        "timestamp": "1994-06-13T00:00:00Z"
       }
     },
     {
@@ -26,26 +26,14 @@
         "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2016-05-16T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
-      },
-      "onset": {
-        "timestamp": "1997-07-03T00:00:00Z"
+        "timestamp": "1996-01-30T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "b6de0778-76e9-4861-ab08-5d4828b44556",
-=======
-      "id": "faa96b1f-46a3-4b7e-9f8a-c130fcf07e96",
->>>>>>> main
+      "id": "1646fce9-be27-479a-9115-804003832a44",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -57,11 +45,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Asn274Ser"
+                    "value": "NP_005903.2:p.(Ser127Leu)"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.181G>T"
                   }
                 ],
                 "allelicState": {
@@ -77,11 +69,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",
