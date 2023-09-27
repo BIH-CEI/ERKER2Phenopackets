@@ -16,20 +16,59 @@ from ERKER2Phenopackets.src.MC4R.MappingDicts import allele_label_map_erker2phen
 from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
     sex_map_erker2phenopackets, phenotype_status_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
-     parse_year_of_birth, parse_phenotyping_date, parse_omim
+    parse_year_of_birth, parse_phenotyping_date, parse_omim
 from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets
 
 
 def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
-    setup_logging(level='INFO')
+    # Create the parser
+    parser = argparse.ArgumentParser(prog='pipeline',
+                                     description='A pipeline to map ERKER data in '
+                                                 '.csv format to phenopackets.')
+
+    # Create a mutually exclusive group
+    group = parser.add_mutually_exclusive_group()
+
+    # Add the mutually exclusive options to the group
+    group.add_argument('-d', '--debug', action='store_true',
+                       help='Enable debug logging')
+    group.add_argument('-t', '--trace', action='store_true',
+                       help='Enable trace logging')
+
+    # Add the other flags
+    parser.add_argument('-p', '--publish', action='store_true',
+                        help='Write phenopackets to out instead of test')
+
+    # Add positional arguments
+    parser.add_argument('data_path', help='The path to the data')
+    parser.add_argument('out_dir_name', nargs='?', default='',
+                        help='The name of the output directory')
+
+    # Parse the arguments
+    args = parser.parse_args()
+
+    # Check the flags
+    if args.debug:
+        level = 'DEBUG'
+    elif args.trace:
+        level = 'TRACE'
+    else:
+        level = 'INFO'
+
+    setup_logging(level=level)
+
+    if args.publish:
+        print('Will write phenopackets to out')
+
     logger.info('Starting MC4R pipeline')
     out_dir_name = ''
-    if len(sys.argv) > 1:
-        data_path = sys.argv[1]
-        if len(sys.argv) > 2:
-            out_dir_name = sys.argv[2]
+    if args.data_path:  # path do data provided
+        data_path = args.data_path
+
+        if args.out_dir_name:  # output path provided
+            out_dir_name = args.out_dir_name
             disallowed_chars_pattern = r'[<>:"/\\|?*]'
 
             if re.search(disallowed_chars_pattern, out_dir_name):
