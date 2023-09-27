@@ -219,7 +219,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             zygosity=[row[zygosity_col] for zygosity_col in zygosity_cols\
                 if zygosity_col in row],
             allele_label=[row[allele_label_col] for allele_label_col\
-                in allele_label_cols if allele_label_col in row]
+                in allele_label_cols if allele_label_col in row],
             # same mutation, p=protein, c=coding DNA reference sequence
             p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
             c_hgvs=[row[c_hgvs_col] for c_hgvs_col in c_hgvs_cols if c_hgvs_col in row],
