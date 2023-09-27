@@ -42,7 +42,11 @@
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
+      "id": "d0c686e1-b4e6-4adb-97df-8d9858f96746",
+=======
       "id": "9a1a8672-9821-4211-b5d3-c9a03c75cb13",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -51,9 +55,10 @@
         "genomicInterpretations": [
           {
             "subjectOrBiosampleId": "3",
+            "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A",
+                "id": "id:A, id:B, id:C",
                 "expressions": [
                   {
                     "syntax": "hgvs",
@@ -77,7 +82,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
+    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
     "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

@@ -212,7 +212,8 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
 
         interpretation = _map_interpretation(
             phenopacket_id=phenopacket_id,
-            variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
+            variant_descriptor_ids=
+            config.get('Constants', 'variant_descriptor_ids').split(','),
             zygosity=row['parsed_zygosity'],
             allele_label=row['allele_label'],
             # same mutation, p=protein, c=coding DNA reference sequence
@@ -221,6 +222,7 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             no_mutation=no_mutation,
             # gene=gene_descriptor,
             interpretation_status=config.get('Constants', 'interpretation_status'),
+            progress_status=config.get('Constants', 'progress_status'),
             disease=disease,
         )
         logger.trace(f'{thread_id}: Successfully created interpretation block '
@@ -479,13 +481,14 @@ def _map_phenotypic_features(
 
 
 def _map_interpretation(phenopacket_id: str,
-                        variant_descriptor_id: str,
+                        variant_descriptor_ids: List[str],
                         zygosity: str,
                         allele_label: str,
                         p_hgvs: List[str],
                         c_hgvs: List[str],
                         no_mutation: str,
                         interpretation_status: str,
+                        progress_status: str,
                         disease: OntologyClass,
                         gene: GeneDescriptor = None,
                         ) -> VariationDescriptor:
@@ -500,8 +503,9 @@ def _map_interpretation(phenopacket_id: str,
 
     :param phenopacket_id: ID of the individual
     :type phenopacket_id: str
-    :param variant_descriptor_id: ID for the VariantDescriptor block
-    :type variant_descriptor_id: str
+    :param variant_descriptor_ids: List with IDs for each variant (ID must be unique
+    within the phenopacket)
+    :type variant_descriptor_ids: List[str]
     :param zygosity: zygosity LOINC code 
     :type zygosity: str
     :param allele_label: human-readable zygosity type
@@ -512,6 +516,8 @@ def _map_interpretation(phenopacket_id: str,
     :type c_hgvs: List[str]
     :param interpretation_status: status of the interpretation
     :type interpretation_status: str
+    :pram progress_status: The current resolution status.
+    :type progress_status: str
     :param gene: GeneDescriptor block
     :type gene: GeneDescriptor, optional
     :param disease: Disease block
@@ -521,121 +527,63 @@ def _map_interpretation(phenopacket_id: str,
     """
     logger.trace(f'Mapping interpretation with the following parameters:'
                  f'\n\tphenopacket_id: {phenopacket_id}'
-                 f'\n\tvariant_descriptor_id: {variant_descriptor_id}'
+                 f'\n\tvariant_descriptor_ids: {variant_descriptor_ids}'
                  f'\n\tzygosity: {zygosity}'
                  f'\n\tallele_label: {allele_label}'
                  f'\n\tp_hgvs: {p_hgvs}'
                  f'\n\tc_hgvs: {c_hgvs}'
                  f'\n\tno_mutation: {no_mutation}'
                  f'\n\tgene: {gene}'
-                 f'\n\tinterpretation_status: {interpretation_status}')
+                 f'\n\tinterpretation_status: {interpretation_status}'
+                 f'\n\tprogress_status: {progress_status}'
+                 )
 
     # filter hgvs lists to avoid null vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
-    hgvs = p_hgvs + c_hgvs
 
-    # create new expression for each hgvs code
-    expressions = list(
-        map(
-            lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
-            hgvs
+    genomic_interpretations = []
+    for variant_descriptor_id, variant in zip(variant_descriptor_ids, p_hgvs, c_hgvs):
+        # create new expression for each hgvs code
+        expressions = list(
+            map(
+                lambda mutation: Expression(syntax='hgvs', value=mutation),
+                variant
+            )
         )
-    )
 
-    allelic_state = OntologyClass(
-        id=zygosity,
-        label=allele_label
-    )
-    variation_descriptor = VariationDescriptor(
-        id=variant_descriptor_id,
-        expressions=expressions,
-        allelic_state=allelic_state,
-    )
+        allelic_state = OntologyClass(
+            # TODO: each variant should have its own zygosity + label
+            id=zygosity,
+            label=allele_label
+        )
+        variation_descriptor = VariationDescriptor(
+            id=variant_descriptor_id,
+            expressions=expressions,
+            allelic_state=allelic_state,
+        )
 
-    variant_interpretation = VariantInterpretation(
-        variation_descriptor=variation_descriptor
-    )
+        variant_interpretation = VariantInterpretation(
+            variation_descriptor=variation_descriptor
+        )
 
-    # Right now this handles one variant per
-    #  case/phenopacket, right?
-    #  However, will this always be the case for the ERKER format?
-    #  How about diseases with autosomal recessive mode of inheritance, where
-    #  a pair of heterozygous variants can be disease causing (compound heterozygosity)?
-    #  In that case, we need to create 2 genomic interpretations, one per variant,
-    #  and I am not sure the current
-    #  architecture would allow that.
+        genomic_interpretation = GenomicInterpretation(
+            subject_or_biosample_id=phenopacket_id,
+            interpretation_status=interpretation_status,
+            variant_interpretation=variant_interpretation
+        )
 
-    # in the new version of the ERKER we allow these choices for the zygosity:
-    # Homozygous // (simple) Heterozygous // Compound heterozygous //Double heterozygous
-    # // Hemizygous // Not recorded (qualifier value)
-    # we also allow multipole genomic interpretations: 3 clinical relevant variants and
-    # 5 genetic side variants. Therefore, we could allow a compound heterozygous patient
-    # to be captured with both clinical relevant variants
-
-    genomic_interpretation_variant = GenomicInterpretation(
-        subject_or_biosample_id=phenopacket_id,
-        interpretation_status=interpretation_status,
-        variant_interpretation=variant_interpretation
-    )
-
-    # TODO(frehburg, grafea) - (1) - I believe we should only keep the genomic
-    #  interpretation with the variant data (above).
-    #  In this setting, where we have short variants (single nucleotide polymorphisms
-    #  (SNP) or short insertions/deletions),
-    #  we can infer the gene from the variant data. In general, the `gene` field of
-    #  the GenomicInterpretation should
-    #  be used if we do not have the variant data, for instance, to represent the
-    #  candidate
-    #  or the most likely causal gene.
-    # genomic_interpretation_gene = GenomicInterpretation(
-    #     subject_or_biosample_id=phenopacket_id,
-    #     interpretation_status=interpretation_status,
-    #     gene=gene
-    # )
+        genomic_interpretations.append(genomic_interpretation)
 
     diagnosis = Diagnosis(
-        # TODO(frehburg, grafea) - (2) - if we are including the diagnosis in the
-        #  phenopacket, then we must add
-        #  the `disease` field - a required field of the Diagnosis element.
-        #  The disease is an ontology class, so we need an
-        #  id (e.g. `MONDO:0019115`) and a label (e.g. `obesity due to melanocortin 4
-        #  receptor deficiency`)
-        #  as in http://purl.obolibrary.org/obo/MONDO_0019115.
-        #  Adam, Filip, please select the disease code!
-
-        # so we can add ontologyClass: id: "ORPHA:71529", 
-        # label: "Obesity due to melanocortin 4 receptor deficiency"
-        genomic_interpretations=[
-            # TODO(frehburg, grafea) - (3) - please delete the comment and the line
-            #  below if you agree with dropping
-            #  the gene interpretation.
-            # genomic_interpretation_gene,
-            genomic_interpretation_variant,
-        ],
+        genomic_interpretations=genomic_interpretations,
         disease=disease,
     )
 
     interpretation_id = uuid.uuid4()
     interpretation = Interpretation(
         id=str(interpretation_id),
-        # Generates a random str like `4d062c1e-ea58-4ad9-8307-b7d07fe6b0ab`
-        # consider setting `progress_status`
-        #  https://phenopacket-schema.readthedocs.io/en/latest/interpretation.html
-        #  #progressstatus
-        #  Right now it is set to the default value = `UNKNOWN_PROGRESS`.
-        #  However, we *do* have the diagnosis, which is inconsistent with the
-        #  unknown progress.
-        #  I think this is a clinical question. Adam, can we consider the variants as
-        #  causal/contributory
-        #  (per https://phenopacket-schema.readthedocs.io/en/latest/genomic
-        #  -interpretation.html#interpretationstatus)
-        #  to the disease? If yes, then we can make the diagnosis and set the
-        #  progress status, right?
-
-        # we can switch the default value of progress_status to 'SOLVED', as all 
-        # diseases are definitive diagnoses. 
-        # the variants can be considered as 'contributory' 
+        progress_status=progress_status,
         diagnosis=diagnosis
     )
     return interpretation

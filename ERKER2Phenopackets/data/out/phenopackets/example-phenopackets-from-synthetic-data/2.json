@@ -40,6 +40,7 @@
         "genomicInterpretations": [
           {
             "subjectOrBiosampleId": "2",
+            "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
                 "id": "id:A",
