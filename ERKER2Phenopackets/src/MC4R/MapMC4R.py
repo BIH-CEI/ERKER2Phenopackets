@@ -216,10 +216,10 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
             phenopacket_id=phenopacket_id,
             variant_descriptor_ids=
             config.get('Constants', 'variant_descriptor_ids').split(','),
-            zygosity=[row[zygosity_col] for zygosity_col in zygosity_cols\
-                if zygosity_col in row],
-            allele_label=[row[allele_label_col] for allele_label_col\
-                in allele_label_cols if allele_label_col in row],
+            zygosities=[row[zygosity_col] for zygosity_col in zygosity_cols \
+                        if zygosity_col in row],
+            allele_labels=[row[allele_label_col] for allele_label_col \
+                           in allele_label_cols if allele_label_col in row],
             # same mutation, p=protein, c=coding DNA reference sequence
             p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
             c_hgvs=[row[c_hgvs_col] for c_hgvs_col in c_hgvs_cols if c_hgvs_col in row],
@@ -486,8 +486,8 @@ def _map_phenotypic_features(
 
 def _map_interpretation(phenopacket_id: str,
                         variant_descriptor_ids: List[str],
-                        zygosity: str,
-                        allele_label: str,
+                        zygosities: List[str],
+                        allele_labels: List[str],
                         p_hgvs: List[str],
                         c_hgvs: List[str],
                         no_mutation: str,
@@ -510,10 +510,10 @@ def _map_interpretation(phenopacket_id: str,
     :param variant_descriptor_ids: List with IDs for each variant (ID must be unique
     within the phenopacket)
     :type variant_descriptor_ids: List[str]
-    :param zygosity: zygosity LOINC code 
-    :type zygosity: str
-    :param allele_label: human-readable zygosity type
-    :type allele_label: str
+    :param zygosities: zygosities LOINC code
+    :type zygosities: List[str]
+    :param allele_labels: human-readable zygosities type
+    :type allele_labels: List[str]
     :param p_hgvs: List of p.HGVS codes (protein)
     :type p_hgvs: List[str]
     :param c_hgvs: List of c.HGVS codes (coding DNA reference sequence)
@@ -532,8 +532,8 @@ def _map_interpretation(phenopacket_id: str,
     logger.trace(f'Mapping interpretation with the following parameters:'
                  f'\n\tphenopacket_id: {phenopacket_id}'
                  f'\n\tvariant_descriptor_ids: {variant_descriptor_ids}'
-                 f'\n\tzygosity: {zygosity}'
-                 f'\n\tallele_label: {allele_label}'
+                 f'\n\tzygosities: {zygosities}'
+                 f'\n\tallele_labels: {allele_labels}'
                  f'\n\tp_hgvs: {p_hgvs}'
                  f'\n\tc_hgvs: {c_hgvs}'
                  f'\n\tno_mutation: {no_mutation}'
