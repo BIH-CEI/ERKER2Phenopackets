@@ -526,12 +526,14 @@ def _map_interpretation(phenopacket_id: str,
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
     hgvs = p_hgvs + c_hgvs
+    for p, c in zip(p_hgvs, c_hgvs):
+        variant = [p, c]
 
     # create new expression for each hgvs code
     expressions = list(
         map(
             lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
-            hgvs
+            variant
         )
     )
     # create new genomicInterpretation for each variant
