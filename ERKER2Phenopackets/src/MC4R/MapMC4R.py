@@ -212,8 +212,8 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
 
         interpretation = _map_interpretation(
             phenopacket_id=phenopacket_id,
-            variant_descriptor_id=
-            config.get('Constants', 'variant_descriptor_id').split(','),
+            variant_descriptor_ids=
+            config.get('Constants', 'variant_descriptor_ids').split(','),
             zygosity=row['parsed_zygosity'],
             allele_label=row['allele_label'],
             # same mutation, p=protein, c=coding DNA reference sequence
