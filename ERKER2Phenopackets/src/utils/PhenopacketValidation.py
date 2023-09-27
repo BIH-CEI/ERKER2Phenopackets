@@ -25,6 +25,7 @@ def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]
     :raises ValueError: If the path is a file but not a json file
     :raises ValueError: If the path is a directory but does not contain any json files
     """
+    logger.info('Validating phenopackets')
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
@@ -163,7 +164,6 @@ def main():
 
     if args.path:
         logger.debug('if args.path: in if')
-        logger.info('Validating phenopackets')
 
         path = Path(args.path)
     else:
