@@ -166,3 +166,5 @@ ERKER2Phenopackets/data/out/experimental_phenopackets/
 ERKER2Phenopackets/src/CreateSynthData.ipynb
 
 ERKER2Phenopackets/submodules/
+
+.DS_Store
