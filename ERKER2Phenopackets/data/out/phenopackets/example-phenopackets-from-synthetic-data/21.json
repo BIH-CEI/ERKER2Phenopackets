@@ -2,8 +2,8 @@
   "id": "21",
   "subject": {
     "id": "21",
-    "dateOfBirth": "2007-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "2002-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,24 +12,40 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2005-11-10T00:00:00Z"
+        "timestamp": "1991-09-29T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0025499",
+        "label": "Class I obesity"
       },
       "onset": {
-        "timestamp": "2015-02-09T00:00:00Z"
+        "timestamp": "2010-03-03T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1997-12-07T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "7af344f8-f5df-4ac4-89e8-2cfbcafcd2e4",
+=======
+      "id": "d7c73e5d-5ae9-44bc-a16f-a98d4026baa9",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -46,15 +62,11 @@
                   {
                     "syntax": "hgvs",
                     "value": "NP_005903.2:p.Val103Ile"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000137",
+                  "label": "unspecified zygosity"
                 }
               }
             }
@@ -65,7 +77,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

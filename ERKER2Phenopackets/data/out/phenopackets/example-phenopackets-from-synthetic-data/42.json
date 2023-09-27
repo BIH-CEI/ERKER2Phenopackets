@@ -2,8 +2,8 @@
   "id": "42",
   "subject": {
     "id": "42",
-    "dateOfBirth": "1999-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "2000-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,25 +12,21 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2017-05-16T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025502",
-        "label": "Overweight"
-      },
-      "onset": {
-        "timestamp": "2003-01-13T00:00:00Z"
+        "timestamp": "2010-04-07T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "cc4ef7d8-22a9-48fd-89d9-cb16c88539b3",
+=======
+      "id": "67fa07c2-c263-4f4c-8e1d-ce290c804599",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -46,7 +42,7 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Thr112Met"
+                    "value": "NP_005903.2:p.Arg165Gln"
                   },
                   {
                     "syntax": "hgvs",
@@ -66,7 +62,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

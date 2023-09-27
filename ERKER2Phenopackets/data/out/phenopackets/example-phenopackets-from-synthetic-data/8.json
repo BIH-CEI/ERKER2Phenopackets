@@ -2,7 +2,7 @@
   "id": "8",
   "subject": {
     "id": "8",
-    "dateOfBirth": "2008-01-01T00:00:00Z",
+    "dateOfBirth": "2002-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,22 +17,45 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2009-01-27T00:00:00Z"
+        "timestamp": "1999-01-13T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "onset": {
-        "timestamp": "1996-02-08T00:00:00Z"
+        "timestamp": "1996-11-20T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1994-06-18T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2003-07-30T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "cd9f18c8-0aa4-475c-a7e7-0bb486edfdf4",
+=======
+      "id": "9518b9da-cb10-4ba2-b3b0-b46d6be97a23",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -48,7 +71,7 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Asn274Ser"
+                    "value": "NP_005903.2:p.Ile251Leu"
                   },
                   {
                     "syntax": "hgvs",
@@ -68,7 +91,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

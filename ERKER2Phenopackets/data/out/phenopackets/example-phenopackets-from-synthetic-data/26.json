@@ -2,8 +2,8 @@
   "id": "26",
   "subject": {
     "id": "26",
-    "dateOfBirth": "1988-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "1990-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,31 +17,26 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1994-02-08T00:00:00Z"
+        "timestamp": "2004-06-01T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025502",
-        "label": "Overweight"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2009-05-10T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "2000-09-04T00:00:00Z"
+        "timestamp": "2013-02-08T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "63496866-927b-4611-95c9-af8c8af52579",
+=======
+      "id": "fec1e7bf-d126-4300-ba90-07820e734cb8",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -55,6 +50,10 @@
               "variationDescriptor": {
                 "id": "id:A, id:B, id:C",
                 "expressions": [
+                  {
+                    "syntax": "hgvs",
+                    "value": "NP_005903.2:p.Asn274Ser"
+                  },
                   {
                     "syntax": "hgvs",
                     "value": "NM_005912.3:c.307G>A"
@@ -73,7 +72,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

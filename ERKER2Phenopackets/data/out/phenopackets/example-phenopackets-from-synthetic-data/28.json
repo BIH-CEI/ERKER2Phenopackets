@@ -2,7 +2,7 @@
   "id": "28",
   "subject": {
     "id": "28",
-    "dateOfBirth": "1993-01-01T00:00:00Z",
+    "dateOfBirth": "1999-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,44 +12,40 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2008-03-03T00:00:00Z"
+        "timestamp": "2016-08-17T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "1995-04-15T00:00:00Z"
+        "timestamp": "2019-05-16T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2010-02-02T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "onset": {
-        "timestamp": "2004-02-17T00:00:00Z"
+        "timestamp": "1999-05-25T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "59e44574-caff-464a-bd71-e40adf4f8700",
+=======
+      "id": "3030ee73-eeb8-43a5-af91-c60e2f5586e4",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -65,12 +61,20 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
+                    "value": "NP_005903.2:p.Val103Ile"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NP_005903.2:p.Ser127Leu"
+                  },
+                  {
+                    "syntax": "hgvs",
                     "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000136",
-                  "label": "homozygous"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -81,7 +85,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

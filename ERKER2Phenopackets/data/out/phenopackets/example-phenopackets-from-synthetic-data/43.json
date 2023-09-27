@@ -2,7 +2,7 @@
   "id": "43",
   "subject": {
     "id": "43",
-    "dateOfBirth": "1993-01-01T00:00:00Z",
+    "dateOfBirth": "1992-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,21 +17,27 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2005-03-14T00:00:00Z"
+        "timestamp": "2010-04-15T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2016-01-01T00:00:00Z"
+        "timestamp": "1995-06-13T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "2fce71bd-e059-48d1-8c99-ce039c8216dd",
+=======
+      "id": "070ea4c9-37c8-47bb-bf51-55c9c8e6a98b",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -55,8 +61,8 @@
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000137",
+                  "label": "unspecified zygosity"
                 }
               }
             }
@@ -67,7 +73,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

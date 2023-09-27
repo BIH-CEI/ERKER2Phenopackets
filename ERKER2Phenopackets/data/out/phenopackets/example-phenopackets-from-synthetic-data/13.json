@@ -2,8 +2,8 @@
   "id": "13",
   "subject": {
     "id": "13",
-    "dateOfBirth": "1990-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "1997-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,30 +17,42 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2010-04-15T00:00:00Z"
+        "timestamp": "1998-01-14T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025502",
-        "label": "Overweight"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2004-07-21T00:00:00Z"
+        "timestamp": "2007-04-15T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0025500",
+        "label": "Class II obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2001-01-13T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2005-12-29T00:00:00Z"
+        "timestamp": "2005-01-19T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "186abf79-3ec8-4436-b376-732d47db6f4a",
+      "id": "06af62d5-c7ad-4f98-94f7-35f64e6334f9",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -56,11 +68,7 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile251Leu"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.811T>C"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
@@ -76,7 +84,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

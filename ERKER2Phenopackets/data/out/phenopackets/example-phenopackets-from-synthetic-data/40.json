@@ -2,7 +2,7 @@
   "id": "40",
   "subject": {
     "id": "40",
-    "dateOfBirth": "1990-01-01T00:00:00Z",
+    "dateOfBirth": "2016-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,34 +12,40 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1995-11-20T00:00:00Z"
-      }
-    },
-    {
-      "type": {
         "id": "HP:0001513",
         "label": "Obesity"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2020-01-26T00:00:00Z"
+        "timestamp": "1995-02-12T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "1992-06-18T00:00:00Z"
+        "timestamp": "2015-03-18T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "2003-06-24T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "5534943f-2f5a-4c38-9b09-e76ff89fef25",
+=======
+      "id": "7a623a9d-38f9-4f8f-9603-c4b5b214caa7",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -55,11 +61,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Cys271Arg"
+                    "value": "NP_005903.2:p.Val103Ile"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.181G>T"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
@@ -75,7 +81,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

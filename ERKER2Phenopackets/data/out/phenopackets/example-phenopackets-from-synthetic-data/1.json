@@ -2,7 +2,7 @@
   "id": "1",
   "subject": {
     "id": "1",
-    "dateOfBirth": "2014-01-01T00:00:00Z",
+    "dateOfBirth": "2006-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,21 +17,41 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2000-02-23T00:00:00Z"
+        "timestamp": "1998-05-30T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001513",
+        "label": "Obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "1996-05-27T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2010-01-10T00:00:00Z"
+        "timestamp": "2004-01-26T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "2000-07-27T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "220ee9e5-fdf7-4005-8e96-27bbd2f5da3d",
+      "id": "cc3ee3e2-f3a9-4e0e-a905-e7bf2f01934f",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -47,11 +67,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.Ile170Val"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.268G>A"
+                    "value": "NM_005912.3:c.494G>A"
                   }
                 ],
                 "allelicState": {
@@ -67,7 +87,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

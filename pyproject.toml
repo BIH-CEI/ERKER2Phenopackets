@@ -1,6 +1,6 @@
 [project]
 name = "ERKER2Phenopackets"
-version = "1.1.0"
+version = "1.1.1"
 description = "Mapping the ERKER Dataset onto the Phenopackets Schema"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -30,6 +30,7 @@ test = ["pytest==7.1.2", "ruff", "isort", "coverage", "pytest-cov"]
 
 [project.scripts]
 pipeline = "ERKER2Phenopackets.src.MC4R.Pipeline:main"
+validate = "ERKER2Phenopackets.src.utils.PhenopacketValidation:main"
 
 [build-system]
 # These are the assumed default build requirements from pip:

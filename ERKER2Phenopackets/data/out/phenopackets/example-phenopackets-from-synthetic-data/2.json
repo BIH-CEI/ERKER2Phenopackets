@@ -2,7 +2,7 @@
   "id": "2",
   "subject": {
     "id": "2",
-    "dateOfBirth": "1996-01-01T00:00:00Z",
+    "dateOfBirth": "1999-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,18 +12,26 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "2000-02-17T00:00:00Z"
+        "timestamp": "2017-08-17T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0025499",
+        "label": "Class I obesity"
+      },
+      "onset": {
+        "timestamp": "1995-05-24T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "f4318ab2-360e-4c4e-8447-10a041e1de50",
+      "id": "d5eecb37-7b7a-472e-b99a-6d2c9232693e",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -35,10 +43,20 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
+                "expressions": [
+                  {
+                    "syntax": "hgvs",
+                    "value": "NP_005903.2:p.Ile251Leu"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.307G>A"
+                  }
+                ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000137",
+                  "label": "unspecified zygosity"
                 }
               }
             }
@@ -49,7 +67,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

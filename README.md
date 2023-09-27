@@ -1,4 +1,5 @@
 # ERKER to Phenopackets
+[![Unit Tests and Code Style](https://github.com/BIH-CEI/ERKER2Phenopackets/actions/workflows/python-app.yaml/badge.svg)](https://github.com/BIH-CEI/ERKER2Phenopackets/actions/workflows/python-app.yaml)
 ### v1.1.0: MC4R Pipeline finished
 In this repository we are developing a pipeline mapping the ERKER Dataset to the [Phenopackets](https://github.com/phenopackets/phenopacket-schema) format. The ERKER dataset is a collection of clinical data from the Charité Berlin. The Phenopackets format is a standard for the exchange of phenotypic and genomic data for patients with rare diseases. The goal of this project is to develop a general pipeline that can be used to map any clinical dataset to the Phenopackets format.
 
@@ -9,7 +10,9 @@ More information on Phenopackets:
 - [Phenopackets Documentation](https://phenopackets-schema.readthedocs.io/en/latest/)
 - [Article on Phenopackets in the journal Nature Biotechnology](https://www.nature.com/articles/s41587-022-01357-4)
 
-[![Unit Tests and Code Style](https://github.com/https://github.com/BIH-CEI/ERKER2Phenopackets/actions/workflows/python-app.yaml/badge.svg)](https://github.com/BIH-CEI/ERKER2Phenopackets/blob/main/.github/workflows/python-app.yaml))
+
+
+
 
 
 ## Table of Contents
@@ -50,11 +53,11 @@ To install Python using the standard method with pip, follow these steps:
   a. If Python is installed, you'll see the version number. Please check that your version is at least `3.10` or higher. if not, run `pip install --upgrade python` <br>
   b. If not, proceed with the installation.
 
-3. **Download Python:** Visit the official Python website at [python.org](https://www.python.org/downloads/) and download the latest version of Python for your operating system.
+2. **Download Python:** Visit the official Python website at [python.org](https://www.python.org/downloads/) and download the latest version of Python for your operating system.
 
-4. **Run the Installer:** Double-click the downloaded installer and follow the on-screen instructions. Make sure to check the box that says "Add Python to PATH" during installation to easily run Python from the command line.
+3. **Run the Installer:** Double-click the downloaded installer and follow the on-screen instructions. Make sure to check the box that says "Add Python to PATH" during installation to easily run Python from the command line.
 
-5. **Verify Installation:** After installation, open your terminal or command prompt and type `python --version` or `python3 --version` to confirm that Python is installed and check the version.
+4. **Verify Installation:** After installation, open your terminal or command prompt and type `python --version` or `python3 --version` to confirm that Python is installed and check the version.
 
 #### B. Installing Python with Anaconda
 
@@ -83,8 +86,31 @@ Now, you have Python installed on your system, and you can start using it by run
 3. Run `pip install .`
 4. (Optional): If you would like to install the required Python packages for testing run `pip install .[test]`
 
-### 4. Installing MongoDB
-  Please follow the official [MongoDB Installation Tutorial](https://www.mongodb.com/docs/manual/administration/install-community/).
+### [Optional] 4. Installing [`phenopacket-tools`](https://github.com/phenopackets/phenopacket-tools)
+We can use `phenopacket-tools` to validate the created phenopackets. 
+Unfortunately, as of writing this, there is no Python version of `phenopacket-tools` available. Therefore, we rely on 
+the CLI version of `phenopacket-tools`, which is then automatically called upon if installed, when executing the 
+`pipeline` command.
+
+*Note:* During development we used the `phenopacket-tools` version `v1.0.0-RC3`.
+
+
+To install `phenopacket-tools` follow these steps:
+1. **Check if Java is already installed:** Open your terminal or command prompt and type `java --version`. <br>
+  a. If Java is installed, you'll see the version number. <br>
+  b. If not, proceed with the installation.
+2. **Download Java:** Visit the official Java website at [java.com](https://www.java.com/en/download/) 
+and download the latest version of Java for your operating system. Follow the on-screen instructions.
+3. **Download the `phenopacket-tools` CLI:** Visit the official `phenopacket-tools` 
+[releases page](https://github.com/phenopackets/phenopacket-tools/releases) and download the latest version of the
+`phenopacket-tools` CLI.
+4. Unzip the downloaded file and place the `.jar` file (e.g., `phenopacket-tools-cli-1.0.0-RC3.jar`) into the 
+`ERKER2Phenopackets/submodules/phenopacket-tools` directory.
+5. If you are using a different version of `phenopacket-tools`, please also change the path to the `.jar` file in the 
+`config.cfg` configuration file under the header `Paths` at `jar_path`.
+
+### 5. Installing MongoDB
+Please follow the official [MongoDB Installation Tutorial](https://www.mongodb.com/docs/manual/administration/install-community/).
 
 ## Running the Pipeline
 To run the pipeline, you require a `.csv` file in ERKER format with filled columns that allow Phenopacket creation from MC4R data.
@@ -95,6 +121,9 @@ To run the pipeline, you require a `.csv` file in ERKER format with filled colum
    a. If you do not provide an output folder name, the output folder will be named according to the current date and time in the `'YYYY-MM-DD-hhmm'` format.
 4. You can find the created phenopackets in the `ERKER2Phenopackets/data/out/phenopackets/<output-folder-name>` folder. 
 Do not upload real patient data to GitHub.
+
+## Validating Phenopackets
+Run `validate` (optionally add path of phenopackets out to validate all phenopackets in that folder), defaults to validating last created phenopackets.
 
 ## Resources
 

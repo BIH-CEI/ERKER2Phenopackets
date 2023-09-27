@@ -2,7 +2,7 @@
   "id": "19",
   "subject": {
     "id": "19",
-    "dateOfBirth": "1995-01-01T00:00:00Z",
+    "dateOfBirth": "2000-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,18 +12,28 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0025502",
-        "label": "Overweight"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1999-05-21T00:00:00Z"
+        "timestamp": "2010-03-31T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "1997-10-11T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "b9ba51a5-23a8-48a2-a46a-6466321dc447",
+      "id": "caf8e63a-7704-4c7c-bccc-ff0313d0a546",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -39,11 +49,7 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.His264Arg"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NP_005903.2:p.Val103Ile"
                   }
                 ],
                 "allelicState": {
@@ -59,7 +65,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

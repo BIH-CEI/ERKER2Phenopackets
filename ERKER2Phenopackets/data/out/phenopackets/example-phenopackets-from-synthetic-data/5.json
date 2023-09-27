@@ -2,8 +2,8 @@
   "id": "5",
   "subject": {
     "id": "5",
-    "dateOfBirth": "2008-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "2000-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,22 +17,17 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2004-06-01T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025500",
-        "label": "Class II obesity"
-      },
-      "onset": {
-        "timestamp": "2017-05-16T00:00:00Z"
+        "timestamp": "1996-12-10T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "cda6494a-0b11-46b2-babc-e7c5ad429dfb",
+=======
+      "id": "dc155ce1-9248-4751-925b-fafa47a40ffc",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -48,16 +43,16 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile251Leu"
+                    "value": "NP_005903.2:p.Val103Ile"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NP_005903.2:p.His158His"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -68,7 +63,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

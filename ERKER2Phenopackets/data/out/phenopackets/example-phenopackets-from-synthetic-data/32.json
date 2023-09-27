@@ -2,7 +2,7 @@
   "id": "32",
   "subject": {
     "id": "32",
-    "dateOfBirth": "2002-01-01T00:00:00Z",
+    "dateOfBirth": "1998-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,37 +17,27 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2000-02-23T00:00:00Z"
+        "timestamp": "1993-07-18T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2015-03-18T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "onset": {
-        "timestamp": "1998-08-25T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "onset": {
-        "timestamp": "2000-07-29T00:00:00Z"
+        "timestamp": "2000-08-25T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "eb947fbd-656b-4218-8a4b-29c0b24cdef0",
+=======
+      "id": "fdc6ccac-7eac-49de-83af-0ad55977aab6",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -63,16 +53,20 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Glu61Lys"
+                    "value": "NP_005903.2:p.Val103Ile"
                   },
                   {
                     "syntax": "hgvs",
                     "value": "NM_005912.3:c.307G>A"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.380C>T"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000136",
+                  "label": "homozygous"
                 }
               }
             }
@@ -83,7 +77,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",

@@ -2,7 +2,7 @@
   "id": "48",
   "subject": {
     "id": "48",
-    "dateOfBirth": "2014-01-01T00:00:00Z",
+    "dateOfBirth": "1994-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,16 +12,32 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2001-04-23T00:00:00Z"
+        "timestamp": "1994-06-30T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001513",
+        "label": "Obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "1993-01-30T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
+<<<<<<< HEAD
       "id": "7b4e45d9-e5cd-4f0b-a226-5fd3bed3cbca",
+=======
+      "id": "8f1f1482-1816-42d9-96ed-dee247d83653",
+>>>>>>> main
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -37,15 +53,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ala175Thr"
+                    "value": "NP_005903.2:p.Gly181Asp"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Tyr268His"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NM_005912.3:c.142C>T"
                   }
                 ],
                 "allelicState": {
@@ -61,7 +73,11 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
+<<<<<<< HEAD
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+=======
+    "createdBy": "A. Graefe, F. Rehburg",
+>>>>>>> main
     "resources": [
       {
         "id": "HP",
