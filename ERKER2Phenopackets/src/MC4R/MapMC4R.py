@@ -467,7 +467,7 @@ def _map_phenotypic_features(
 
 
 def _map_interpretation(phenopacket_id: str,
-                        variant_descriptor_id: List[str],
+                        variant_descriptor_ids: List[str],
                         zygosity: str,
                         allele_label: str,
                         p_hgvs: List[str],
@@ -489,9 +489,9 @@ def _map_interpretation(phenopacket_id: str,
 
     :param phenopacket_id: ID of the individual
     :type phenopacket_id: str
-    :param variant_descriptor_id: List with IDs for each variant (ID must be unique
+    :param variant_descriptor_ids: List with IDs for each variant (ID must be unique
     within the phenopacket)
-    :type variant_descriptor_id: List[str]
+    :type variant_descriptor_ids: List[str]
     :param zygosity: zygosity LOINC code 
     :type zygosity: str
     :param allele_label: human-readable zygosity type
@@ -513,7 +513,7 @@ def _map_interpretation(phenopacket_id: str,
     """
     logger.trace(f'Mapping interpretation with the following parameters:'
                  f'\n\tphenopacket_id: {phenopacket_id}'
-                 f'\n\tvariant_descriptor_id: {variant_descriptor_id}'
+                 f'\n\tvariant_descriptor_ids: {variant_descriptor_ids}'
                  f'\n\tzygosity: {zygosity}'
                  f'\n\tallele_label: {allele_label}'
                  f'\n\tp_hgvs: {p_hgvs}'
