@@ -1,10 +1,30 @@
 import argparse
+import configparser
+from pathlib import Path
+
+from ERKER2Phenopackets.src.utils import delete_files_in_folder
+
+
+def clear_dir(all_: bool, experimental: bool, publish: bool):
+    config = configparser.ConfigParser()
+    config.read('ERKER2Phenopackets/data/config/config.cfg')
+
+    test_out = Path(config.get('Paths', 'test_phenopackets_out_script'))
+    prod_out = Path(config.get('Paths', 'phenopackets_out_script'))
+    json_suffix = '.json'
+
+    if all_:
+        delete_files_in_folder([test_out, prod_out], json_suffix)
+    elif experimental:
+        delete_files_in_folder(test_out, json_suffix)
+    elif publish:
+        delete_files_in_folder(prod_out, json_suffix)
 
 
 def main():
     arg_parser = argparse.ArgumentParser(prog='clear_phenopackets',
                                          description='Removes previously created '
-                                                     'phenopackets.')
+                                                     'phenopackets. Defaults to -e.')
 
     mut_excl_group = arg_parser.add_mutually_exclusive_group()
 
@@ -18,13 +38,8 @@ def main():
                                      'out/experimental_phenopackets and '
                                      'out/phenopackets')
 
-    arg_parser.add_argument('-p', '--publish', action='store_true',
-                            help='Write phenopackets to out instead of test')
-
-    # Add positional arguments
-    arg_parser.add_argument('data_path', help='The path to the data')
-    arg_parser.add_argument('out_dir_name', nargs='?', default='',
-                            help='The name of the output directory')
-
-    # Parse the arguments
     args = arg_parser.parse_args()
+
+    clear_dir(args.all, args.experimental, args.publish)
+
+
