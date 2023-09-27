@@ -534,7 +534,14 @@ def _map_interpretation(phenopacket_id: str,
             hgvs
         )
     )
-
+    # create new genomicInterpretation for each variant
+    genomicInterpretations = list(
+        map(
+            lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
+            hgvs
+        )
+    )
+    
     allelic_state = OntologyClass(
         id=zygosity,
         label=allele_label
