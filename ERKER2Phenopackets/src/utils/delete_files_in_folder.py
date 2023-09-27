@@ -18,10 +18,10 @@ def delete_files_in_folder(dirs: Union[Path, List[Path]], file_extension: str = 
         dirs = [dirs]
 
     if file_extension:
-        logger.info(f"Starting the delete_files_in_folder method with "
-                    f"file extension {file_extension}")
+        logger.trace(f"Starting the delete_files_in_folder method with "
+                     f"file extension {file_extension}")
     else:
-        logger.info("Starting the delete_files_in_folder method")
+        logger.trace("Starting the delete_files_in_folder method")
 
     for directory in dirs:
         logger.info(f"Starting deletion in directory: {directory}")
@@ -39,4 +39,4 @@ def delete_files_in_folder(dirs: Union[Path, List[Path]], file_extension: str = 
                 delete_files_in_folder(file, file_extension)
                 file.rmdir()
 
-    logger.info("Finished the delete_files_in_folder method")
+    logger.trace("Finished the delete_files_in_folder method")
