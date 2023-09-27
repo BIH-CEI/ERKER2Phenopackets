@@ -2,9 +2,9 @@ import polars as pl  # the same as pandas just faster
 from loguru import logger
 
 import configparser
+import argparse
 from pathlib import Path
 from datetime import datetime
-import sys
 import re
 
 from ERKER2Phenopackets.src.logging_ import setup_logging
@@ -16,20 +16,56 @@ from ERKER2Phenopackets.src.MC4R.MappingDicts import allele_label_map_erker2phen
 from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
     sex_map_erker2phenopackets, phenotype_status_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
-     parse_year_of_birth, parse_phenotyping_date, parse_omim
+    parse_year_of_birth, parse_phenotyping_date, parse_omim
 from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets
 
 
 def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
-    setup_logging(level='INFO')
+    # Create the parser
+    arg_parser = argparse.ArgumentParser(prog='pipeline',
+                                         description='A pipeline to map ERKER data in '
+                                                     '.csv format to phenopackets.')
+
+    mut_excl_group = arg_parser.add_mutually_exclusive_group()
+
+    mut_excl_group.add_argument('-d', '--debug', action='store_true',
+                                help='Enable debug logging')
+    mut_excl_group.add_argument('-t', '--trace', action='store_true',
+                                help='Enable trace logging')
+
+    arg_parser.add_argument('-p', '--publish', action='store_true',
+                            help='Write phenopackets to out instead of test')
+
+    # Add positional arguments
+    arg_parser.add_argument('data_path', help='The path to the data')
+    arg_parser.add_argument('out_dir_name', nargs='?', default='',
+                            help='The name of the output directory')
+
+    # Parse the arguments
+    args = arg_parser.parse_args()
+
+    # Check the flags
+    if args.debug:
+        level = 'DEBUG'
+    elif args.trace:
+        level = 'TRACE'
+    else:
+        level = 'INFO'
+
+    setup_logging(level=level)
+
+    if args.publish:
+        print('Will write phenopackets to out')
+
     logger.info('Starting MC4R pipeline')
     out_dir_name = ''
-    if len(sys.argv) > 1:
-        data_path = sys.argv[1]
-        if len(sys.argv) > 2:
-            out_dir_name = sys.argv[2]
+    if args.data_path:  # path do data provided
+        data_path = args.data_path
+
+        if args.out_dir_name:  # output path provided
+            out_dir_name = args.out_dir_name
             disallowed_chars_pattern = r'[<>:"/\\|?*]'
 
             if re.search(disallowed_chars_pattern, out_dir_name):
@@ -46,10 +82,10 @@ def main():
         logger.critical('No path to data provided. Please provide a path to the data '
                         'as a command line argument.')
         return
-    pipeline(data_path, out_dir_name)
+    pipeline(data_path, out_dir_name, publish=args.publish)
 
 
-def pipeline(data_path: str, out_dir_name: str = ''):
+def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
     logger.info(f'Data path: {data_path}')
     if out_dir_name:
         logger.info(f'Output directory name: {out_dir_name}')
@@ -61,7 +97,10 @@ def pipeline(data_path: str, out_dir_name: str = ''):
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
-    phenopackets_out = Path(config.get('Paths', 'phenopackets_out_script'))
+    if publish:
+        phenopackets_out = Path(config.get('Paths', 'phenopackets_out_script'))
+    else:
+        phenopackets_out = Path(config.get('Paths', 'test_phenopackets_out_script'))
     logger.trace('Finished reading config file')
     logger.debug(phenopackets_out.resolve())
 
@@ -193,26 +232,26 @@ def pipeline(data_path: str, out_dir_name: str = ''):
                                  map_to='parsed_date_of_phenotyping5',
                                  mapping=parse_phenotyping_date)
         df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_phenotyping5', no_date)
-        
+
     # sct_8116006_1_status, sct_8116006_2_status, sct_8116006_3_status,\
     # sct_8116006_4_status, sct_8116006_5_status (status of phenotype determination)
     logger.trace('Parsing status of phenotype determination columns')
     logger.trace('Filling null values in status of phenotype determination columns')
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_1_status',
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_1_status',
                              map_to='parsed_phenotype_status1',
                              mapping=phenotype_status_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_2_status',
-                            map_to='parsed_phenotype_status2',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_3_status',
-                            map_to='parsed_phenotype_status3',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_4_status',
-                            map_to='parsed_phenotype_status4',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from= 'sct_8116006_5_status',
-                            map_to='parsed_phenotype_status5',
-                            mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_2_status',
+                             map_to='parsed_phenotype_status2',
+                             mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_3_status',
+                             map_to='parsed_phenotype_status3',
+                             mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_4_status',
+                             map_to='parsed_phenotype_status4',
+                             mapping=phenotype_status_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='sct_8116006_5_status',
+                             map_to='parsed_phenotype_status5',
+                             mapping=phenotype_status_map_erker2phenopackets)
 
     # phenotype label
     logger.trace('Parsing phenotype label columns')

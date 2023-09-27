@@ -117,13 +117,14 @@ To run the pipeline, you require a `.csv` file in ERKER format with filled colum
 
 1. Follow the steps in the [Installation](#installation) section. (Especially important is the `pip install .` command)
 2. Navigate to the root directory (top level `ERKER2Phenopackets` folder).
-3. Run `pipeline <csv-file-path> [Optional: <output-folder-name>]` <br>
-   a. If you do not provide an output folder name, the output folder will be named according to the current date and time in the `'YYYY-MM-DD-hhmm'` format.
-4. You can find the created phenopackets in the `ERKER2Phenopackets/data/out/phenopackets/<output-folder-name>` folder. 
+3. Run `pipeline [-h] [-d | -t] [-p] data_path [out_dir_name]` <br>
+   a. If you do not provide an output folder name, the output folder will be named according to the current date and time in the `'YYYY-MM-DD-hhmm'` format. <br>
+   b. To get more info on how to run this command, run `pipeline -h` or `pipeline --help`.
+4. You can find the created phenopackets in the `ERKER2Phenopackets/data/out/` folder. 
 Do not upload real patient data to GitHub.
 
 ## Validating Phenopackets
-Run `validate` (optionally add path of phenopackets out to validate all phenopackets in that folder), defaults to validating last created phenopackets.
+Run `validate` (optionally add path to a single phenopacket `.json` file or a folder that includes phenopackets), defaults to validating last created phenopackets.
 
 ## Resources
 
