@@ -38,6 +38,9 @@ def main():
     arg_parser.add_argument('-p', '--publish', action='store_true',
                             help='Write phenopackets to out instead of test')
 
+    arg_parser.add_argument('-v', '--validate', action='store_true',
+                            help='Validate the created phenopackets')
+
     # Add positional arguments
     arg_parser.add_argument('data_path', help='The path to the data')
     arg_parser.add_argument('out_dir_name', nargs='?', default='',
@@ -83,6 +86,9 @@ def main():
                         'as a command line argument.')
         return
     pipeline(data_path, out_dir_name, publish=args.publish)
+
+    if args.validate:
+        validate()
 
 
 def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
