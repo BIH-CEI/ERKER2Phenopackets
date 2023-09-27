@@ -547,7 +547,11 @@ def _map_interpretation(phenopacket_id: str,
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
 
     genomic_interpretations = []
-    for variant_descriptor_id, *variant in zip(variant_descriptor_ids, p_hgvs, c_hgvs):
+    for variant_descriptor_id, zygosity, allele_label, *variant in zip(
+            variant_descriptor_ids,
+            zygosities, allele_labels,
+            p_hgvs, c_hgvs
+    ):
         # create new expression for each hgvs code
         expressions = list(
             map(
@@ -557,9 +561,9 @@ def _map_interpretation(phenopacket_id: str,
         )
 
         allelic_state = OntologyClass(
-            # TODO: each variant should have its own zygosity + label
-            id=zygosity,
-            label=allele_label
+            # TODO: each variant should have its own zygosities + label
+            id=zygosities,
+            label=allele_labels
         )
         variation_descriptor = VariationDescriptor(
             id=variant_descriptor_id,
