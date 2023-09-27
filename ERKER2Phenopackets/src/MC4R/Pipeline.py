@@ -111,12 +111,19 @@ def pipeline(data_path: str, out_dir_name: str = ''):
     logger.trace('Filling null values in date of diagnosis column')
     df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_diagnosis', no_date)
 
-    # # ln_48007_9 (zygosity)
+    # ln_48007_9_1, ln_48007_9_2, ln_48007_9_3 (zygosity)
     logger.trace('Parsing zygosity column')
-    df = PolarsUtils.map_col(df, map_from='ln_48007_9', map_to='parsed_zygosity',
+    df = PolarsUtils.map_col(df, map_from='ln_48007_9_1', map_to='parsed_zygosity_1',
                              mapping=zygosity_map_erker2phenopackets)
-    logger.trace('Parsing ref allele label column')
-    df = PolarsUtils.map_col(df, map_from='ln_48007_9', map_to='allele_label',
+    df = PolarsUtils.map_col(df, map_from='ln_48007_9_1', map_to='allele_label_1',
+                             mapping=allele_label_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='ln_48007_9_2', map_to='parsed_zygosity_2',
+                            mapping=zygosity_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='ln_48007_9_2', map_to='allele_label_2',
+                             mapping=allele_label_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='parsed_zygosity_3',
+                            mapping=zygosity_map_erker2phenopackets)
+    df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='allele_label_3',
                              mapping=allele_label_map_erker2phenopackets)
 
     # sct_439401001_orpha (diagnosis (ORPHA))
