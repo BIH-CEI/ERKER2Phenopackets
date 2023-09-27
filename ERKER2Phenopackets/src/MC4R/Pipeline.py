@@ -10,6 +10,7 @@ import re
 from ERKER2Phenopackets.src.logging_ import setup_logging
 from ERKER2Phenopackets.src.utils import write_files
 from ERKER2Phenopackets.src.utils import PolarsUtils
+from ERKER2Phenopackets.src.utils import validate
 from ERKER2Phenopackets.src.MC4R.MappingDicts import \
     phenotype_label_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.MappingDicts import allele_label_map_erker2phenopackets
@@ -167,11 +168,17 @@ def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_2', map_to='allele_label_2',
                              mapping=allele_label_map_erker2phenopackets)
     if 'ln_48007_9_3' in df.columns:
-        df = PolarsUtils.map_col(df, map_from='ln_48007_9_3',
-                                 map_to='parsed_zygosity_3',
-                                 mapping=zygosity_map_erker2phenopackets)
-    df = PolarsUtils.map_col(df, map_from='ln_48007_9_3', map_to='allele_label_3',
-                             mapping=allele_label_map_erker2phenopackets)
+        df = PolarsUtils.map_col(
+            df, map_from='ln_48007_9_3',
+            map_to='parsed_zygosity_3',
+            mapping=zygosity_map_erker2phenopackets
+        )
+        df = PolarsUtils.map_col(
+            df,
+            map_from='ln_48007_9_3',
+            map_to='allele_label_3',
+            mapping=allele_label_map_erker2phenopackets
+        )
 
     # sct_439401001_orpha (diagnosis (ORPHA))
     logger.trace('Diagnosis (ORPHA) column does not require parsing')
