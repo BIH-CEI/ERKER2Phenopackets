@@ -525,51 +525,42 @@ def _map_interpretation(phenopacket_id: str,
     # filter hgvs lists to avoid null vals
     p_hgvs = [p_hgvs[i] for i in range(len(p_hgvs)) if not p_hgvs[i] == no_mutation]
     c_hgvs = [c_hgvs[i] for i in range(len(c_hgvs)) if not c_hgvs[i] == no_mutation]
-    
+
+    genomic_interpretations = []
     for variant in zip(p_hgvs, c_hgvs):
         # create new expression for each hgvs code
         expressions = list(
             map(
-                lambda hgvs_element: Expression(syntax='hgvs', value=hgvs_element),
+                lambda mutation: Expression(syntax='hgvs', value=mutation),
                 variant 
             )
         )
     
-   
-    #create new genomicInterpretation for each variant
-    genomicInterpretations = list(
-        map(
-            lambda hgvs_element: GenomicInterpretation(
-                subject_or_biosample_id=phenopacket_id,
-                interpretation_status=interpretation_status,
-                variant_interpretation=VariantInterpretation
-                ),
-            hgvs
+        allelic_state = OntologyClass(
+            # TODO: each variant should have its own zygosity + label
+            id=zygosity,
+            label=allele_label
         )
-    )
-    
-    allelic_state = OntologyClass(
-        id=zygosity,
-        label=allele_label
-    )
-    variation_descriptor = VariationDescriptor(
-        id=variant_descriptor_id,
-        expressions=expressions,
-        allelic_state=allelic_state,
-    )
+        variation_descriptor = VariationDescriptor(
+            id=variant_descriptor_id,
+            expressions=expressions,
+            allelic_state=allelic_state,
+        )
 
-    variant_interpretation = VariantInterpretation(
-        variation_descriptor=variation_descriptor
-    )
+        variant_interpretation = VariantInterpretation(
+            variation_descriptor=variation_descriptor
+        )
 
-    # genomic_interpretation_variant = GenomicInterpretation(
-    #     subject_or_biosample_id=phenopacket_id,
-    #     interpretation_status=interpretation_status,
-    #     variant_interpretation=variant_interpretation
-    # )
+        genomic_interpretation = GenomicInterpretation(
+            subject_or_biosample_id=phenopacket_id,
+            interpretation_status=interpretation_status,
+            variant_interpretation=variant_interpretation
+        )
+
+        genomic_interpretations.append(genomic_interpretation)
 
     diagnosis = Diagnosis(
-        genomic_interpretations=None, # TODO PUT GENOMIC INTERPRS IN HERE
+        genomic_interpretations=genomic_interpretations,
         disease=disease,
     )
 
