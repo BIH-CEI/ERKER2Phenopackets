@@ -10,7 +10,7 @@ from ERKER2Phenopackets.src.logging_ import setup_logging
 from loguru import logger
 
 
-def validate(path: Path) -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
+def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
     """Validates a phenopacket file or directory of phenopackets
 
     This function validates a phenopacket file or directory of phenopackets.
@@ -27,6 +27,28 @@ def validate(path: Path) -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
     """
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
+
+    if path == '':
+        out_dirs = [
+            Path(config.get('Paths', 'phenopackets_out_script')),
+            Path(config.get('Paths', 'test_phenopackets_out_script'))
+        ]
+
+        subdirectories = []
+        for out_dir in out_dirs:
+            subdirectories = subdirectories + [
+                os.path.join(out_dir, entry) for entry in os.listdir(out_dir)
+                if os.path.isdir(os.path.join(out_dir, entry))
+            ]
+
+        sorted_directories = sorted(subdirectories, key=os.path.getmtime, reverse=True)
+        path = Path(sorted_directories[0])
+
+        if not path or not path.is_dir():
+            logger.error('No path to data provided. Please provide a path to the data '
+                         'as a command line argument.')
+            raise ValueError('No path to data provided. Please provide a path to the '
+                             'data as a command line argument.')
 
     jar_path = str(Path(config.get('Paths', 'jar_path')).resolve())
     command = config.get('CLICommands', 'validate')
@@ -94,6 +116,7 @@ def _validate_phenopacket(path: Path, command: str,
         if not printed_yet:
             logger.info(f'Validation output of {path}:')
             return True
+        return False
 
     # Print the captured output
     for line in outputs:  # errors
@@ -145,27 +168,6 @@ def main():
         path = Path(args.path)
     else:
         logger.debug('if args.path: in else')
-        config = configparser.ConfigParser()
-        config.read('ERKER2Phenopackets/data/config/config.cfg')
+        path = ''
 
-        out_dirs = [
-            Path(config.get('Paths', 'phenopackets_out_script')),
-            Path(config.get('Paths', 'test_phenopackets_out_script'))
-        ]
-
-        subdirectories = []
-        for out_dir in out_dirs:
-            subdirectories = subdirectories + [
-                    os.path.join(out_dir, entry) for entry in os.listdir(out_dir)
-                    if os.path.isdir(os.path.join(out_dir, entry))
-                ]
-
-        sorted_directories = sorted(subdirectories, key=os.path.getmtime, reverse=True)
-        path = Path(sorted_directories[0])
-
-        if not path or not path.is_dir():
-            logger.error('No path to data provided. Please provide a path to the data '
-                         'as a command line argument.')
-            raise ValueError('No path to data provided. Please provide a path to the '
-                             'data as a command line argument.')
     validate(path)
