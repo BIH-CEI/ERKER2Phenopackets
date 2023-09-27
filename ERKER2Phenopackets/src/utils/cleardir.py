@@ -43,3 +43,5 @@ def main():
     clear_dir(args.all, args.experimental, args.publish)
 
 
+if __name__ == '__main__':
+    main()
