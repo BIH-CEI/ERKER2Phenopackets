@@ -24,9 +24,10 @@ def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
     # Create the parser
-    arg_parser = argparse.ArgumentParser(prog='pipeline',
-                                         description='A pipeline to map ERKER data in '
-                                                     '.csv format to phenopackets.')
+    arg_parser = argparse.ArgumentParser(
+        prog='pipeline',
+        description='A pipeline to map ERKER data in .csv format to phenopackets.'
+    )
 
     mut_excl_group = arg_parser.add_mutually_exclusive_group()
 
