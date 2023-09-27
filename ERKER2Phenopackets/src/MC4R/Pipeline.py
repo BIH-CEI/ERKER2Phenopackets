@@ -1,4 +1,5 @@
 import polars as pl  # the same as pandas just faster
+from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
 from loguru import logger
 
 import configparser
@@ -82,10 +83,21 @@ def main():
         logger.critical('No path to data provided. Please provide a path to the data '
                         'as a command line argument.')
         return
-    pipeline(data_path, out_dir_name, publish=args.publish)
+
+    pipeline(
+        data_path=data_path,
+        out_dir_name=out_dir_name,
+        publish=args.publish,
+        debug=(args.debug or args.trace)  # debug mode enabled if either debug or trace
+    )
 
 
-def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
+def pipeline(
+        data_path: str,
+        out_dir_name: str = '',
+        publish: bool = False,
+        debug: bool = False
+):
     logger.info(f'Data path: {data_path}')
     if out_dir_name:
         logger.info(f'Output directory name: {out_dir_name}')
@@ -284,7 +296,10 @@ def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
 
     # Map to Phenopackets
     logger.info('Start mapping data to phenopackets')
-    phenopackets = map_mc4r2phenopackets(df, cur_time[:10])
+    if debug:
+        phenopackets = _map_chunk(df, cur_time[:10])
+    else:
+        phenopackets = map_mc4r2phenopackets(df, cur_time[:10])
     logger.info('Finished mapping data to phenopackets')
 
     # Write to JSON
