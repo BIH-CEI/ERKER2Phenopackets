@@ -29,6 +29,8 @@ def clear_dir(all_: bool, experimental: bool, publish: bool):
         logger.info('Deleting published phenopackets')
         delete_files_in_folder(prod_out, json_suffix)
 
+    logger.info(f'Finished clearing directories.')
+
 
 def main():
     arg_parser = argparse.ArgumentParser(prog='clear_phenopackets',
@@ -51,8 +53,10 @@ def main():
 
     setup_logging(level='TRACE')
 
-    if not (args.all or args.experimental or args.publish):
+    if not args.all and not args.experimental and not args.publish:
+        logger.debug('No tag given, setting deleting experimental to True')
         clear_dir(all_=False, experimental=True, publish=False)
+        return
     clear_dir(all_=args.all, experimental=args.experimental, publish=args.publish)
 
 
