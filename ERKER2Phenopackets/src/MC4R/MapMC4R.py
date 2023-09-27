@@ -212,7 +212,8 @@ def _map_chunk(chunk: pl.DataFrame, cur_time: str, ) -> List[Phenopacket]:
 
         interpretation = _map_interpretation(
             phenopacket_id=phenopacket_id,
-            variant_descriptor_id=config.get('Constants', 'variant_descriptor_id'),
+            variant_descriptor_id=
+            config.get('Constants', 'variant_descriptor_id').split(','),
             zygosity=row['parsed_zygosity'],
             allele_label=row['allele_label'],
             # same mutation, p=protein, c=coding DNA reference sequence
@@ -466,7 +467,7 @@ def _map_phenotypic_features(
 
 
 def _map_interpretation(phenopacket_id: str,
-                        variant_descriptor_id: str,
+                        variant_descriptor_id: List[str],
                         zygosity: str,
                         allele_label: str,
                         p_hgvs: List[str],
@@ -488,8 +489,9 @@ def _map_interpretation(phenopacket_id: str,
 
     :param phenopacket_id: ID of the individual
     :type phenopacket_id: str
-    :param variant_descriptor_id: ID for the VariantDescriptor block
-    :type variant_descriptor_id: str
+    :param variant_descriptor_id: List with IDs for each variant (ID must be unique
+    within the phenopacket)
+    :type variant_descriptor_id: List[str]
     :param zygosity: zygosity LOINC code 
     :type zygosity: str
     :param allele_label: human-readable zygosity type
