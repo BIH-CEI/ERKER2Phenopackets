@@ -3,7 +3,7 @@
   "subject": {
     "id": "24",
     "dateOfBirth": "1990-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,29 +17,22 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1997-06-20T00:00:00Z"
+        "timestamp": "1997-01-07T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "1997-02-12T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "onset": {
-        "timestamp": "2000-03-06T00:00:00Z"
+        "timestamp": "2004-05-02T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "66cb4fcb-96f8-4de5-9c2c-412de8e8a738",
+      "id": "d44f250f-3ea7-4639-a4d6-e17f9cf2f8fc",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -54,7 +47,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ser127Leu"
+                    "value": "NP_005903.2:p.Pro272Arg"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
@@ -69,8 +66,8 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "created": "2023-09-27T00:00:00Z",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

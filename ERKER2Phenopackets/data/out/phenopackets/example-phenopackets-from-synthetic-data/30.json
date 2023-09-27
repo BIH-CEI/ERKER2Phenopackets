@@ -2,8 +2,8 @@
   "id": "30",
   "subject": {
     "id": "30",
-    "dateOfBirth": "1995-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "2007-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,26 +12,28 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1996-02-14T00:00:00Z"
+        "timestamp": "2008-03-03T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "1997-11-20T00:00:00Z"
+        "timestamp": "1993-06-16T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "d58f0b6e-0686-4c87-bf24-b2c2521be682",
+      "id": "2d18b27b-e806-4c9b-a01e-9da057a9147d",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -46,7 +48,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile251Leu"
+                    "value": "NP_005903.2:p.Asn274Ser"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.751A>C"
                   }
                 ],
                 "allelicState": {
@@ -61,8 +67,8 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "created": "2023-09-27T00:00:00Z",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

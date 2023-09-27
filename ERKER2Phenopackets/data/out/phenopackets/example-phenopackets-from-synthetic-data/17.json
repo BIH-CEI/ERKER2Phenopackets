@@ -2,46 +2,16 @@
   "id": "17",
   "subject": {
     "id": "17",
-    "dateOfBirth": "1999-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "2003-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
     }
   },
-  "phenotypicFeatures": [
-    {
-      "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1995-07-27T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1996-10-11T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025501",
-        "label": "Class III obesity"
-      },
-      "onset": {
-        "timestamp": "1994-01-30T00:00:00Z"
-      }
-    }
-  ],
   "interpretations": [
     {
-      "id": "e82c0a3e-06c3-491d-a062-f97d20637183",
+      "id": "0d9c9eba-488b-407a-8da6-72ef1c9d0fd8",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -56,11 +26,7 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ser127Leu"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NP_005903.2:p.Val103Ile"
                   }
                 ],
                 "allelicState": {
@@ -75,8 +41,8 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "created": "2023-09-27T00:00:00Z",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

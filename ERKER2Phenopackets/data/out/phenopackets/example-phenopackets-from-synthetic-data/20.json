@@ -2,8 +2,8 @@
   "id": "20",
   "subject": {
     "id": "20",
-    "dateOfBirth": "2001-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "1991-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,29 +17,22 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2002-06-29T00:00:00Z"
+        "timestamp": "1997-06-20T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "1997-03-03T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "onset": {
-        "timestamp": "2018-05-16T00:00:00Z"
+        "timestamp": "1998-02-11T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "f5e3e314-093d-466e-b085-5826abfe5492",
+      "id": "02e42dae-c4e9-4508-b5ab-d924464cf2f5",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -54,16 +47,16 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Cys271Arg"
+                    "value": "NP_005903.2:p.Val103Ile"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.542G>A"
+                    "value": "NM_005912.3:c.380C>T"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000137",
+                  "label": "unspecified zygosity"
                 }
               }
             }
@@ -73,8 +66,8 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "created": "2023-09-27T00:00:00Z",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

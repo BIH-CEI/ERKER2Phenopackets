@@ -3,7 +3,7 @@
   "subject": {
     "id": "47",
     "dateOfBirth": "2008-01-01T00:00:00Z",
-    "sex": "MALE",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,21 +17,23 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1994-05-10T00:00:00Z"
+        "timestamp": "1999-06-14T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2014-12-30T00:00:00Z"
+        "timestamp": "2003-07-23T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "bd9707e9-d751-436d-ad71-861661d056da",
+      "id": "0cdce32f-ea75-48a2-b69c-94f52f57fd65",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -46,16 +48,20 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.Cys271Arg"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.268G>A"
+                    "value": "NP_005903.2:p.Ile251Leu"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000137",
+                  "label": "unspecified zygosity"
                 }
               }
             }
@@ -65,8 +71,8 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "created": "2023-09-27T00:00:00Z",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

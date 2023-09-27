@@ -12,35 +12,27 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0025500",
+        "label": "Class II obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2010-04-15T00:00:00Z"
+        "timestamp": "1996-12-10T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "2009-05-10T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2004-10-21T00:00:00Z"
+        "timestamp": "2001-03-17T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "60e17dfc-cfde-45f0-b444-a7a6b1798f78",
+      "id": "aaaf8506-f2cf-4b77-9f56-25e519ecdb00",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -55,16 +47,16 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.Asn274Ser"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NM_005912.3:c.791A>G"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -74,8 +66,8 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "created": "2023-09-27T00:00:00Z",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

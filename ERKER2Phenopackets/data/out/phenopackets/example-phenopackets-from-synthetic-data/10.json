@@ -2,8 +2,8 @@
   "id": "10",
   "subject": {
     "id": "10",
-    "dateOfBirth": "1997-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "1995-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,39 +17,32 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1993-12-07T00:00:00Z"
+        "timestamp": "1999-11-19T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025502",
-        "label": "Overweight"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2005-06-01T00:00:00Z"
+        "timestamp": "1997-08-25T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025500",
-        "label": "Class II obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "1999-07-21T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "onset": {
-        "timestamp": "2021-10-17T00:00:00Z"
+        "timestamp": "1995-08-16T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "e468f6c5-7971-42c0-83d8-b718a85e1f5d",
+      "id": "b8576eb3-83ec-4494-881d-3ceaa89099e2",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -64,11 +57,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile251Leu"
+                    "value": "NP_005903.2:p.Ser127Leu"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.230C>T"
+                    "value": "NM_005912.3:c.751A>C"
                   }
                 ],
                 "allelicState": {
@@ -83,8 +76,8 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "created": "2023-09-27T00:00:00Z",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

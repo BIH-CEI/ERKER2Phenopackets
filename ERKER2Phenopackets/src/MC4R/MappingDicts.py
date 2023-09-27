@@ -32,24 +32,26 @@ zygosity_map_erker2phenopackets = {
     'sct_1220561009': 'GENO:0000137',  # unspecified zygosity
 }
 
+allele_label_map_erker2phenopackets = {
+    'ln_LA6705-3': 'homozygous',
+    'ln_LA6706-1': 'heterozygous',
+    'ln_LA6707-9': 'hemizygous',
+    'ln_LA26217-2': 'compound heterozygous',
+    'sct_1220561009': 'unspecified zygosity',
+
+}
+
 phenotype_label_map_erker2phenopackets = {
     "HP:0025501": 'Class III obesity',
     "HP:0025500": 'Class II obesity',
     "HP:0025499": 'Class I obesity',
     "HP:0025502": 'Overweight',
     "HP:0001513": 'Obesity',
+    "HP:0001507": 'Growth abnormality',
 }
 
 phenotype_status_map_erker2phenopackets = {
     "sct_410605003" : 'False',
     "sct_723511001" : 'True',
     "sct_1220561009": not_recorded
-}
-
-allele_label_map_erker2phenopackets = {
-    'ln_LA6705-3': 'homozygous',
-    'ln_LA6706-1': 'heterozygous',
-    'ln_LA6707-9': 'hemizygous',
-    'sct_1220561009': 'unspecified zygosity',
-  
 }

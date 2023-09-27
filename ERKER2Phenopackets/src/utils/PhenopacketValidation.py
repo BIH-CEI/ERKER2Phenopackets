@@ -47,14 +47,20 @@ def validate(path: Path) -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
     elif path.is_dir():
         for file_path in path.iterdir():
             if file_path.suffix == '.json':
-                ret_list.append(_validate_phenopacket(
+                cur_ret = _validate_phenopacket(
                     file_path, command, phenopacket_json_path_placeholder
-                ))
+                )
+                ret_list.append(cur_ret)
 
-            if not ret_list:
-                logger.error(f'Directory {path} does not contain any json files')
-                raise ValueError(f'Directory {path} does not contain any json files')
-            return ret_list
+        if not ret_list:
+            logger.error(f'Directory {path} does not contain any json files')
+            raise ValueError(f'Directory {path} does not contain any json files')
+
+        num_invalid = sum([not ret[0] for ret in ret_list])
+        logger.info(f'Number of invalid phenopackets: {num_invalid}')
+
+    logger.info('Finished validating phenopackets')
+    return ret_list
 
 
 def _validate_phenopacket(path: Path, command: str,
@@ -81,22 +87,32 @@ def _validate_phenopacket(path: Path, command: str,
 
     no_errors = True
     validation_results = ''
+    printed_intro_for_file = False
+
+    def intro_for_file(printed_yet: bool) -> bool:
+        if not printed_yet:
+            logger.info(f'Validation output of {path}:')
+            return True
 
     # Print the captured output
-    logger.info(f'Validation output of {path}:')
     for line in outputs:  # errors
         split_line = line.split(',')
 
         if line and split_line[1] == 'ERROR':
+            printed_intro_for_file = intro_for_file(printed_intro_for_file)
+
             err = ' '.join(split_line[2:])
+
             logger.error(err)
             validation_results += 'ERROR:' + err + '\n'
             no_errors = False
 
         elif line:  # no errors
+            printed_intro_for_file = intro_for_file(printed_intro_for_file)
             logger.info(line)
             validation_results += line + '\n'
-            # TODO: see if we can make this nice in the the case  of no errors
+        else:
+            logger.trace(f'No errors found in {path.name}')
 
     return no_errors, validation_results
 

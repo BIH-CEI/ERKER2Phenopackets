@@ -2,8 +2,8 @@
   "id": "14",
   "subject": {
     "id": "14",
-    "dateOfBirth": "2006-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "1996-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,26 +12,36 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2013-01-01T00:00:00Z"
+        "timestamp": "1997-08-22T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "2021-03-10T00:00:00Z"
+        "timestamp": "2007-06-08T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1997-07-03T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "e076ecc1-fc1b-48c8-b1b5-778fb6b29bf4",
+      "id": "a969f305-47c4-4cd7-9f4c-9fbea14a0ce3",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -46,11 +56,7 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Thr112Met"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.508A>G"
+                    "value": "NP_005903.2:p.Gln156Ter"
                   }
                 ],
                 "allelicState": {
@@ -65,8 +71,8 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "created": "2023-09-27T00:00:00Z",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",

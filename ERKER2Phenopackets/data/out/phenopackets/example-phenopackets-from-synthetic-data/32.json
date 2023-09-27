@@ -2,7 +2,7 @@
   "id": "32",
   "subject": {
     "id": "32",
-    "dateOfBirth": "2002-01-01T00:00:00Z",
+    "dateOfBirth": "1998-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,37 +17,23 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2000-02-23T00:00:00Z"
+        "timestamp": "1993-07-18T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2015-03-18T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "onset": {
-        "timestamp": "1998-08-25T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507"
-      },
-      "onset": {
-        "timestamp": "2000-07-29T00:00:00Z"
+        "timestamp": "2000-08-25T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "ab26561b-7b03-4684-9559-05cb66b0bf69",
+      "id": "fdc6ccac-7eac-49de-83af-0ad55977aab6",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -62,16 +48,20 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Glu61Lys"
+                    "value": "NP_005903.2:p.Val103Ile"
                   },
                   {
                     "syntax": "hgvs",
                     "value": "NM_005912.3:c.307G>A"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.380C>T"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000136",
+                  "label": "homozygous"
                 }
               }
             }
@@ -81,8 +71,8 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
+    "created": "2023-09-27T00:00:00Z",
+    "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
         "id": "HP",
