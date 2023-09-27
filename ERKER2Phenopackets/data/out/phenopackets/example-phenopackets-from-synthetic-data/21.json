@@ -2,7 +2,7 @@
   "id": "21",
   "subject": {
     "id": "21",
-    "dateOfBirth": "2002-01-01T00:00:00Z",
+    "dateOfBirth": "1999-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,7 +17,7 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1991-09-29T00:00:00Z"
+        "timestamp": "2009-02-08T00:00:00Z"
       }
     },
     {
@@ -25,8 +25,9 @@
         "id": "HP:0025499",
         "label": "Class I obesity"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2010-03-03T00:00:00Z"
+        "timestamp": "2001-01-17T00:00:00Z"
       }
     },
     {
@@ -35,53 +36,25 @@
         "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "1997-12-07T00:00:00Z"
+        "timestamp": "1997-06-27T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "7af344f8-f5df-4ac4-89e8-2cfbcafcd2e4",
-=======
-      "id": "d7c73e5d-5ae9-44bc-a16f-a98d4026baa9",
->>>>>>> main
+      "id": "92bc6117-1d05-43ed-976c-9c5a73f0a085",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
           "label": "Obesity due to melanocortin 4 receptor deficiency"
-        },
-        "genomicInterpretations": [
-          {
-            "subjectOrBiosampleId": "21",
-            "interpretationStatus": "CONTRIBUTORY",
-            "variantInterpretation": {
-              "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
-                "expressions": [
-                  {
-                    "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
-                  }
-                ],
-                "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
-                }
-              }
-            }
-          }
-        ]
+        }
       }
     }
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

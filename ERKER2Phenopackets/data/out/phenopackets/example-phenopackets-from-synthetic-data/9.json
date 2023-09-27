@@ -2,8 +2,8 @@
   "id": "9",
   "subject": {
     "id": "9",
-    "dateOfBirth": "2001-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "1994-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,11 +12,22 @@
   "phenotypicFeatures": [
     {
       "type": {
+        "id": "HP:0001513",
+        "label": "Obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2012-01-01T00:00:00Z"
+      }
+    },
+    {
+      "type": {
         "id": "HP:0001507",
         "label": "Growth abnormality"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "2002-05-30T00:00:00Z"
+        "timestamp": "1996-02-12T00:00:00Z"
       }
     },
     {
@@ -25,17 +36,24 @@
         "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2010-08-08T00:00:00Z"
+        "timestamp": "2011-03-08T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2000-07-29T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "004d55fc-0319-443d-b708-50a39b36112a",
-=======
-      "id": "210cbc49-8039-406f-91e7-1381e8be69a7",
->>>>>>> main
+      "id": "d3be9917-1433-41b7-8065-8abd4cc4cd5a",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -47,15 +65,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ser85Gly"
+                    "value": "NP_005903.2:p.(Pro275Ser)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NM_005912.3:c.335C>T"
                   }
                 ],
                 "allelicState": {
@@ -71,11 +89,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

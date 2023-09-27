@@ -2,7 +2,7 @@
   "id": "20",
   "subject": {
     "id": "20",
-    "dateOfBirth": "1991-01-01T00:00:00Z",
+    "dateOfBirth": "1990-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,26 +17,23 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1997-06-20T00:00:00Z"
+        "timestamp": "1995-11-20T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "onset": {
-        "timestamp": "1998-02-11T00:00:00Z"
+        "timestamp": "2011-04-15T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "d40bb90f-1d33-4b58-a9de-d04a0ad8e3af",
-=======
-      "id": "02e42dae-c4e9-4508-b5ab-d924464cf2f5",
->>>>>>> main
+      "id": "c587cb5e-f766-471f-99c4-77d8095cf126",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -48,20 +45,20 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.(Ala135Pro)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.380C>T"
+                    "value": "NM_005912.3:c.821A>G"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -72,11 +69,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

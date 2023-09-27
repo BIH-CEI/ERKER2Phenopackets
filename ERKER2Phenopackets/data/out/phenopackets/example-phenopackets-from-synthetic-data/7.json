@@ -2,7 +2,7 @@
   "id": "7",
   "subject": {
     "id": "7",
-    "dateOfBirth": "2002-01-01T00:00:00Z",
+    "dateOfBirth": "1995-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,26 +17,23 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2010-04-15T00:00:00Z"
+        "timestamp": "1990-06-18T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "onset": {
-        "timestamp": "2001-01-02T00:00:00Z"
+        "timestamp": "2019-03-10T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "6a39fd16-b50b-4d68-b734-b618433c68f0",
-=======
-      "id": "ae78890c-c6f4-4aa6-a0b7-98d830314676",
->>>>>>> main
+      "id": "fb789d6a-b672-4990-8651-21c37cd46468",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -48,15 +45,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile251Leu"
+                    "value": "NP_005903.2:p.(Thr112Lys)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NM_005912.3:c.380C>T"
                   }
                 ],
                 "allelicState": {
@@ -72,11 +69,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

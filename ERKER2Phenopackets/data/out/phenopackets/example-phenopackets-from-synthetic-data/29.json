@@ -2,7 +2,7 @@
   "id": "29",
   "subject": {
     "id": "29",
-    "dateOfBirth": "1996-01-01T00:00:00Z",
+    "dateOfBirth": "2015-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,26 +17,14 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1994-05-10T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "1996-03-03T00:00:00Z"
+        "timestamp": "1992-01-30T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "20f27775-9d64-4fb9-95cd-0fc0e4adda25",
-=======
-      "id": "af8661dc-3e36-4db4-8be9-bae416c16ccf",
->>>>>>> main
+      "id": "a66d16f3-8bed-4e2b-889d-a30c4f5026ef",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -48,15 +36,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.230C>T"
+                    "value": "NM_005912.3:c.751A>C"
                   }
                 ],
                 "allelicState": {
@@ -72,11 +60,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

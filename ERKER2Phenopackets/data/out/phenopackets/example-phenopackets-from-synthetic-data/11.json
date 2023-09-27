@@ -2,8 +2,8 @@
   "id": "11",
   "subject": {
     "id": "11",
-    "dateOfBirth": "1999-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "1995-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,17 +17,26 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2004-11-10T00:00:00Z"
+        "timestamp": "2013-01-01T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1996-02-08T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1989-10-21T00:00:00Z"
+        "timestamp": "1998-05-30T00:00:00Z"
       }
     },
     {
@@ -36,22 +45,14 @@
         "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "1995-12-07T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "2020-05-11T00:00:00Z"
+        "timestamp": "1997-03-30T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "dc8eb8c3-6978-433f-a5a2-76064b4634d8",
+      "id": "8510c3cb-dc19-4503-b39e-ce3f60ba8cc5",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -63,15 +64,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NM_005912.3:c.542G>A"
                   }
                 ],
                 "allelicState": {

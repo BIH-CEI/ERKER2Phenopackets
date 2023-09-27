@@ -3,7 +3,7 @@
   "subject": {
     "id": "25",
     "dateOfBirth": "2000-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,41 +12,38 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1993-07-18T00:00:00Z"
-      }
-    },
-    {
-      "type": {
         "id": "HP:0001513",
         "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2009-02-23T00:00:00Z"
+        "timestamp": "1999-09-29T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2001-06-04T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2001-02-05T00:00:00Z"
+        "timestamp": "2004-04-23T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "e9f270aa-65b5-4065-b870-f366a74dc0ec",
-=======
-      "id": "34d66fac-0114-452c-89da-3b0723833b67",
->>>>>>> main
+      "id": "16bba176-cdef-4cdb-939c-35b831dad649",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -58,24 +55,20 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ala175Thr"
+                    "value": "NP_005903.2:p.(Ser127Leu)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Tyr268His"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -86,11 +79,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

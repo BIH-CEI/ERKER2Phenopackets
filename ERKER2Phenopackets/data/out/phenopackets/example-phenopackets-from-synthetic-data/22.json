@@ -2,8 +2,8 @@
   "id": "22",
   "subject": {
     "id": "22",
-    "dateOfBirth": "1994-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "2014-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,17 +17,7 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1993-05-25T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "2009-04-02T00:00:00Z"
+        "timestamp": "1996-02-17T00:00:00Z"
       }
     },
     {
@@ -36,35 +26,14 @@
         "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2000-12-13T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "2018-05-16T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "2005-02-17T00:00:00Z"
+        "timestamp": "2010-03-03T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "88d2d90d-a34a-4cb4-8b08-90504af3a46d",
-=======
-      "id": "08e192d8-ce1b-4ac9-9633-f168a6fcdf07",
->>>>>>> main
+      "id": "01cf7da8-b27f-40ce-96c4-c9762bf07eff",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -76,20 +45,20 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ile251Leu"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.823C>T"
+                    "value": "NM_005912.3:c.181G>T"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000137",
+                  "label": "unspecified zygosity"
                 }
               }
             }
@@ -100,11 +69,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

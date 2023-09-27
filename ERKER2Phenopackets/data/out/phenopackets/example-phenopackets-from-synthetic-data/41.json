@@ -2,7 +2,7 @@
   "id": "41",
   "subject": {
     "id": "41",
-    "dateOfBirth": "1997-01-01T00:00:00Z",
+    "dateOfBirth": "1995-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,17 +17,23 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2004-06-01T00:00:00Z"
+        "timestamp": "2004-11-10T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0025499",
+        "label": "Class I obesity"
+      },
+      "onset": {
+        "timestamp": "2010-11-27T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "2aa37f12-707a-44c6-abbb-86834a7cb141",
-=======
-      "id": "b2d365f0-ca50-45eb-a9b6-3456cefb7488",
->>>>>>> main
+      "id": "1cf7c32a-152a-44a5-9be0-4b3fda760be9",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -39,15 +45,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Ser77Leu"
+                    "value": "NP_005903.2:p.(Ser127Leu)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
+                    "value": "NM_005912.3:c.751A>C"
                   }
                 ],
                 "allelicState": {
@@ -63,11 +69,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",

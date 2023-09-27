@@ -2,42 +2,34 @@
   "id": "17",
   "subject": {
     "id": "17",
-    "dateOfBirth": "2003-01-01T00:00:00Z",
+    "dateOfBirth": "1996-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
     }
   },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0001513",
+        "label": "Obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2006-04-15T00:00:00Z"
+      }
+    }
+  ],
   "interpretations": [
     {
-      "id": "0d9c9eba-488b-407a-8da6-72ef1c9d0fd8",
+      "id": "dcb29b8e-25f4-4e52-9b21-923e631b10ab",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
           "label": "Obesity due to melanocortin 4 receptor deficiency"
-        },
-        "genomicInterpretations": [
-          {
-            "subjectOrBiosampleId": "17",
-            "interpretationStatus": "CONTRIBUTORY",
-            "variantInterpretation": {
-              "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
-                "expressions": [
-                  {
-                    "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Val103Ile"
-                  }
-                ],
-                "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
-                }
-              }
-            }
-          }
-        ]
+        }
       }
     }
   ],

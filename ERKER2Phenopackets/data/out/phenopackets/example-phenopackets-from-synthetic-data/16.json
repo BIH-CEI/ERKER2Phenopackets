@@ -2,7 +2,7 @@
   "id": "16",
   "subject": {
     "id": "16",
-    "dateOfBirth": "1997-01-01T00:00:00Z",
+    "dateOfBirth": "1990-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,66 +12,24 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1994-04-15T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
-      },
-      "onset": {
-        "timestamp": "1997-12-10T00:00:00Z"
-      }
-    },
-    {
-      "type": {
         "id": "HP:0001507",
         "label": "Growth abnormality"
       },
+      "excluded": true,
       "onset": {
-        "timestamp": "1995-08-18T00:00:00Z"
+        "timestamp": "2005-07-08T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "81f0c840-e522-43cb-bf4d-47220693c45a",
+      "id": "ed830bc6-7173-465f-80a4-35dfff648968",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
           "label": "Obesity due to melanocortin 4 receptor deficiency"
-        },
-        "genomicInterpretations": [
-          {
-            "subjectOrBiosampleId": "16",
-            "interpretationStatus": "CONTRIBUTORY",
-            "variantInterpretation": {
-              "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
-                "expressions": [
-                  {
-                    "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Pro272Arg"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.307G>A"
-                  }
-                ],
-                "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
-                }
-              }
-            }
-          }
-        ]
+        }
       }
     }
   ],

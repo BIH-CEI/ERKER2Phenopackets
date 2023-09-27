@@ -2,7 +2,7 @@
   "id": "30",
   "subject": {
     "id": "30",
-    "dateOfBirth": "2007-01-01T00:00:00Z",
+    "dateOfBirth": "2013-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,12 +12,12 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2008-03-03T00:00:00Z"
+        "timestamp": "2011-01-26T00:00:00Z"
       }
     },
     {
@@ -27,17 +27,23 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1993-06-16T00:00:00Z"
+        "timestamp": "1991-06-16T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1996-02-08T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-<<<<<<< HEAD
-      "id": "5aa487ce-15a3-4330-be4e-2d477c8b46e3",
-=======
-      "id": "2d18b27b-e806-4c9b-a01e-9da057a9147d",
->>>>>>> main
+      "id": "d25e9d7d-27de-43c3-b1f3-d18be15043d4",
+      "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -49,15 +55,15 @@
             "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A, id:B, id:C",
+                "id": "id:A",
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.Asn274Ser"
+                    "value": "NP_005903.2:p.(Ile251Leu)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NM_005912.3:c.496G>C"
                   }
                 ],
                 "allelicState": {
@@ -73,11 +79,7 @@
   ],
   "metaData": {
     "created": "2023-09-27T00:00:00Z",
-<<<<<<< HEAD
-    "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
-=======
     "createdBy": "A. Graefe, F. Rehburg",
->>>>>>> main
     "resources": [
       {
         "id": "HP",
