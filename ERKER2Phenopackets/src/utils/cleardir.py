@@ -2,10 +2,16 @@ import argparse
 import configparser
 from pathlib import Path
 
+from loguru import logger
+
 from ERKER2Phenopackets.src.utils import delete_files_in_folder
+from ERKER2Phenopackets.src.logging_ import setup_logging
 
 
 def clear_dir(all_: bool, experimental: bool, publish: bool):
+    logger.trace(f'Called clear_dir() with args: {all_=}, {experimental=}, {publish=}')
+
+    logger.trace('Reading config file')
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
@@ -14,10 +20,13 @@ def clear_dir(all_: bool, experimental: bool, publish: bool):
     json_suffix = '.json'
 
     if all_:
+        logger.info('Deleting all phenopackets')
         delete_files_in_folder([test_out, prod_out], json_suffix)
     elif experimental:
+        logger.info('Deleting experimental phenopackets')
         delete_files_in_folder(test_out, json_suffix)
     elif publish:
+        logger.info('Deleting published phenopackets')
         delete_files_in_folder(prod_out, json_suffix)
 
 
@@ -39,6 +48,8 @@ def main():
                                      'out/phenopackets')
 
     args = arg_parser.parse_args()
+
+    setup_logging(level='TRACE')
 
     clear_dir(args.all, args.experimental, args.publish)
 
