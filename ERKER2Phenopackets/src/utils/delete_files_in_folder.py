@@ -37,5 +37,6 @@ def delete_files_in_folder(dirs: Union[Path, List[Path]], file_extension: str = 
             elif file.is_dir():
                 logger.trace(f"Found directory {file}")
                 delete_files_in_folder(file, file_extension)
+                file.unlink()
 
     logger.info("Finished the delete_files_in_folder method")
