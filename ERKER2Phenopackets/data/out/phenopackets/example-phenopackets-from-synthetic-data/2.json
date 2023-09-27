@@ -23,7 +23,7 @@
   ],
   "interpretations": [
     {
-      "id": "f8583ded-b9ae-465c-b861-c95a6b4337cb",
+      "id": "f4318ab2-360e-4c4e-8447-10a041e1de50",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
@@ -32,9 +32,10 @@
         "genomicInterpretations": [
           {
             "subjectOrBiosampleId": "2",
+            "interpretationStatus": "CONTRIBUTORY",
             "variantInterpretation": {
               "variationDescriptor": {
-                "id": "id:A",
+                "id": "id:A, id:B, id:C",
                 "allelicState": {
                   "id": "GENO:0000135",
                   "label": "heterozygous"
@@ -47,7 +48,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-22T00:00:00Z",
+    "created": "2023-09-27T00:00:00Z",
     "createdBy": "P. Robinson, MD, D. Danis, PhD, A. Graefe, F. Rehburg",
     "resources": [
       {
