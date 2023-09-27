@@ -17,7 +17,7 @@ from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
     sex_map_erker2phenopackets, phenotype_status_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
      parse_year_of_birth, parse_phenotyping_date, parse_omim
-from ERKER2Phenopackets.src.MC4R.MapMC4R import _map_chunk
+from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets
 
 
 def main():
@@ -236,7 +236,7 @@ def pipeline(data_path: str, out_dir_name: str = ''):
 
     # Map to Phenopackets
     logger.info('Start mapping data to phenopackets')
-    phenopackets = _map_chunk(df, cur_time[:10])  # map_mc4r2phenopackets(df, cur_time)
+    phenopackets = map_mc4r2phenopackets(df, cur_time[:10])
     logger.info('Finished mapping data to phenopackets')
 
     # Write to JSON
