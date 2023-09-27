@@ -24,9 +24,13 @@ def delete_files_in_folder(dirs: Union[Path, List[Path]], file_extension: str = 
         logger.info("Starting the delete_files_in_folder method")
 
     for directory in dirs:
-        logger.info(f"Checking the directory {directory}")
+        logger.info(f"Starting deletion in directory: {directory}")
         for file in directory.iterdir():
+            logger.trace('iteration')
             if file.is_file():
+                logger.trace(f"Found file {file}")
+                logger.debug(f'{file_extension=}, '
+                             f'{(file_extension in file.suffix)=}')
                 if file_extension and file_extension in file.suffix:
                     logger.trace(f"Deleting the file {file}")
                     file.unlink()
