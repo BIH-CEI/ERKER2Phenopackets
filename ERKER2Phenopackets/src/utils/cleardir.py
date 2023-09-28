@@ -29,7 +29,7 @@ def clear_dir(all_: bool, experimental: bool, publish: bool):
         logger.info('Deleting published phenopackets')
         delete_files_in_folder(prod_out, json_suffix)
 
-    logger.info(f"Finished clearing directories.")
+    logger.info('Finished clearing directories.')
 
 
 def main():
