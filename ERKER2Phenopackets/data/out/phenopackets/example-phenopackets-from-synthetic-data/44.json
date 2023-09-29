@@ -41,7 +41,7 @@
   ],
   "interpretations": [
     {
-      "id": "492ded09-8b9b-4bda-97a5-d81db0f0ffce",
+      "id": "54630d3b-9d44-41dd-992d-b3d11fc28648",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -65,7 +65,10 @@
                     "value": "NM_005912.3:c.307G>A"
                   }
                 ],
-                "allelicState": {}
+                "allelicState": {
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
+                }
               }
             }
           }
