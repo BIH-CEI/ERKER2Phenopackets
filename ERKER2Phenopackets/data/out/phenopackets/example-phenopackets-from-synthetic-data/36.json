@@ -2,8 +2,8 @@
   "id": "36",
   "subject": {
     "id": "36",
-    "dateOfBirth": "1988-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "1995-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,22 +17,13 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1999-02-23T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "2006-09-23T00:00:00Z"
+        "timestamp": "2016-08-17T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "779013a9-e7db-43ac-a6d5-4bd943b3b45f",
+      "id": "c2a50f9d-dfa0-415b-8350-8d25fbce5c61",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -49,16 +40,16 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Tyr268His)"
+                    "value": "NP_005903.2:p.(Arg165Gln)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NM_005912.3:c.335C>T"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
+                  "id": "GENO:0000136",
+                  "label": "homozygous"
                 }
               }
             }
@@ -68,7 +59,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

@@ -2,7 +2,7 @@
   "id": "17",
   "subject": {
     "id": "17",
-    "dateOfBirth": "1996-01-01T00:00:00Z",
+    "dateOfBirth": "2004-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,29 +12,54 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0025500",
+        "label": "Class II obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2006-04-15T00:00:00Z"
+        "timestamp": "1990-03-26T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "dcb29b8e-25f4-4e52-9b21-923e631b10ab",
+      "id": "64963cae-9591-444a-ab7d-b3a5742cc703",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
           "label": "Obesity due to melanocortin 4 receptor deficiency"
-        }
+        },
+        "genomicInterpretations": [
+          {
+            "subjectOrBiosampleId": "17",
+            "interpretationStatus": "CONTRIBUTORY",
+            "variantInterpretation": {
+              "variationDescriptor": {
+                "id": "id:A",
+                "expressions": [
+                  {
+                    "syntax": "hgvs",
+                    "value": "NP_005903.2:p.(Ile251Leu)"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.253A>G"
+                  }
+                ],
+                "allelicState": {
+                  "id": "GENO:0000136",
+                  "label": "homozygous"
+                }
+              }
+            }
+          }
+        ]
       }
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

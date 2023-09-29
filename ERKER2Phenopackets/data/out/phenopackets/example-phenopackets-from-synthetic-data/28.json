@@ -2,8 +2,8 @@
   "id": "28",
   "subject": {
     "id": "28",
-    "dateOfBirth": "1996-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "1990-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,12 +12,22 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1999-06-14T00:00:00Z"
+        "timestamp": "1999-11-19T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0025502",
+        "label": "Overweight"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2005-06-01T00:00:00Z"
       }
     },
     {
@@ -25,24 +35,14 @@
         "id": "HP:0001507",
         "label": "Growth abnormality"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "1994-09-28T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "2000-07-21T00:00:00Z"
+        "timestamp": "1995-12-07T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "af88286e-e6ab-4fa4-80ab-7a23d21f5bc6",
+      "id": "bc1faaf5-7a42-40ef-9314-413fa8926d4e",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -59,16 +59,39 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Val103Ile)"
+                    "value": "NP_005912.3:p.(Val166Leu)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NM_005912.3:c.823C>T"
                   }
                 ],
                 "allelicState": {
                   "id": "GENO:0000135",
                   "label": "heterozygous"
+                }
+              }
+            }
+          },
+          {
+            "subjectOrBiosampleId": "28",
+            "interpretationStatus": "CONTRIBUTORY",
+            "variantInterpretation": {
+              "variationDescriptor": {
+                "id": " id:B",
+                "expressions": [
+                  {
+                    "syntax": "hgvs",
+                    "value": "NP_005903.2:p.(Tyr268His)"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.802T>C"
+                  }
+                ],
+                "allelicState": {
+                  "id": "GENO:0000136",
+                  "label": "homozygous"
                 }
               }
             }
@@ -78,7 +101,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

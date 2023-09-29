@@ -2,37 +2,16 @@
   "id": "3",
   "subject": {
     "id": "3",
-    "dateOfBirth": "1993-01-01T00:00:00Z",
+    "dateOfBirth": "1996-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
     }
   },
-  "phenotypicFeatures": [
-    {
-      "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "2013-02-09T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
-      },
-      "onset": {
-        "timestamp": "1999-09-09T00:00:00Z"
-      }
-    }
-  ],
   "interpretations": [
     {
-      "id": "b5d2e4fd-8f46-4b17-bb78-965eaefb367a",
+      "id": "d8f61387-2ab6-4ccf-b7d4-d99e7ae10615",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -49,11 +28,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Val103Ile)"
+                    "value": "NP_005903.2:p.(Tyr268His)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.542G>A"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
@@ -68,7 +47,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

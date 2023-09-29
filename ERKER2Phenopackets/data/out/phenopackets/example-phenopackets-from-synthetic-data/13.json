@@ -2,8 +2,8 @@
   "id": "13",
   "subject": {
     "id": "13",
-    "dateOfBirth": "1999-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "1994-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,18 +12,37 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1995-05-30T00:00:00Z"
+        "timestamp": "2009-02-08T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2001-03-22T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1997-10-11T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "2d6b324c-c2e0-4c91-a3ce-5bca07b9bd31",
+      "id": "14b2fe45-2ca9-4f8a-9386-40007ba1ba8e",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -40,11 +59,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Thr112Met)"
+                    "value": "NP_005903.2:p.(Ser127Leu)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.494G>A"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
@@ -59,7 +78,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

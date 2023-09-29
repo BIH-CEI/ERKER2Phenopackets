@@ -2,8 +2,8 @@
   "id": "7",
   "subject": {
     "id": "7",
-    "dateOfBirth": "1995-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "2002-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,22 +17,22 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1990-06-18T00:00:00Z"
+        "timestamp": "1996-02-14T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2019-03-10T00:00:00Z"
+        "timestamp": "1992-03-26T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "fb789d6a-b672-4990-8651-21c37cd46468",
+      "id": "844e413e-5296-4c80-a594-7fc3dfa5b9aa",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -49,11 +49,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Thr112Lys)"
+                    "value": "NP_005903.2:p.(Ser85Gly)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.380C>T"
+                    "value": "NM_005912.3:c.751A>C"
                   }
                 ],
                 "allelicState": {
@@ -68,7 +68,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

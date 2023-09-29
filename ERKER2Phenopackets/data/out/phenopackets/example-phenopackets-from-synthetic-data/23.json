@@ -2,7 +2,7 @@
   "id": "23",
   "subject": {
     "id": "23",
-    "dateOfBirth": "1993-01-01T00:00:00Z",
+    "dateOfBirth": "2011-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,13 +17,32 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1999-07-20T00:00:00Z"
+        "timestamp": "1994-04-15T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001513",
+        "label": "Obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "1991-03-24T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1994-03-24T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "f8e1516d-5bcc-4d4a-86f4-422e022cf05e",
+      "id": "bcba37c0-920f-4c14-8019-95d56765a99e",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -40,16 +59,16 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Ile251Leu)"
+                    "value": "NP_005903.2:p.(Ala175Thr)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -59,7 +78,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
