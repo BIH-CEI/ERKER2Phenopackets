@@ -56,8 +56,7 @@ def parse_date_string_to_iso8601_utc_timestamp(date_string: str) -> str:
         stripped = datetime.strptime(date_string, "%Y-%m-%d")
         formatted = stripped.strftime("%Y-%m-%dT00:00:00.00Z")
         return formatted
-    except ValueError:
-        # If parsing fails, raise a ValueError
+    except ValueError:  # parsing failed
         logger.error(f'Invalid date format. Please use YYYY-MM-DD format. Got'
                      f' {date_string}')
         raise ValueError(f'Invalid date format. Please use YYYY-MM-DD format. Got '
@@ -80,7 +79,7 @@ def parse_year_month_day_to_protobuf_timestamp(
     :rtype: Timestamp
     """
     logger.trace(f'Parsing year {year}, month {month} and day {day} to protobuf '
-                    f'timestamp')
+                 'timestamp')
     iso8601_utc_timestamp = parse_year_month_day_to_iso8601_utc_timestamp(
         year,
         month,
@@ -106,7 +105,7 @@ def parse_year_month_day_to_iso8601_utc_timestamp(
     :raises: ValueError: If month is not between 1 and 12 or day is not between 1 and 31
     """
     logger.trace(f'Parsing year {year}, month {month} and day {day} to iso8601 utc '
-                    f'timestamp')
+                 f'timestamp')
     if isinstance(year, str):
         year = int(year)
     if isinstance(month, str):

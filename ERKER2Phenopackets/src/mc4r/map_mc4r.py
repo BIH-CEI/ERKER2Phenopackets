@@ -29,13 +29,13 @@ def map_mc4r2phenopackets(
         cur_time: str,
         num_threads: int = os.cpu_count(),
 ) -> List[Phenopacket]:
-    """Maps MC4R DataFrame to List of Phenopackets.
+    """Maps mc4r DataFrame to List of Phenopackets.
 
-    Maps the MC4R DataFrame to a list of Phenopackets. Each row in the DataFrame
+    Maps the mc4r DataFrame to a list of Phenopackets. Each row in the DataFrame
     represents a single Phenopacket. The Phenopacket.id is the index of the row.
     Uses parallel processing to speed up the mapping.
 
-    :param df: MC4R DataFrame
+    :param df: mc4r DataFrame
     :type df: pl.DataFrame
     :param cur_time: string representation of the current time ("YYYY-MM-DD")
     :type cur_time: str
@@ -76,12 +76,12 @@ def map_mc4r2phenopackets(
 
 
 def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
-    """Maps a chunk of the MC4R DataFrame to a list of Phenopackets.
+    """Maps a chunk of the mc4r DataFrame to a list of Phenopackets.
 
     Can be used as a sequential alternative to `map_mc4r2phenopackets()` for
     debugging purposes.
 
-    :param chunk: Chunk of the MC4R DataFrame
+    :param chunk: Chunk of the mc4r DataFrame
     :type chunk: pl.DataFrame
     :param cur_time: string representation of the current time ("YYYY-MM-DD")
     :type cur_time: str
@@ -181,34 +181,14 @@ def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
         logger.trace(f'{thread_id}: Successfully created phenotypic features block '
                      f'{phenotypic_features}')
 
-        # GENE DESCRIPTOR
-        logger.trace(f'{thread_id}: Creating gene descriptor block')
-        # gene_descriptor = _map_gene_descriptor(
-        #     hgnc=row['ln_48018_6_1'],
-        #     symbol=config.get('Constants', 'gene_descriptor_symbol'),
-        #     omims=[
-        #         row['parsed_omim_1'],
-        #         row['parsed_omim_2']
-        #     ],
-        #     no_omim=no_omim
-        # )
-        # logger.trace(f'{thread_id}: Successfully created gene descriptor block '
-        #              f'{gene_descriptor}')
-
         # DISEASE
         logger.trace(f'{thread_id}: Creating disease block')
         disease = _map_disease_for_diagnosis(
             orpha=row['sct_439401001_orpha'],
             label=config.get('Constants', 'disease_label'),
         )
-        # #  activate this if we switch back to Disease block
-        # disease = _map_disease_block(
-        #     orpha=row['sct_439401001_orpha'],
-        #     date_of_diagnosis=row['parsed_date_of_diagnosis'],
-        #     label=config.get('Constants', 'disease_label'),
-        #     no_date=no_date,
-        # )
-        logger.trace(f'{thread_id}: Successfully created diagnosis block {disease}')
+        logger.trace(f'{thread_id}: Successfully created disease for interpretation '
+                     f'block {disease}')
 
         # INTERPRETATION
         logger.trace(f'{thread_id}: Creating interpretation block')
@@ -229,7 +209,6 @@ def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
             p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
             c_hgvs=[row[c_hgvs_col] for c_hgvs_col in c_hgvs_cols if c_hgvs_col in row],
             no_mutation=no_mutation,
-            # gene=gene_descriptor,
             interpretation_status=config.get('Constants', 'interpretation_status'),
             progress_status=config.get('Constants', 'progress_status'),
             disease=disease,
@@ -243,7 +222,6 @@ def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
             id=phenopacket_id,
             subject=individual,
             phenotypic_features=phenotypic_features,
-            # diseases=[disease],
             meta_data=meta_data,
             interpretations=[interpretation],
         )

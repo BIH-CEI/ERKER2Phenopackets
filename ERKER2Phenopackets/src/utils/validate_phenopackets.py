@@ -1,6 +1,5 @@
 import argparse
 import subprocess
-import configparser
 import os
 from pathlib import Path
 from typing import Tuple, List, Union
@@ -50,6 +49,8 @@ def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]
                          'as a command line argument.')
             raise ValueError('No path to data provided. Please provide a path to the '
                              'data as a command line argument.')
+
+    logger.info(f'Reading from {path} ...')
 
     jar_path = str(Path(config.get('Paths', 'jar_path')).resolve())
     command = config.get('CLICommands', 'validate')
@@ -119,8 +120,7 @@ def _validate_phenopacket(path: Path, command: str,
             return True
         return False
 
-    # Print the captured output
-    for line in outputs:  # errors
+    for line in outputs:
         split_line = line.split(',')
 
         if line and split_line[1] == 'ERROR':
@@ -143,7 +143,6 @@ def _validate_phenopacket(path: Path, command: str,
 
 
 def main():
-
     arg_parser = argparse.ArgumentParser(
         prog='validate',
         description='Validates a phenopacket file or directory of phenopackets. '

@@ -1,6 +1,5 @@
 from google.protobuf.timestamp_pb2 import Timestamp
-from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets, \
-    phenotype_status_map_erker2phenopackets
+from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
 
 from loguru import logger
 
@@ -9,17 +8,6 @@ import configparser
 
 from ERKER2Phenopackets.src.utils import parse_year_month_day_to_iso8601_utc_timestamp
 from ERKER2Phenopackets.src.utils import parse_date_string_to_iso8601_utc_timestamp
-from ERKER2Phenopackets.src.decorators import deprecated
-
-# 1. method definition
-# 2. doc (with examples)
-#   a. Title
-#   b. description
-#   c. parameter & return
-#   d. if applicable: examples
-# 3. tests
-# 4. implement
-# 5. activate tests
 
 
 def parse_year_of_birth(year_of_birth: int) -> Timestamp:
@@ -161,40 +149,6 @@ def parse_phenotyping_date(phenotyping_date: str) -> Timestamp:
                  f'{parsed_phenotyping_date}')
     return parsed_phenotyping_date
 
-
-@deprecated('Please use dictionary as mapping for the parsing step, since this will' 
-            'lead to increased performance.')
-def parse_phenotyping_status(phenotyping_status: str) -> str:
-    """
-    Parses status of HPO values (confirmed & refuted) to excluded boolean
-    
-    By the Phenopackets documentation it is possible to express a refuted phenotype \
-    with the boolean field 'exluded'. By default the exluded boolean is false, \
-    i.e. the phenotype is confirmed. If a phenotype is not recorded, it will not be \
-    represented within the Phenopackets.
-    
-    Could be: 
-    * 'sct_410605003' : 'false'
-    * 'sct_723511001' : 'true'
-    * 'sct_1220561009' : 'NOT_RECORDED'
-    
-    :param phenotyping_status: The status of a specific phenotype as a SNOMED code
-    :type phenotyping_status: str
-    :return: A string code represing the status of the excluded boolean or dropping out\
-        this phenopype 
-    :rtype: str
-    """
-    logger.trace(f'Parsing phenotype status {phenotyping_status}')
-    logger.trace(f'Check if phenotype status {phenotyping_status} is recorded or not')
-    if phenotyping_status == 'sct_1220561009':
-        parsed_phenotyping_status = 'NOT_RECORDED'
-        return parsed_phenotyping_status
-    else:
-        parsed_phenotyping_status = \
-        phenotype_status_map_erker2phenopackets[phenotyping_status]
-        logger.trace(f'Finished parsing pheontyping status {phenotyping_status} -> \
-            {parsed_phenotyping_status}')
-        return parsed_phenotyping_status
 
 def parse_zygosity(zygosity: str) -> str:
     """

@@ -57,8 +57,7 @@ def drop_null_cols(df: pl.DataFrame, remove_all_null: bool, remove_any_null: boo
     num_cols_end = df.width
 
     logger.info(f'Dropped {num_cols_start - num_cols_end} columns. {num_cols_end} '
-              f'columns '
-          f'remaining.')
+                'columns remaining.')
     return df
 
 
@@ -154,7 +153,6 @@ def add_id_col(df: pl.DataFrame,
     :return: DataFrame with id column
     :rtype: pl.DataFrame
     """
-    # add id column with prefix and/or suffix
     if not id_prefix and not id_suffix:
         if id_datatype == int:
             df = df.with_columns((pl.Series(range(0, df.height))).alias(id_col_name))
@@ -248,6 +246,24 @@ def map_col(
 def _map_col_dict(df: pl.DataFrame,
                   col_name: str, new_col_name: str,
                   dictionary: Dict[Any, Any], default: Any = None) -> pl.DataFrame:
+    """
+    Map values in column to new values using dictionary
+
+    Helper function for map_col
+
+    :param df: The dataframe
+    :type df: pl.DataFrame
+    :param col_name: the name of the column to map from
+    :type col_name: str
+    :param new_col_name: name of the new column to be created as a result of the mapping
+    :type new_col_name: str
+    :param dictionary: a dictionary to mapping with
+    :type dictionary: Dict[Any, Any]
+    :param default: the default value to use if no match is found in the dictionary
+    :type default: Any
+    :return: the dataframe with the new column
+    :rtype: pl.DataFrame
+    """
     return df.with_columns(
         pl.col(col_name).map_dict(dictionary, default=default).alias(new_col_name)
     )
@@ -256,6 +272,22 @@ def _map_col_dict(df: pl.DataFrame,
 def _map_col_function(df: pl.DataFrame,
                       col_name: str, new_col_name: str,
                       function: Callable[[...], Any]) -> pl.DataFrame:
+    """
+    Map values in column to new values using function
+
+    Helper function for map_col
+
+    :param df: The dataframe
+    :type df: pl.DataFrame
+    :param col_name: the name of the column to map from
+    :type col_name: str
+    :param new_col_name: name of the new column to be created as a result of the mapping
+    :type new_col_name: str
+    :param function: a function to mapping with
+    :type function: Callable[[...], Any]
+    :return: the dataframe with the new column
+    :rtype: pl.DataFrame
+    """
     return df.with_columns(
         pl.col(col_name).apply(function).alias(new_col_name)
     )
@@ -264,6 +296,22 @@ def _map_col_function(df: pl.DataFrame,
 def _map_cols_function(df: pl.DataFrame,
                        col_names: List[str], new_col_name: str,
                        function: Callable[[...], Any]) -> pl.DataFrame:
+    """
+    Map values in multiple columns to new values using function
+
+    Helper function for map_col
+
+    :param df: The dataframe
+    :type df: pl.DataFrame
+    :param col_names: the names of the columns to map from
+    :type col_names: List[str]
+    :param new_col_name: name of the new column to be created as a result of the mapping
+    :type new_col_name: str
+    :param function: a function to mapping with
+    :type function: Callable[[...], Any]
+    :return: the dataframe with the new column
+    :rtype: pl.DataFrame
+    """
     return df.with_columns(
         pl.struct(col_names).apply(function).alias(new_col_name)
     )

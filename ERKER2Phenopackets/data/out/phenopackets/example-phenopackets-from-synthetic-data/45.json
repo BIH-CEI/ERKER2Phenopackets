@@ -32,7 +32,7 @@
   ],
   "interpretations": [
     {
-      "id": "10ff4b37-1cf7-4352-837d-5926a2fe3a4c",
+      "id": "8ad9183f-124d-406b-961b-281f6832d8e4",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -68,7 +68,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-29T00:00:00Z",
+    "created": "2023-10-02T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

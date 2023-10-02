@@ -21,7 +21,8 @@ def calc_chunk_size(num_instances: int, num_chunks: int) -> List[int]:
     remainder = num_instances % num_chunks
 
     # remainder is necessarily smaller than num_chunks
-    # therefore, we can just add 1 to the first remainder number of chunks
+    # therefore, we can just add 1 to the first remainder number of chunks to make sure
+    # that the workload is evenly distributed
     chunk_sizes = [
         chunk_size + 1 if i < remainder else chunk_size for i in range(num_chunks)
     ]
