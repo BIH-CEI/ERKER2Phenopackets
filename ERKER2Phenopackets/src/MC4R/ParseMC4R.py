@@ -1,6 +1,5 @@
 from google.protobuf.timestamp_pb2 import Timestamp
-from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets, \
-    phenotype_status_map_erker2phenopackets
+from . import sex_map_erker2phenopackets, zygosity_map_erker2phenopackets
 
 from loguru import logger
 
@@ -9,18 +8,6 @@ import configparser
 
 from ERKER2Phenopackets.src.utils import parse_year_month_day_to_iso8601_utc_timestamp
 from ERKER2Phenopackets.src.utils import parse_date_string_to_iso8601_utc_timestamp
-from ERKER2Phenopackets.src.decorators import deprecated
-
-
-# 1. method definition
-# 2. doc (with examples)
-#   a. Title
-#   b. description
-#   c. parameter & return
-#   d. if applicable: examples
-# 3. tests
-# 4. implement
-# 5. activate tests
 
 
 def parse_year_of_birth(year_of_birth: int) -> Timestamp:
