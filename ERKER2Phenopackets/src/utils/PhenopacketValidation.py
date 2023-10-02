@@ -118,8 +118,7 @@ def _validate_phenopacket(path: Path, command: str,
             return True
         return False
 
-    # Print the captured output
-    for line in outputs:  # errors
+    for line in outputs:
         split_line = line.split(',')
 
         if line and split_line[1] == 'ERROR':
@@ -142,7 +141,6 @@ def _validate_phenopacket(path: Path, command: str,
 
 
 def main():
-
     arg_parser = argparse.ArgumentParser(
         prog='validate',
         description='Validates a phenopacket file or directory of phenopackets. '
