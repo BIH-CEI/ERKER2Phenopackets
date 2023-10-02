@@ -9,6 +9,7 @@ from .ParsingUtils import parse_date_string_to_protobuf_timestamp, \
     parse_year_month_day_to_iso8601_utc_timestamp, \
     parse_iso8601_utc_to_protobuf_timestamp
 
+from .PhenopacketValidation import validate
 from .delete_files_in_folder import delete_files_in_folder
 
 __all__ = [
@@ -22,5 +23,7 @@ __all__ = [
     'parse_year_month_day_to_iso8601_utc_timestamp',
     'parse_iso8601_utc_to_protobuf_timestamp',
 
+    'validate',
+  
     'delete_files_in_folder',
 ]
