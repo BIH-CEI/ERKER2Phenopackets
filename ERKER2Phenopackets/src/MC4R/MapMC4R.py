@@ -209,7 +209,6 @@ def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
             p_hgvs=[row[p_hgvs_col] for p_hgvs_col in p_hgvs_cols if p_hgvs_col in row],
             c_hgvs=[row[c_hgvs_col] for c_hgvs_col in c_hgvs_cols if c_hgvs_col in row],
             no_mutation=no_mutation,
-            # gene=gene_descriptor,
             interpretation_status=config.get('Constants', 'interpretation_status'),
             progress_status=config.get('Constants', 'progress_status'),
             disease=disease,
@@ -223,7 +222,6 @@ def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
             id=phenopacket_id,
             subject=individual,
             phenotypic_features=phenotypic_features,
-            # diseases=[disease],
             meta_data=meta_data,
             interpretations=[interpretation],
         )
