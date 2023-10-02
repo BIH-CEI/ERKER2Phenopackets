@@ -24,7 +24,6 @@ from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets, map_chunk
 def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
-    # Create the parser
     arg_parser = argparse.ArgumentParser(
         prog='pipeline',
         description='A pipeline to map ERKER data in .csv format to phenopackets.'
@@ -67,7 +66,7 @@ def main():
 
     logger.info('Starting MC4R pipeline')
     out_dir_name = ''
-    if args.data_path:  # path do data provided
+    if args.data_path:  # path to data provided
         data_path = args.data_path
 
         if args.out_dir_name:  # output path provided
@@ -128,12 +127,10 @@ def pipeline(
     cur_time = datetime.now().strftime("%Y-%m-%d-%H%M")
     logger.debug(f'Current time: {cur_time}')
 
-    # Read data in
     logger.info('Reading data')
     df = pl.read_csv(data_path)
     logger.info(f'Read {len(df)} rows')
 
-    # Null value analysis
     logger.info('Preprocessing data')
     PolarsUtils.null_value_analysis(df, verbose=False)
 
@@ -310,7 +307,6 @@ def pipeline(
                                  mapping=phenotype_label_map_erker2phenopackets)
     logger.info('Finished parsing data')
 
-    # Map to Phenopackets
     logger.info('Start mapping data to phenopackets')
     if debug:
         phenopackets = map_chunk(df, cur_time[:10])
