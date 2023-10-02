@@ -29,13 +29,13 @@ def map_mc4r2phenopackets(
         cur_time: str,
         num_threads: int = os.cpu_count(),
 ) -> List[Phenopacket]:
-    """Maps MC4R DataFrame to List of Phenopackets.
+    """Maps mc4r DataFrame to List of Phenopackets.
 
-    Maps the MC4R DataFrame to a list of Phenopackets. Each row in the DataFrame
+    Maps the mc4r DataFrame to a list of Phenopackets. Each row in the DataFrame
     represents a single Phenopacket. The Phenopacket.id is the index of the row.
     Uses parallel processing to speed up the mapping.
 
-    :param df: MC4R DataFrame
+    :param df: mc4r DataFrame
     :type df: pl.DataFrame
     :param cur_time: string representation of the current time ("YYYY-MM-DD")
     :type cur_time: str
@@ -76,12 +76,12 @@ def map_mc4r2phenopackets(
 
 
 def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
-    """Maps a chunk of the MC4R DataFrame to a list of Phenopackets.
+    """Maps a chunk of the mc4r DataFrame to a list of Phenopackets.
 
     Can be used as a sequential alternative to `map_mc4r2phenopackets()` for
     debugging purposes.
 
-    :param chunk: Chunk of the MC4R DataFrame
+    :param chunk: Chunk of the mc4r DataFrame
     :type chunk: pl.DataFrame
     :param cur_time: string representation of the current time ("YYYY-MM-DD")
     :type cur_time: str

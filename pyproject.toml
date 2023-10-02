@@ -29,7 +29,7 @@ test = ["pytest==7.1.2", "ruff", "isort", "coverage", "pytest-cov"]
 "Homepage" = "https://github.com/BIH-CEI/ERKER2Phenopackets"
 
 [project.scripts]
-pipeline = "ERKER2Phenopackets.src.MC4R.pipeline:main"
+pipeline = "ERKER2Phenopackets.src.mc4r.pipeline:main"
 validate = "ERKER2Phenopackets.src.utils.validate_phenopackets:main"
 cleardir = "ERKER2Phenopackets.src.utils.cleardir:main"
 
