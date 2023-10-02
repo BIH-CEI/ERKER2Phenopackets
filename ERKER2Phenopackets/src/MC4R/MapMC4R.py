@@ -187,14 +187,8 @@ def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
             orpha=row['sct_439401001_orpha'],
             label=config.get('Constants', 'disease_label'),
         )
-        # #  activate this if we switch back to Disease block
-        # disease = _map_disease_block(
-        #     orpha=row['sct_439401001_orpha'],
-        #     date_of_diagnosis=row['parsed_date_of_diagnosis'],
-        #     label=config.get('Constants', 'disease_label'),
-        #     no_date=no_date,
-        # )
-        logger.trace(f'{thread_id}: Successfully created diagnosis block {disease}')
+        logger.trace(f'{thread_id}: Successfully created disease for interpretation '
+                     f'block {disease}')
 
         # INTERPRETATION
         logger.trace(f'{thread_id}: Creating interpretation block')
