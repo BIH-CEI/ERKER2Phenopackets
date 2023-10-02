@@ -1,5 +1,5 @@
-from . import MC4R
-from .MC4R.pipeline import pipeline
+from . import mc4r
+from .mc4r.pipeline import pipeline
 
 from . import utils
 from .utils import validate

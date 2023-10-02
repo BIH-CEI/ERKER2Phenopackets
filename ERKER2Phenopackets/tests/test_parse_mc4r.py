@@ -1,6 +1,6 @@
 import pytest
 
-from ERKER2Phenopackets.src.MC4R.parse_mc4r import \
+from ERKER2Phenopackets.src.mc4r.parse_mc4r import \
 parse_year_of_birth, parse_sex, parse_phenotyping_date, parse_date_of_diagnosis,\
 parse_zygosity, parse_omim, parse_phenotyping_status, parse_phenotyping_status
 

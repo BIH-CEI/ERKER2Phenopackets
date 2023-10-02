@@ -11,15 +11,15 @@ from ERKER2Phenopackets.src.logging_ import setup_logging
 from ERKER2Phenopackets.src.utils import write_files
 from ERKER2Phenopackets.src.utils import polars_utils
 from ERKER2Phenopackets.src.utils import validate
-from ERKER2Phenopackets.src.MC4R.mapping_dicts import \
+from ERKER2Phenopackets.src.mc4r.mapping_dicts import \
     phenotype_label_map_erker2phenopackets
-from ERKER2Phenopackets.src.MC4R.mapping_dicts import \
+from ERKER2Phenopackets.src.mc4r.mapping_dicts import \
     allele_label_map_erker2phenopackets
-from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
+from ERKER2Phenopackets.src.mc4r import zygosity_map_erker2phenopackets, \
     sex_map_erker2phenopackets, phenotype_status_map_erker2phenopackets
-from ERKER2Phenopackets.src.MC4R.parse_mc4r import parse_date_of_diagnosis, \
+from ERKER2Phenopackets.src.mc4r.parse_mc4r import parse_date_of_diagnosis, \
     parse_year_of_birth, parse_phenotyping_date, parse_omim
-from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets, map_chunk
+from ERKER2Phenopackets.src.mc4r import map_mc4r2phenopackets, map_chunk
 
 
 def main():
@@ -65,7 +65,7 @@ def main():
     if args.validate:
         logger.info('Will validate phenopackets after creation')
 
-    logger.info('Starting MC4R pipeline')
+    logger.info('Starting mc4r pipeline')
     out_dir_name = ''
     if args.data_path:  # path to data provided
         data_path = args.data_path
@@ -337,7 +337,7 @@ def pipeline(
     logger.info(f'Writing phenopackets to {phenopackets_out_dir.resolve()}')
     write_files(phenopackets, phenopackets_out_dir)
     logger.info(f'Successfully wrote {len(phenopackets)} files to disk')
-    logger.info('Finished MC4R pipeline')
+    logger.info('Finished mc4r pipeline')
 
 
 if __name__ == "__main__":
