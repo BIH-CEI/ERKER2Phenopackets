@@ -181,20 +181,6 @@ def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
         logger.trace(f'{thread_id}: Successfully created phenotypic features block '
                      f'{phenotypic_features}')
 
-        # GENE DESCRIPTOR
-        logger.trace(f'{thread_id}: Creating gene descriptor block')
-        # gene_descriptor = _map_gene_descriptor(
-        #     hgnc=row['ln_48018_6_1'],
-        #     symbol=config.get('Constants', 'gene_descriptor_symbol'),
-        #     omims=[
-        #         row['parsed_omim_1'],
-        #         row['parsed_omim_2']
-        #     ],
-        #     no_omim=no_omim
-        # )
-        # logger.trace(f'{thread_id}: Successfully created gene descriptor block '
-        #              f'{gene_descriptor}')
-
         # DISEASE
         logger.trace(f'{thread_id}: Creating disease block')
         disease = _map_disease_for_diagnosis(
