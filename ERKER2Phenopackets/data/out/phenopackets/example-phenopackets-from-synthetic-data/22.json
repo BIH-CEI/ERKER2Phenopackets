@@ -2,7 +2,7 @@
   "id": "22",
   "subject": {
     "id": "22",
-    "dateOfBirth": "2014-01-01T00:00:00Z",
+    "dateOfBirth": "1992-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,7 +17,7 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1996-02-17T00:00:00Z"
+        "timestamp": "1995-07-04T00:00:00Z"
       }
     },
     {
@@ -26,13 +26,13 @@
         "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2010-03-03T00:00:00Z"
+        "timestamp": "1995-05-30T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "01cf7da8-b27f-40ce-96c4-c9762bf07eff",
+      "id": "5d87005c-59df-40a9-aa18-06cc46de6869",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -49,16 +49,16 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Val103Ile)"
+                    "value": "NP_005903.2:p.(Ala175Thr)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.181G>T"
+                    "value": "NM_005912.3:c.268G>A"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -68,7 +68,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

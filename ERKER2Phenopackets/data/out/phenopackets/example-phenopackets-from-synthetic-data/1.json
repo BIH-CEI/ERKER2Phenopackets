@@ -17,17 +17,7 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1997-02-05T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025501",
-        "label": "Class III obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1999-05-21T00:00:00Z"
+        "timestamp": "2009-09-30T00:00:00Z"
       }
     },
     {
@@ -36,22 +26,13 @@
         "label": "Obesity"
       },
       "onset": {
-        "timestamp": "2000-01-14T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
-      },
-      "onset": {
-        "timestamp": "2017-02-09T00:00:00Z"
+        "timestamp": "2000-08-29T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "59feed3c-1ec3-4f95-955f-b3e557805296",
+      "id": "a39406ff-78bd-4fe1-816a-f5159b96ed56",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -68,16 +49,16 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Val103Ile)"
+                    "value": "NP_005903.2:p.(Ala135Pro)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.380C>T"
+                    "value": "NM_005912.3:c.307G>A"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -87,7 +68,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

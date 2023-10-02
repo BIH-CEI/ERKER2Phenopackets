@@ -2,8 +2,8 @@
   "id": "34",
   "subject": {
     "id": "34",
-    "dateOfBirth": "1993-01-01T00:00:00Z",
-    "sex": "FEMALE",
+    "dateOfBirth": "2013-01-01T00:00:00Z",
+    "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -12,12 +12,21 @@
   "phenotypicFeatures": [
     {
       "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "1995-02-18T00:00:00Z"
+      }
+    },
+    {
+      "type": {
         "id": "HP:0001513",
         "label": "Obesity"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "2007-06-10T00:00:00Z"
+        "timestamp": "1997-02-06T00:00:00Z"
       }
     },
     {
@@ -25,19 +34,8 @@
         "id": "HP:0025499",
         "label": "Class I obesity"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "2006-03-16T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025500",
-        "label": "Class II obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1997-12-17T00:00:00Z"
+        "timestamp": "2006-11-10T00:00:00Z"
       }
     },
     {
@@ -45,51 +43,25 @@
         "id": "HP:0025499",
         "label": "Class I obesity"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "2014-03-27T00:00:00Z"
+        "timestamp": "2015-01-26T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "2b474766-f0e3-4cdf-9a55-ddfa75def2dc",
+      "id": "469d0e9c-291e-4693-a1f0-293c709feb0b",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
           "label": "Obesity due to melanocortin 4 receptor deficiency"
-        },
-        "genomicInterpretations": [
-          {
-            "subjectOrBiosampleId": "34",
-            "interpretationStatus": "CONTRIBUTORY",
-            "variantInterpretation": {
-              "variationDescriptor": {
-                "id": "id:A",
-                "expressions": [
-                  {
-                    "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Pro48Ser)"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.496G>C"
-                  }
-                ],
-                "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
-                }
-              }
-            }
-          }
-        ]
+        }
       }
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

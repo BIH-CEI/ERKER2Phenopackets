@@ -2,27 +2,16 @@
   "id": "4",
   "subject": {
     "id": "4",
-    "dateOfBirth": "1994-01-01T00:00:00Z",
+    "dateOfBirth": "2000-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
     }
   },
-  "phenotypicFeatures": [
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "onset": {
-        "timestamp": "2015-05-31T00:00:00Z"
-      }
-    }
-  ],
   "interpretations": [
     {
-      "id": "0e9c92ac-17e5-4adb-b004-029cb8e6974d",
+      "id": "8e0fb3ad-d20d-4ed7-8944-686874f51d18",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -39,11 +28,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Ile251Leu)"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.811T>C"
+                    "value": "NM_005912.3:c.239A>G"
                   }
                 ],
                 "allelicState": {
@@ -58,7 +47,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

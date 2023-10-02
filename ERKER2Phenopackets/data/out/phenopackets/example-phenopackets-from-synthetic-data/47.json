@@ -2,7 +2,7 @@
   "id": "47",
   "subject": {
     "id": "47",
-    "dateOfBirth": "1994-01-01T00:00:00Z",
+    "dateOfBirth": "2002-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,41 +17,22 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2002-06-29T00:00:00Z"
+        "timestamp": "2009-02-08T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "2008-01-13T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0025502",
+        "label": "Overweight"
       },
       "onset": {
-        "timestamp": "2009-06-08T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025500",
-        "label": "Class II obesity"
-      },
-      "onset": {
-        "timestamp": "2004-01-13T00:00:00Z"
+        "timestamp": "2000-12-10T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "dcbf400d-e5f2-4509-aebb-b47fef979348",
+      "id": "a9e8778e-e31e-418f-a0d4-d135a8e862db",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -68,11 +49,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Ile170Val)"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.230C>T"
+                    "value": "NM_005912.3:c.523G>A"
                   }
                 ],
                 "allelicState": {
@@ -87,7 +68,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

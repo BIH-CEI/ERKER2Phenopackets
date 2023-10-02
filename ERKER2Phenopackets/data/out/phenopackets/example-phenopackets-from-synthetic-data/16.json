@@ -2,7 +2,7 @@
   "id": "16",
   "subject": {
     "id": "16",
-    "dateOfBirth": "1990-01-01T00:00:00Z",
+    "dateOfBirth": "2002-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,18 +12,45 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001507",
-        "label": "Growth abnormality"
+        "id": "HP:0001513",
+        "label": "Obesity"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2005-07-08T00:00:00Z"
+        "timestamp": "1994-05-10T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1997-10-04T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1999-11-20T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "1999-04-08T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "ed830bc6-7173-465f-80a4-35dfff648968",
+      "id": "d397c7f4-fc53-4556-9017-3bf45455c933",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -34,7 +61,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

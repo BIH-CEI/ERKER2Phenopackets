@@ -2,7 +2,7 @@
   "id": "5",
   "subject": {
     "id": "5",
-    "dateOfBirth": "2010-01-01T00:00:00Z",
+    "dateOfBirth": "1999-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,58 +17,43 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2005-03-16T00:00:00Z"
+        "timestamp": "2008-04-02T00:00:00Z"
       }
     },
     {
       "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
+        "id": "HP:0025502",
+        "label": "Overweight"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "2003-07-23T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "2009-08-15T00:00:00Z"
+        "timestamp": "1997-09-09T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "3c1d301a-c7a1-4c03-a668-538de12d9c67",
+      "id": "bd4e0fe8-0855-4adf-a84e-be4a10ec66ac",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
           "label": "Obesity due to melanocortin 4 receptor deficiency"
-        },
-        "genomicInterpretations": [
-          {
-            "subjectOrBiosampleId": "5",
-            "interpretationStatus": "CONTRIBUTORY",
-            "variantInterpretation": {
-              "variationDescriptor": {
-                "id": "id:A",
-                "expressions": [
-                  {
-                    "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Thr112Lys)"
-                  },
-                  {
-                    "syntax": "hgvs",
-                    "value": "NM_005912.3:c.823C>T"
-                  }
-                ],
-                "allelicState": {
-                  "id": "GENO:0000135",
-                  "label": "heterozygous"
-                }
-              }
-            }
-          }
-        ]
+        }
       }
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

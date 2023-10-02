@@ -2,7 +2,7 @@
   "id": "19",
   "subject": {
     "id": "19",
-    "dateOfBirth": "2009-01-01T00:00:00Z",
+    "dateOfBirth": "1998-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,27 +12,28 @@
   "phenotypicFeatures": [
     {
       "type": {
+        "id": "HP:0001513",
+        "label": "Obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "1998-01-14T00:00:00Z"
+      }
+    },
+    {
+      "type": {
         "id": "HP:0001507",
         "label": "Growth abnormality"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1992-01-30T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
-      },
-      "onset": {
-        "timestamp": "2005-08-04T00:00:00Z"
+        "timestamp": "2014-01-01T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "50843209-af77-4211-aaad-38c795b4d5a1",
+      "id": "43b84c76-3e18-482c-973f-11d4c86be62d",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -43,7 +44,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

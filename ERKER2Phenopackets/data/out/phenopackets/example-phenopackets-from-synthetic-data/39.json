@@ -2,7 +2,7 @@
   "id": "39",
   "subject": {
     "id": "39",
-    "dateOfBirth": "2003-01-01T00:00:00Z",
+    "dateOfBirth": "2013-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -12,12 +12,21 @@
   "phenotypicFeatures": [
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1996-12-10T00:00:00Z"
+        "timestamp": "2009-02-08T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001507",
+        "label": "Growth abnormality"
+      },
+      "onset": {
+        "timestamp": "2009-05-10T00:00:00Z"
       }
     },
     {
@@ -26,24 +35,49 @@
         "label": "Obesity"
       },
       "onset": {
-        "timestamp": "1998-01-05T00:00:00Z"
+        "timestamp": "2000-09-04T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "47809b99-007b-4d99-a444-13ae2c5f7be6",
+      "id": "fb39760b-2a0f-4092-832c-a89e53fc5b33",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
           "id": "ORPHA:71529",
           "label": "Obesity due to melanocortin 4 receptor deficiency"
-        }
+        },
+        "genomicInterpretations": [
+          {
+            "subjectOrBiosampleId": "39",
+            "interpretationStatus": "CONTRIBUTORY",
+            "variantInterpretation": {
+              "variationDescriptor": {
+                "id": "id:A",
+                "expressions": [
+                  {
+                    "syntax": "hgvs",
+                    "value": "NP_005903.2:p.(Ile251Leu)"
+                  },
+                  {
+                    "syntax": "hgvs",
+                    "value": "NM_005912.3:c.751A>C"
+                  }
+                ],
+                "allelicState": {
+                  "id": "GENO:0000136",
+                  "label": "homozygous"
+                }
+              }
+            }
+          }
+        ]
       }
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

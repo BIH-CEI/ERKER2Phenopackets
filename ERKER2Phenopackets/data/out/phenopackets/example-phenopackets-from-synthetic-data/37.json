@@ -2,16 +2,47 @@
   "id": "37",
   "subject": {
     "id": "37",
-    "dateOfBirth": "1999-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "2004-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
     }
   },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0001513",
+        "label": "Obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "1999-01-13T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0025499",
+        "label": "Class I obesity"
+      },
+      "excluded": true,
+      "onset": {
+        "timestamp": "1998-08-22T00:00:00Z"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001513",
+        "label": "Obesity"
+      },
+      "onset": {
+        "timestamp": "1996-05-30T00:00:00Z"
+      }
+    }
+  ],
   "interpretations": [
     {
-      "id": "8a25e66a-9746-464f-8798-f2339c09dcaa",
+      "id": "260d65ef-1241-427c-a9a3-e5e7a2584a1b",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -28,7 +59,7 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Cys271Arg)"
+                    "value": "NP_005903.2:p.(Ile251Leu)"
                   },
                   {
                     "syntax": "hgvs",
@@ -47,7 +78,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

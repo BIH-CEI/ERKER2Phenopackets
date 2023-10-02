@@ -2,7 +2,7 @@
   "id": "41",
   "subject": {
     "id": "41",
-    "dateOfBirth": "1995-01-01T00:00:00Z",
+    "dateOfBirth": "1999-01-01T00:00:00Z",
     "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,22 +17,13 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2004-11-10T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0025499",
-        "label": "Class I obesity"
-      },
-      "onset": {
-        "timestamp": "2010-11-27T00:00:00Z"
+        "timestamp": "2010-12-30T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "1cf7c32a-152a-44a5-9be0-4b3fda760be9",
+      "id": "8354bcd3-c7a1-41a2-94e6-656485893f70",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -49,11 +40,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Ser127Leu)"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.751A>C"
+                    "value": "NM_005912.3:c.496G>C"
                   }
                 ],
                 "allelicState": {
@@ -68,7 +59,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

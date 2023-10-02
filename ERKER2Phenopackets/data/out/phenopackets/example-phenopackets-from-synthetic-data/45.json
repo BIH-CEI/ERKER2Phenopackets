@@ -2,7 +2,7 @@
   "id": "45",
   "subject": {
     "id": "45",
-    "dateOfBirth": "2001-01-01T00:00:00Z",
+    "dateOfBirth": "2000-01-01T00:00:00Z",
     "sex": "MALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
@@ -17,7 +17,7 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "1994-06-13T00:00:00Z"
+        "timestamp": "2013-01-01T00:00:00Z"
       }
     },
     {
@@ -26,13 +26,13 @@
         "label": "Growth abnormality"
       },
       "onset": {
-        "timestamp": "1996-01-30T00:00:00Z"
+        "timestamp": "2002-06-21T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "1646fce9-be27-479a-9115-804003832a44",
+      "id": "10ff4b37-1cf7-4352-837d-5926a2fe3a4c",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -49,11 +49,11 @@
                 "expressions": [
                   {
                     "syntax": "hgvs",
-                    "value": "NP_005903.2:p.(Ser127Leu)"
+                    "value": "NP_005903.2:p.(Val103Ile)"
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.181G>T"
+                    "value": "NM_005912.3:c.751A>C"
                   }
                 ],
                 "allelicState": {
@@ -68,7 +68,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {

@@ -2,8 +2,8 @@
   "id": "33",
   "subject": {
     "id": "33",
-    "dateOfBirth": "2000-01-01T00:00:00Z",
-    "sex": "MALE",
+    "dateOfBirth": "2001-01-01T00:00:00Z",
+    "sex": "FEMALE",
     "taxonomy": {
       "id": "NCBITaxon:9606",
       "label": "Homo sapiens"
@@ -17,17 +17,7 @@
       },
       "excluded": true,
       "onset": {
-        "timestamp": "2014-03-18T00:00:00Z"
-      }
-    },
-    {
-      "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
-      },
-      "excluded": true,
-      "onset": {
-        "timestamp": "1997-07-29T00:00:00Z"
+        "timestamp": "2017-03-10T00:00:00Z"
       }
     },
     {
@@ -35,15 +25,14 @@
         "id": "HP:0001507",
         "label": "Growth abnormality"
       },
-      "excluded": true,
       "onset": {
-        "timestamp": "2004-07-21T00:00:00Z"
+        "timestamp": "2003-08-21T00:00:00Z"
       }
     }
   ],
   "interpretations": [
     {
-      "id": "5afa334c-d7c6-4602-beec-dfa3416cea96",
+      "id": "7d78d625-13b2-4eeb-9cac-69b0d8e1f5a3",
       "progressStatus": "SOLVED",
       "diagnosis": {
         "disease": {
@@ -64,12 +53,12 @@
                   },
                   {
                     "syntax": "hgvs",
-                    "value": "NM_005912.3:c.181G>T"
+                    "value": "NM_005912.3:c.811T>C"
                   }
                 ],
                 "allelicState": {
-                  "id": "GENO:0000137",
-                  "label": "unspecified zygosity"
+                  "id": "GENO:0000135",
+                  "label": "heterozygous"
                 }
               }
             }
@@ -79,7 +68,7 @@
     }
   ],
   "metaData": {
-    "created": "2023-09-27T00:00:00Z",
+    "created": "2023-09-29T00:00:00Z",
     "createdBy": "A. Graefe, F. Rehburg",
     "resources": [
       {
