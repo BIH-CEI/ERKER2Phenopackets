@@ -106,6 +106,18 @@ def pipeline(
         publish: bool = False,
         debug: bool = False
 ):
+    """This method reads in a dataset in erker format (mc4r) and writes
+    the resulting phenopackets to json files on disk
+
+    :param data_path: The path to the data in erker format in a `.csv` file
+    :type data_path: str
+    :param out_dir_name: The name of the output directory
+    :type out_dir_name: str
+    :param publish: Write phenopackets to out instead of test
+    :type publish: bool
+    :param debug: Enable debug mode: log more information and sequential execution
+    :type debug: bool
+    """
     logger.info(f'Data path: {data_path}')
     if out_dir_name:
         logger.info(f'Output directory name: {out_dir_name}')
