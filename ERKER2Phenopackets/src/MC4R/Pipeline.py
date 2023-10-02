@@ -18,16 +18,17 @@ from ERKER2Phenopackets.src.MC4R import zygosity_map_erker2phenopackets, \
     sex_map_erker2phenopackets, phenotype_status_map_erker2phenopackets
 from ERKER2Phenopackets.src.MC4R.ParseMC4R import parse_date_of_diagnosis, \
     parse_year_of_birth, parse_phenotyping_date, parse_omim
-from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets
+from ERKER2Phenopackets.src.MC4R import map_mc4r2phenopackets, map_chunk
 
 
 def main():
     """This method reads in a dataset in erker format (mc4r) and writes
     the resulting phenopackets to json files on disk"""
     # Create the parser
-    arg_parser = argparse.ArgumentParser(prog='pipeline',
-                                         description='A pipeline to map ERKER data in '
-                                                     '.csv format to phenopackets.')
+    arg_parser = argparse.ArgumentParser(
+        prog='pipeline',
+        description='A pipeline to map ERKER data in .csv format to phenopackets.'
+    )
 
     mut_excl_group = arg_parser.add_mutually_exclusive_group()
 
@@ -87,14 +88,25 @@ def main():
         logger.critical('No path to data provided. Please provide a path to the data '
                         'as a command line argument.')
         return
-    pipeline(data_path, out_dir_name, publish=args.publish)
 
+    pipeline(
+        data_path=data_path,
+        out_dir_name=out_dir_name,
+        publish=args.publish,
+        debug=(args.debug or args.trace)  # debug mode enabled if either debug or trace
+    )
+    
     if args.validate:
         logger.info('Starting up validation tool...')
         validate()
 
 
-def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
+def pipeline(
+        data_path: str,
+        out_dir_name: str = '',
+        publish: bool = False,
+        debug: bool = False
+):
     logger.info(f'Data path: {data_path}')
     if out_dir_name:
         logger.info(f'Output directory name: {out_dir_name}')
@@ -160,7 +172,7 @@ def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
     df = PolarsUtils.fill_null_vals(df, 'parsed_date_of_diagnosis', no_date)
 
     # ln_48007_9_1, ln_48007_9_2, ln_48007_9_3 (zygosity)
-    logger.trace('Parsing zygosity column')
+    logger.trace('Parsing zygosity and allele label columns')
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_1', map_to='parsed_zygosity_1',
                              mapping=zygosity_map_erker2phenopackets)
     df = PolarsUtils.map_col(df, map_from='ln_48007_9_1', map_to='allele_label_1',
@@ -171,7 +183,8 @@ def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
                              mapping=allele_label_map_erker2phenopackets)
     if 'ln_48007_9_3' in df.columns:
         df = PolarsUtils.map_col(
-            df, map_from='ln_48007_9_3',
+            df, 
+            map_from='ln_48007_9_3',
             map_to='parsed_zygosity_3',
             mapping=zygosity_map_erker2phenopackets
         )
@@ -299,7 +312,10 @@ def pipeline(data_path: str, out_dir_name: str = '', publish: bool = False):
 
     # Map to Phenopackets
     logger.info('Start mapping data to phenopackets')
-    phenopackets = map_mc4r2phenopackets(df, cur_time[:10])
+    if debug:
+        phenopackets = map_chunk(df, cur_time[:10])
+    else:
+        phenopackets = map_mc4r2phenopackets(df, cur_time[:10])
     logger.info('Finished mapping data to phenopackets')
 
     # Write to JSON
