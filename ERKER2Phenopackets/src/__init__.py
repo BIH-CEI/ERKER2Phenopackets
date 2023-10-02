@@ -5,7 +5,7 @@ from . import utils
 from .utils import validate
 
 __all__ = [
-    'MC4R',
+    'mc4r',
     'pipeline',
 
     'utils',
