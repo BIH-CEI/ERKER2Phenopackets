@@ -9,6 +9,21 @@ from ERKER2Phenopackets.src.logging_ import setup_logging
 
 
 def clear_dir(all_: bool, experimental: bool, publish: bool):
+    """
+    Deletes all phenopackets in the out folder. If all_ is True, deletes all
+    phenopackets in both out/experimental_phenopackets and out/phenopackets.
+
+    :param all_: If True, deletes all phenopackets in both out/experimental_phenopackets
+     and out/phenopackets. If False, deletes all phenopackets in either
+        out/experimental_phenopackets or out/phenopackets, depending on the value of
+        experimental and publish.
+    :type all_: bool
+    :param experimental: If True, deletes all phenopackets in out/experimental_phenopack
+    ets.
+    :type experimental: bool
+    :param publish: If True, deletes all phenopackets in out/phenopackets.
+    :type publish: bool
+    """
     logger.trace(f'Called clear_dir() with args: {all_=}, {experimental=}, {publish=}')
 
     logger.trace('Reading config file')
