@@ -154,7 +154,6 @@ def add_id_col(df: pl.DataFrame,
     :return: DataFrame with id column
     :rtype: pl.DataFrame
     """
-    # add id column with prefix and/or suffix
     if not id_prefix and not id_suffix:
         if id_datatype == int:
             df = df.with_columns((pl.Series(range(0, df.height))).alias(id_col_name))
