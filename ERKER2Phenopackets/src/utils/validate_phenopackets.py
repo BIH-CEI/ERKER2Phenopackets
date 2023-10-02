@@ -50,7 +50,7 @@ def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]
             raise ValueError('No path to data provided. Please provide a path to the '
                              'data as a command line argument.')
 
-    logger.info(f'Validating phenopackets in {path}')
+    logger.info(f'Reading from {path} ...')
 
     jar_path = str(Path(config.get('Paths', 'jar_path')).resolve())
     command = config.get('CLICommands', 'validate')
