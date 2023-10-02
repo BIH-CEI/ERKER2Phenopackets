@@ -24,7 +24,7 @@ def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]
     :raises ValueError: If the path is a file but not a json file
     :raises ValueError: If the path is a directory but does not contain any json files
     """
-    logger.info('Validating phenopackets')
+    logger.info(f'Validating phenopackets')
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
@@ -49,6 +49,8 @@ def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]
                          'as a command line argument.')
             raise ValueError('No path to data provided. Please provide a path to the '
                              'data as a command line argument.')
+
+    logger.info(f'Validating phenopackets in {path}')
 
     jar_path = str(Path(config.get('Paths', 'jar_path')).resolve())
     command = config.get('CLICommands', 'validate')
