@@ -288,7 +288,7 @@ def pipeline(
                              mapping=phenotype_status_map_erker2phenopackets)
 
     # sct_8116006_1, sct_8116006_2, sct_8116006_3, sct_8116006_4, sct_8116006_5 
-    # phenotype label
+    # phenotypic feature
     logger.trace('Parsing phenotype label columns')
     df = PolarsUtils.map_col(df, map_from='sct_8116006_1',
                              map_to='parsed_phenotype_label1',
