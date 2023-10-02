@@ -57,8 +57,7 @@ def drop_null_cols(df: pl.DataFrame, remove_all_null: bool, remove_any_null: boo
     num_cols_end = df.width
 
     logger.info(f'Dropped {num_cols_start - num_cols_end} columns. {num_cols_end} '
-              f'columns '
-          f'remaining.')
+                'columns remaining.')
     return df
 
 
