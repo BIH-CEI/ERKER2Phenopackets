@@ -8,6 +8,16 @@ from google.protobuf.json_format import MessageToJson
 
 
 def _map_phenopacket2json_str(phenopacket: Phenopacket) -> str:
+    """Maps a phenopacket to a JSON string.
+
+    Uses the google.protobuf.json_format.MessageToJson function to map a phenopacket to
+    a JSON string.
+
+    :param phenopacket: The phenopacket.
+    :type phenopacket: Phenopacket
+    :return: The JSON string.
+    :rtype: str
+    """
     return MessageToJson(phenopacket)
 
 
@@ -15,6 +25,13 @@ def write_phenopacket2json_file(
         phenopacket: Phenopacket,
         out_dr: Union[str, Path]
                                 ) -> None:
+    """Writes a phenopacket to a JSON file.
+
+    :param phenopacket: The phenopacket.
+    :type phenopacket: Phenopacket
+    :param out_dr: The output directory.
+    :type out_dr: Union[str, Path]
+    """
     json_str = _map_phenopacket2json_str(phenopacket)
     out_path = os.path.join(out_dr, (phenopacket.id + '.json'))
     with open(out_path, 'w') as fh:
