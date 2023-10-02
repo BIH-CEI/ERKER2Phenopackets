@@ -11,6 +11,7 @@ from ERKER2Phenopackets.src.utils import parse_year_month_day_to_iso8601_utc_tim
 from ERKER2Phenopackets.src.utils import parse_date_string_to_iso8601_utc_timestamp
 from ERKER2Phenopackets.src.decorators import deprecated
 
+
 # 1. method definition
 # 2. doc (with examples)
 #   a. Title
@@ -162,7 +163,7 @@ def parse_phenotyping_date(phenotyping_date: str) -> Timestamp:
     return parsed_phenotyping_date
 
 
-@deprecated('Please use dictionary as mapping for the parsing step, since this will' 
+@deprecated('Please use dictionary as mapping for the parsing step, since this will'
             'lead to increased performance.')
 def parse_phenotyping_status(phenotyping_status: str) -> str:
     """
@@ -191,10 +192,11 @@ def parse_phenotyping_status(phenotyping_status: str) -> str:
         return parsed_phenotyping_status
     else:
         parsed_phenotyping_status = \
-        phenotype_status_map_erker2phenopackets[phenotyping_status]
+            phenotype_status_map_erker2phenopackets[phenotyping_status]
         logger.trace(f'Finished parsing pheontyping status {phenotyping_status} -> \
             {parsed_phenotyping_status}')
         return parsed_phenotyping_status
+
 
 def parse_zygosity(zygosity: str) -> str:
     """
