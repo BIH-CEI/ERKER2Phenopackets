@@ -32,6 +32,7 @@ test = ["pytest==7.1.2", "ruff", "isort", "coverage", "pytest-cov"]
 pipeline = "ERKER2Phenopackets.src.mc4r.pipeline:main"
 validate = "ERKER2Phenopackets.src.utils.validate_phenopackets:main"
 cleardir = "ERKER2Phenopackets.src.utils.cleardir:main"
+analyze = "ERKER2Phenopackets.src.analysis.mc4r_analysis:main"
 
 [build-system]
 # These are the assumed default build requirements from pip:
