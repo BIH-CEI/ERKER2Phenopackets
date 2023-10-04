@@ -1,6 +1,5 @@
 import argparse
 import subprocess
-import os
 from pathlib import Path
 from typing import Tuple, List, Union
 import configparser
