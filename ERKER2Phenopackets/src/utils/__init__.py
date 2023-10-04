@@ -9,9 +9,9 @@ from .parsing_utils import parse_date_string_to_protobuf_timestamp, \
     parse_year_month_day_to_iso8601_utc_timestamp, \
     parse_iso8601_utc_to_protobuf_timestamp
 
+from .last_phenopackets import last_phenopackets_dir
 from .validate_phenopackets import validate
 from .delete_files_in_folder import delete_files_in_folder
-from .last_phenopackets import last_phenopackets_dir
 
 __all__ = [
     'write_file', 'write_files',

@@ -8,7 +8,7 @@ import configparser
 from ERKER2Phenopackets.src.logging_ import setup_logging
 from loguru import logger
 
-from ..utils import last_phenopackets_dir
+from . import last_phenopackets_dir
 
 
 def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
