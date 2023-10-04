@@ -5,7 +5,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from ..utils import last_phenopackets
+from ..utils import last_phenopackets_dir
 from ..logging_ import setup_logging
 
 
@@ -33,7 +33,7 @@ def analyze(data_path='', out_dir_name='', publish=False, debug=False):
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
     if data_path == '':
-        data_path = last_phenopackets()
+        data_path = last_phenopackets_dir()
 
     if publish:
         if out_dir_name:

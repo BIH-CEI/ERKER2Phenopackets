@@ -5,7 +5,7 @@ from pathlib import Path
 from loguru import logger
 
 
-def last_phenopackets() -> Path:
+def last_phenopackets_dir() -> Path:
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 

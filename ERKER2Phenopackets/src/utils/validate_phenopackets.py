@@ -8,7 +8,7 @@ import configparser
 from ERKER2Phenopackets.src.logging_ import setup_logging
 from loguru import logger
 
-from ..utils import last_phenopackets
+from ..utils import last_phenopackets_dir
 
 
 def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
@@ -31,7 +31,7 @@ def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
     if path == '':
-        path = last_phenopackets()
+        path = last_phenopackets_dir()
 
     logger.info(f'Reading from {path} ...')
 
