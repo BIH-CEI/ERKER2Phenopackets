@@ -1,6 +1,4 @@
 import functools
-
-from ERKER2Phenopackets.src.logging_ import setup_logging
 from loguru import logger
 
 
@@ -85,13 +83,3 @@ def log_args(raise_on_type_mismatch=False):
             return result
         return wrapper
     return decorator
-
-
-@log_args(raise_on_type_mismatch=False)
-def foo(a: int, b: str, c: float):
-    print(f'a: {a}, b: {b}, c: {c}')
-
-
-if __name__ == '__main__':
-    setup_logging(level='TRACE')
-    foo(1, b=2, c=3)
