@@ -2,7 +2,7 @@ import argparse
 
 from loguru import logger
 
-from ERKER2Phenopackets.src.logging_ import setup_logging
+from ..logging_ import setup_logging
 
 
 def analyze(data_path, out_dir_name, publish, debug=False):
