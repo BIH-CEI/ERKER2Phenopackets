@@ -1,4 +1,7 @@
 import argparse
+import configparser
+from datetime import datetime
+from pathlib import Path
 
 from loguru import logger
 
@@ -24,6 +27,19 @@ def analyze(data_path='', out_dir_name='', publish=False, debug=False):
     logger.debug(f'{data_path=} {type(data_path)=}')
     logger.debug(f'{out_dir_name=} {type(out_dir_name)=}')
     logger.error('Not implemented yet')
+
+    config = configparser.ConfigParser()
+    config.read('ERKER2Phenopackets/data/config/config.cfg')
+
+    if publish:
+        if out_dir_name:
+            out_dir_name = Path(out_dir_name)
+        else:
+            analysis_out_dir = data_path / 'analysis'
+            analysis_out_dir.mkdir(parents=True, exist_ok=True)
+            out_dir_name = Path(analysis_out_dir)
+
+        print(out_dir_name)  # TODO: replace this with writing the report to file
     raise NotImplementedError('Not implemented yet')
 
 
