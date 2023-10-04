@@ -11,10 +11,15 @@ def analyze(data_path, out_dir_name, publish, debug=False):
     TODO @grafea: Please write a short description of what exactly we will analyse
     TODO @grafea: here and why
 
-    :param data_path:
+    :param data_path: Path to a phenopacket file or directory of phenopackets, defaults
+        to the last created phenopackets
+    :type data_path: str
     :param out_dir_name:
+    :type out_dir_name: str
     :param publish:
+    :type publish: bool
     :param debug:
+    :type debug: bool
     """
     logger.error('Not implemented yet')
     raise NotImplementedError('Not implemented yet')
