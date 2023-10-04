@@ -6,6 +6,13 @@ from loguru import logger
 
 
 def last_phenopackets_dir() -> Path:
+    """Returns the path to the last created phenopackets directory.
+
+    This function returns the path to the last created phenopackets directory.
+
+    :return: Path to the last created phenopackets directory
+    :rtype: Path
+    """
     config = configparser.ConfigParser()
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
@@ -18,6 +25,20 @@ def last_phenopackets_dir() -> Path:
 
 
 def last_created_dir(*args):
+    """Returns the path to the last created directory.
+
+    This function returns the path to the last created directory from a sequence of
+    paths.
+
+    Example:
+        >>> last_created_dir(Path('path/to/dir1'), Path('path/to/dir2'))
+        Path('path/to/dir1')
+
+    :param args: Sequence of paths
+    :type args: Tuple[Path]
+    :return: Path to the last created directory
+    :rtype: Path
+    """
     out_dirs = list(args)
     subdirectories = []
     for out_dir in out_dirs:
