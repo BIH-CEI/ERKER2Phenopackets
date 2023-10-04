@@ -11,7 +11,6 @@ def log_args(func):
     :param func: Callable to decorate
     :type func: Callable
     """
-
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         logger.trace(f'Method {func.__name__}() started')
@@ -21,14 +20,24 @@ def log_args(func):
                 zip(args, func.__annotations__.values()),
                 1
         ):
-            logger.trace(f'{func.__name__}():\t\t- arg {i}: {arg} (Type: {type(arg)},'
-                         f'Expected Type: {arg_type})')
+            actual_type = type(arg)
+            type_color = "\033[93m" if actual_type != arg_type else ''
+            log_message = (
+                f'{func.__name__}():\t\t- arg {i}: {arg} '
+                f'{type_color}(Type: {actual_type}, Expected Type: {arg_type})'
+            )
+            logger.trace(log_message)
 
         logger.trace(f'{func.__name__}():\tKeyword arguments:')
         for key, value in kwargs.items():
             kwarg_type = func.__annotations__.get(key, 'Any')
-            logger.trace(f'{func.__name__}():\t\t- {key}: {value} (Type: {type(value)},'
-                         f' Expected Type: {kwarg_type})')
+            actual_type = type(value)
+            type_color = "\033[93m" if actual_type != kwarg_type else ''
+            log_message = (
+                f'{func.__name__}():\t\t- {key}: {value} '
+                f'{type_color}(Type: {actual_type}, Expected Type: {kwarg_type})'
+            )
+            logger.trace(log_message)
 
         result = func(*args, **kwargs)
 
