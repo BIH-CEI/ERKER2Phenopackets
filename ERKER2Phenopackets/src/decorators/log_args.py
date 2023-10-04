@@ -36,6 +36,9 @@ def log_args(raise_on_type_mismatch=False):
                             f'Argument {i} of {func.__name__}() has type {actual_type} '
                             f'but expected type {arg_type}'
                         )
+                    else:
+                        logger.warning(f'Argument {i} of {func.__name__}() has type '
+                                       f'{actual_type} but expected type {arg_type}')
                 else:
                     type_color = ''
 
@@ -58,6 +61,11 @@ def log_args(raise_on_type_mismatch=False):
                             f'{actual_type} but expected type {kwarg_type}'
                         )
                         raise TypeError(
+                            f'Keyword argument {key} of {func.__name__}() has type '
+                            f'{actual_type} but expected type {kwarg_type}'
+                        )
+                    else:
+                        logger.warning(
                             f'Keyword argument {key} of {func.__name__}() has type '
                             f'{actual_type} but expected type {kwarg_type}'
                         )
