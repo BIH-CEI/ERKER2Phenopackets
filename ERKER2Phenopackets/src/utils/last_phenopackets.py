@@ -14,6 +14,11 @@ def last_phenopackets_dir() -> Path:
         Path(config.get('Paths', 'test_phenopackets_out_script'))
     ]
 
+    return last_created_dir(*out_dirs)
+
+
+def last_created_dir(*args):
+    out_dirs = list(args)
     subdirectories = []
     for out_dir in out_dirs:
         subdirectories = subdirectories + [
