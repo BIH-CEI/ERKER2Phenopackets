@@ -5,7 +5,7 @@ from loguru import logger
 from ..logging_ import setup_logging
 
 
-def analyze(data_path, out_dir_name, publish, debug=False):
+def analyze(data_path='', out_dir_name='', publish=False, debug=False):
     """Analyse Phenopackets concerning the MC4R gene and its variants.
 
     TODO @grafea: Please write a short description of what exactly we will analyse
