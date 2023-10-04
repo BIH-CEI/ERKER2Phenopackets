@@ -21,6 +21,8 @@ def analyze(data_path='', out_dir_name='', publish=False, debug=False):
     :param debug:
     :type debug: bool
     """
+    logger.debug(f'{data_path=} {type(data_path)=}')
+    logger.debug(f'{out_dir_name=} {type(out_dir_name)=}')
     logger.error('Not implemented yet')
     raise NotImplementedError('Not implemented yet')
 
