@@ -68,8 +68,8 @@ def main():
     setup_logging(level=level)
 
     analyze(
-        data_path='',  # TODO: data_path,
-        out_dir_name='',  # TODO: out_dir_name,
+        data_path=args.path,
+        out_dir_name=args.out_dir_name,
         publish=args.publish,
         debug=(args.debug or args.trace)  # debug mode enabled if either debug or trace
     )
