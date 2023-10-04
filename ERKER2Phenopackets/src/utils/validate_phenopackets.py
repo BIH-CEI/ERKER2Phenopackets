@@ -8,6 +8,8 @@ import configparser
 from ERKER2Phenopackets.src.logging_ import setup_logging
 from loguru import logger
 
+from ..utils import last_phenopackets
+
 
 def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]:
     """Validates a phenopacket file or directory of phenopackets
@@ -29,26 +31,7 @@ def validate(path: Path = '') -> Union[Tuple[bool, str], List[Tuple[bool, str]]]
     config.read('ERKER2Phenopackets/data/config/config.cfg')
 
     if path == '':
-        out_dirs = [
-            Path(config.get('Paths', 'phenopackets_out_script')),
-            Path(config.get('Paths', 'test_phenopackets_out_script'))
-        ]
-
-        subdirectories = []
-        for out_dir in out_dirs:
-            subdirectories = subdirectories + [
-                os.path.join(out_dir, entry) for entry in os.listdir(out_dir)
-                if os.path.isdir(os.path.join(out_dir, entry))
-            ]
-
-        sorted_directories = sorted(subdirectories, key=os.path.getmtime, reverse=True)
-        path = Path(sorted_directories[0])
-
-        if not path or not path.is_dir():
-            logger.error('No path to data provided. Please provide a path to the data '
-                         'as a command line argument.')
-            raise ValueError('No path to data provided. Please provide a path to the '
-                             'data as a command line argument.')
+        path = last_phenopackets()
 
     logger.info(f'Reading from {path} ...')
 
