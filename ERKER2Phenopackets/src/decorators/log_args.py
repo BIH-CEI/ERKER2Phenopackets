@@ -27,6 +27,10 @@ def log_args(func, raise_on_type_mismatch=False):
             if actual_type != arg_type:
                 type_color = "\033[93m"
                 if raise_on_type_mismatch:
+                    logger.error(
+                        f'Argument {i} of {func.__name__}() has type {actual_type} '
+                        f'but expected type {arg_type}'
+                    )
                     raise TypeError(
                         f'Argument {i} of {func.__name__}() has type {actual_type} '
                         f'but expected type {arg_type}'
@@ -48,13 +52,17 @@ def log_args(func, raise_on_type_mismatch=False):
             if actual_type != kwarg_type:
                 type_color = "\033[93m"
                 if raise_on_type_mismatch:
+                    logger.error(
+                        f'Keyword argument {key} of {func.__name__}() has type '
+                        f'{actual_type} but expected type {kwarg_type}'
+                    )
                     raise TypeError(
                         f'Keyword argument {key} of {func.__name__}() has type '
                         f'{actual_type} but expected type {kwarg_type}'
                     )
             else:
                 type_color = ''
-                
+
             log_message = (
                 f'{func.__name__}():\t\t- {key}: {value} '
                 f'{type_color}(Type: {actual_type}, Expected Type: {kwarg_type})'
