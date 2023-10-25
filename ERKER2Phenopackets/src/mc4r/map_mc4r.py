@@ -503,7 +503,7 @@ def _map_interpretation(phenopacket_id: str,
     :type c_hgvs: List[str]
     :param interpretation_status: status of the interpretation
     :type interpretation_status: str
-    :pram progress_status: The current resolution status.
+    :param progress_status: The current resolution status.
     :type progress_status: str
     :param gene: GeneDescriptor block
     :type gene: GeneDescriptor, optional
