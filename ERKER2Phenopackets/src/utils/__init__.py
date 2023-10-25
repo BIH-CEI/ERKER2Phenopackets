@@ -1,4 +1,4 @@
-from .phenopackets2json import write_phenopackets2json_files as write_files, \
+from .io import write_phenopackets2json_files as write_files, \
     write_phenopacket2json_file as write_file
 
 from .parallelization_utils import calc_chunk_size, split_dataframe
