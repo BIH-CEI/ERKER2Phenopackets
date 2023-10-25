@@ -38,3 +38,25 @@ def compare_structure(
         return False, create_difference_tree(d1, d2, d1_id, d2_id)
 
     return True, {}
+
+
+def create_difference_tree(d1: Dict, d2: Dict,
+                           d1_id: Optional[Union[int, str]] = uuid.uuid4(),
+                           d2_id: Optional[Union[int, str]] = uuid.uuid4()
+                           ) -> Dict:
+    """Creates a difference tree for two dictionaries.
+
+    :param d1: First dictionary
+    :type d1: Dict
+    :param d2: Second dictionary
+    :type d2: Dict
+    :param d1_id: Identifier for first dictionary, defaults to random UUID
+    :type d1_id: Optional[Union[int, str]], optional
+    :param d2_id: Identifier for second dictionary, defaults to random UUID
+    :type d2_id: Optional[Union[int, str]], optional
+    :return: Difference tree
+    :rtype: Dict
+    """
+    # TODO: can do this with bfs, simply append id: different child for each dict to
+    #  the difference tree when the structure is different
+    pass
