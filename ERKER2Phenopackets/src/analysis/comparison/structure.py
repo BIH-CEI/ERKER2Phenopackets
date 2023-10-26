@@ -162,3 +162,12 @@ def assign_dict_at(d: Dict, key_path: List[Union[str, int]], value: Any) -> Dict
         raise ValueError(f'Could not insert {value} at {key_path} in {d}')
 
     return d
+
+def edit_distance(
+        d1: Dict, d2: Dict,
+        d1_id: Optional[Union[int, str]] = uuid.uuid4(),
+        d2_id: Optional[Union[int, str]] = uuid.uuid4(),
+        insertion_cost: int = 1,
+        deletion_cost: int = 1,
+        val_change_cost: int = 1,
+) -> int:
