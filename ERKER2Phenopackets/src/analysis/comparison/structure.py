@@ -171,3 +171,27 @@ def edit_distance(
         deletion_cost: int = 1,
         val_change_cost: int = 1,
 ) -> int:
+    """
+    Calculates the edit distance between two dictionaries.
+
+
+    TODO: in the future also support functions that have access to the values for
+    cost calculation
+    
+    :param d1: First dictionary
+    :type d1: Dict
+    :param d2: Second dictionary
+    :type d2: Dict
+    :param d1_id: Identifier for first dictionary, defaults to random UUID
+    :type d1_id: Optional[Union[int, str]], optional
+    :param d2_id: Identifier for second dictionary, defaults to random UUID
+    :type d2_id: Optional[Union[int, str]], optional
+    :param insertion_cost: Cost for inserting a key, defaults to 1
+    :type insertion_cost: int, optional
+    :param deletion_cost: Cost for deleting a key, defaults to 1
+    :type deletion_cost: int, optional
+    :param val_change_cost: Cost for changing a value, defaults to 1
+    :type val_change_cost: int, optional
+    :return: Edit distance between the two dictionaries
+    :rtype: int
+    """
