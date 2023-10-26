@@ -9,8 +9,9 @@ def compare_structure(
         d1: Dict, d2: Dict,
         d1_id: Optional[Union[int, str]] = uuid.uuid4(),
         d2_id: Optional[Union[int, str]] = uuid.uuid4(),
-        include_vals: bool = False
-) -> Tuple[bool, Dict]:
+        include_vals: bool = False,
+        construct_diff_tree: bool = True
+) -> Union[Tuple[bool, Dict], bool]:
     """Compares if the structure of two dictionaries match.
 
     By structure we mean the keys and the order of the keys.
@@ -26,21 +27,29 @@ def compare_structure(
     :param include_vals: Whether to include values in the comparison, defaults to False
     because this method is mainly concerned with the structure of the tree
     :type include_vals: bool, optional
+    :param construct_diff_tree: Whether to construct a difference tree, defaults to True
+    :type construct_diff_tree: bool, optional
     :return: True if structure matches, False and difference dict otherwise
+    :rtype: Union[Tuple[bool, Dict], bool]
     """
     bfs1 = traverse(d1, 'bfs', include_vals=include_vals)
     bfs2 = traverse(d2, 'bfs', include_vals=include_vals)
 
-    if not bfs1 == bfs2:
+    bfs_equals = bfs1 == bfs2
+
+    if bfs_equals:
+        dfs1 = traverse(d1, 'dfs', include_vals=include_vals)
+        dfs2 = traverse(d2, 'dfs', include_vals=include_vals)
+
+        dfs_equals = dfs1 == dfs2
+
+        if dfs_equals:
+            return True, {} if construct_diff_tree else True
+
+    if construct_diff_tree:
         return False, create_difference_tree(d1, d2, d1_id, d2_id)
-
-    dfs1 = traverse(d1, 'dfs', include_vals=include_vals)
-    dfs2 = traverse(d2, 'dfs', include_vals=include_vals)
-
-    if not dfs1 == dfs2:
-        return False, create_difference_tree(d1, d2, d1_id, d2_id)
-
-    return True, {}
+    else:
+        return False
 
 
 def create_difference_tree(d1: Dict, d2: Dict,
