@@ -79,11 +79,12 @@ def edit_distance(
                     queue.append(value)
 
         elif isinstance(node, list) or isinstance(node, tuple):
-            traversal.append('type: <list>')
             for value in node:
                 queue.append(value)
-        elif include_vals:
-            traversal.append(node)
+        # no need to handle leaf nodes, if they are different, they will be surrounded
+        # by a dict with the two identifiers as keys
+
+    return cost
 
 
 def _calculate_edit_distance(subtree1: Dict, subtree2: Dict,
