@@ -1,6 +1,6 @@
 import uuid
 from collections import deque
-from typing import Dict, Optional, Union
+from typing import Dict, Optional, Union, Callable, Any
 
 from .structure import compare_structure
 
@@ -9,8 +9,8 @@ def edit_distance(
         d1: Dict, d2: Dict,
         d1_id: Optional[Union[int, str]] = uuid.uuid4(),
         d2_id: Optional[Union[int, str]] = uuid.uuid4(),
-        insertion_cost: int = 1,
-        val_substitution_cost: int = 1,
+        insertion_cost: Union[int, Callable[[Any], int]] = 1,
+        val_substitution_cost: Union[int, Callable[[Any, Any], int]] = 1
 ) -> int:
     """
     Calculates the edit distance between two dictionaries.
