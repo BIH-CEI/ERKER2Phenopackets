@@ -37,6 +37,7 @@ def bfs(d: Dict, include_vals: bool = True) -> List:
                 traversal.append(key)
                 queue.append(value)
         elif isinstance(node, list) or isinstance(node, tuple):
+            traversal.append('list')
             for value in node:
                 queue.append(value)
         elif include_vals:
@@ -59,6 +60,7 @@ def dfs(d: Dict, include_vals: bool = True) -> List:
                 stack.append(value)
                 traversal.append(key)
         elif isinstance(node, list) or isinstance(node, tuple):
+            traversal.append('list')
             for value in reversed(node):
                 stack.append(value)
         elif include_vals:
