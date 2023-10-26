@@ -21,7 +21,7 @@ def test_create_difference_tree():
     d1 = {'a': {'b': {'c': 2}}}
     d2 = {'a': {'b': {'c': 3}}}
     diff = create_difference_tree(d1, d2, 1, 2)
-    expected = {'a': {'b': {'c': {}}}}
+    expected = {'a': {'b': {'c': {1: 2, 2: 3}}}}
     assert diff == expected
 
     d3 = {'a': {'b': {'d': 2}}}
