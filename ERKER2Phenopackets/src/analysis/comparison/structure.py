@@ -60,10 +60,10 @@ def create_difference_tree(d1: Dict, d2: Dict,
     """
     difference_tree = {}
     q1 = deque()
-    q1.append((d1, None))
+    q1.append((d1, [None]))
 
     q2 = deque()
-    q2.append((d2, None))
+    q2.append((d2, [None]))
 
     while q1:
         n1, key_path1 = q1.popleft()
