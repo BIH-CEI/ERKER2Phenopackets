@@ -96,6 +96,7 @@ def edit_distance(
                     cost += _calculate_edit_distance(
                         subtree1={k1: v1},
                         subtree2={k2: v2},
+                        check_cost_valid=check_cost_valid,
                         insertion_cost=insertion_cost,
                         val_substitution_cost=val_substitution_cost
                     )
@@ -106,6 +107,7 @@ def edit_distance(
                 cost += _calculate_edit_distance(
                     subtree1={'k': n1},
                     subtree2={'k': n2},
+                    check_cost_valid=check_cost_valid,
                     insertion_cost=insertion_cost,
                     val_substitution_cost=val_substitution_cost
                 )
@@ -127,7 +129,9 @@ def _calculate_edit_distance(
     :type subtree1: Dict
     :param subtree2: Second subtree
     :type subtree2: Dict
-    :param subtree_change_cost: Cost for changing a subtree, if this is assigned,
+    :param check_cost_valid: Method to check if the cost is valid
+    :type check_cost_valid: Callable[[T, str], T]
+    :param subtree_substitution_cost: Cost for changing a subtree, if this is assigned,
     insertion cost and substitution cost are ignored, defaults 1
     :type subtree_substitution_cost: Union[int, float]
     :param insertion_cost: Cost for inserting a key, can be a method taking the
