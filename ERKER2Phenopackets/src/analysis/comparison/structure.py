@@ -2,8 +2,7 @@ import uuid
 from collections import deque
 from typing import Dict, Tuple, Union, Optional, List, Any
 
-# from .traverse import traverse
-from ERKER2Phenopackets.src.analysis.comparison.traverse import traverse
+from .traverse import traverse
 
 
 def compare_structure(
@@ -161,25 +160,3 @@ def assign_dict_at(d: Dict, key_path: List[Union[str, int]], value: Any) -> Dict
         raise ValueError(f'Could not insert {value} at {key_path} in {d}')
 
     return d
-
-
-if __name__ == '__main__':
-    d = {}
-    d = assign_dict_at(d, ['a'], ['a'])
-    print(d)
-    # d1 = {'a': {'b': {'c': 2}}}
-    # d2 = {'a': {'b': {'c': 3}}}
-    # diff = create_difference_tree(d1, d2, 1, 2)
-    # expected = {'a': {'b': {'c': {}}}}
-    # assert diff == expected
-    #
-    # d3 = {'a': {'b': {'d': 2}}}
-    # diff = create_difference_tree(d1, d3, 1, 3)
-    # expected = {'a': {'b': {1: {'c': {}}, 3: {'d': {}}}}}
-    # assert diff == expected
-    #
-    # d4 = {'a': {'b': {'c': [2]}}}
-    # d5 = {'a': {'b': {'c': [3]}}}
-    # diff = create_difference_tree(d4, d5, 4, 5)
-    # expected = {'a': {'b': {'c': {4: [2], 5: [3]}}}}
-    # assert diff == expected
