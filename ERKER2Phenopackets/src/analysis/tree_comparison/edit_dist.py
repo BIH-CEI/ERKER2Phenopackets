@@ -10,7 +10,6 @@ def edit_distance(
         d1_id: Optional[Union[int, str]] = uuid.uuid4(),
         d2_id: Optional[Union[int, str]] = uuid.uuid4(),
         insertion_cost: int = 1,
-        deletion_cost: int = 1,
         val_change_cost: int = 1,
 ) -> int:
     """
@@ -30,8 +29,6 @@ def edit_distance(
     :type d2_id: Optional[Union[int, str]], optional
     :param insertion_cost: Cost for inserting a key, defaults to 1
     :type insertion_cost: int, optional
-    :param deletion_cost: Cost for deleting a key, defaults to 1
-    :type deletion_cost: int, optional
     :param val_change_cost: Cost for changing a value, defaults to 1
     :type val_change_cost: int, optional
     :return: Edit distance between the two dictionaries
@@ -45,7 +42,6 @@ def edit_distance(
         return cost_val
 
     check_cost_valid(insertion_cost, 'insertion_cost')
-    check_cost_valid(deletion_cost, 'deletion_cost')
     check_cost_valid(val_change_cost, 'val_change_cost')
 
     equals, diff = compare_structure(
@@ -71,7 +67,6 @@ def edit_distance(
                     subtree1=node[d1_id],
                     subtree2=node[d2_id],
                     insertion_cost=insertion_cost,
-                    deletion_cost=deletion_cost,
                     val_change_cost=val_change_cost
                 )
             else:
@@ -88,7 +83,7 @@ def edit_distance(
 
 
 def _calculate_edit_distance(subtree1: Dict, subtree2: Dict,
-                             insertion_cost: int, deletion_cost: int,
+                             insertion_cost: int,
                              val_change_cost: int) -> int:
     """
     Calculates the edit distance between two subtrees.
@@ -99,8 +94,6 @@ def _calculate_edit_distance(subtree1: Dict, subtree2: Dict,
     :type subtree2: Dict
     :param insertion_cost: Cost for inserting a key, defaults to 1
     :type insertion_cost: int, optional
-    :param deletion_cost: Cost for deleting a key, defaults to 1
-    :type deletion_cost: int, optional
     :param val_change_cost: Cost for changing a value, defaults to 1
     :type val_change_cost: int, optional
     :return: Edit distance between the two subtrees
