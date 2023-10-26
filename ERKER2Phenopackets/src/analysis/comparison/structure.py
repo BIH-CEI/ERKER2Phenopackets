@@ -85,20 +85,39 @@ def create_difference_tree(d1: Dict, d2: Dict,
                         d=difference_tree,
                         key_path=key_path1,
                         value={
-                            d1_id: {k1: v1}, 
+                            d1_id: {k1: v1},
                             d2_id: {k2: v2},
                         }
                     )
 
+        elif (isinstance(n1, list) or isinstance(n1, tuple)) and \
+                (isinstance(n2, list) or isinstance(n2, tuple)):
+            if n1 == n2:
+                difference_tree = assign_dict_at(
+                    d=difference_tree,
+                    key_path=key_path1,
+                    value=n1
+                )
+            elif n1 != n2:
+                difference_tree = assign_dict_at(
+                    d=difference_tree,
+                    key_path=key_path1,
+                    value={
+                        d1_id: n1,
+                        d2_id: n2,
+                    }
+                )
+        else:
+            difference_tree = assign_dict_at(
+                d=difference_tree,
+                key_path=key_path1,
+                value={
+                    d1_id: n1,
+                    d2_id: n2,
+                }
+            )
 
-
-        elif isinstance(n1, list) or isinstance(n1, tuple):
-            for value in n1:
-                q1.append(value)
-        elif include_vals:
-            traversal.append(n1)
-
-    return traversal
+    return difference_tree
 
 
 def assign_dict_at(d: Dict, key_path: List[Union[str, int]], value: Any) -> Dict:
