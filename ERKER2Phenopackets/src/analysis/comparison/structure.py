@@ -214,3 +214,25 @@ def edit_distance(
 
     if equals:
         return 0
+
+
+def _calculate_edit_distance(subtree1: Dict, subtree2: Dict,
+                             insertion_cost: int, deletion_cost: int,
+                             val_change_cost: int) -> int:
+    """
+    Calculates the edit distance between two subtrees.
+
+    :param subtree1: First subtree
+    :type subtree1: Dict
+    :param subtree2: Second subtree
+    :type subtree2: Dict
+    :param insertion_cost: Cost for inserting a key, defaults to 1
+    :type insertion_cost: int, optional
+    :param deletion_cost: Cost for deleting a key, defaults to 1
+    :type deletion_cost: int, optional
+    :param val_change_cost: Cost for changing a value, defaults to 1
+    :type val_change_cost: int, optional
+    :return: Edit distance between the two subtrees
+    :rtype: int
+    """
+    pass
