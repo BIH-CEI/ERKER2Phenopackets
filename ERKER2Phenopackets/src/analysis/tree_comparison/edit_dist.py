@@ -27,22 +27,34 @@ def edit_distance(
     :type d1_id: Optional[Union[int, str]], optional
     :param d2_id: Identifier for second dictionary, defaults to random UUID
     :type d2_id: Optional[Union[int, str]], optional
-    :param insertion_cost: Cost for inserting a key, defaults to 1
-    :type insertion_cost: int, optional
-    :param val_substitution_cost: Cost for changing a value, defaults to 1
-    :type val_substitution_cost: int, optional
+    :param insertion_cost: Cost for inserting a key, can be a method taking the
+    inserted element as a parameter, defaults to 1
+    :type insertion_cost: Union[int, Callable[[Any], int]], optional
+    :param val_substitution_cost: Cost for changing a value, can be a method taking
+    the first and the second value as argument, defaults to 1
+    :type val_substitution_cost: Union[int, Callable[[Any, Any], int]], optional
     :return: Edit distance between the two dictionaries
     :rtype: int
     """
-    def check_cost_valid(cost_val: int, cost_label:str):
+
+    def check_cost_valid(cost_val: int, cost_label: str):
         """surround each cost call with this method to check if the cost is valid"""
         if not isinstance(cost_val, int) or cost_val < 0:
             raise ValueError(f'{cost_label} {cost_val} must be a non-negative '
                              f' integer')
         return cost_val
 
-    check_cost_valid(insertion_cost, 'insertion_cost')
-    check_cost_valid(val_substitution_cost, 'val_substitution_cost')
+    if isinstance(insertion_cost, int):
+        check_cost_valid(insertion_cost, 'insertion_cost')
+
+        def insertion_cost(inserted):
+            return insertion_cost
+
+    if isinstance(val_substitution_cost, int):
+        check_cost_valid(val_substitution_cost, 'val_substitution_cost')
+
+        def val_substitution_cost(val1, val2):
+            return val_substitution_cost
 
     equals, diff = compare_structure(
         d1, d2,
