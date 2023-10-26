@@ -11,7 +11,7 @@ def edit_distance(
         d1: Dict, d2: Dict,
         d1_id: Optional[Union[int, str]] = uuid.uuid4(),
         d2_id: Optional[Union[int, str]] = uuid.uuid4(),
-        subtree_change_cost: T = 1,
+        subtree_substitution_cost: T = 1,
         insertion_cost: Union[int, float, Callable[[Any], T]] = 1,
         val_substitution_cost: Union[int, float, Callable[[Any, Any], T]] = 1
 ) -> T:
@@ -26,9 +26,9 @@ def edit_distance(
     :type d1_id: Optional[Union[int, str]], optional
     :param d2_id: Identifier for second dictionary, defaults to random UUID
     :type d2_id: Optional[Union[int, str]], optional
-    :param subtree_change_cost: Cost for changing a subtree, if this is assigned,
+    :param subtree_substitution_cost: Cost for changing a subtree, if this is assigned,
     insertion cost and substitution cost are ignored, defaults 1
-    :type subtree_change_cost: Union[int, float]
+    :type subtree_substitution_cost: Union[int, float]
     :param insertion_cost: Cost for inserting a key, can be a method taking the
     inserted element as a parameter, defaults to 1
     :type insertion_cost: Union[int, float, Callable[[Any], Union[int, float]]]
@@ -47,8 +47,8 @@ def edit_distance(
                              f' integer or floating point number')
         return cost_val
 
-    if isinstance(subtree_change_cost, (int, float)):
-        check_cost_valid(subtree_change_cost, 'subtree_change_cost')
+    if isinstance(subtree_substitution_cost, (int, float)):
+        check_cost_valid(subtree_substitution_cost, 'subtree_substitution_cost')
 
     if isinstance(insertion_cost, (int, float)):
         check_cost_valid(insertion_cost, 'insertion_cost')
@@ -56,8 +56,8 @@ def edit_distance(
         def insertion_cost(inserted):
             return insertion_cost
 
-    if isinstance(val_substitution_cost, int):
-        check_cost_valid(val_substitution_cost, 'val_substitution_cost')
+    if isinstance(val_substitution_cost, (int, float)):
+        check_cost_valid(val_substitution_cost, 'substitution_cost')
 
         def val_substitution_cost(val1, val2):
             return val_substitution_cost
@@ -124,7 +124,7 @@ def _calculate_edit_distance(
     :type subtree2: Dict
     :param subtree_change_cost: Cost for changing a subtree, if this is assigned,
     insertion cost and substitution cost are ignored, defaults 1
-    :type subtree_change_cost: Union[int, float]
+    :type subtree_substitution_cost: Union[int, float]
     :param insertion_cost: Cost for inserting a key, can be a method taking the
     inserted element as a parameter, defaults to 1
     :type insertion_cost: Union[int, float, Callable[[Any], Union[int, float]]]
@@ -135,8 +135,8 @@ def _calculate_edit_distance(
     :return: Edit distance between the two subtrees
     :rtype: int
     """
-    if subtree_change_cost:
-        return subtree_change_cost
+    if subtree_substitution_cost:
+        return subtree_substitution_cost
     # TODO: the structure of the subtrees should roughly match, assign penalties
     #  otherwise
     return 1
