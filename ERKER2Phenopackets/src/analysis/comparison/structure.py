@@ -207,3 +207,10 @@ def edit_distance(
     check_cost_valid(val_change_cost, 'val_change_cost')
 
     equals, diff = compare_structure(
+        d1, d2,
+        d1_id, d2_id,
+        include_vals=bool(val_change_cost)
+    )
+
+    if equals:
+        return 0
