@@ -195,12 +195,15 @@ def edit_distance(
     :return: Edit distance between the two dictionaries
     :rtype: int
     """
-    if not isinstance(insertion_cost, int) or insertion_cost < 0:
-        raise ValueError(f'Insertion cost {insertion_cost} must be a non-negative '
-                         f' integer')
-    if not isinstance(deletion_cost, int) or deletion_cost < 0:
-        raise ValueError(f'Deletion cost {deletion_cost} must be a non-negative '
-                         f' integer')
-    if not isinstance(val_change_cost, int) or val_change_cost < 0:
-        raise ValueError(f'Value change cost {val_change_cost} must be a non-negative '
-                         f' integer')
+    def check_cost_valid(cost_val: int, cost_label:str):
+        """surround each cost call with this method to check if the cost is valid"""
+        if not isinstance(cost_val, int) or cost_val < 0:
+            raise ValueError(f'{cost_label} {cost_val} must be a non-negative '
+                             f' integer')
+        return cost_val
+
+    check_cost_valid(insertion_cost, 'insertion_cost')
+    check_cost_valid(deletion_cost, 'deletion_cost')
+    check_cost_valid(val_change_cost, 'val_change_cost')
+
+    equals, diff = compare_structure(
