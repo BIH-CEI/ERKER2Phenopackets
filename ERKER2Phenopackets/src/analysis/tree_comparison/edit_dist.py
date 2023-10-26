@@ -10,7 +10,7 @@ def edit_distance(
         d1_id: Optional[Union[int, str]] = uuid.uuid4(),
         d2_id: Optional[Union[int, str]] = uuid.uuid4(),
         insertion_cost: int = 1,
-        val_change_cost: int = 1,
+        val_substitution_cost: int = 1,
 ) -> int:
     """
     Calculates the edit distance between two dictionaries.
@@ -29,8 +29,8 @@ def edit_distance(
     :type d2_id: Optional[Union[int, str]], optional
     :param insertion_cost: Cost for inserting a key, defaults to 1
     :type insertion_cost: int, optional
-    :param val_change_cost: Cost for changing a value, defaults to 1
-    :type val_change_cost: int, optional
+    :param val_substitution_cost: Cost for changing a value, defaults to 1
+    :type val_substitution_cost: int, optional
     :return: Edit distance between the two dictionaries
     :rtype: int
     """
@@ -42,49 +42,59 @@ def edit_distance(
         return cost_val
 
     check_cost_valid(insertion_cost, 'insertion_cost')
-    check_cost_valid(val_change_cost, 'val_change_cost')
+    check_cost_valid(val_substitution_cost, 'val_substitution_cost')
 
     equals, diff = compare_structure(
         d1, d2,
         d1_id, d2_id,
-        include_vals=bool(val_change_cost)
+        include_vals=bool(val_substitution_cost),
+        construct_diff_tree=False
     )
 
     if equals:
         return 0
 
-    # traverse through the difference tree and calculate the edit distance
     cost = 0
-    queue = deque()
-    queue.append(diff)
 
-    while queue:
-        node = queue.popleft()
+    q1 = deque()
+    q1.append(d1)
 
-        if isinstance(node, dict):
-            if len(node.keys()) == 2 and d1_id in node and d2_id in node:
+    q2 = deque()
+    q2.append(d2)
+
+    while q1:
+        n1, key_path1 = q1.popleft()
+        n2, key_path2 = q2.popleft()
+
+        if isinstance(n1, dict) and isinstance(n2, dict):
+            for k1, v1, k2, v2 in zip(n1.keys(), n1.values(), n2.keys(), n2.values()):
+                if k1 == k2:
+                    q1.append(v1)
+                    q2.append(v2)
+                elif k1 != k2:
+                    cost += _calculate_edit_distance(
+                        subtree1={k1: v1},
+                        subtree2={k2: v2},
+                        insertion_cost=insertion_cost,
+                        val_substitution_cost=val_substitution_cost
+                    )
+
+        elif (isinstance(n1, list) or isinstance(n1, tuple)) and \
+                (isinstance(n2, list) or isinstance(n2, tuple)):
+            if n1 != n2:
                 cost += _calculate_edit_distance(
-                    subtree1=node[d1_id],
-                    subtree2=node[d2_id],
+                    subtree1={'k': n1},
+                    subtree2={'k': n2},
                     insertion_cost=insertion_cost,
-                    val_change_cost=val_change_cost
+                    val_substitution_cost=val_substitution_cost
                 )
-            else:
-                for key, value in zip(node.keys(), node.values()):
-                    queue.append(value)
-
-        elif isinstance(node, list) or isinstance(node, tuple):
-            for value in node:
-                queue.append(value)
-        # no need to handle leaf nodes, if they are different, they will be surrounded
-        # by a dict with the two identifiers as keys
 
     return cost
 
 
 def _calculate_edit_distance(subtree1: Dict, subtree2: Dict,
                              insertion_cost: int,
-                             val_change_cost: int) -> int:
+                             val_substitution_cost: int) -> int:
     """
     Calculates the edit distance between two subtrees.
 
