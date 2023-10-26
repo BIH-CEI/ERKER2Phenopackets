@@ -48,7 +48,10 @@ def edit_distance(
         return cost_val
 
     if isinstance(subtree_substitution_cost, (int, float)):
-        check_cost_valid(subtree_substitution_cost, 'subtree_substitution_cost')
+        check_cost_valid(
+            subtree_substitution_cost,
+            'subtree_substitution_cost'
+        )
 
     if isinstance(insertion_cost, (int, float)):
         check_cost_valid(insertion_cost, 'insertion_cost')
