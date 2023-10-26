@@ -4,20 +4,18 @@ from typing import Dict, Optional, Union, Callable, Any
 
 from .structure import compare_structure
 
+T = Union[int, float]
+
 
 def edit_distance(
         d1: Dict, d2: Dict,
         d1_id: Optional[Union[int, str]] = uuid.uuid4(),
         d2_id: Optional[Union[int, str]] = uuid.uuid4(),
-        insertion_cost: Union[int, Callable[[Any], int]] = 1,
-        val_substitution_cost: Union[int, Callable[[Any, Any], int]] = 1
-) -> int:
+        insertion_cost: Union[int, float, Callable[[Any], T]] = 1,
+        val_substitution_cost: Union[int, float, Callable[[Any, Any], T]] = 1
+) -> T:
     """
     Calculates the edit distance between two dictionaries.
-
-
-    TODO: in the future also support functions that have access to the values for
-    cost calculation
 
     :param d1: First dictionary
     :type d1: Dict
@@ -29,10 +27,11 @@ def edit_distance(
     :type d2_id: Optional[Union[int, str]], optional
     :param insertion_cost: Cost for inserting a key, can be a method taking the
     inserted element as a parameter, defaults to 1
-    :type insertion_cost: Union[int, Callable[[Any], int]], optional
+    :type insertion_cost: Union[int, float, Callable[[Any], Union[int, float]]]
     :param val_substitution_cost: Cost for changing a value, can be a method taking
     the first and the second value as argument, defaults to 1
-    :type val_substitution_cost: Union[int, Callable[[Any, Any], int]], optional
+    :type val_substitution_cost:
+    Union[int, float, Callable[[Any, Any], Union[int, float]]]
     :return: Edit distance between the two dictionaries
     :rtype: int
     """
