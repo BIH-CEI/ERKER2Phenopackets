@@ -84,8 +84,8 @@ def edit_distance(
     q2.append(d2)
 
     while q1:
-        n1, key_path1 = q1.popleft()
-        n2, key_path2 = q2.popleft()
+        n1 = q1.popleft()
+        n2 = q2.popleft()
 
         if isinstance(n1, dict) and isinstance(n2, dict):
             for k1, v1, k2, v2 in zip(n1.keys(), n1.values(), n2.keys(), n2.values()):
