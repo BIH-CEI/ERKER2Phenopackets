@@ -103,9 +103,11 @@ def edit_distance(
     return cost
 
 
-def _calculate_edit_distance(subtree1: Dict, subtree2: Dict,
-                             insertion_cost: int,
-                             val_substitution_cost: int) -> int:
+def _calculate_edit_distance(
+        subtree1: Dict, subtree2: Dict,
+        insertion_cost: Union[int, float, Callable[[Any], T]] = 1,
+        val_substitution_cost: Union[int, float, Callable[[Any, Any], T]] = 1
+) -> T:
     """
     Calculates the edit distance between two subtrees.
 
@@ -113,10 +115,13 @@ def _calculate_edit_distance(subtree1: Dict, subtree2: Dict,
     :type subtree1: Dict
     :param subtree2: Second subtree
     :type subtree2: Dict
-    :param insertion_cost: Cost for inserting a key, defaults to 1
-    :type insertion_cost: int, optional
-    :param val_substitution_cost: Cost for changing a value, defaults to 1
-    :type val_substitution_cost: int, optional
+    :param insertion_cost: Cost for inserting a key, can be a method taking the
+    inserted element as a parameter, defaults to 1
+    :type insertion_cost: Union[int, float, Callable[[Any], Union[int, float]]]
+    :param val_substitution_cost: Cost for changing a value, can be a method taking
+    the first and the second value as argument, defaults to 1
+    :type val_substitution_cost:
+    Union[int, float, Callable[[Any, Any], Union[int, float]]]
     :return: Edit distance between the two subtrees
     :rtype: int
     """
