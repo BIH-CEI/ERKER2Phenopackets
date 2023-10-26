@@ -195,3 +195,12 @@ def edit_distance(
     :return: Edit distance between the two dictionaries
     :rtype: int
     """
+    if not isinstance(insertion_cost, int) or insertion_cost < 0:
+        raise ValueError(f'Insertion cost {insertion_cost} must be a non-negative '
+                         f' integer')
+    if not isinstance(deletion_cost, int) or deletion_cost < 0:
+        raise ValueError(f'Deletion cost {deletion_cost} must be a non-negative '
+                         f' integer')
+    if not isinstance(val_change_cost, int) or val_change_cost < 0:
+        raise ValueError(f'Value change cost {val_change_cost} must be a non-negative '
+                         f' integer')
