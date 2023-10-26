@@ -127,4 +127,4 @@ def _calculate_edit_distance(
     """
     # TODO: the structure of the subtrees should roughly match, assign penalties
     #  otherwise
-    pass
+    return 1
