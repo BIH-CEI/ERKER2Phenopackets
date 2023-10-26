@@ -76,7 +76,7 @@ def create_difference_tree(d1: Dict, d2: Dict,
                     difference_tree = assign_dict_at(
                         d=difference_tree,
                         key_path=key_path1,
-                        value=k1
+                        value={k1: {}}
                     )
 
                     q1.append((v1, key_path1 + [k1]))
