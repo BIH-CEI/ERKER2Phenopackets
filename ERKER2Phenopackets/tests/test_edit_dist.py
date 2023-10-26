@@ -10,11 +10,15 @@ def test_same():
 
 
 def test_insertion():
-    pass
+    d1 = {'a': {'b': {'c': 2}, 'd': {'e': 3}}}
+    d2 = {'a': {'b': {'c': 2}}}
+    # assert edit_distance(d1, d2, subtree_substitution_cost=0) == x
 
 
 def test_substitution():
-    pass
+    d1 = {'a': {'b': {'c': 2}, 'd': {'e': 3}}}
+    d2 = {'a': {'b': {'c': 2}, 'd': {'e': 4}}}
+    # assert edit_distance(d1, d2, subtree_substitution_cost=0) == 1
 
 
 def test_subtree_substitution():
