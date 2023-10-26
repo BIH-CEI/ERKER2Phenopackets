@@ -14,8 +14,6 @@ def compare_structure(
 
     By structure we mean the keys and the order of the keys.
 
-    TODO: WARNING currently does not return a difference tree, but only a boolean
-
     :param d1: First dictionary
     :type d1: Dict
     :param d2: Second dictionary
