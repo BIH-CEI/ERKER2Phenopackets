@@ -40,11 +40,11 @@ def edit_distance(
     :rtype: int
     """
 
-    def check_cost_valid(cost_val: int, cost_label: str):
+    def check_cost_valid(cost_val: T, cost_label: str):
         """surround each cost call with this method to check if the cost is valid"""
-        if not isinstance(cost_val, int) or cost_val < 0:
+        if not isinstance(cost_val, (int, float)) or cost_val < 0:
             raise ValueError(f'{cost_label} {cost_val} must be a non-negative '
-                             f' integer')
+                             f' integer or floating point number')
         return cost_val
 
     if isinstance(insertion_cost, int):
