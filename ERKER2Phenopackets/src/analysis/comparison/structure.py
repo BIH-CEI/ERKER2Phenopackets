@@ -140,12 +140,13 @@ def assign_dict_at(d: Dict, key_path: List[Union[str, int]], value: Any) -> Dict
      path
     :rtype: Dict
     """
+    _d = d
     for key in key_path[:-1]:
         if key is None:
             continue
-        d = d[key]
+        _d = _d[key]
 
-    d[key_path[-1]] = value
+    _d[key_path[-1]] = value
 
     return d
 
