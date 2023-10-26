@@ -125,4 +125,6 @@ def _calculate_edit_distance(
     :return: Edit distance between the two subtrees
     :rtype: int
     """
+    # TODO: the structure of the subtrees should roughly match, assign penalties
+    #  otherwise
     pass
