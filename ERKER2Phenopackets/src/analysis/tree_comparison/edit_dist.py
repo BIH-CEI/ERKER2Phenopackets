@@ -149,6 +149,8 @@ def _calculate_edit_distance(
     else:
         # TODO: the structure of the subtrees should roughly match, assign penalties
         #  otherwise
+        # just assign penalties for each key or value or list item that is different
+        # also count up the items in a not in b and in b not in a and assign penalties
         cost = 69
 
         if True:  # insertion
