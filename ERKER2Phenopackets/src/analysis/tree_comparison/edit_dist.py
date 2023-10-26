@@ -11,6 +11,7 @@ def edit_distance(
         d1: Dict, d2: Dict,
         d1_id: Optional[Union[int, str]] = uuid.uuid4(),
         d2_id: Optional[Union[int, str]] = uuid.uuid4(),
+        subtree_change_cost: T = 1,
         insertion_cost: Union[int, float, Callable[[Any], T]] = 1,
         val_substitution_cost: Union[int, float, Callable[[Any, Any], T]] = 1
 ) -> T:
@@ -25,6 +26,9 @@ def edit_distance(
     :type d1_id: Optional[Union[int, str]], optional
     :param d2_id: Identifier for second dictionary, defaults to random UUID
     :type d2_id: Optional[Union[int, str]], optional
+    :param subtree_change_cost: Cost for changing a subtree, if this is assigned,
+    insertion cost and substitution cost are ignored, defaults 1
+    :type subtree_change_cost: Union[int, float]
     :param insertion_cost: Cost for inserting a key, can be a method taking the
     inserted element as a parameter, defaults to 1
     :type insertion_cost: Union[int, float, Callable[[Any], Union[int, float]]]
@@ -115,6 +119,9 @@ def _calculate_edit_distance(
     :type subtree1: Dict
     :param subtree2: Second subtree
     :type subtree2: Dict
+    :param subtree_change_cost: Cost for changing a subtree, if this is assigned,
+    insertion cost and substitution cost are ignored, defaults 1
+    :type subtree_change_cost: Union[int, float]
     :param insertion_cost: Cost for inserting a key, can be a method taking the
     inserted element as a parameter, defaults to 1
     :type insertion_cost: Union[int, float, Callable[[Any], Union[int, float]]]
@@ -125,6 +132,8 @@ def _calculate_edit_distance(
     :return: Edit distance between the two subtrees
     :rtype: int
     """
+    if subtree_change_cost:
+        return subtree_change_cost
     # TODO: the structure of the subtrees should roughly match, assign penalties
     #  otherwise
     return 1
