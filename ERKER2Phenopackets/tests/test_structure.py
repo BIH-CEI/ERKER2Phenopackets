@@ -1,4 +1,4 @@
-from ERKER2Phenopackets.src.analysis.comparison.structure import assign_dict_at, \
+from ERKER2Phenopackets.src.analysis.tree_comparison.structure import assign_dict_at, \
     create_difference_tree, compare_structure
 
 
