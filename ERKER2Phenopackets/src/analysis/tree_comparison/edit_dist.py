@@ -94,8 +94,8 @@ def _calculate_edit_distance(subtree1: Dict, subtree2: Dict,
     :type subtree2: Dict
     :param insertion_cost: Cost for inserting a key, defaults to 1
     :type insertion_cost: int, optional
-    :param val_change_cost: Cost for changing a value, defaults to 1
-    :type val_change_cost: int, optional
+    :param val_substitution_cost: Cost for changing a value, defaults to 1
+    :type val_substitution_cost: int, optional
     :return: Edit distance between the two subtrees
     :rtype: int
     """
