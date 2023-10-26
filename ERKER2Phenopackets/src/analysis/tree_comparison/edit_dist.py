@@ -146,6 +146,19 @@ def _calculate_edit_distance(
     """
     if subtree_substitution_cost:
         return subtree_substitution_cost
-    # TODO: the structure of the subtrees should roughly match, assign penalties
-    #  otherwise
-    return 1
+    else:
+        # TODO: the structure of the subtrees should roughly match, assign penalties
+        #  otherwise
+        cost = 69
+
+        if True:  # insertion
+            inserted_item = None
+            cost += check_cost_valid(insertion_cost(inserted_item), 'insertion_cost')
+        if True:  # modification
+            val1 = None
+            val2 = None
+            cost += check_cost_valid(
+                val_substitution_cost(val1, val2),
+                'val_substitution_cost'
+            )
+        return cost
