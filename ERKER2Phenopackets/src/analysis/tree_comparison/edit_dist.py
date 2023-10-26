@@ -60,7 +60,7 @@ def edit_distance(
             return insertion_cost
 
     if isinstance(val_substitution_cost, (int, float)):
-        check_cost_valid(val_substitution_cost, 'substitution_cost')
+        check_cost_valid(val_substitution_cost, 'val_substitution_cost')
 
         def val_substitution_cost(val1, val2):
             return val_substitution_cost
