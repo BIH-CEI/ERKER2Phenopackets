@@ -65,7 +65,7 @@ def edit_distance(
         def val_substitution_cost(val1, val2):
             return val_substitution_cost
 
-    equals, diff = compare_structure(
+    equals = compare_structure(
         d1, d2,
         d1_id, d2_id,
         include_vals=bool(val_substitution_cost),
