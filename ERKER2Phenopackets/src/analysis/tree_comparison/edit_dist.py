@@ -115,8 +115,10 @@ def edit_distance(
 
 def _calculate_edit_distance(
         subtree1: Dict, subtree2: Dict,
+        check_cost_valid: Callable[[T, str], T],
+        subtree_substitution_cost: T = 1,
         insertion_cost: Union[int, float, Callable[[Any], T]] = 1,
-        val_substitution_cost: Union[int, float, Callable[[Any, Any], T]] = 1
+        val_substitution_cost: Union[int, float, Callable[[Any, Any], T]] = 1,
 ) -> T:
     """
     Calculates the edit distance between two subtrees.
