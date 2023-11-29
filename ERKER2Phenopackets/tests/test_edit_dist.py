@@ -9,16 +9,16 @@ def test_same():
     assert edit_distance(d2, d2) == 0
 
 
-def test_insertion():
-    d1 = {'a': {'b': {'c': 2}, 'd': {'e': 3}}}
-    d2 = {'a': {'b': {'c': 2}}}
-    # assert edit_distance(d1, d2, subtree_substitution_cost=0) == x
+# def test_insertion():
+#     d1 = {'a': {'b': {'c': 2}, 'd': {'e': 3}}}
+#     d2 = {'a': {'b': {'c': 2}}}
+#     assert edit_distance(d1, d2, subtree_substitution_cost=0) == x
 
 
-def test_substitution():
-    d1 = {'a': {'b': {'c': 2}, 'd': {'e': 3}}}
-    d2 = {'a': {'b': {'c': 2}, 'd': {'e': 4}}}
-    # assert edit_distance(d1, d2, subtree_substitution_cost=0) == 1
+# def test_substitution():
+#     d1 = {'a': {'b': {'c': 2}, 'd': {'e': 3}}}
+#     d2 = {'a': {'b': {'c': 2}, 'd': {'e': 4}}}
+#     assert edit_distance(d1, d2, subtree_substitution_cost=0) == 1
 
 
 def test_subtree_substitution():
