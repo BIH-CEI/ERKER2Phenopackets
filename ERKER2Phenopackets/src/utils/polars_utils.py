@@ -1,8 +1,10 @@
-from typing import List, Union, Dict, Any, Callable, Type
+from typing import List, Union, Dict, Any, Callable, Type, Tuple
 import warnings
 
+import numpy as np
 import polars as pl
 from loguru import logger
+from matplotlib import pyplot as plt
 
 
 def null_value_analysis(df: pl.DataFrame, verbose=False) -> Union[None, pl.DataFrame]:
@@ -332,3 +334,78 @@ def fill_null_vals(df: pl.DataFrame, col: str, value: Any) -> pl.DataFrame:
     return df.with_columns(
         pl.col(col).fill_null(value=value)
     )
+
+
+def contingency_table(dataframe, col1_name, col2_name):
+    
+    num_col1 = dataframe[col1_name].n_unique()
+    num_col2 = dataframe[col2_name].n_unique()
+
+    grouped_by_both = dataframe.groupby([col1_name, col2_name]).count()
+
+    c_table = np.zeros((num_col1, num_col2))
+
+    for i, z in enumerate(dataframe[col1_name].unique()):
+        for j, c in enumerate(dataframe[col2_name].unique()):
+            result = (grouped_by_both
+                      .filter(
+                (grouped_by_both[col1_name] == z)
+                & (grouped_by_both[col2_name] == c))
+                      .select(['count']))
+            if not result.is_empty():
+                c_table[i, j] = result['count'][0]
+    return c_table
+
+
+def barchart_3d(df: pl.DataFrame,
+                col1_name: str, col2_name: str,
+                figsize: Tuple[int, int],
+                grouped_by_col1: pl.DataFrame = None,
+                grouped_by_col2: pl.DataFrame = None
+                ):
+    """
+    Create a 3D barchart of the contingency table of two columns
+    
+    :param df: the dataframe
+    :param col1_name: the name of the first column
+    :param col2_name: the name of the second column
+    :param figsize: a tuple of the figure size e.g. (10, 10)
+    :param grouped_by_col1: a dataframe grouped by the first column with count e.g.,
+        df.groupby(col1_name).count()
+    :param grouped_by_col2: a dataframe grouped by the second column with count
+    """
+    if grouped_by_col1 is None:
+        grouped_by_col1 = df.groupby(col1_name).count()
+    if grouped_by_col2 is None:
+        grouped_by_col2 = df.groupby(col2_name).count()
+    col1_labels = grouped_by_col1[col1_name]
+    col2_labels = grouped_by_col2[col2_name]
+    ct = contingency_table(df, col1_name, col2_name)
+
+    num_col1 = df[col1_name].n_unique()
+    num_col2 = df[col2_name].n_unique()
+
+    fig = plt.figure(figsize=figsize)
+    ax = fig.add_subplot(111, projection='3d')
+
+    xpos, ypos = np.meshgrid(np.arange(num_col1), np.arange(num_col2))
+    xpos = xpos.flatten()
+    ypos = ypos.flatten()
+    zpos = np.zeros_like(xpos)
+
+    dx = dy = 0.5
+    dz = np.array(ct).flatten()
+
+    ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color='b')
+
+    # Setting labels for axes
+    ax.set_xticks(np.arange(num_col1))
+    ax.set_xticklabels(col1_labels)
+    ax.set_yticks(np.arange(num_col2))
+    ax.set_yticklabels(col2_labels)
+
+    ax.set_xlabel(col1_name)
+    ax.set_ylabel(col2_name)
+    ax.set_zlabel('Count')
+
+    plt.show()
