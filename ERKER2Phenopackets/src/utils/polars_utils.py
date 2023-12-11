@@ -149,7 +149,7 @@ def add_id_col(df: pl.DataFrame,
     :type id_prefix: str
     :param id_suffix: Suffix for id column
     :type id_suffix: str
-    :param id_datatype: the datatype of the id column, if id_suffix and id_prefix are 
+    :param id_datatype: the datatype of the id column, if id_suffix and id_prefix are
         not specified
     :type id_datatype: Type
     :return: DataFrame with id column
@@ -355,8 +355,8 @@ def contingency_table(df, col1_name, col2_name):
         for j, c in enumerate(df[col2_name].unique()):
             result = (grouped_by_both
                       .filter(
-                            (grouped_by_both[col1_name] == z)
-                            & (grouped_by_both[col2_name] == c))
+                (grouped_by_both[col1_name] == z)
+                & (grouped_by_both[col2_name] == c))
                       .select(['count']))
             if not result.is_empty():
                 c_table[i, j] = result['count'][0]
@@ -371,7 +371,7 @@ def barchart_3d(df: pl.DataFrame,
                 ):
     """
     Create a 3D barchart of the contingency table of two columns
-    
+
     :param df: the dataframe
     :param col1_name: the name of the first column
     :param col2_name: the name of the second column
@@ -404,7 +404,6 @@ def barchart_3d(df: pl.DataFrame,
 
     ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color='b')
 
-    # Setting labels for axes
     ax.set_xticks(np.arange(num_col1))
     ax.set_xticklabels(col1_labels)
     ax.set_yticks(np.arange(num_col2))
@@ -415,3 +414,56 @@ def barchart_3d(df: pl.DataFrame,
     ax.set_zlabel('Count')
 
     plt.show()
+
+
+def barchart_subplot(ax, x, y, title='', x_label='', y_label='', color='',
+                     x_tick_rotation='horizontal'):
+    if color == '':
+        ax.bar(x, y)
+    else:
+        ax.bar(x, y, color=color)
+    ax.set_title(title)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    ax.set_xticks(x)
+    ax.set_xticklabels(x, rotation=x_tick_rotation)
+    ax.set_axisbelow(True)
+
+
+def barchart(x, y, title='', x_label='', y_label='', color='',
+             x_tick_rotation='horizontal', figsize=(20, 15)):
+    plt.figure(figsize=figsize)
+    if color == '':
+        plt.bar(x, y)
+    else:
+        plt.bar(x, y, color=color)
+    plt.xticks(rotation=x_tick_rotation)
+    plt.title(title)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.show()
+
+
+def piechart_subplot(ax, labels, sizes, title='', colors=None, startangle=140,
+                     autopct='%1.1f%%', legend_loc='upper right'):
+    if colors is None:
+        ax.pie(sizes, labels=labels, autopct=autopct, startangle=startangle)
+    else:
+        ax.pie(sizes, labels=labels, autopct=autopct, startangle=startangle,
+               colors=colors)
+    ax.set_title(title)
+    ax.axis('equal')
+    ax.legend(labels, loc=legend_loc, bbox_to_anchor=(1, 0.9))
+
+
+def piechart(labels, sizes, title='', colors=None, startangle=140,
+                     autopct='%1.1f%%', legend_loc='upper right', figsize=(20, 15)):
+    plt.figure(figsize=figsize)
+    if colors is None:
+        plt.pie(sizes, labels=labels, autopct=autopct, startangle=startangle)
+    else:
+        plt.pie(sizes, labels=labels, autopct=autopct, startangle=startangle,
+               colors=colors)
+    plt.set_title(title)
+    plt.axis('equal')
+    plt.legend(labels, loc=legend_loc, bbox_to_anchor=(1, 0.9))
