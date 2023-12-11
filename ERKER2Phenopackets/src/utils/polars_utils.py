@@ -491,3 +491,24 @@ def barchart_relative_distribution(x, y, title='', x_label='', color='',
     plt.title(title)
     ax1.set_xlabel(x_label)
     plt.show()
+
+
+def barchart_relative_distribution_subplot(ax, x, y, title='', x_label='', color='',
+                                   x_tick_rotation='vertical'):
+    ax1 = ax
+    ax2 = ax1.twinx()
+
+    if color == '':
+        ax1.bar(x, y)
+    else:
+        ax1.bar(x, y, color=color)
+    ax1.set_ylabel('Counts', color='blue')
+
+    rel_freq = y / sum(y)
+    ax2.plot(x, rel_freq, linestyle='-', marker='o', color='red')
+    ax2.set_ylabel('Relative Distribution', color='red')
+
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(x, rotation=x_tick_rotation)
+    ax.set_title(title)
+    ax1.set_xlabel(x_label)
