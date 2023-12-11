@@ -464,7 +464,7 @@ def piechart(labels, sizes, title='', colors=None, startangle=140,
     else:
         plt.pie(sizes, labels=labels, autopct=autopct, startangle=startangle,
                colors=colors)
-    plt.set_title(title)
+    plt.title(title)
     plt.axis('equal')
     plt.legend(labels, loc=legend_loc, bbox_to_anchor=(1, 0.9))
 
