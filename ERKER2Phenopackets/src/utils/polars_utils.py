@@ -417,7 +417,7 @@ def barchart_3d(df: pl.DataFrame,
 
 
 def barchart_subplot(ax, x, y, title='', x_label='', y_label='', color='',
-                     x_tick_rotation='horizontal'):
+                     x_tick_rotation='horizontal', y_min=None, y_max=None):
     if color == '':
         ax.bar(x, y)
     else:
@@ -426,6 +426,7 @@ def barchart_subplot(ax, x, y, title='', x_label='', y_label='', color='',
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
     ax.set_xticks(x)
+    ax.set_ylim(y_min, y_max)
     ax.set_xticklabels(x, rotation=x_tick_rotation)
     ax.set_axisbelow(True)
 
