@@ -336,31 +336,42 @@ def fill_null_vals(df: pl.DataFrame, col: str, value: Any) -> pl.DataFrame:
     )
 
 
-def contingency_table(df, col1_name, col2_name):
+def contingency_table(df, col1_name, col2_name, order1=None, order2=None):
     """
     Create a contingency table (np array) of two columns
     :param df: the dataframe
     :param col1_name: the name of the first column
     :param col2_name: the name of the second column
+    :param order1: list of values in the first column in the order they should
+    appear, optional
+    :param order2: list of values in the second column in the order they should
+    appear, optional
     :return: a contingency table of two columns
     """
-    num_col1 = df[col1_name].n_unique()
-    num_col2 = df[col2_name].n_unique()
+    if order1 is None and order2 is None:
+        # reassign the order to the order found in df
+        order1 = df[col1_name].unique()
+        order2 = df[col2_name].unique()
 
-    grouped_by_both = df.groupby([col1_name, col2_name]).count()
+    if order1 is not None and order2 is not None:
+        num_col1 = len(order1)
+        num_col2 = len(order2)
 
-    c_table = np.zeros((num_col1, num_col2))
+        c_table = np.zeros((num_col1, num_col2))
 
-    for i, z in enumerate(df[col1_name].unique()):
-        for j, c in enumerate(df[col2_name].unique()):
-            result = (grouped_by_both
-                      .filter(
-                (grouped_by_both[col1_name] == z)
-                & (grouped_by_both[col2_name] == c))
-                      .select(['count']))
-            if not result.is_empty():
-                c_table[i, j] = result['count'][0]
-    return c_table
+        grouped_by_both = df.groupby([col1_name, col2_name]).count()
+
+        for i, z in enumerate(order1):
+            for j, c in enumerate(order2):
+                result = (grouped_by_both
+                          .filter(
+                    (grouped_by_both[col1_name] == z)
+                    & (grouped_by_both[col2_name] == c))
+                          .select(['count']))
+                if not result.is_empty():
+                    c_table[i, j] = result['count'][0]
+        return c_table
+
 
 
 def barchart_3d(df: pl.DataFrame,
