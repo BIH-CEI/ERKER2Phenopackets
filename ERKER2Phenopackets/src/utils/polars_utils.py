@@ -467,3 +467,27 @@ def piechart(labels, sizes, title='', colors=None, startangle=140,
     plt.set_title(title)
     plt.axis('equal')
     plt.legend(labels, loc=legend_loc, bbox_to_anchor=(1, 0.9))
+
+    plt.show()
+
+
+def barchart_relative_distribution(x, y, title='', x_label='', color='',
+                                   x_tick_rotation='vertical', figsize=(20, 10)):
+    fig, ax1 = plt.subplots(figsize=figsize)
+    ax2 = ax1.twinx()
+
+    if color == '':
+        ax1.bar(x, y)
+    else:
+        ax1.bar(x, y, color=color)
+    ax1.set_ylabel('Counts', color='blue')
+
+    rel_freq = y / sum(y)
+    ax2.plot(x, rel_freq, linestyle='-', marker='o', color='red')
+    ax2.set_ylabel('Relative Distribution', color='red')
+
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(x, rotation=x_tick_rotation)
+    plt.title(title)
+    ax1.set_xlabel(x_label)
+    plt.show()
