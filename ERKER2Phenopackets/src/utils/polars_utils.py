@@ -524,3 +524,20 @@ def barchart_relative_distribution_subplot(ax, x, y, title='', x_label='', color
     ax1.set_xticklabels(x, rotation=x_tick_rotation)
     ax.set_title(title)
     ax1.set_xlabel(x_label)
+
+
+def melt_groupby_count(df: pl.DataFrame, columns: List[str]) -> pl.DataFrame:
+    """Counts the number of occurences of each value in each of the listed columns.
+
+    :param df:
+    :param columns:
+    :return:
+    """
+    melted = df.melt(id_vars=[], value_vars=columns)
+
+    return (
+        melted.groupby(["value", "variable"])
+        .agg(pl.count().alias("count"))
+        .pivot(index="value", columns="variable", values="count")
+        .fill_null(0)
+    )
