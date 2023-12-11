@@ -541,3 +541,11 @@ def melt_groupby_count(df: pl.DataFrame, columns: List[str]) -> pl.DataFrame:
         .pivot(index="value", columns="variable", values="count")
         .fill_null(0)
     )
+
+
+def sort_columns(df: pl.DataFrame, columns_first: List[str], descending: bool = False) -> pl.DataFrame:
+    non_value_columns = [col for col in df.columns if col not in columns_first]
+    sorted_non_value_columns = sorted(non_value_columns, reverse=descending)
+
+    sorted_columns = columns_first + sorted_non_value_columns
+    return df.select(sorted_columns)
