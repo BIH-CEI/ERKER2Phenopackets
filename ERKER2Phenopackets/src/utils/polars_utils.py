@@ -373,7 +373,6 @@ def contingency_table(df, col1_name, col2_name, order1=None, order2=None):
         return c_table
 
 
-
 def barchart_3d(df: pl.DataFrame,
                 col1_name: str, col2_name: str,
                 figsize: Tuple[int, int],
@@ -469,13 +468,13 @@ def piechart_subplot(ax, labels, sizes, title='', colors=None, startangle=140,
 
 
 def piechart(labels, sizes, title='', colors=None, startangle=140,
-                     autopct='%1.1f%%', legend_loc='upper right', figsize=(20, 15)):
+             autopct='%1.1f%%', legend_loc='upper right', figsize=(20, 15)):
     plt.figure(figsize=figsize)
     if colors is None:
         plt.pie(sizes, labels=labels, autopct=autopct, startangle=startangle)
     else:
         plt.pie(sizes, labels=labels, autopct=autopct, startangle=startangle,
-               colors=colors)
+                colors=colors)
     plt.title(title)
     plt.axis('equal')
     plt.legend(labels, loc=legend_loc, bbox_to_anchor=(1, 0.9))
@@ -506,7 +505,7 @@ def barchart_relative_distribution(x, y, title='', x_label='', color='',
 
 
 def barchart_relative_distribution_subplot(ax, x, y, title='', x_label='', color='',
-                                   x_tick_rotation='vertical'):
+                                           x_tick_rotation='vertical'):
     ax1 = ax
     ax2 = ax1.twinx()
 
@@ -543,9 +542,50 @@ def melt_groupby_count(df: pl.DataFrame, columns: List[str]) -> pl.DataFrame:
     )
 
 
-def sort_columns(df: pl.DataFrame, columns_first: List[str], descending: bool = False) -> pl.DataFrame:
+def sort_columns(df: pl.DataFrame, columns_first: List[str],
+                 descending: bool = False) -> pl.DataFrame:
     non_value_columns = [col for col in df.columns if col not in columns_first]
     sorted_non_value_columns = sorted(non_value_columns, reverse=descending)
 
     sorted_columns = columns_first + sorted_non_value_columns
     return df.select(sorted_columns)
+
+
+def replace_value(df: pl.DataFrame, column: str, old_value: str,
+                  new_value: str) -> pl.DataFrame:
+    """Replaces all occurrences of old_value in column with new_value.
+
+    :param df: the dataframe
+    :type df: pl.DataFrame
+    :param column: the name of the column
+    :type column: str
+    :param old_value: the value to replace
+    :type old_value: str
+    :param new_value: the value to replace with
+    :type new_value: str
+    :return: the dataframe with the replaced values
+    :rtype: pl.DataFrame
+    """
+    return df.with_columns(
+        pl.when(df[column] == old_value).then(new_value).otherwise(df[column]).alias(
+            column),
+    )
+
+
+def replace_values(df: pl.DataFrame, column: str, mapping: Dict[Any, Any]) -> (
+        pl.DataFrame):
+    """
+    Replaces values in column according to the mapping dictionary.
+    :param df: the dataframe
+    :type df: pl.DataFrame
+    :param column: the name of the column
+    :type column: str
+    :param mapping: a dictionary of the form {old_value: new_value}
+    :type mapping: Dict[Any, Any]
+    :return: the dataframe with the replaced values
+    :rtype: pl.DataFrame
+    """
+    for old_value, new_value in mapping.items():
+        df = replace_value(df, column, old_value, new_value)
+
+    return df
