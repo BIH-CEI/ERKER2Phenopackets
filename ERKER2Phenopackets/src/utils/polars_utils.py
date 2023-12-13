@@ -486,6 +486,7 @@ def barchart_relative_distribution(x, y, title='', x_label='', color='',
                                    x_tick_rotation='vertical', figsize=(20, 10),
                                    annotate=True, annotate_percent=False,
                                    annotate_decimal=True):
+    # todo add ymin and max
     fig, ax1 = plt.subplots(figsize=figsize)
     ax2 = ax1.twinx()
 
@@ -509,9 +510,9 @@ def barchart_relative_distribution(x, y, title='', x_label='', color='',
     if annotate:
         for i, txt in enumerate(y):
             if annotate_percent:
-                txt = f'{np.round(rel_freq[i]*100,2)}%'
+                txt = f'{np.round(rel_freq[i] * 100, 2)}%'
             elif annotate_decimal:
-                txt = f'{np.round(rel_freq[i],2)}'
+                txt = f'{np.round(rel_freq[i], 2)}'
 
             ax2.annotate(txt, (x[i], rel_freq[i]),
                          textcoords="offset points", xytext=(0, 5), ha='center')
@@ -525,6 +526,7 @@ def barchart_relative_distribution_subplot(ax, x, y, title='', x_label='', color
                                            x_tick_rotation='vertical',
                                            annotate=True, annotate_percent=False,
                                            annotate_decimal=True):
+    # todo add ymin and max
     ax1 = ax
     ax2 = ax1.twinx()
 
@@ -548,9 +550,9 @@ def barchart_relative_distribution_subplot(ax, x, y, title='', x_label='', color
     if annotate:
         for i, txt in enumerate(y):
             if annotate_percent:
-                txt = f'{np.round(rel_freq[i]*100,2)}%'
+                txt = f'{np.round(rel_freq[i] * 100, 2)}%'
             elif annotate_decimal:
-                txt = f'{np.round(rel_freq[i],2)}'
+                txt = f'{np.round(rel_freq[i], 2)}'
 
             ax2.annotate(txt, (x[i], rel_freq[i]),
                          textcoords="offset points", xytext=(0, 5), ha='center')
@@ -621,3 +623,39 @@ def replace_values(df: pl.DataFrame, column: str, mapping: Dict[Any, Any]) -> (
         df = replace_value(df, column, old_value, new_value)
 
     return df
+
+
+def barchart_multiple(x_tick_labels, y_values, y_axis_label, y_labels, figsize=None):
+    plt.figure(figsize=figsize)
+    num_bars = len(y_values)
+    bar_width = 0.8 / num_bars  # Adjust the total bar width dynamically based on the
+    # number of bars
+
+    x = np.arange(len(x_tick_labels))
+
+    for i, y in enumerate(y_values):
+        plt.bar(x + (i - (num_bars - 1) / 2) * bar_width, y, width=bar_width,
+                label=y_labels[i])
+
+    plt.ylabel(y_axis_label)
+    plt.xticks(x, x_tick_labels)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+def barchart_multiple_subplot(ax, x_tick_labels, y_values, y_axis_label, y_labels):
+    num_bars = len(y_values)
+    bar_width = 0.8 / num_bars  # Adjust the total bar width dynamically based on the
+    # number of bars
+
+    x = np.arange(len(x_tick_labels))
+
+    for i, y in enumerate(y_values):
+        ax.bar(x + (i - (num_bars - 1) / 2) * bar_width, y, width=bar_width,
+               label=y_labels[i])
+
+    ax.set_ylabel(y_axis_label)
+    ax.set_xticks(x)
+    ax.set_xticklabels(x_tick_labels)
+    ax.legend()
