@@ -508,7 +508,6 @@ def barchart_relative_distribution(x, y, title='', x_label='', color='',
     ax1.set_xticklabels(x, rotation=x_tick_rotation)
     if annotate:
         for i, txt in enumerate(y):
-            decimal = rel_freq[i]
             if annotate_percent:
                 txt = f'{np.round(rel_freq[i]*100,2)}%'
             elif annotate_decimal:
@@ -523,7 +522,9 @@ def barchart_relative_distribution(x, y, title='', x_label='', color='',
 
 
 def barchart_relative_distribution_subplot(ax, x, y, title='', x_label='', color='',
-                                           x_tick_rotation='vertical'):
+                                           x_tick_rotation='vertical',
+                                           annotate=True, annotate_percent=False,
+                                           annotate_decimal=True):
     ax1 = ax
     ax2 = ax1.twinx()
 
@@ -534,12 +535,25 @@ def barchart_relative_distribution_subplot(ax, x, y, title='', x_label='', color
     ax1.set_ylabel('Counts', color='blue')
 
     rel_freq = y / sum(y)
+    if annotate_percent:
+        rel_freq = rel_freq * 100
     ax2.plot(x, rel_freq, linestyle='-', marker='o', color='red')
-    ax2.set_ylabel('Relative Distribution', color='red')
+    if annotate_decimal:
+        ax2.set_ylabel('Relative Share', color='red')
+    elif annotate_percent:
+        ax2.set_ylabel('Relative Share (%)', color='red')
 
     ax1.set_xticks(x)
     ax1.set_xticklabels(x, rotation=x_tick_rotation)
-    ax.set_title(title)
+    if annotate:
+        for i, txt in enumerate(y):
+            if annotate_percent:
+                txt = f'{np.round(rel_freq[i]*100,2)}%'
+            elif annotate_decimal:
+                txt = f'{np.round(rel_freq[i],2)}'
+
+            ax2.annotate(txt, (x[i], rel_freq[i]),
+                         textcoords="offset points", xytext=(0, 5), ha='center')
     ax1.set_xlabel(x_label)
 
 
