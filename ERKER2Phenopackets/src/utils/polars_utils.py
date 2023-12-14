@@ -668,3 +668,18 @@ def imageplot(file_path, figsize=None):
     plt.imshow(img)
     plt.axis('off')  # Hide axes
     plt.show()
+
+
+def sort_by_method(df: pl.DataFrame, method: Callable[[pl.DataFrame],Any], descending: bool = True) -> pl.DataFrame:
+    """Sorts a DataFrame by a given method.
+
+    The method must take the dataframe as input and return a new dataframe with only the column to sort by.
+    """
+    df_new_col = method(df)
+    new_col = df_new_col[df_new_col.columns[0]]
+
+    df = df.with_columns(new_col___123=pl.Series(new_col))
+
+    sorted_df = df.sort('new_col___123', descending=descending)
+
+    return sorted_df.drop('new_col___123')
