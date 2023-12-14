@@ -52,10 +52,10 @@
     },
     {
       "type": {
-        "id": "HP:0001513",
-        "label": "Obesity"
+        "id": "HP:0025501",
+        "label": "Class III obesity"
       },
-      "excluded": true,
+      "excluded": false,
       "onset": {
         "timestamp": "1992-06-16T00:00:00Z"
       }

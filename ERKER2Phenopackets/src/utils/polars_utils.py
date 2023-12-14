@@ -213,7 +213,7 @@ def map_col(
     :type df: pl.DataFrame
     :param map_from: the name or names of the column(s) to map from (in correct order)
     :type map_from: str
-    :param map_to: name of the new column to be created as a result of the mapping
+    :param map_to: name of the new column to be created as a obesity_class_count of the mapping
     :type map_to: str
     :param mapping: a dictionary or function to mapping with
     :type mapping: Union[Dict[Any, Any], Callable[[...], Any]]
@@ -258,7 +258,7 @@ def _map_col_dict(df: pl.DataFrame,
     :type df: pl.DataFrame
     :param col_name: the name of the column to map from
     :type col_name: str
-    :param new_col_name: name of the new column to be created as a result of the mapping
+    :param new_col_name: name of the new column to be created as a obesity_class_count of the mapping
     :type new_col_name: str
     :param dictionary: a dictionary to mapping with
     :type dictionary: Dict[Any, Any]
@@ -284,7 +284,7 @@ def _map_col_function(df: pl.DataFrame,
     :type df: pl.DataFrame
     :param col_name: the name of the column to map from
     :type col_name: str
-    :param new_col_name: name of the new column to be created as a result of the mapping
+    :param new_col_name: name of the new column to be created as a obesity_class_count of the mapping
     :type new_col_name: str
     :param function: a function to mapping with
     :type function: Callable[[...], Any]
@@ -308,7 +308,7 @@ def _map_cols_function(df: pl.DataFrame,
     :type df: pl.DataFrame
     :param col_names: the names of the columns to map from
     :type col_names: List[str]
-    :param new_col_name: name of the new column to be created as a result of the mapping
+    :param new_col_name: name of the new column to be created as a obesity_class_count of the mapping
     :type new_col_name: str
     :param function: a function to mapping with
     :type function: Callable[[...], Any]
