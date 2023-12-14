@@ -130,7 +130,7 @@ def plot_phenotype_transition_graph(
 
     G = create_graph(phenotype_labels, edge_labels, adjacency_list, directed=True)
     G.remove_node(num_phenotype_labels)
-    print(counts_dict)
+
     graphplot(G, file_path, layout_prog="dot", orientation="LR", figsize=figsize)
 
 
