@@ -30,7 +30,7 @@ def create_graph(vertex_labels, edge_labels, adjacency_list, directed=False) -> 
 
     vertex_labels is a list of strings
     edge_labels is a list of lists of strings where the edge between vertex i and
-    vertex j is edge_labels[i][j]
+    vertex node is edge_labels[i][node]
     adjacency_list is a list of lists of integers where the adjacency list of vertex
     i is adjacency_list[i] and contains the indices of the adjacent vertices
 
