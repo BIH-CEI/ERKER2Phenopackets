@@ -662,9 +662,9 @@ def barchart_multiple_subplot(ax, x_tick_labels, y_values, y_axis_label, y_label
     ax.legend()
 
 
-def imageplot(file_path):
+def imageplot(file_path, figsize=None):
     img = mpimg.imread(file_path)
+    plt.figure(figsize=figsize)
     plt.imshow(img)
     plt.axis('off')  # Hide axes
     plt.show()
-    
