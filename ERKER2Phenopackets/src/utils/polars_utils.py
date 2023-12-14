@@ -5,6 +5,7 @@ import numpy as np
 import polars as pl
 from loguru import logger
 from matplotlib import pyplot as plt
+import matplotlib.image as mpimg
 
 
 def null_value_analysis(df: pl.DataFrame, verbose=False) -> Union[None, pl.DataFrame]:
@@ -659,3 +660,11 @@ def barchart_multiple_subplot(ax, x_tick_labels, y_values, y_axis_label, y_label
     ax.set_xticks(x)
     ax.set_xticklabels(x_tick_labels)
     ax.legend()
+
+
+def imageplot(file_path):
+    img = mpimg.imread(file_path)
+    plt.imshow(img)
+    plt.axis('off')  # Hide axes
+    plt.show()
+    
