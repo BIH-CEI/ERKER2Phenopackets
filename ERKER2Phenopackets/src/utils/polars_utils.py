@@ -692,7 +692,8 @@ def sort_by_method(df: pl.DataFrame, method: Callable[[pl.DataFrame], Any],
 
 
 def scatter_subplot(ax, x, y, z=None, title='', color=None, z_discrete=False,
-                    marker='o', label=None):
+                    marker='o', y_labels=None, label=None, unique_z=None,
+                    cmap='viridis'):
     """Creates a scatter plot on the provided axes object with 2 or 3 dimensions.
 
     If only x and y are provided, it will create a scatter plot with a default color
@@ -728,24 +729,31 @@ def scatter_subplot(ax, x, y, z=None, title='', color=None, z_discrete=False,
         y = y.to_numpy()
     if z is not None and isinstance(z, pl.Series):
         z = z.to_numpy()
-
+    if z is None:
+        ax.scatter(x, y, c=color, marker=marker, label=label)
     else:
         if z_discrete:
-            unique_z = np.unique(z)
+            if unique_z is None:
+                unique_z = np.unique(z)
             cmap = plt.get_cmap('tab10', len(unique_z))
             for i, unique_val in enumerate(unique_z):
                 mask = z == unique_val
                 ax.scatter(x[mask], y[mask], c=cmap(i), marker=marker,
-                           label=f'Z={unique_val}')
+                               label=f'Z={unique_val}')
             ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         else:
-            scatter = ax.scatter(x, y, c=z, cmap='viridis', marker=marker, label=label)
+            scatter = ax.scatter(x, y, c=z, cmap=cmap, marker=marker, label=label)
             plt.colorbar(scatter, ax=ax)
+
+    if y_labels is not None:
+        ax.set_yticks(range(len(y_labels)))
+        ax.set_yticklabels(y_labels)
     ax.set_title(title)
 
 
 def scatter_plot(x, y, z=None, title='', color=None, z_discrete=False, marker='o',
-                 label=None, figsize=None):
+                 y_labels=None, label=None, figsize=None, unique_z=None,
+                 cmap='viridis'):
     """Creates a scatter plot with 2 or 3 dimensions.
 
     If only x and y are provided, it will create a scatter plot with a default color
@@ -786,15 +794,19 @@ def scatter_plot(x, y, z=None, title='', color=None, z_discrete=False, marker='o
         ax.scatter(x, y, c=color, marker=marker, label=label)
     else:
         if z_discrete:
-            unique_z = np.unique(z)
+            if unique_z is None:
+                unique_z = np.unique(z)
             cmap = plt.get_cmap('tab10', len(unique_z))
             for i, unique_val in enumerate(unique_z):
                 mask = z == unique_val
                 ax.scatter(x[mask], y[mask], c=cmap(i), marker=marker,
-                           label=f'Z={unique_val}')
+                               label=f'Z={unique_val}')
             ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         else:
-            scatter = ax.scatter(x, y, c=z, cmap='viridis', marker=marker, label=label)
+            scatter = ax.scatter(x, y, c=z, cmap=cmap, marker=marker, label=label)
             plt.colorbar(scatter, ax=ax)
+    if y_labels is not None:
+        ax.set_yticks(range(len(y_labels)))
+        ax.set_yticklabels(y_labels)
     ax.set_title(title)
     plt.show()
