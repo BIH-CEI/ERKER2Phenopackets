@@ -693,7 +693,7 @@ def sort_by_method(df: pl.DataFrame, method: Callable[[pl.DataFrame], Any],
 
 def scatter_subplot(ax, x, y, z=None, title='', color=None, z_discrete=False,
                     marker='o', y_labels=None, label=None, unique_z=None,
-                    cmap='viridis'):
+                    cmap='viridis', x_label=None, y_label=None):
     """Creates a scatter plot on the provided axes object with 2 or 3 dimensions.
 
     If only x and y are provided, it will create a scatter plot with a default color
@@ -749,11 +749,13 @@ def scatter_subplot(ax, x, y, z=None, title='', color=None, z_discrete=False,
         ax.set_yticks(range(len(y_labels)))
         ax.set_yticklabels(y_labels)
     ax.set_title(title)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
 
 
 def scatter_plot(x, y, z=None, title='', color=None, z_discrete=False, marker='o',
                  y_labels=None, label=None, figsize=None, unique_z=None,
-                 cmap='viridis'):
+                 cmap='viridis', x_label=None, y_label=None):
     """Creates a scatter plot with 2 or 3 dimensions.
 
     If only x and y are provided, it will create a scatter plot with a default color
@@ -809,4 +811,6 @@ def scatter_plot(x, y, z=None, title='', color=None, z_discrete=False, marker='o
         ax.set_yticks(range(len(y_labels)))
         ax.set_yticklabels(y_labels)
     ax.set_title(title)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
     plt.show()
