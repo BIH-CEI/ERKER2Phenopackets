@@ -3,17 +3,6 @@ from datetime import datetime, timedelta
 import random
 
 
-def date_to_seconds(date_string):
-    """Converts a date string in the format YYYY-MM-DD to seconds since epoch"""
-    date = datetime.strptime(date_string, '%Y-%m-%d')
-    return int((date - datetime(1970, 1, 1)).total_seconds())
-
-
-def seconds_to_date(seconds):
-    """Converts seconds since epoch to a date string in the format YYYY-MM-DD"""
-    return datetime.utcfromtimestamp(seconds).strftime('%Y-%m-%d')
-
-
 def generate_random_date(start_date, end_date):
     """Generates a random date between start_date and end_date"""
     start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
