@@ -683,3 +683,92 @@ def sort_by_method(df: pl.DataFrame, method: Callable[[pl.DataFrame],Any], desce
     sorted_df = df.sort('new_col___123', descending=descending)
 
     return sorted_df.drop('new_col___123')
+
+
+def scatter_subplot(ax, x, y, z=None, title='', color=None, z_discrete=False, marker='o', label=None):
+    """Creates a scatter plot on the provided axes object with 2 or 3 dimensions.
+
+    If only x and y are provided, it will create a scatter plot with a default color for all points and no legend.
+    If x, y, and z are provided, it will use the z values to determine the color of each point and include a legend.
+    When z_discrete is True, the function will use a discrete set of colors for the legend. When it's False,
+    the colorbar representation will be used.
+
+    :param ax: Axes object to plot on.
+    :type ax: matplotlib.axes.Axes
+    :param x: Data for x-axis.
+    :type x: numpy.ndarray or array-like
+    :param y: Data for y-axis.
+    :type y: numpy.ndarray or array-like
+    :param z: Data for z-axis (optional).
+    :type z: numpy.ndarray or array-like, optional
+    :param title: Title of the plot.
+    :type title: str, optional
+    :param color: Color of the markers (optional).
+    :type color: str, optional
+    :param z_discrete: Flag to determine whether to use discrete colors (optional).
+    :type z_discrete: bool, optional
+    :param marker: Marker style (optional).
+    :type marker: str, optional
+    :param label: Label for the plot (optional).
+    :type label: str, optional
+    """
+    if z is None:
+        ax.scatter(x, y, c=color, marker=marker, label=label)
+    else:
+        if z_discrete:
+            unique_z = np.unique(z)
+            cmap = plt.get_cmap('tab10', len(unique_z))
+            for i, unique_val in enumerate(unique_z):
+                mask = z == unique_val
+                ax.scatter(x[mask], y[mask], c=cmap(i), marker=marker, label=f'Z={unique_val}')
+            ax.legend()
+        else:
+            scatter = ax.scatter(x, y, c=z, cmap='viridis', marker=marker, label=label)
+            ax.legend()
+            plt.colorbar(scatter, ax=ax)
+    ax.set_title(title)
+
+def scatter_plot(x, y, z=None, title='', color=None, z_discrete=False, marker='o', label=None, figsize=None):
+    """Creates a scatter plot with 2 or 3 dimensions.
+
+    If only x and y are provided, it will create a scatter plot with a default color for all points and no legend.
+    If x, y, and z are provided, it will use the z values to determine the color of each point and include a legend.
+    When z_discrete is True, the function will use a discrete set of colors for the legend. When it's False,
+    the colorbar representation will be used.
+
+    :param x: Data for x-axis.
+    :type x: numpy.ndarray or array-like
+    :param y: Data for y-axis.
+    :type y: numpy.ndarray or array-like
+    :param z: Data for z-axis (optional).
+    :type z: numpy.ndarray or array-like, optional
+    :param title: Title of the plot.
+    :type title: str, optional
+    :param color: Color of the markers (optional).
+    :type color: str, optional
+    :param z_discrete: Flag to determine whether to use discrete colors (optional).
+    :type z_discrete: bool, optional
+    :param marker: Marker style (optional).
+    :type marker: str, optional
+    :param label: Label for the plot (optional).
+    :type label: str, optional
+    :param figsize: Size of the figure (optional).
+    :type figsize: tuple, optional
+    """
+    fig, ax = plt.subplots(figsize=figsize)
+    if z is None:
+        ax.scatter(x, y, c=color, marker=marker, label=label)
+    else:
+        if z_discrete:
+            unique_z = np.unique(z)
+            cmap = plt.get_cmap('tab10', len(unique_z))
+            for i, unique_val in enumerate(unique_z):
+                mask = z == unique_val
+                ax.scatter(x[mask], y[mask], c=cmap(i), marker=marker, label=f'Z={unique_val}')
+            ax.legend()
+        else:
+            scatter = ax.scatter(x, y, c=z, cmap='viridis', marker=marker, label=label)
+            ax.legend()
+            plt.colorbar(scatter, ax=ax)
+    ax.set_title(title)
+    plt.show()
