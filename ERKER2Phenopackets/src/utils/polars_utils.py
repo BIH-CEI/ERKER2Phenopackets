@@ -213,7 +213,8 @@ def map_col(
     :type df: pl.DataFrame
     :param map_from: the name or names of the column(s) to map from (in correct order)
     :type map_from: str
-    :param map_to: name of the new column to be created as a obesity_class_count of the mapping
+    :param map_to: name of the new column to be created as a obesity_class_count of
+    the mapping
     :type map_to: str
     :param mapping: a dictionary or function to mapping with
     :type mapping: Union[Dict[Any, Any], Callable[[...], Any]]
@@ -258,7 +259,8 @@ def _map_col_dict(df: pl.DataFrame,
     :type df: pl.DataFrame
     :param col_name: the name of the column to map from
     :type col_name: str
-    :param new_col_name: name of the new column to be created as a obesity_class_count of the mapping
+    :param new_col_name: name of the new column to be created as a
+    obesity_class_count of the mapping
     :type new_col_name: str
     :param dictionary: a dictionary to mapping with
     :type dictionary: Dict[Any, Any]
@@ -284,7 +286,8 @@ def _map_col_function(df: pl.DataFrame,
     :type df: pl.DataFrame
     :param col_name: the name of the column to map from
     :type col_name: str
-    :param new_col_name: name of the new column to be created as a obesity_class_count of the mapping
+    :param new_col_name: name of the new column to be created as a
+    obesity_class_count of the mapping
     :type new_col_name: str
     :param function: a function to mapping with
     :type function: Callable[[...], Any]
@@ -308,7 +311,8 @@ def _map_cols_function(df: pl.DataFrame,
     :type df: pl.DataFrame
     :param col_names: the names of the columns to map from
     :type col_names: List[str]
-    :param new_col_name: name of the new column to be created as a obesity_class_count of the mapping
+    :param new_col_name: name of the new column to be created as a
+    obesity_class_count of the mapping
     :type new_col_name: str
     :param function: a function to mapping with
     :type function: Callable[[...], Any]
@@ -670,10 +674,12 @@ def imageplot(file_path, figsize=None):
     plt.show()
 
 
-def sort_by_method(df: pl.DataFrame, method: Callable[[pl.DataFrame],Any], descending: bool = True) -> pl.DataFrame:
+def sort_by_method(df: pl.DataFrame, method: Callable[[pl.DataFrame], Any],
+                   descending: bool = True) -> pl.DataFrame:
     """Sorts a DataFrame by a given method.
 
-    The method must take the dataframe as input and return a new dataframe with only the column to sort by.
+    The method must take the dataframe as input and return a new dataframe with only
+    the column to sort by.
     """
     df_new_col = method(df)
     new_col = df_new_col[df_new_col.columns[0]]
@@ -685,12 +691,16 @@ def sort_by_method(df: pl.DataFrame, method: Callable[[pl.DataFrame],Any], desce
     return sorted_df.drop('new_col___123')
 
 
-def scatter_subplot(ax, x, y, z=None, title='', color=None, z_discrete=False, marker='o', label=None):
+def scatter_subplot(ax, x, y, z=None, title='', color=None, z_discrete=False,
+                    marker='o', label=None):
     """Creates a scatter plot on the provided axes object with 2 or 3 dimensions.
 
-    If only x and y are provided, it will create a scatter plot with a default color for all points and no legend.
-    If x, y, and z are provided, it will use the z values to determine the color of each point and include a legend.
-    When z_discrete is True, the function will use a discrete set of colors for the legend. When it's False,
+    If only x and y are provided, it will create a scatter plot with a default color
+    for all points and no legend.
+    If x, y, and z are provided, it will use the z values to determine the color of
+    each point and include a legend.
+    When z_discrete is True, the function will use a discrete set of colors for the
+    legend. When it's False,
     the colorbar representation will be used.
 
     :param ax: Axes object to plot on.
@@ -712,28 +722,38 @@ def scatter_subplot(ax, x, y, z=None, title='', color=None, z_discrete=False, ma
     :param label: Label for the plot (optional).
     :type label: str, optional
     """
-    if z is None:
-        ax.scatter(x, y, c=color, marker=marker, label=label)
+    if isinstance(x, pl.Series):
+        x = x.to_numpy()
+    if isinstance(y, pl.Series):
+        y = y.to_numpy()
+    if z is not None and isinstance(z, pl.Series):
+        z = z.to_numpy()
+
     else:
         if z_discrete:
             unique_z = np.unique(z)
             cmap = plt.get_cmap('tab10', len(unique_z))
             for i, unique_val in enumerate(unique_z):
                 mask = z == unique_val
-                ax.scatter(x[mask], y[mask], c=cmap(i), marker=marker, label=f'Z={unique_val}')
-            ax.legend()
+                ax.scatter(x[mask], y[mask], c=cmap(i), marker=marker,
+                           label=f'Z={unique_val}')
+            ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         else:
             scatter = ax.scatter(x, y, c=z, cmap='viridis', marker=marker, label=label)
-            ax.legend()
             plt.colorbar(scatter, ax=ax)
     ax.set_title(title)
 
-def scatter_plot(x, y, z=None, title='', color=None, z_discrete=False, marker='o', label=None, figsize=None):
+
+def scatter_plot(x, y, z=None, title='', color=None, z_discrete=False, marker='o',
+                 label=None, figsize=None):
     """Creates a scatter plot with 2 or 3 dimensions.
 
-    If only x and y are provided, it will create a scatter plot with a default color for all points and no legend.
-    If x, y, and z are provided, it will use the z values to determine the color of each point and include a legend.
-    When z_discrete is True, the function will use a discrete set of colors for the legend. When it's False,
+    If only x and y are provided, it will create a scatter plot with a default color
+    for all points and no legend.
+    If x, y, and z are provided, it will use the z values to determine the color of
+    each point and include a legend.
+    When z_discrete is True, the function will use a discrete set of colors for the
+    legend. When it's False,
     the colorbar representation will be used.
 
     :param x: Data for x-axis.
@@ -755,6 +775,12 @@ def scatter_plot(x, y, z=None, title='', color=None, z_discrete=False, marker='o
     :param figsize: Size of the figure (optional).
     :type figsize: tuple, optional
     """
+    if isinstance(x, pl.Series):
+        x = x.to_numpy()
+    if isinstance(y, pl.Series):
+        y = y.to_numpy()
+    if z is not None and isinstance(z, pl.Series):
+        z = z.to_numpy()
     fig, ax = plt.subplots(figsize=figsize)
     if z is None:
         ax.scatter(x, y, c=color, marker=marker, label=label)
@@ -764,11 +790,11 @@ def scatter_plot(x, y, z=None, title='', color=None, z_discrete=False, marker='o
             cmap = plt.get_cmap('tab10', len(unique_z))
             for i, unique_val in enumerate(unique_z):
                 mask = z == unique_val
-                ax.scatter(x[mask], y[mask], c=cmap(i), marker=marker, label=f'Z={unique_val}')
-            ax.legend()
+                ax.scatter(x[mask], y[mask], c=cmap(i), marker=marker,
+                           label=f'Z={unique_val}')
+            ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         else:
             scatter = ax.scatter(x, y, c=z, cmap='viridis', marker=marker, label=label)
-            ax.legend()
             plt.colorbar(scatter, ax=ax)
     ax.set_title(title)
     plt.show()
