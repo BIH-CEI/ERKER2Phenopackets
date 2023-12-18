@@ -3,6 +3,15 @@ from datetime import datetime, timedelta
 import random
 
 
+def date_to_seconds(date):
+    """Converts a date string to seconds since 1970-01-01"""
+    return (
+            datetime.strptime(date, '%Y-%m-%d')
+            -
+            datetime(1970, 1, 1)  # beginning of unix time
+    ).total_seconds()
+
+
 def generate_random_date(start_date, end_date):
     """Generates a random date between start_date and end_date"""
     start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
