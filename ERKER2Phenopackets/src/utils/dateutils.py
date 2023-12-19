@@ -12,6 +12,11 @@ def date_to_seconds(date):
     ).total_seconds()
 
 
+def seconds_to_date(seconds):
+    """Converts seconds since 1970-01-01 to a date string"""
+    return datetime.fromtimestamp(seconds).strftime('%Y-%m-%d')
+
+
 def generate_random_date(start_date, end_date):
     """Generates a random date between start_date and end_date"""
     start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
