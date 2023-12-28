@@ -240,13 +240,19 @@ def pipeline(
     logger.trace('HGNC column does not require parsing')
 
     # sct_8116006_1, sct_8116006_2, sct_8116006_3, sct_8116006_4, \
-    # sct_8116006_5 (phenotype classification)
+    # sct_8116006_5, [...], sct_8116006_11 (phenotype classification)
     logger.trace('Filling null values in phenotype classification columns')
     df = polars_utils.fill_null_vals(df, 'sct_8116006_1', no_phenotype)
     df = polars_utils.fill_null_vals(df, 'sct_8116006_2', no_phenotype)
     df = polars_utils.fill_null_vals(df, 'sct_8116006_3', no_phenotype)
     df = polars_utils.fill_null_vals(df, 'sct_8116006_4', no_phenotype)
     df = polars_utils.fill_null_vals(df, 'sct_8116006_5', no_phenotype)
+    df = polars_utils.fill_null_vals(df, 'sct_8116006_6', no_phenotype)
+    df = polars_utils.fill_null_vals(df, 'sct_8116006_7', no_phenotype)
+    df = polars_utils.fill_null_vals(df, 'sct_8116006_8', no_phenotype)
+    df = polars_utils.fill_null_vals(df, 'sct_8116006_9', no_phenotype)
+    df = polars_utils.fill_null_vals(df, 'sct_8116006_10', no_phenotype)
+    df = polars_utils.fill_null_vals(df, 'sct_8116006_11', no_phenotype)
 
     # sct_8116006_1_date, sct_8116006_2_date, sct_8116006_3_date, sct_8116006_4_date, \
     # sct_8116006_5_date (dates of phenotype determination)
