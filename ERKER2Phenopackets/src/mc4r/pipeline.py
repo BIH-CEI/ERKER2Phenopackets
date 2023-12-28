@@ -356,8 +356,8 @@ def pipeline(
                             mapping=phenotype_status_map_erker2phenopackets)
 
 
-    # sct_8116006_1, sct_8116006_2, sct_8116006_3, sct_8116006_4, sct_8116006_5 
-    # phenotypic feature
+    # sct_8116006_1, sct_8116006_2, sct_8116006_3, sct_8116006_4, sct_8116006_5,
+    # [...], sct_8116006_11 cphenotypic feature
     logger.trace('Parsing phenotype label columns')
     df = polars_utils.map_col(df, map_from='sct_8116006_1',
                               map_to='parsed_phenotype_label1',
@@ -375,6 +375,31 @@ def pipeline(
         df = polars_utils.map_col(df, map_from='sct_8116006_5',
                                   map_to='parsed_phenotype_label5',
                                   mapping=phenotype_label_map_erker2phenopackets)
+    if 'sct_8116006_6' in df.columns:
+        df = polars_utils.map_col(df, map_from='sct_8116006_6',
+                                map_to='parsed_phenotype_label6',
+                                mapping=phenotype_label_map_erker2phenopackets)
+    if 'sct_8116006_7' in df.columns:
+        df = polars_utils.map_col(df, map_from='sct_8116006_7',
+                                map_to='parsed_phenotype_label7',
+                                mapping=phenotype_label_map_erker2phenopackets)
+    if 'sct_8116006_8' in df.columns:
+        df = polars_utils.map_col(df, map_from='sct_8116006_8',
+                                map_to='parsed_phenotype_label8',
+                                mapping=phenotype_label_map_erker2phenopackets)
+    if 'sct_8116006_9' in df.columns:
+        df = polars_utils.map_col(df, map_from='sct_8116006_9',
+                                map_to='parsed_phenotype_label9',
+                                mapping=phenotype_label_map_erker2phenopackets)
+    if 'sct_8116006_10' in df.columns:
+        df = polars_utils.map_col(df, map_from='sct_8116006_10',
+                                map_to='parsed_phenotype_label10',
+                                mapping=phenotype_label_map_erker2phenopackets)
+    if 'sct_8116006_11' in df.columns:
+        df = polars_utils.map_col(df, map_from='sct_8116006_11',
+                                map_to='parsed_phenotype_label11',
+                                mapping=phenotype_label_map_erker2phenopackets)
+
     logger.info('Finished parsing data')
 
     logger.info('Start mapping data to phenopackets')
