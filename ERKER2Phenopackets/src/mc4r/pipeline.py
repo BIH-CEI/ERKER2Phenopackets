@@ -279,7 +279,6 @@ def pipeline(
                                   map_to='parsed_date_of_phenotyping4',
                                   mapping=parse_phenotyping_date)
         df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping4', no_date)
-
     if 'sct_8116006_5_date' in df.columns:
         df = polars_utils.map_col(df, map_from='sct_8116006_5_date',
                                   map_to='parsed_date_of_phenotyping5',
@@ -295,7 +294,6 @@ def pipeline(
                                 map_to='parsed_date_of_phenotyping7',
                                 mapping=parse_phenotyping_date)
         df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping7', no_date)
-        
     if 'sct_8116006_8_date' in df.columns:
         df = polars_utils.map_col(df, map_from='sct_8116006_8_date',
                                 map_to='parsed_date_of_phenotyping8',
