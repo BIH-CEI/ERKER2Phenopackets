@@ -245,7 +245,6 @@ def pipeline(
     for i in range(1, 12):
         df = polars_utils.fill_null_vals(df, f'sct_8116006_{i}', no_phenotype)
 
-
     # sct_8116006_1_date, sct_8116006_2_date, [...], \
     # sct_8116006_11_date (dates of phenotype determination)
     logger.trace('Parsing date of phenotype determination columns')
@@ -299,7 +298,6 @@ def pipeline(
                                   map_from=column_name,
                                   map_to=f'parsed_phenotype_label{i}',
                                   mapping=phenotype_label_map_erker2phenopackets)
-
 
     logger.info('Finished parsing data')
 
