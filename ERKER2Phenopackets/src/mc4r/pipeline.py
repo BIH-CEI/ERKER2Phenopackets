@@ -253,7 +253,6 @@ def pipeline(
                               map_to='parsed_date_of_phenotyping1',
                               mapping=parse_phenotyping_date)
     df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping1', no_date)
-
     df = polars_utils.map_col(df, map_from='sct_8116006_2_date',
                               map_to='parsed_date_of_phenotyping2',
                               mapping=parse_phenotyping_date)
