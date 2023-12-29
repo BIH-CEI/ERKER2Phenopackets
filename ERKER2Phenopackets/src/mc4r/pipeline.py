@@ -281,39 +281,12 @@ def pipeline(
     # (status of phenotype determination)
     logger.trace('Parsing status of phenotype determination columns')
     logger.trace('Filling null values in status of phenotype determination columns')
-    df = polars_utils.map_col(df, map_from='sct_8116006_1_status',
-                              map_to='parsed_phenotype_status1',
+    for i in range(1, 12):  # Adjust the range as needed
+        df = polars_utils.map_col(df,
+                              map_from=f'sct_8116006_{i}_status',
+                              map_to=f'parsed_phenotype_status{i}',
                               mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_2_status',
-                              map_to='parsed_phenotype_status2',
-                              mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_3_status',
-                              map_to='parsed_phenotype_status3',
-                              mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_4_status',
-                              map_to='parsed_phenotype_status4',
-                              mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_5_status',
-                              map_to='parsed_phenotype_status5',
-                              mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_6_status',
-                            map_to='parsed_phenotype_status6',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_7_status',
-                            map_to='parsed_phenotype_status7',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_8_status',
-                            map_to='parsed_phenotype_status8',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_9_status',
-                            map_to='parsed_phenotype_status9',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_10_status',
-                            map_to='parsed_phenotype_status10',
-                            mapping=phenotype_status_map_erker2phenopackets)
-    df = polars_utils.map_col(df, map_from='sct_8116006_11_status',
-                            map_to='parsed_phenotype_status11',
-                            mapping=phenotype_status_map_erker2phenopackets)
+
 
 
     # sct_8116006_1, sct_8116006_2, sct_8116006_3, sct_8116006_4, sct_8116006_5,
