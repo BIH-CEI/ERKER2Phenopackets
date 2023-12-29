@@ -242,17 +242,9 @@ def pipeline(
     # sct_8116006_1, sct_8116006_2, [...], \
     # sct_8116006_11 (phenotype classification)
     logger.trace('Filling null values in phenotype classification columns')
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_1', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_2', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_3', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_4', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_5', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_6', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_7', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_8', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_9', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_10', no_phenotype)
-    df = polars_utils.fill_null_vals(df, 'sct_8116006_11', no_phenotype)
+    for i in range(1, 12):
+        df = polars_utils.fill_null_vals(df, f'sct_8116006_{i}', no_phenotype)
+
 
     # sct_8116006_1_date, sct_8116006_2_date, [...], \
     # sct_8116006_11_date (dates of phenotype determination)
@@ -280,13 +272,11 @@ def pipeline(
     # [...], sct_8116006_11_status (status of phenotype determination)
     logger.trace('Parsing status of phenotype determination columns')
     logger.trace('Filling null values in status of phenotype determination columns')
-    for i in range(1, 12):  # Adjust the range as needed
+    for i in range(1, 12):
         df = polars_utils.map_col(df,
                               map_from=f'sct_8116006_{i}_status',
                               map_to=f'parsed_phenotype_status{i}',
                               mapping=phenotype_status_map_erker2phenopackets)
-
-
 
     # sct_8116006_1, sct_8116006_2, [...], sct_8116006_11 (label phenotypic feature)
     logger.trace('Parsing phenotype label columns')
