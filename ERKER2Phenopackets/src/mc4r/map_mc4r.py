@@ -156,7 +156,7 @@ def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
         # PHENOTYPIC FEATURES
         logger.trace(f'{thread_id}: Creating phenotypic features block')
         hpo_cols = [f'sct_8116006_{i}' for i in range(1,12)]
-        onset_cols = [f'parsed_date_of_phenotyping1{i}' for i in range(1,12)]
+        onset_cols = [f'parsed_date_of_phenotyping{i}' for i in range(1,12)]
         label_cols = [f'parsed_phenotype_label{i}' for i in range(1,12)]
         status_cols = [f'parsed_phenotype_status1{i}' for i in range(1,12)]
 
