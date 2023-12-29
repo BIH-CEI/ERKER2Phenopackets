@@ -155,18 +155,10 @@ def map_chunk(chunk: pl.DataFrame, cur_time: str) -> List[Phenopacket]:
 
         # PHENOTYPIC FEATURES
         logger.trace(f'{thread_id}: Creating phenotypic features block')
-        hpo_cols = ['sct_8116006_1', 'sct_8116006_2',
-                    'sct_8116006_3', 'sct_8116006_4',
-                    'sct_8116006_5']
-        onset_cols = ['parsed_date_of_phenotyping1', 'parsed_date_of_phenotyping2',
-                      'parsed_date_of_phenotyping3', 'parsed_date_of_phenotyping4',
-                      'parsed_date_of_phenotyping5']
-        label_cols = ['parsed_phenotype_label1', 'parsed_phenotype_label2',
-                      'parsed_phenotype_label3', 'parsed_phenotype_label4',
-                      'parsed_phenotype_label5']
-        status_cols = ['parsed_phenotype_status1', 'parsed_phenotype_status2',
-                       'parsed_phenotype_status3', 'parsed_phenotype_status4',
-                       'parsed_phenotype_status5']
+        hpo_cols = [f'sct_8116006_{i}' for i in range(1,12)]
+        onset_cols = [f'parsed_date_of_phenotyping1{i}' for i in range(1,12)]
+        label_cols = [f'parsed_phenotype_label{i}' for i in range(1,12)]
+        status_cols = [f'parsed_phenotype_status1'{i} for i in range(1,12)]
 
         phenotypic_features = _map_phenotypic_features(
             # only including cols if they are in the keyset of the row
