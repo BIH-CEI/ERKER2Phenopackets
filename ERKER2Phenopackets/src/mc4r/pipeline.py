@@ -255,7 +255,7 @@ def pipeline(
     df = polars_utils.fill_null_vals(df, 'sct_8116006_11', no_phenotype)
 
     # sct_8116006_1_date, sct_8116006_2_date, sct_8116006_3_date, sct_8116006_4_date, \
-    # sct_8116006_5_date (dates of phenotype determination)
+    # sct_8116006_5_date [...], sct_8116006_11_date (dates of phenotype determination)
     logger.trace('Parsing date of phenotype determination columns')
     logger.trace('Filling null values in date of phenotype determination columns')
     df = polars_utils.map_col(df, map_from='sct_8116006_1_date',
@@ -267,52 +267,14 @@ def pipeline(
                               map_to='parsed_date_of_phenotyping2',
                               mapping=parse_phenotyping_date)
     df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping2', no_date)
-    if 'sct_8116006_3_date' in df.columns:
-        df = polars_utils.map_col(df, map_from='sct_8116006_3_date',
-                                  map_to='parsed_date_of_phenotyping3',
-                                  mapping=parse_phenotyping_date)
-        df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping3', no_date)
-    if 'sct_8116006_4_date' in df.columns:
-        df = polars_utils.map_col(df, map_from='sct_8116006_4_date',
-                                  map_to='parsed_date_of_phenotyping4',
-                                  mapping=parse_phenotyping_date)
-        df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping4', no_date)
-    if 'sct_8116006_5_date' in df.columns:
-        df = polars_utils.map_col(df, map_from='sct_8116006_5_date',
-                                  map_to='parsed_date_of_phenotyping5',
-                                  mapping=parse_phenotyping_date)
-        df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping5', no_date)
-    if 'sct_8116006_6_date' in df.columns:
-        df = polars_utils.map_col(df, map_from='sct_8116006_6_date',
-                                map_to='parsed_date_of_phenotyping6',
-                                mapping=parse_phenotyping_date)
-        df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping6', no_date)
-    if 'sct_8116006_7_date' in df.columns:
-        df = polars_utils.map_col(df, map_from='sct_8116006_7_date',
-                                map_to='parsed_date_of_phenotyping7',
-                                mapping=parse_phenotyping_date)
-        df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping7', no_date)
-    if 'sct_8116006_8_date' in df.columns:
-        df = polars_utils.map_col(df, map_from='sct_8116006_8_date',
-                                map_to='parsed_date_of_phenotyping8',
-                                mapping=parse_phenotyping_date)
-        df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping8', no_date)
-    if 'sct_8116006_9_date' in df.columns:
-        df = polars_utils.map_col(df, map_from='sct_8116006_9_date',
-                                map_to='parsed_date_of_phenotyping9',
-                                mapping=parse_phenotyping_date)
-        df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping9', no_date)
-    if 'sct_8116006_10_date' in df.columns:
-        df = polars_utils.map_col(df, map_from='sct_8116006_10_date',
-                                map_to='parsed_date_of_phenotyping10',
-                                mapping=parse_phenotyping_date)
-        df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping10', no_date)
-    if 'sct_8116006_11_date' in df.columns:
-        df = polars_utils.map_col(df, map_from='sct_8116006_11_date',
-                                map_to='parsed_date_of_phenotyping11',
-                                mapping=parse_phenotyping_date)
-        df = polars_utils.fill_null_vals(df, 'parsed_date_of_phenotyping11', no_date)
-
+    for i in range(3, 12):
+        col_date = f'sct_8116006_{i}_date'
+        col_phenotyping = f'parsed_date_of_phenotyping{i}'
+        if col_date in df.columns:
+            df = polars_utils.map_col(df, map_from=col_date,
+                                    map_to=col_phenotyping,
+                                    mapping=parse_phenotyping_date)
+            df = polars_utils.fill_null_vals(df, col_phenotyping, no_date)
 
     # sct_8116006_1_status, sct_8116006_2_status, sct_8116006_3_status,\
     # sct_8116006_4_status, sct_8116006_5_status, [...], sct_8116006_11_status \
