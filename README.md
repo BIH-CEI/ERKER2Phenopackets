@@ -1,3 +1,5 @@
+# !!! This Repo is out of date, please see https://github.com/BIH-CEI/RareLink for our current development. !!!
+
 # ERKER to Phenopackets
 [![Unit Tests and Code Style](https://github.com/BIH-CEI/ERKER2Phenopackets/actions/workflows/python-app.yaml/badge.svg)](https://github.com/BIH-CEI/ERKER2Phenopackets/actions/workflows/python-app.yaml)
 ### v2.0.0: MC4R Pipeline finished
